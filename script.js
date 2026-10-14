@@ -437,3 +437,75 @@ async function loadNews() {
 loadWeather();
 loadSongs();
 loadNews();
+
+// ARTIST ARCHIVE
+
+const artistContent =
+  document.querySelector("#artist-current-content");
+
+const archiveBar =
+  document.querySelector("#artist-archive");
+
+const archiveList =
+  document.querySelector("#artist-archive-list");
+
+const returnButton =
+  document.querySelector("#artist-archive-return");
+
+// 이번 주 기사 원본 보관
+const currentArtistHTML = artistContent.innerHTML;
+
+// 지난 기사 목록
+// 새 기사가 등록되면 여기에 추가
+const artistArchive = [];
+
+function renderArtistArchive() {
+  archiveList.replaceChildren();
+
+  if (artistArchive.length === 0) {
+    archiveBar.hidden = true;
+    return;
+  }
+
+  archiveBar.hidden = false;
+
+  artistArchive.forEach((artist, index) => {
+    if (index > 0) {
+      const separator = document.createElement("span");
+      separator.className = "artist-archive-separator";
+      separator.textContent = "/";
+      archiveList.appendChild(separator);
+    }
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "artist-archive-item";
+
+    button.textContent = artist.nameKo
+      ? `${artist.nameOriginal} (${artist.nameKo})`
+      : artist.nameOriginal;
+
+    button.addEventListener("click", () => {
+      artistContent.innerHTML = artist.html;
+
+      archiveList.querySelectorAll("button")
+        .forEach(item => item.classList.remove("active"));
+
+      button.classList.add("active");
+      returnButton.hidden = false;
+    });
+
+    archiveList.appendChild(button);
+  });
+}
+
+returnButton.addEventListener("click", () => {
+  artistContent.innerHTML = currentArtistHTML;
+
+  returnButton.hidden = true;
+
+  archiveList.querySelectorAll("button")
+    .forEach(item => item.classList.remove("active"));
+});
+
+renderArtistArchive();

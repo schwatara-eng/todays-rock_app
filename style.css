@@ -1156,3 +1156,81 @@ main > .artist-feature .artist-feature-sources { margin-top: 14px; }
   .artist-feature-track-group .artist-feature-tracks strong { font-size: 13px; }
   .artist-feature-track-group .artist-feature-tracks small { font-size: 11px; }
 }
+
+/* ARTIST ARCHIVE */
+
+.artist-archive {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 28px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255,255,255,.18);
+}
+
+.artist-archive[hidden],
+.artist-archive-return[hidden] {
+  display: none;
+}
+
+.artist-archive-label {
+  flex-shrink: 0;
+  color: #d56c61;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.artist-archive-list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.artist-archive-list::-webkit-scrollbar {
+  display: none;
+}
+
+.artist-archive-item {
+  flex-shrink: 0;
+  border: 0;
+  background: transparent;
+  color: #eae4de;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.artist-archive-item:hover,
+.artist-archive-item.active {
+  color: #d56c61;
+  text-decoration: underline;
+}
+
+.artist-archive-separator {
+  color: #69615d;
+}
+
+.artist-archive-return {
+  flex-shrink: 0;
+  border: 0;
+  background: transparent;
+  color: #d56c61;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .artist-archive {
+    gap: 12px;
+  }
+
+  .artist-archive-return {
+    font-size: 11px;
+  }
+}
