@@ -1,0 +1,36 @@
+
+{
+  "artist": {
+    "name": "Jack White",
+    "nameKo": "잭 화이트"
+  },
+
+"facts": [
+
+{
+  "id": "JW-001",
+  "claim": "잭 화이트는 The White Stripes의 멤버로 활동했다.",
+  "source": {
+    "publisher": "Rock & Roll Hall of Fame",
+    "url": "https://rockhall.com/inductees/white-stripes/",
+    "evidence": "Jack White와 Meg White가 The White Stripes를 구성한 두 뮤지션으로 소개되어 있다."
+  },
+  "verificationStatus": "verified"
+},
+
+{
+  "id": "JW-002",
+  "claim": "잭 화이트는 The Raconteurs의 멤버로 활동했다.",
+  "source": {
+    "publisher": "The Raconteurs (Official Website)",
+    "url": "https://theraconteurs.com/posts/the-raconteurs-return-with-new-album-help-us-stranger",
+    "evidence": "2019년 공식 앨범 발표 자료에서 Jack White를 The Raconteurs의 멤버 4명 중 한 명으로 명시하고 있다."
+  },
+  "verificationStatus": "verified"
+}
+
+
+],
+
+  "editorialStatus": "draft"
+}

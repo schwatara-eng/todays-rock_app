@@ -1,0 +1,19 @@
+{
+  "articleId": "jack-white",
+  "status": "needs_review",
+  "issues": [
+    {
+      "field": "title",
+      "text": "잭 화이트 — The White Stripes·The Raconteurs 멤버",
+      "verdict": "misleading",
+      "reason": "제목의 표현이 두 개의 밴드명만 병기하고 있어 '잭 화이트가 해당 두 밴드의 멤버로 활동했다'는 개별 사실(JW-001, JW-002)은 검증되지만, 독자에게 이 두 밴드만의 소속이라고 암시할 여지가 있습니다. ('두 밴드'로 한정하는 암시는 별도 근거 없으면 오도적일 수 있음)",
+      "suggestion": "제목이 특정 두 밴드만의 소속으로 오해될 수 있으므로, 독자가 제한적 해석을 하지 않도록 수식어를 추가하거나 서술형으로 바꾸세요. 예: '잭 화이트 — The White Stripes와 The Raconteurs의 멤버로 활동' 또는 '잭 화이트 — The White Stripes·The Raconteurs 등에서 활동' 등으로 명확히 표현하세요.",
+      "factIds": [
+        "JW-001",
+        "JW-002"
+      ]
+    }
+  ],
+  "approved": false,
+  "note": "AI 보조 검수 결과입니다. 문제가 없어도 편집자 승인 전 게시할 수 없습니다."
+}

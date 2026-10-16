@@ -1,0 +1,15 @@
+{
+  "id": "jack-white",
+  "artist": {
+    "name": "Jack White",
+    "nameKo": "잭 화이트"
+  },
+  "title": "잭 화이트 — The White Stripes·The Raconteurs 멤버",
+  "body": "잭 화이트는 The White Stripes의 멤버로 활동했다. 또한 그는 The Raconteurs의 멤버로 활동했다.",
+  "factIds": [
+    "JW-001",
+    "JW-002"
+  ],
+  "status": "draft",
+  "reviewed": false
+}

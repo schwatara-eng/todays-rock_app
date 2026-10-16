@@ -1,0 +1,10 @@
+# 환경변수 보호
+.env
+.env.*
+!.env.example
+
+# Node.js
+node_modules/
+
+# Vercel
+.vercel/
