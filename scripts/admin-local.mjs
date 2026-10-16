@@ -30,7 +30,8 @@ const upstreamCandidates = process.env.VERCEL_DEV_URL
 
 const paths = {
   draft: path.join(root, 'articles/drafts/jack-white.json'),
-  facts: path.join(root, 'facts/jack-white.json'),
+  facts: path.join(root, 'facts/jack-white.json'), // 기존 수동 팩트시트는 보존
+  researchedFacts: path.join(root, 'articles/research/jack-white.json'),
   factReview: path.join(root, 'articles/reviews/jack-white.json'),
   editorial: path.join(root, 'articles/reviews/jack-white-editorial.json'),
   approval: path.join(root, 'articles/approvals/jack-white.json')
@@ -104,7 +105,7 @@ async function proxy(endpoint, payload) {
   for (const upstream of upstreamCandidates) {
     const address = `${upstream}/api/${endpoint}`;
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 120000);
+    const timer = setTimeout(() => controller.abort(), 300000);
 
     try {
       console.log(`[API 요청] ${address}`);
@@ -147,26 +148,30 @@ async function requireApi(endpoint, payload) {
 async function getState() {
   const [article, factSheet, factReview, editorialReview, approval] = await Promise.all([
     readJson(paths.draft),
-    readJson(paths.facts),
+    readJson(paths.researchedFacts),
     readJson(paths.factReview),
     readJson(paths.editorial),
     readJson(paths.approval)
   ]);
 
   const hash = article && validArticle(article) ? fingerprint(article) : null;
-  const factCurrent = Boolean(hash && factReview?.articleHash === hash);
+  const researchCurrent = Boolean(hash && factSheet?.articleHash === hash);
+  const allVerified = Boolean(researchCurrent && !factSheet.truncated && factSheet.facts.length && factSheet.facts.every(f => f.verificationStatus === 'VERIFIED'));
+  const factCurrent = Boolean(allVerified && factReview?.articleHash === hash && factReview?.researchHash === factSheet.articleHash);
   const editorialCurrent = Boolean(hash && editorialReview?.articleHash === hash);
-  const approved = Boolean(hash && approval?.articleHash === hash && approval?.status === 'approved');
+  const approved = Boolean(factCurrent && editorialCurrent && hash && approval?.articleHash === hash && approval?.status === 'approved');
 
   return {
     article,
-    factSheet,
-    review: factCurrent ? factReview : null,
+    factSheet: researchCurrent ? factSheet : null,
+    review: researchCurrent && factReview?.articleHash === hash ? factReview : null,
     editorialReview: editorialCurrent ? editorialReview : null,
     approval: approved ? approval : null,
     state: {
       approved,
       factCurrent,
+      researchCurrent,
+      allVerified,
       editorialCurrent,
       status: approved ? 'approved' : 'draft',
       published: false
@@ -209,6 +214,30 @@ const server = http.createServer(async (req, res) => {
       return res.end(content);
     }
 
+    // 게시 파일 내보내기는 저장된 원고와 승인 버전이 일치할 때만 허용합니다.
+    // 실제 사이트에 쓰거나 배포하지 않으며, 승인된 JSON만 반환합니다.
+    if (req.method === 'GET' && url.pathname === '/local/publication-export') {
+      const state = await getState();
+      if (!state.state.approved || !state.article ||
+          !state.state.factCurrent || !state.state.editorialCurrent) {
+        return send(res, 409, { error: '현재 저장된 원고의 승인과 두 검토가 필요합니다.' });
+      }
+      if (state.review.issues?.length || state.editorialReview.issues?.length) {
+        return send(res, 409, { error: '검토 지적 사항이 남아 있어 내보낼 수 없습니다.' });
+      }
+
+      return send(res, 200, {
+        id: state.article.id,
+        artist: state.article.artist,
+        title: state.article.title,
+        body: state.article.body,
+        factIds: state.article.factIds,
+        editorialStatus: 'approved',
+        published: false,
+        approvedAt: state.approval.approvedAt
+      });
+    }
+
     if (req.method === 'GET' && url.pathname === '/local/data') {
       return send(res, 200, await getState());
     }
@@ -225,28 +254,40 @@ const server = http.createServer(async (req, res) => {
     const data = await readBody(req);
 
     if (url.pathname === '/local/generate') {
-      const result = await requireApi('artist-workflow', {});
-      await saveJson(paths.draft, result.article);
-      await saveJson(paths.factReview, { ...result.review, articleHash: fingerprint(result.article) });
-      // 새 초안이 생기면 이전 편집 검토·승인은 유효하지 않다.
-      await invalidateApproval();
-      return send(res, 200, await getState());
+      return send(res, 410, { error: 'AI 기사 자동 생성은 사용하지 않습니다. 에디터가 초안을 직접 작성하세요.' });
     }
 
     if (url.pathname === '/local/save') {
       if (!validArticle(data.article)) return send(res, 400, { error: '기사 제목 또는 본문을 확인하세요.' });
-      const factSheet = await readJson(paths.facts);
+      const factSheet = await readJson(paths.facts, { artist: { name: '기사 작성자' } });
       const old = await readJson(paths.draft, {});
       const article = {
         ...old,
         id: 'jack-white',
         artist: factSheet.artist,
         ...normalize(data.article),
-        factIds: factSheet.facts.filter(f => f.verificationStatus === 'verified').map(f => f.id),
+        factIds: [],
         status: 'draft',
         reviewed: false
       };
       await saveJson(paths.draft, article);
+      await invalidateApproval();
+      return send(res, 200, await getState());
+    }
+
+    // 에디터가 저장한 원고에서 주장 추출 → 웹 검색 → 실제 페이지 확인 → AI 대조.
+    if (url.pathname === '/local/research') {
+      if (!validArticle(data.article)) return send(res, 400, { error: '기사 제목과 본문을 확인하세요.' });
+      const saved = await readJson(paths.draft);
+      if (!saved || fingerprint(saved) !== fingerprint(data.article)) {
+        return send(res, 409, { error: '현재 원고를 먼저 저장하세요.' });
+      }
+      const result = await requireApi('artist-fact-research', { article: normalize(data.article) });
+      const articleHash = fingerprint(saved);
+      const factSheet = { ...result.factSheet, articleHash };
+      await saveJson(paths.researchedFacts, factSheet);
+      const reviewResult = await requireApi('artist-review', { article: saved, factSheet });
+      await saveJson(paths.factReview, { ...reviewResult.review, articleHash, researchHash: articleHash });
       await invalidateApproval();
       return send(res, 200, await getState());
     }
@@ -260,8 +301,12 @@ const server = http.createServer(async (req, res) => {
       }
 
       if (url.pathname === '/local/review' || url.pathname === '/local/recheck') {
-        const result = await requireApi('artist-review', { article });
-        await saveJson(paths.factReview, { ...result.review, articleHash: fingerprint(article) });
+        const factSheet = await readJson(paths.researchedFacts);
+        if (!factSheet || factSheet.articleHash !== fingerprint(article)) {
+          return send(res, 409, { error: '먼저 현재 원고로 Fact Sheet 생성 및 웹 검증을 진행하세요.' });
+        }
+        const result = await requireApi('artist-review', { article, factSheet });
+        await saveJson(paths.factReview, { ...result.review, articleHash: fingerprint(article), researchHash: factSheet.articleHash });
       }
       if (url.pathname === '/local/editorial' || url.pathname === '/local/recheck') {
         const result = await requireApi('artist-editorial', { article });
@@ -279,7 +324,7 @@ const server = http.createServer(async (req, res) => {
       if (!state.article || !validArticle(data.article) || fingerprint(state.article) !== fingerprint(data.article)) {
         return send(res, 409, { error: '현재 편집 내용과 저장된 초안이 다릅니다. 먼저 저장하고 재검수하세요.' });
       }
-      if (!state.state.factCurrent || !state.state.editorialCurrent) {
+      if (!state.state.factCurrent || !state.state.allVerified || !state.state.editorialCurrent) {
         return send(res, 409, { error: '저장된 기사 버전의 사실 검수와 편집 검토를 모두 완료해야 합니다.' });
       }
       if (state.review.issues?.length || state.editorialReview.issues?.length) {

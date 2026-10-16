@@ -17,7 +17,7 @@
     <section class="intro">
       <p class="eyebrow">MUSICIAN ARTICLE WORKFLOW</p>
       <h1>오늘의 뮤지션 <em>편집실</em></h1>
-      <p>검증된 Fact Sheet → AI 초안 → 사실 검수 · 편집 검토 → 편집자 승인</p>
+      <p>에디터 원고 → AI 사실 추출 → 웹 출처 확인 → 독립 AI 검수 → 편집자 승인</p>
     </section>
 
     <!--
@@ -32,7 +32,7 @@
       <div class="facts-column">
         <section class="panel facts-panel" aria-label="검증된 사실 자료">
           <div class="panel-head">
-            <h2>01 / FACT SHEET</h2>
+            <h2>02 / FACT SHEET</h2>
             <span id="fact-count">—</span>
           </div>
           <div id="facts" class="facts"></div>
@@ -43,7 +43,7 @@
       <div class="work-column">
         <section class="panel editor">
           <div class="panel-head">
-            <h2>02 / ARTICLE DRAFT</h2>
+            <h2>01 / EDITOR'S DRAFT</h2>
             <span id="draft-status">DRAFT</span>
           </div>
 
@@ -51,23 +51,23 @@
           <input id="title" placeholder="기사 제목">
 
           <label for="body">기사 본문</label>
-          <textarea id="body" rows="16" placeholder="기사 내용을 입력하거나 AI 초안을 생성하세요."></textarea>
+          <textarea id="body" rows="16" placeholder="에디터가 직접 작성한 기사 원고를 입력하세요."></textarea>
 
           <div class="actions">
-            <button id="generate" class="primary">AI 초안 생성 + 사실 검수</button>
+            <button id="research" class="primary">팩트시트 생성 + 웹 출처 검증</button>
             <button id="save">초안 저장</button>
             <button id="recheck">사실 + 편집 재검토</button>
           </div>
-          <p class="hint">AI 초안 생성은 현재 초안을 덮어씁니다. 수정한 글은 먼저 저장해야 검토할 수 있습니다. AI 호출에는 요금이 발생합니다.</p>
+          <p class="hint">원고를 먼저 저장한 뒤 팩트시트 생성과 웹 출처 검증을 실행하세요. 검색 및 AI 호출에 요금이 발생할 수 있습니다.</p>
         </section>
 
         <section class="panel" aria-label="사실 검수 결과">
           <div class="panel-head">
-            <h2>03 / FACT CHECK</h2>
+            <h2>03 / SOURCE FACT CHECK</h2>
             <span id="issue-count">—</span>
           </div>
           <div id="review-result" class="review-result">불러오는 중입니다.</div>
-          <p class="notice">Fact Sheet와의 일관성 검사입니다. AI는 실제 출처 페이지를 직접 확인하지 않습니다.</p>
+          <p class="notice">실제 HTTPS 출처 페이지 본문을 확보하고 AI가 대조합니다. 자동 검증은 편집자의 원출처 확인을 대체하지 않습니다.</p>
         </section>
 
         <section class="panel" aria-label="편집 품질 검토 결과">
@@ -87,13 +87,32 @@
     <!-- 편집자의 최종 책임과 승인은 AI 검토와 별개 -->
     <section class="panel approval-panel">
       <div class="panel-head"><h2>05 / EDITOR APPROVAL</h2><span id="approval-status">DRAFT</span></div>
-      <p>두 AI 검토에서 지적 사항이 없고, 편집자가 실제 출처를 확인한 뒤에만 승인할 수 있습니다.</p>
+      <p>모든 추출 사실이 VERIFIED이고 편집 검토에 문제가 없으며, 편집자가 실제 출처를 확인한 뒤에만 승인할 수 있습니다.</p>
       <label class="checkline">
         <input type="checkbox" id="confirm-sources">
         기사에 포함된 사실을 원출처와 직접 대조했고, 최종 원고를 검토했습니다.
       </label>
-      <div class="actions"><button id="approve" class="primary">편집자 승인</button></div>
+      <div class="actions">
+        <button id="approve" class="primary">편집자 승인</button>
+        <button id="preview-open" type="button">기사 미리보기</button>
+        <button id="export-article" type="button" disabled>승인 기사 JSON 내보내기</button>
+      </div>
       <p class="notice">승인은 로컬 JSON에만 기록됩니다. 공개 사이트 게시 기능은 연결되지 않았습니다.</p>
+    </section>
+
+    <!-- 미리보기는 실제 사이트를 변경하지 않는 로컬 전용 화면입니다. -->
+    <section id="preview-panel" class="preview-panel" hidden aria-label="기사 미리보기">
+      <div class="preview-toolbar">
+        <strong>ARTICLE PREVIEW <span>LOCAL ONLY</span></strong>
+        <button id="preview-close" type="button">미리보기 닫기</button>
+      </div>
+      <article class="preview-article">
+        <p class="preview-kicker">TODAY'S MUSICIAN / 오늘의 뮤지션</p>
+        <h2 id="preview-title"></h2>
+        <p id="preview-meta"></p>
+        <div id="preview-body"></div>
+      </article>
+      <p class="preview-footnote">관리자 전용 기사형 미리보기입니다. 공개 사이트의 실제 HTML·CSS를 그대로 재현한 것은 아닙니다.</p>
     </section>
 
     <p id="status" role="status" aria-live="polite"></p>

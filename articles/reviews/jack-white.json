@@ -1,8 +1,60 @@
 {
   "articleId": "jack-white",
   "status": "needs_review",
-  "issues": [],
+  "issues": [
+    {
+      "field": "body",
+      "text": "잭 화이트는 The White Stripes, The Raconteurs, The Dead Weather의 멤버로 활동했다.",
+      "verdict": "NOT CHECKED",
+      "reason": "페이지 확인 실패: Invalid IP address: undefined",
+      "suggestion": "원출처를 직접 확인하고 사실을 수정하거나 삭제하세요.",
+      "factIds": [
+        "F001"
+      ]
+    },
+    {
+      "field": "body",
+      "text": "The White Stripes는 잭 화이트와 멕 화이트로 구성된 2인조 밴드로 1997년에 시작했고,",
+      "verdict": "NOT CHECKED",
+      "reason": "페이지 확인 실패: Invalid IP address: undefined",
+      "suggestion": "원출처를 직접 확인하고 사실을 수정하거나 삭제하세요.",
+      "factIds": [
+        "F002"
+      ]
+    },
+    {
+      "field": "body",
+      "text": "2003년 앨범 Elephant에는 'Seven Nation Army'가 수록돼 있다.",
+      "verdict": "NOT CHECKED",
+      "reason": "페이지 확인 실패: Invalid IP address: undefined",
+      "suggestion": "원출처를 직접 확인하고 사실을 수정하거나 삭제하세요.",
+      "factIds": [
+        "F003"
+      ]
+    },
+    {
+      "field": "body",
+      "text": "이 밴드는 2025년 로큰롤 명예의 전당(공연자 부문)에 헌액됐다.",
+      "verdict": "NOT CHECKED",
+      "reason": "페이지 확인 실패: Invalid IP address: undefined",
+      "suggestion": "원출처를 직접 확인하고 사실을 수정하거나 삭제하세요.",
+      "factIds": [
+        "F004"
+      ]
+    },
+    {
+      "field": "body",
+      "text": "The Raconteurs의 멤버는 잭 화이트, 브렌던 벤슨, 잭 로런스, 패트릭 킬러다.",
+      "verdict": "NOT CHECKED",
+      "reason": "페이지 확인 실패: Invalid IP address: undefined",
+      "suggestion": "원출처를 직접 확인하고 사실을 수정하거나 삭제하세요.",
+      "factIds": [
+        "F005"
+      ]
+    }
+  ],
   "approved": false,
-  "note": "AI 보조 검수 결과입니다. 문제가 없어도 편집자 승인 전 게시할 수 없습니다.",
-  "articleHash": "a3219b85fcd65ed0a1265a54a50b5c555efda59771b0b6ae4e9db94c153ec849"
+  "note": "외부 출처 기반 AI 보조 검수입니다. 사람의 원출처 확인이 필요합니다.",
+  "articleHash": "a3219b85fcd65ed0a1265a54a50b5c555efda59771b0b6ae4e9db94c153ec849",
+  "researchHash": "a3219b85fcd65ed0a1265a54a50b5c555efda59771b0b6ae4e9db94c153ec849"
 }

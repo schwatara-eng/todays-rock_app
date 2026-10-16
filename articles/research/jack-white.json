@@ -1,0 +1,71 @@
+{
+  "artist": {
+    "name": "기사 기반 자료"
+  },
+  "facts": [
+    {
+      "id": "F001",
+      "claim": "잭 화이트는 The White Stripes, The Raconteurs, The Dead Weather의 멤버로 활동했다.",
+      "field": "body",
+      "excerpt": "잭 화이트는 The White Stripes, The Raconteurs, The Dead Weather의 멤버로 활동했다.",
+      "verificationStatus": "NOT CHECKED",
+      "source": null,
+      "evidence": "",
+      "reason": "페이지 확인 실패: Invalid IP address: undefined",
+      "suggestion": "",
+      "checkedAt": null
+    },
+    {
+      "id": "F002",
+      "claim": "The White Stripes는 잭 화이트와 멕 화이트로 구성된 2인조 밴드로 1997년에 시작했다.",
+      "field": "body",
+      "excerpt": "The White Stripes는 잭 화이트와 멕 화이트로 구성된 2인조 밴드로 1997년에 시작했고,",
+      "verificationStatus": "NOT CHECKED",
+      "source": null,
+      "evidence": "",
+      "reason": "페이지 확인 실패: Invalid IP address: undefined",
+      "suggestion": "",
+      "checkedAt": null
+    },
+    {
+      "id": "F003",
+      "claim": "The White Stripes의 2003년 앨범 Elephant에는 'Seven Nation Army'가 수록돼 있다.",
+      "field": "body",
+      "excerpt": "2003년 앨범 Elephant에는 'Seven Nation Army'가 수록돼 있다.",
+      "verificationStatus": "NOT CHECKED",
+      "source": null,
+      "evidence": "",
+      "reason": "페이지 확인 실패: Invalid IP address: undefined",
+      "suggestion": "",
+      "checkedAt": null
+    },
+    {
+      "id": "F004",
+      "claim": "The White Stripes는 2025년 로큰롤 명예의 전당(공연자 부문)에 헌액됐다.",
+      "field": "body",
+      "excerpt": "이 밴드는 2025년 로큰롤 명예의 전당(공연자 부문)에 헌액됐다.",
+      "verificationStatus": "NOT CHECKED",
+      "source": null,
+      "evidence": "",
+      "reason": "페이지 확인 실패: Invalid IP address: undefined",
+      "suggestion": "",
+      "checkedAt": null
+    },
+    {
+      "id": "F005",
+      "claim": "The Raconteurs의 멤버는 잭 화이트, 브렌던 벤슨, 잭 로런스, 패트릭 킬러다.",
+      "field": "body",
+      "excerpt": "The Raconteurs의 멤버는 잭 화이트, 브렌던 벤슨, 잭 로런스, 패트릭 킬러다.",
+      "verificationStatus": "NOT CHECKED",
+      "source": null,
+      "evidence": "",
+      "reason": "페이지 확인 실패: Invalid IP address: undefined",
+      "suggestion": "",
+      "checkedAt": null
+    }
+  ],
+  "truncated": true,
+  "generatedAt": "2026-10-16T08:56:40.231Z",
+  "note": "자동 검증 결과입니다. 편집자 원출처 확인 필요.",
+  "articleHash": "a3219b85fcd65ed0a1265a54a50b5c555efda59771b0b6ae4e9db94c153ec849"
+}

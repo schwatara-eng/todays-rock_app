@@ -39,13 +39,16 @@ function renderFacts(sheet) {
   const root = $('facts');
   root.replaceChildren();
   const facts = sheet?.facts || [];
-  const verified = facts.filter((fact) => fact.verificationStatus === 'verified');
-  $('fact-count').textContent = `${verified.length} VERIFIED`;
+  const verified = facts.filter((fact) => fact.verificationStatus === 'VERIFIED');
+  $('fact-count').textContent = `${verified.length}/${facts.length} VERIFIED${sheet?.truncated ? ' · 일부만 조사' : ''}`;
 
   for (const fact of facts) {
     const card = element('div', '', 'fact');
     card.append(element('div', `${fact.id} · ${fact.verificationStatus}`, 'fact-id'));
     card.append(element('p', fact.claim || '내용 없음'));
+    if (fact.evidence) card.append(element('p', `근거 원문: ${fact.evidence}`, 'evidence'));
+    if (fact.reason) card.append(element('p', `검수 의견: ${fact.reason}`, 'fact-reason'));
+    if (fact.suggestion) card.append(element('p', `수정 권고: ${fact.suggestion}`, 'fact-reason'));
 
     if (fact.source?.url?.startsWith('https://')) {
       const link = document.createElement('a');
@@ -103,6 +106,7 @@ function showState(data, replaceArticle = true) {
   $('draft-status').textContent = approved ? 'APPROVED' : 'DRAFT';
   $('approval-status').textContent = approved ? 'APPROVED · NOT PUBLISHED' : 'DRAFT · NOT PUBLISHED';
   $('confirm-sources').checked = false;
+  $('export-article').disabled = !approved;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -127,7 +131,7 @@ async function run(task) {
   } catch (error) {
     message(`오류: ${error.message}`);
   } finally {
-    buttons.forEach((button) => { button.disabled = false; });
+    buttons.forEach((button) => { button.disabled = button.id === 'export-article' ? !lastState?.state?.approved : false; });
   }
 }
 
@@ -146,12 +150,12 @@ async function initialize() {
 // ─────────────────────────────────────────────────────────────
 // 4. 초안 생성·저장·AI 검토
 // ─────────────────────────────────────────────────────────────
-$('generate').addEventListener('click', () => run(async () => {
-  if (hasUnsavedChanges() && !confirm('편집 중인 내용을 AI 초안으로 덮어쓸까요?')) return;
-  message('AI 초안 생성과 사실 검수를 진행하고 있습니다…');
-  const data = await post('/local/generate');
-  showState(data);
-  message('AI 초안과 사실 검수를 저장했습니다. 편집 검토는 별도로 진행하세요.');
+$('research').addEventListener('click', () => run(async () => {
+  if (hasUnsavedChanges()) throw new Error('현재 원고를 먼저 저장해 주세요.');
+  message('기사에서 사실을 추출하고, 웹 출처 본문을 확인해 검수하고 있습니다. 시간이 걸릴 수 있습니다…');
+  const data = await post('/local/research', { article: currentArticle() });
+  showState(data, false);
+  message('팩트시트 생성 및 웹 출처 검증이 끝났습니다. NOT CHECKED/INSUFFICIENT 항목은 직접 확인해 주세요.');
 }));
 
 $('save').addEventListener('click', () => run(async () => {
@@ -200,11 +204,76 @@ for (const id of ['title', 'body']) {
     if (hasUnsavedChanges()) {
       $('draft-status').textContent = 'UNSAVED';
       $('approval-status').textContent = 'UNSAVED · RECHECK REQUIRED';
+      $('export-article').disabled = true;
     } else if (lastState) {
       $('draft-status').textContent = lastState.state?.approved ? 'APPROVED' : 'DRAFT';
       $('approval-status').textContent = lastState.state?.approved ? 'APPROVED · NOT PUBLISHED' : 'DRAFT · NOT PUBLISHED';
     }
   });
 }
+
+// ─────────────────────────────────────────────────────────────
+// 6. 로컬 기사 미리보기와 승인된 기사 데이터 내보내기
+// ─────────────────────────────────────────────────────────────
+
+// 줄바꿈은 문단으로 표현합니다. innerHTML 대신 textContent를 사용해
+// 기사 내용에 HTML 코드가 있어도 실행되지 않도록 합니다.
+function renderPreview() {
+  const article = currentArticle();
+  if (!article.title.trim() || !article.body.trim()) {
+    throw new Error('미리보기할 기사 제목과 본문이 필요합니다.');
+  }
+
+  $('preview-title').textContent = article.title.trim();
+  const approved = lastState?.state?.approved === true && !hasUnsavedChanges();
+  $('preview-meta').textContent = approved
+    ? 'EDITOR APPROVED · NOT PUBLISHED'
+    : 'DRAFT PREVIEW · NOT PUBLISHED';
+
+  const body = $('preview-body');
+  body.replaceChildren();
+  const paragraphs = article.body.trim().split(/\n\s*\n/);
+  for (const paragraph of paragraphs) {
+    const p = document.createElement('p');
+    p.textContent = paragraph.trim();
+    body.append(p);
+  }
+  $('preview-panel').hidden = false;
+  $('preview-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+$('preview-open').addEventListener('click', () => {
+  try {
+    renderPreview();
+    message('로컬 기사 미리보기를 열었습니다. 실제 사이트에는 반영되지 않습니다.');
+  } catch (error) {
+    message(`오류: ${error.message}`);
+  }
+});
+
+$('preview-close').addEventListener('click', () => {
+  $('preview-panel').hidden = true;
+});
+
+// 서버가 저장된 원고의 승인 상태를 다시 검증한 후에만 내보냅니다.
+// 브라우저에 저장된 이전 승인 상태만 믿고 JSON을 만들지 않습니다.
+$('export-article').addEventListener('click', () => run(async () => {
+  if (hasUnsavedChanges()) throw new Error('현재 수정한 원고를 먼저 저장하고 재검토하세요.');
+
+  const response = await fetch('/local/publication-export', { cache: 'no-store' });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
+
+  const blob = new Blob([`${JSON.stringify(result, null, 2)}\n`], {
+    type: 'application/json;charset=utf-8'
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'jack-white-approved.json';
+  link.click();
+  URL.revokeObjectURL(url);
+  message('승인된 기사 JSON을 내보냈습니다. 실제 게시는 별도 작업입니다.');
+}));
 
 initialize();

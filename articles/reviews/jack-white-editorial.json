@@ -4,37 +4,37 @@
     {
       "field": "body",
       "category": "style",
-      "text": "멕 화이트",
-      "reason": "한국어 표기 통일성 문제: 'Meg'의 일반적 표기는 '메그'입니다.",
-      "suggestion": "영문 이름은 원어 표기(Meg White)를 병기하거나 한국어 표기를 '메그 화이트'로 통일하세요."
-    },
-    {
-      "field": "body",
-      "category": "repetition",
-      "text": "The Raconteurs의 멤버는 잭 화이트, 브렌던 벤슨, 잭 로런스, 패트릭 킬러다.",
-      "reason": "각 밴드 멤버를 문단별로 반복 나열해 글이 중복됩니다.",
-      "suggestion": "밴드별 핵심 정보(결성연도·주요 앨범) 중심으로 멤버 정보는 간결히 정리하세요."
+      "text": "'Seven Nation Army'가 수록돼 있다.",
+      "reason": "곡은 작은따옴표, 앨범은 무표기로 표기되어 작품 표기 방식이 일관되지 않습니다.",
+      "suggestion": "앨범과 곡 표기 방식을 통일하세요(예: 앨범은 이탤릭 또는 따옴표 없이, 곡은 따옴표 사용 등)."
     },
     {
       "field": "body",
       "category": "readability",
-      "text": "2012년 4월 24일 첫 솔로 앨범 Blunderbuss를, 2014년 6월 10일 두 번째 솔로 스튜디오 앨범 Lazaretto를 발표했다.",
-      "reason": "연도·월·일 표기와 연도만 표기가 혼용되어 형식이 불일치합니다.",
-      "suggestion": "날짜 표기 형식을 통일(예: YYYY년 MM월 DD일 또는 YYYY년)하세요."
+      "text": "The White Stripes는 잭 화이트와 멕 화이트로 구성된 2인조 밴드로 1997년에 시작했고, 2003년 앨범 Elephant에는 'Seven Nation Army'가 수록돼 있다.",
+      "reason": "한 문장에 정보가 몰려 있어 읽기 흐름이 끊깁니다(구성·연도·앨범·곡이 혼합).",
+      "suggestion": "구성·결성 연도·주요 앨범 정보를 2문장으로 분리해 가독성을 높이세요."
+    },
+    {
+      "field": "body",
+      "category": "readability",
+      "text": "The Raconteurs의 멤버는 잭 화이트, 브렌던 벤슨, 잭 로런스, 패트릭 킬러다.",
+      "reason": "멤버 나열이 다른 문단의 밴드 소개와 유사하게 반복되어 문단 간 연결이 약합니다.",
+      "suggestion": "밴드별 소개를 한 군데에 모으거나, 각 밴드 문단 시작부에 멤버·결성·대표작 순으로 통일해 배열하세요."
     },
     {
       "field": "body",
       "category": "structure",
-      "text": "이 밴드는 2006년 데뷔 앨범 Broken Boy Soldiers를 발표했으며, 2019년 세 번째 정규 앨범 Help Us Stranger를 발표했다.",
-      "reason": "문단 전환이 약해 밴드별 활동에서 솔로 활동으로 넘어갈 때 흐름이 끊깁니다.",
-      "suggestion": "각 밴드 활동 종료 후 간단한 전환문장(예: '밴드 활동과 병행해')을 넣어 흐름을 매끄럽게 만드세요."
+      "text": "솔로 활동으로는 잭 화이트가 2012년 4월 24일 첫 솔로 앨범 Blunderbuss를, 2014년 6월 10일 두 번째 솔로 스튜디오 앨범 Lazaretto를 발표했다.",
+      "reason": "날짜 표기 형식(연도만 vs 연월일)이 문서 전반에서 일관되지 않습니다.",
+      "suggestion": "날짜 표기를 통일하세요(예: 모두 '연도' 또는 모두 '연월일' 형식으로統一)."
     },
     {
-      "field": "title",
-      "category": "title",
-      "text": "잭 화이트의 밴드 활동과 주요 앨범",
-      "reason": "제목이 내용의 범위(밴드·솔로·녹음 장소·공개일 등)를 정확히 반영하지 못합니다.",
-      "suggestion": "제목을 '잭 화이트의 밴드 활동·솔로 주요 앨범' 등으로 구체화해 독자 기대를 맞추세요."
+      "field": "body",
+      "category": "readability",
+      "text": "2024년 앨범 No Name은 자신의 Third Man Studio에서 녹음·프로듀싱·믹싱되었고, 디지털 플랫폼에 2024년 8월 2일 정식 공개됐다.",
+      "reason": "스튜디오 명(영문) 표기와 한국어 문장 흐름이 어색하게 섞여 있습니다.",
+      "suggestion": "영문 스튜디오명은 따옴표나 괄호로 구분하거나 이탤릭 등으로 표기하여 문장 흐름을 정돈하세요."
     }
   ],
   "approved": false,
