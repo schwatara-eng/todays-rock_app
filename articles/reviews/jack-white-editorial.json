@@ -1,0 +1,43 @@
+{
+  "type": "editorial",
+  "issues": [
+    {
+      "field": "body",
+      "category": "style",
+      "text": "멕 화이트",
+      "reason": "한국어 표기 통일성 문제: 'Meg'의 일반적 표기는 '메그'입니다.",
+      "suggestion": "영문 이름은 원어 표기(Meg White)를 병기하거나 한국어 표기를 '메그 화이트'로 통일하세요."
+    },
+    {
+      "field": "body",
+      "category": "repetition",
+      "text": "The Raconteurs의 멤버는 잭 화이트, 브렌던 벤슨, 잭 로런스, 패트릭 킬러다.",
+      "reason": "각 밴드 멤버를 문단별로 반복 나열해 글이 중복됩니다.",
+      "suggestion": "밴드별 핵심 정보(결성연도·주요 앨범) 중심으로 멤버 정보는 간결히 정리하세요."
+    },
+    {
+      "field": "body",
+      "category": "readability",
+      "text": "2012년 4월 24일 첫 솔로 앨범 Blunderbuss를, 2014년 6월 10일 두 번째 솔로 스튜디오 앨범 Lazaretto를 발표했다.",
+      "reason": "연도·월·일 표기와 연도만 표기가 혼용되어 형식이 불일치합니다.",
+      "suggestion": "날짜 표기 형식을 통일(예: YYYY년 MM월 DD일 또는 YYYY년)하세요."
+    },
+    {
+      "field": "body",
+      "category": "structure",
+      "text": "이 밴드는 2006년 데뷔 앨범 Broken Boy Soldiers를 발표했으며, 2019년 세 번째 정규 앨범 Help Us Stranger를 발표했다.",
+      "reason": "문단 전환이 약해 밴드별 활동에서 솔로 활동으로 넘어갈 때 흐름이 끊깁니다.",
+      "suggestion": "각 밴드 활동 종료 후 간단한 전환문장(예: '밴드 활동과 병행해')을 넣어 흐름을 매끄럽게 만드세요."
+    },
+    {
+      "field": "title",
+      "category": "title",
+      "text": "잭 화이트의 밴드 활동과 주요 앨범",
+      "reason": "제목이 내용의 범위(밴드·솔로·녹음 장소·공개일 등)를 정확히 반영하지 못합니다.",
+      "suggestion": "제목을 '잭 화이트의 밴드 활동·솔로 주요 앨범' 등으로 구체화해 독자 기대를 맞추세요."
+    }
+  ],
+  "approved": false,
+  "note": "AI 편집 의견입니다. 사실 검수 및 편집자 승인을 대체하지 않습니다.",
+  "articleHash": "a3219b85fcd65ed0a1265a54a50b5c555efda59771b0b6ae4e9db94c153ec849"
+}

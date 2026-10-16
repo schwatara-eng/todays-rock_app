@@ -268,3 +268,140 @@ button:disabled {
   }
 
 }
+
+/* ============================================================
+   관리자 편집실 레이아웃
+   왼쪽: Fact Sheet (35%) / 오른쪽: 기사 작성과 검토 (65%)
+   ============================================================ */
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.8fr);
+  gap: 16px;
+  align-items: start;
+}
+
+/* 오른쪽 패널은 하나의 열로 세로 배치합니다. */
+.work-column {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  min-width: 0;
+}
+
+/*
+  01 FACT SHEET 높이 = 오른쪽 02·03·04 전체 높이
+
+  오른쪽 .work-column이 그리드 행의 높이를 결정합니다.
+  왼쪽 .facts-column은 같은 행 높이만큼 늘어납니다.
+  내부 .facts-panel을 absolute로 채우므로 사실 목록이 아무리 길어져도
+  그리드 행 높이를 늘리지 않습니다. sticky / 뷰포트 높이 제한도 사용하지 않습니다.
+*/
+.workspace {
+  align-items: stretch;
+}
+
+.facts-column {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+
+.facts-panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.facts-panel .panel-head {
+  flex-shrink: 0;
+}
+
+/* 실제 사실 데이터가 박스보다 길 때만 스크롤이 나타납니다. */
+.facts-panel .facts {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #66514a transparent;
+}
+
+/* 기존 .panel의 기본 최소 높이(400px)를 작업 내용에 맞게 조정합니다. */
+.workspace .panel {
+  min-height: 0;
+}
+
+.workspace .facts-panel {
+  min-height: 360px;
+}
+
+.work-column .editor textarea {
+  min-height: 360px;
+}
+
+/* 검수 결과가 길어져도 오른쪽 열 너비를 벗어나지 않도록 합니다. */
+.work-column .review-result {
+  overflow-wrap: anywhere;
+}
+
+/* 편집자 승인은 두 열 전체 너비를 사용합니다. */
+.approval-panel {
+  margin-top: 16px;
+  min-height: 0;
+}
+
+.approval-panel > p {
+  color: #c7bcb3;
+  line-height: 1.8;
+  font-size: 13px;
+}
+
+.checkline {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.7;
+  font-size: 14px;
+  margin-top: 18px;
+  cursor: pointer;
+}
+
+.checkline input {
+  margin-top: 5px;
+  accent-color: #c64d42;
+}
+
+/*
+  좁은 화면은 세로 배치로 전환합니다.
+  이때 오른쪽 열과 높이를 맞출 필요가 없으므로 Fact Sheet는 자연 높이로 표시합니다.
+*/
+@media (max-width: 900px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .facts-column {
+    min-height: 0;
+  }
+
+  .facts-panel {
+    position: static;
+    max-height: 650px;
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 700px) {
+  .facts-panel {
+    max-height: 480px;
+  }
+
+  .work-column .editor textarea {
+    min-height: 280px;
+  }
+}
