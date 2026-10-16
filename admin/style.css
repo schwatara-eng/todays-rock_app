@@ -271,29 +271,31 @@ button:disabled {
 
 /* ============================================================
    관리자 편집실 레이아웃
-   왼쪽: Fact Sheet (35%) / 오른쪽: 기사 작성과 검토 (65%)
+   왼쪽: 기사 작성과 검토 (65%) / 오른쪽: Fact Sheet (35%)
    ============================================================ */
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.8fr);
+  grid-template-columns: minmax(0, 1.8fr) minmax(280px, 0.95fr);
   gap: 16px;
   align-items: start;
 }
 
-/* 오른쪽 패널은 하나의 열로 세로 배치합니다. */
+/* 왼쪽 기사·검토 패널은 하나의 열로 세로 배치합니다. */
 .work-column {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   min-width: 0;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 /*
   01 FACT SHEET 높이 = 오른쪽 02·03·04 전체 높이
 
-  오른쪽 .work-column이 그리드 행의 높이를 결정합니다.
-  왼쪽 .facts-column은 같은 행 높이만큼 늘어납니다.
+  왼쪽 .work-column이 그리드 행의 높이를 결정합니다.
+  오른쪽 .facts-column은 같은 행 높이만큼 늘어납니다.
   내부 .facts-panel을 absolute로 채우므로 사실 목록이 아무리 길어져도
   그리드 행 높이를 늘리지 않습니다. sticky / 뷰포트 높이 제한도 사용하지 않습니다.
 */
@@ -302,6 +304,8 @@ button:disabled {
 }
 
 .facts-column {
+  grid-column: 2;
+  grid-row: 1;
   position: relative;
   min-width: 0;
   min-height: 0;
@@ -344,7 +348,7 @@ button:disabled {
   min-height: 360px;
 }
 
-/* 검수 결과가 길어져도 오른쪽 열 너비를 벗어나지 않도록 합니다. */
+/* 검수 결과가 길어져도 왼쪽 열 너비를 벗어나지 않도록 합니다. */
 .work-column .review-result {
   overflow-wrap: anywhere;
 }
@@ -383,6 +387,12 @@ button:disabled {
 @media (max-width: 900px) {
   .workspace {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .work-column,
+  .facts-column {
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .facts-column {

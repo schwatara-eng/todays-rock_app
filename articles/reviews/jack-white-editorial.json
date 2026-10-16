@@ -2,42 +2,42 @@
   "type": "editorial",
   "issues": [
     {
-      "field": "body",
-      "category": "style",
-      "text": "'Seven Nation Army'가 수록돼 있다.",
-      "reason": "곡은 작은따옴표, 앨범은 무표기로 표기되어 작품 표기 방식이 일관되지 않습니다.",
-      "suggestion": "앨범과 곡 표기 방식을 통일하세요(예: 앨범은 이탤릭 또는 따옴표 없이, 곡은 따옴표 사용 등)."
-    },
-    {
-      "field": "body",
-      "category": "readability",
-      "text": "The White Stripes는 잭 화이트와 멕 화이트로 구성된 2인조 밴드로 1997년에 시작했고, 2003년 앨범 Elephant에는 'Seven Nation Army'가 수록돼 있다.",
-      "reason": "한 문장에 정보가 몰려 있어 읽기 흐름이 끊깁니다(구성·연도·앨범·곡이 혼합).",
-      "suggestion": "구성·결성 연도·주요 앨범 정보를 2문장으로 분리해 가독성을 높이세요."
-    },
-    {
-      "field": "body",
-      "category": "readability",
-      "text": "The Raconteurs의 멤버는 잭 화이트, 브렌던 벤슨, 잭 로런스, 패트릭 킬러다.",
-      "reason": "멤버 나열이 다른 문단의 밴드 소개와 유사하게 반복되어 문단 간 연결이 약합니다.",
-      "suggestion": "밴드별 소개를 한 군데에 모으거나, 각 밴드 문단 시작부에 멤버·결성·대표작 순으로 통일해 배열하세요."
+      "field": "title",
+      "category": "title",
+      "text": "잭 화이트",
+      "reason": "제목에 영문 표기가 빠져 있어 검색·일관성 면에서 아쉽습니다.",
+      "suggestion": "제목에 영문명을 괄호로 병기(예: 잭 화이트 (Jack White))해 주세요."
     },
     {
       "field": "body",
       "category": "structure",
-      "text": "솔로 활동으로는 잭 화이트가 2012년 4월 24일 첫 솔로 앨범 Blunderbuss를, 2014년 6월 10일 두 번째 솔로 스튜디오 앨범 Lazaretto를 발표했다.",
-      "reason": "날짜 표기 형식(연도만 vs 연월일)이 문서 전반에서 일관되지 않습니다.",
-      "suggestion": "날짜 표기를 통일하세요(예: 모두 '연도' 또는 모두 '연월일' 형식으로統一)."
+      "text": "잭 화이트 Jack White\n\n기타 하나, 드럼 하나로...",
+      "reason": "서두에 한글·영문명이 연달아 노출되어 가독성이 떨어집니다.",
+      "suggestion": "첫줄은 한글명(영문명) 형식으로 한 줄로 정리하세요."
     },
     {
       "field": "body",
       "category": "readability",
-      "text": "2024년 앨범 No Name은 자신의 Third Man Studio에서 녹음·프로듀싱·믹싱되었고, 디지털 플랫폼에 2024년 8월 2일 정식 공개됐다.",
-      "reason": "스튜디오 명(영문) 표기와 한국어 문장 흐름이 어색하게 섞여 있습니다.",
-      "suggestion": "영문 스튜디오명은 따옴표나 괄호로 구분하거나 이탤릭 등으로 표기하여 문장 흐름을 정돈하세요."
+      "text": "The White Stripes – Elephant (2003): '세븐 네이션 아미(Seven Nation Army)'가 실린 앨범.",
+      "reason": "앨범·활동 목록의 문장과 연도·설명이 한 문단에 섞여 읽기 흐름을 방해합니다.",
+      "suggestion": "앨범과 설명은 항목형(줄바꿈 또는 표)으로 분리해 가독성을 높이세요."
+    },
+    {
+      "field": "body",
+      "category": "style",
+      "text": "premierguitar\nultimateclassicrock\nstereoboard",
+      "reason": "본문 중간에 출처명이 줄바꿈으로 들어가 있어 문장 흐름을 깨고 어색합니다.",
+      "suggestion": "출처는 각 항목 끝에 괄호로 달거나 문서 하단의 참고문헌 섹션으로 이동하세요."
+    },
+    {
+      "field": "body",
+      "category": "repetition",
+      "text": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
+      "reason": "수치와 연도가 한 문장에 몰려 있어 정보 과부하로 읽기 어렵습니다.",
+      "suggestion": "수치와 연도는 별도 문장으로 분리해 핵심 정보를 명확히 제시하세요."
     }
   ],
   "approved": false,
   "note": "AI 편집 의견입니다. 사실 검수 및 편집자 승인을 대체하지 않습니다.",
-  "articleHash": "a3219b85fcd65ed0a1265a54a50b5c555efda59771b0b6ae4e9db94c153ec849"
+  "articleHash": "a4744ec7a0f69271910fc1adfae43c1b9a4d95c09105260ca5e1291b8c9a8d45"
 }

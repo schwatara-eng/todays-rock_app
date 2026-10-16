@@ -65,13 +65,15 @@ export async function structuredResponse(client, { instructions, input, name, sc
     model: process.env.OPENAI_MODEL || 'gpt-5-mini',
     instructions,
     input: JSON.stringify(input),
-    max_output_tokens: 2500,
+    reasoning: { effort: 'low' },
+    max_output_tokens: 6500,
     text: { format: { type: 'json_schema', name, strict: true, schema } }
   });
   if (response.status !== 'completed' || !response.output_text?.trim()) {
     const err = new Error('AI 응답이 완료되지 않았습니다.');
     err.httpStatus = 502;
     err.reason = response.incomplete_details?.reason || response.status;
+    console.error('[구조화 AI 응답 미완료]', { name, status: response.status, reason: err.reason, outputTokens: response.usage?.output_tokens ?? null });
     throw err;
   }
   try { return JSON.parse(response.output_text); }

@@ -75,7 +75,13 @@ async function pageText(raw) {
       timeout: 12000,
       lookup: (_host, _opts, callback) => {
         const item = addresses[0];
-        callback(null, item.address, item.family);
+        // Node.js가 all:true로 호출하면 주소 객체 배열을 반환해야 합니다.
+        // 단일 문자열을 반환하면 Invalid IP address: undefined가 발생할 수 있습니다.
+        if (_opts?.all) {
+          callback(null, [{ address: item.address, family: item.family }]);
+        } else {
+          callback(null, item.address, item.family);
+        }
       },
       headers: { 'User-Agent': 'TodaysRockEditorialResearch/1.0', Accept: 'text/html, text/plain' }
     }, response => {
@@ -171,7 +177,10 @@ export async function buildFactSheet(client, article) {
 VERIFIED는 제공된 텍스트가 주장의 모든 요소를 직접 지지할 때만 사용합니다.
 충돌하면 CONTRADICTED, 명시적 근거가 없으면 INSUFFICIENT입니다.
 evidence에는 제공된 텍스트에서 직접 찾을 수 있는 짧은 원문 인용만 넣으세요.
-검색 요약, 일반 지식, 추측으로 VERIFIED를 반환하지 마세요.`,
+검색 요약, 일반 지식, 추측으로 VERIFIED를 반환하지 마세요.
+모든 검수 의견, 사유, 수정 권고는 자연스러운 한국어로 작성하세요.
+뮤지션명, 밴드명, 앨범명, 곡명은 원어 표기를 유지하세요.
+기사 원문을 인용하는 text 필드는 번역하거나 수정하지 마세요.`,
           input: { claim: item.claim, sourceText: content }
         });
         // AI가 만든 인용이 실제 수집된 본문에 없으면 검증 성공으로 인정하지 않습니다.
