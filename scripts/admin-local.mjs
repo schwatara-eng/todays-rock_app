@@ -275,19 +275,83 @@ const server = http.createServer(async (req, res) => {
       return send(res, 200, await getState());
     }
 
-    // 에디터가 저장한 원고에서 주장 추출 → 웹 검색 → 실제 페이지 확인 → AI 대조.
+    // 첫 요청은 주장 추출만 수행해 즉시 저장합니다. 이후 요청마다 주장 1개씩 검증합니다.
     if (url.pathname === '/local/research') {
       if (!validArticle(data.article)) return send(res, 400, { error: '기사 제목과 본문을 확인하세요.' });
       const saved = await readJson(paths.draft);
       if (!saved || fingerprint(saved) !== fingerprint(data.article)) {
         return send(res, 409, { error: '현재 원고를 먼저 저장하세요.' });
       }
-      const result = await requireApi('artist-fact-research', { article: normalize(data.article) });
       const articleHash = fingerprint(saved);
-      const factSheet = { ...result.factSheet, articleHash };
-      await saveJson(paths.researchedFacts, factSheet);
-      const reviewResult = await requireApi('artist-review', { article: saved, factSheet });
-      await saveJson(paths.factReview, { ...reviewResult.review, articleHash, researchHash: articleHash });
+      let sheet = await readJson(paths.researchedFacts);
+      if (!sheet || sheet.articleHash !== articleHash || !Array.isArray(sheet.facts)) {
+        const extracted = await requireApi('artist-fact-research', {
+          article: normalize(saved), mode: 'extract'
+        });
+        if (!extracted.claims?.length) return send(res, 422, { error: '검증할 사실 주장을 찾지 못했습니다.' });
+        sheet = {
+          artist: { name: '기사 기반 자료' }, articleHash,
+          facts: extracted.claims.map((claim, i) => ({
+            id: `F${String(i + 1).padStart(3, '0')}`,
+            claim: claim.claim, field: claim.field, excerpt: claim.excerpt,
+            verificationStatus: 'NOT CHECKED', source: null, sources: [], evidence: '',
+            reason: '아직 조사하지 않았습니다.', suggestion: '', checkedAt: null,
+            failureType: 'PENDING'
+          })),
+          truncated: Boolean(extracted.truncated),
+          generatedAt: new Date().toISOString(),
+          note: '단계별 조사 중. 검증 버튼을 다시 누르면 다음 항목 1개를 조사합니다.'
+        };
+        await saveJson(paths.researchedFacts, sheet);
+        await invalidateApproval();
+        return send(res, 200, await getState());
+      }
+      const index = sheet.facts.findIndex(f => f.failureType === 'PENDING');
+      if (index < 0) {
+        return send(res, 200, await getState());
+      }
+      const pending = sheet.facts[index];
+      const result = await requireApi('artist-fact-research', {
+        article: normalize(saved),
+        claim: { claim: pending.claim, field: pending.field, excerpt: pending.excerpt },
+        factId: pending.id
+      });
+      sheet.facts[index] = result.factSheet.facts[0];
+      sheet.generatedAt = new Date().toISOString();
+      await saveJson(paths.researchedFacts, sheet);
+      await invalidateApproval();
+      // 모든 항목을 검증한 뒤에만 전체 사실 검토를 수행합니다.
+      if (!sheet.facts.some(f => f.failureType === 'PENDING')) {
+        const reviewResult = await requireApi('artist-review', { article: saved, factSheet: sheet });
+        await saveJson(paths.factReview, {
+          ...reviewResult.review, articleHash, researchHash: articleHash
+        });
+      }
+      return send(res, 200, await getState());
+    }
+
+    // 팩트시트의 개별 항목만 다시 검색하고 기존 다른 검증 기록은 유지합니다.
+    if (url.pathname === '/local/research-one') {
+      const saved = await readJson(paths.draft);
+      const sheet = await readJson(paths.researchedFacts);
+      if (!saved || !sheet || sheet.articleHash !== fingerprint(saved)) {
+        return send(res, 409, { error: '현재 저장된 원고의 팩트시트가 필요합니다.' });
+      }
+      const index = sheet.facts.findIndex(f => f.id === data.factId);
+      if (index < 0) return send(res, 404, { error: '검증 항목을 찾지 못했습니다.' });
+      const oldFact = sheet.facts[index];
+      if (oldFact.failureType === 'PENDING') return send(res, 409, { error: '미조사 항목은 기본 검증을 먼저 실행하세요.' });
+      const result = await requireApi('artist-fact-research', {
+        article: normalize(saved),
+        claim: { claim: oldFact.claim, field: oldFact.field, excerpt: oldFact.excerpt },
+        factId: oldFact.id
+      });
+      sheet.facts[index] = result.factSheet.facts[0];
+      sheet.generatedAt = new Date().toISOString();
+      await saveJson(paths.researchedFacts, sheet);
+      const reviewResult = await requireApi('artist-review', { article: saved, factSheet: sheet });
+      const hash = fingerprint(saved);
+      await saveJson(paths.factReview, { ...reviewResult.review, articleHash: hash, researchHash: hash });
       await invalidateApproval();
       return send(res, 200, await getState());
     }

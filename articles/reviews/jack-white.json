@@ -5,9 +5,9 @@
     {
       "field": "body",
       "text": "디트로이트 출신의 기타리스트이자 싱어송라이터.",
-      "verdict": "NOT CHECKED",
-      "reason": "출처 본문에서 직접 확인하지 못했습니다.",
-      "suggestion": "원출처를 직접 확인하고 사실을 수정하거나 삭제하세요.",
+      "verdict": "INSUFFICIENT",
+      "reason": "출처 1개를 읽었지만 주장을 직접 뒷받침하는 근거를 확보하지 못했습니다.",
+      "suggestion": "다른 원출처를 검색하거나 주장 표현을 구체화해 주세요.",
       "factIds": [
         "F001"
       ]

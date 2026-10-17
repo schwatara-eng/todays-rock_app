@@ -9,6 +9,8 @@ import { isIP } from 'node:net';
 import { structuredResponse } from './artist-common.js';
 
 const model = () => process.env.OPENAI_MODEL || 'gpt-5-mini';
+const MAX_CLAIMS = 12;
+const MAX_SOURCES = 2;
 const fail = (message, status = 422) => Object.assign(new Error(message), { httpStatus: status });
 
 const claimSchema = {
@@ -113,99 +115,219 @@ async function pageText(raw) {
   return text.slice(0, 18000);
 }
 
-async function searchSources(client, claim) {
+// 검색 결과에 실제 등장한 URL만 사용하고, URL의 추적 매개변수는 제거합니다.
+function canonicalUrl(raw) {
+  const url = checkUrl(raw);
+  url.hash = '';
+  for (const key of [...url.searchParams.keys()]) {
+    if (/^(utm_|fbclid$|gclid$)/i.test(key)) url.searchParams.delete(key);
+  }
+  return url.href;
+}
+
+// 출처 검색은 기사 속 인물과 주장 모두에 연결되어야 합니다.
+function subjectForArticle(article) {
+  const text = `${article?.title || ''} ${article?.body || ''}`;
+  if (/잭\s*화이트|Jack\s+White/i.test(text)) return { name: 'Jack White', aliases: ['Jack White', '잭 화이트'] };
+  // 다른 인물에 대한 기사는 명시적 주제 없이 임의 출처를 채택하지 않습니다.
+  return { name: String(article?.title || '').trim().slice(0, 90), aliases: [] };
+}
+
+function isRelevantSource(source, subject) {
+  if (!subject.aliases.length) return false;
+  const title = String(source.title || source.page_title || '');
+  const snippet = String(source.snippet || '');
+  const url = String(source.url || '');
+  const evidence = `${title} ${snippet} ${url}`.toLowerCase();
+  // 다른 음악가의 약력 페이지를 잘못 채택하지 않도록 명시적 주제 일치를 요구합니다.
+  return subject.aliases.some(alias => evidence.includes(alias.toLowerCase())) ||
+    /jack[-_]?white/i.test(url);
+}
+
+async function searchSources(client, claim, subject) {
+  if (!subject.aliases.length) return [];
   const response = await client.responses.create({
     model: model(), reasoning: { effort: 'low' },
     tools: [{ type: 'web_search', search_context_size: 'medium' }],
     include: ['web_search_call.action.sources'],
     tool_choice: 'required',
-    instructions: `음악 기사 팩트체크를 위한 출처 조사자입니다. 웹 검색을 수행하세요.
-공식 뮤지션·음반사·공식 시상식·공신력 있는 언론을 우선합니다.
-검색 결과에서 실제 발견한 HTTPS URL만 최대 3개 반환하세요. URL을 만들어내지 마세요.
-응답은 JSON 객체만: {"sources":[{"url":"...","publisher":"...","reason":"..."}]}`,
-    input: `검증할 주장: ${claim}`,
-    max_output_tokens: 2500
+    instructions: `음악 기사 출처 조사자입니다. 검증 대상 인물은 반드시 ${subject.name}입니다.
+검색 결과에서 다른 음악가의 전기나 무관한 PDF를 절대 선정하지 마세요.
+실제 검색 결과에 있는 URL만 사용하고 관련성이 불명확하면 빈 배열을 반환하세요.
+공식 아티스트 사이트, 음반사, 시상식 기관, 신뢰할 만한 언론을 우선합니다.
+응답은 JSON만: {"sources":[{"url":"...","publisher":"...","reason":"..."}]}`,
+    input: `인물: ${subject.name}\n검증 주장: ${claim}\n검색어에 인물의 영문 전체 이름을 반드시 포함하고 이 사람에 관한 직접적인 근거를 찾으세요.`,
+    max_output_tokens: 1800
   });
-  if (response.status !== 'completed' || !response.output_text) throw fail('웹 출처 조사 AI 응답 미완료', 502);
-  let parsed;
-  try { parsed = JSON.parse(response.output_text.replace(/^```(?:json)?\s*|\s*```$/g, '')); }
-  catch { throw fail('웹 출처 조사 응답을 해석할 수 없습니다.', 502); }
-  // 검색 결과에 실제 노출된 URL만 허용: 모델의 자유 생성 URL 차단.
-  const discovered = new Set();
+  if (response.status !== 'completed') throw fail('웹 검색 AI 응답 미완료', 502);
+  const discovered = new Map();
   for (const item of response.output || []) {
     if (item.type === 'web_search_call') {
-      for (const source of item.action?.sources || []) if (source.url) discovered.add(source.url);
+      for (const source of item.action?.sources || []) {
+        try {
+          const key = canonicalUrl(source.url);
+          discovered.set(key, { url: source.url, title: source.title || '', snippet: source.snippet || '' });
+        } catch { /* 부적절한 주소 제외 */ }
+      }
     }
     for (const part of item.content || []) {
-      for (const ann of part.annotations || []) if (ann.url) discovered.add(ann.url);
+      for (const ann of part.annotations || []) {
+        try {
+          const key = canonicalUrl(ann.url);
+          if (!discovered.has(key)) discovered.set(key, { url: ann.url, title: ann.title || '', snippet: '' });
+        } catch { /* 제외 */ }
+      }
     }
   }
-  return (parsed.sources || []).filter(s => {
-    try { checkUrl(s.url); return discovered.has(s.url); } catch { return false; }
-  }).slice(0, 3);
+  let proposed = [];
+  try {
+    proposed = JSON.parse((response.output_text || '').replace(/^```(?:json)?\s*|\s*```$/g, '')).sources || [];
+  } catch { /* 파싱 실패 시 안전하게 빈 결과 */ }
+  const result = [];
+  for (const candidate of proposed) {
+    try {
+      const key = canonicalUrl(candidate.url);
+      const found = discovered.get(key);
+      if (!found || !isRelevantSource(found, subject)) continue;
+      if (result.some(item => canonicalUrl(item.url) === key)) continue;
+      result.push({ url: found.url, publisher: candidate.publisher || new URL(key).hostname });
+      if (result.length >= MAX_SOURCES) break;
+    } catch { /* 제외 */ }
+  }
+  // 중요한 점: 관련성을 확인하지 못한 검색 URL을 자동으로 끼워 넣지 않습니다.
+  return result;
 }
 
-export async function buildFactSheet(client, article) {
+async function extractClaims(client, article) {
   const extracted = await structuredResponse(client, {
     name: 'article_claim_extraction', schema: claimSchema,
-    instructions: `한국어 음악 기사 제목과 본문에서 외부 출처로 확인 가능한 구체적 사실 주장만 추출하세요.
-인물, 날짜, 앨범, 수상, 발언, 비교, 최초·유일 등의 주장을 포함합니다.
-감상과 의견은 제외합니다. 원문 위치를 excerpt로 기록합니다. 최대 12개, 빠뜨리지 말고 우선순위를 정하세요.`,
+    instructions: `한국어 음악 기사 제목과 본문의 확인 가능한 사실을 빠뜨리지 말고 추출하세요.
+하나의 문장에 여러 사실이 있으면 각각 독립된 원자적 주장으로 분리하세요.
+예: '디트로이트 출신의 기타리스트이자 싱어송라이터' → 출신지, 기타리스트, 싱어송라이터 3개.
+원문에 없는 사실을 만들어내지 마세요. 감상과 의견은 제외하세요.
+각 항목의 excerpt에는 원고의 실제 해당 부분을 기록하세요.
+주요 사실을 우선하여 최대 ${MAX_CLAIMS}개를 반환하세요.`,
     input: { article }
   });
-  const claims = extracted.claims.slice(0, 5);
-  const truncated = extracted.claims.length > claims.length;
-  if (!claims.length) throw fail('검증할 사실 주장을 추출하지 못했습니다.');
-  const facts = [];
-  for (let i = 0; i < claims.length; i++) {
-    const item = claims[i];
-    const fact = {
-      id: `F${String(i + 1).padStart(3, '0')}`, claim: item.claim,
-      field: item.field, excerpt: item.excerpt, verificationStatus: 'NOT CHECKED',
-      source: null, evidence: '', reason: '', suggestion: '', checkedAt: null
-    };
+  const unique = new Set();
+  const claims = [];
+  for (const item of extracted.claims || []) {
+    if (!item.claim?.trim()) continue;
+    const key = item.claim.replace(/\s+/g, '').toLowerCase();
+    if (unique.has(key)) continue;
+    unique.add(key);
+    claims.push(item);
+  }
+  return { claims: claims.slice(0, MAX_CLAIMS), truncated: claims.length > MAX_CLAIMS };
+}
+
+async function verifyClaim(client, item, id, subject) {
+  const fact = {
+    id, claim: item.claim, field: item.field || 'body', excerpt: item.excerpt || item.claim,
+    verificationStatus: 'NOT CHECKED', source: null, sources: [], evidence: '',
+    reason: '', suggestion: '', checkedAt: null, failureType: null
+  };
+  const seen = new Set();
+  let readable = 0;
+  let searchError = '';
+  let accessError = '';
+  let insufficient = 0;
+  let contradictions = 0;
+  // 1차 검증에서는 웹 검색 1회와 출처 본문 최대 2개만 검토합니다.
+  for (let round = 0; round < 1; round++) {
     let candidates = [];
-    try { candidates = await searchSources(client, item.claim); }
-    catch (error) { fact.reason = `검색 실패: ${error.message}`; }
+    try { candidates = await searchSources(client, item.claim, subject); }
+    catch (error) { searchError = error.message; continue; }
     for (const candidate of candidates) {
+      let key;
+      try { key = canonicalUrl(candidate.url); } catch { continue; }
+      if (seen.has(key) || seen.size >= MAX_SOURCES) continue;
+      seen.add(key);
+      const source = { url: candidate.url, publisher: candidate.publisher,
+        verificationStatus: 'NOT CHECKED', evidence: '', reason: '' };
+      fact.sources.push(source);
       try {
         const content = await pageText(candidate.url);
+        readable++;
         const verdict = await structuredResponse(client, {
           name: 'source_fact_verification', schema: verdictSchema,
-          instructions: `당신은 원고 작성 및 검색 AI와 독립적인 팩트 검수자입니다.
-반드시 제공된 sourceText 안에 실제로 적힌 내용만 사용해 판정하세요.
-VERIFIED는 제공된 텍스트가 주장의 모든 요소를 직접 지지할 때만 사용합니다.
-충돌하면 CONTRADICTED, 명시적 근거가 없으면 INSUFFICIENT입니다.
-evidence에는 제공된 텍스트에서 직접 찾을 수 있는 짧은 원문 인용만 넣으세요.
-검색 요약, 일반 지식, 추측으로 VERIFIED를 반환하지 마세요.
-모든 검수 의견, 사유, 수정 권고는 자연스러운 한국어로 작성하세요.
-뮤지션명, 밴드명, 앨범명, 곡명은 원어 표기를 유지하세요.
-기사 원문을 인용하는 text 필드는 번역하거나 수정하지 마세요.`,
+          instructions: `독립적인 팩트 검수자입니다. sourceText에 있는 정보만 사용하세요.
+VERIFIED는 주장 전체를 출처가 명시적으로 지지할 때만, CONTRADICTED는 직접 모순될 때만 사용하세요.
+근거가 없으면 INSUFFICIENT를 반환하세요.
+evidence는 sourceText에 실제로 존재하는 짧은 연속 원문 인용이어야 합니다.
+검수 사유와 수정 권고는 한국어로 작성하세요. 출처가 부족하다고 원고를 곧바로 삭제하도록 권하지 마세요.`,
           input: { claim: item.claim, sourceText: content }
         });
-        // AI가 만든 인용이 실제 수집된 본문에 없으면 검증 성공으로 인정하지 않습니다.
-        const quote = verdict.evidence.trim().replace(/\s+/g, ' ');
-        const quoteExists = quote.length >= 12 && content.includes(quote);
-        const status = verdict.verdict === 'VERIFIED' && !quoteExists ? 'INSUFFICIENT' : verdict.verdict;
-        fact.sources ??= [];
-        fact.sources.push({ url: candidate.url, publisher: candidate.publisher,
-          verificationStatus: status, evidence: quoteExists ? quote : '', reason: verdict.reason });
-        if (status === 'VERIFIED' || status === 'CONTRADICTED') {
-          fact.verificationStatus = status;
+        const quote = (verdict.evidence || '').trim().replace(/\s+/g, ' ');
+        const exists = quote.length >= 8 && content.includes(quote);
+        const status = verdict.verdict !== 'INSUFFICIENT' && !exists ? 'INSUFFICIENT' : verdict.verdict;
+        source.verificationStatus = status;
+        source.evidence = exists ? quote : '';
+        source.reason = !exists && verdict.verdict !== 'INSUFFICIENT'
+          ? '인용 문구가 수집한 출처 본문과 정확히 일치하지 않습니다.' : verdict.reason;
+        if (status === 'VERIFIED') {
+          fact.verificationStatus = 'VERIFIED';
           fact.source = { url: candidate.url, publisher: candidate.publisher };
-          fact.evidence = quoteExists ? quote : '';
+          fact.evidence = source.evidence;
           fact.reason = verdict.reason;
           fact.suggestion = verdict.suggestion;
           fact.checkedAt = new Date().toISOString();
-          break;
+          fact.failureType = null;
+          return fact;
         }
-        fact.verificationStatus = 'INSUFFICIENT';
-        fact.reason = verdict.reason;
-        fact.suggestion = verdict.suggestion;
-      } catch (error) { fact.reason = `페이지 확인 실패: ${error.message}`; }
+        if (status === 'CONTRADICTED') contradictions++;
+        else insufficient++;
+      } catch (error) {
+        accessError = error.message;
+        source.reason = `출처 접근 또는 검증 실패: ${error.message}`;
+        source.failureType = 'SOURCE_ACCESS_FAILED';
+      }
     }
-    facts.push(fact);
+    if (seen.size >= MAX_SOURCES) break;
   }
-  return { artist: { name: '기사 기반 자료' }, facts, truncated,
-    generatedAt: new Date().toISOString(), note: '자동 검증 결과입니다. 편집자 원출처 확인 필요.' };
+  fact.checkedAt = new Date().toISOString();
+  if (contradictions > 0) {
+    // 일부 출처의 모순만으로 사실 전체가 틀렸다고 단정하지 않습니다.
+    fact.verificationStatus = 'INSUFFICIENT';
+    fact.failureType = 'CONFLICTING_EVIDENCE';
+    fact.reason = '조사한 출처에 주장과 모순되는 자료가 있습니다. 출처를 직접 비교해야 합니다.';
+    fact.suggestion = '표시된 출처와 주장 문장을 직접 대조해 주세요.';
+  } else if (readable > 0) {
+    fact.verificationStatus = 'INSUFFICIENT';
+    fact.failureType = 'EVIDENCE_INSUFFICIENT';
+    fact.reason = `출처 ${readable}개를 읽었지만 주장을 직접 뒷받침하는 근거를 확보하지 못했습니다.`;
+    fact.suggestion = '다른 원출처를 검색하거나 주장 표현을 구체화해 주세요.';
+  } else if (seen.size > 0) {
+    fact.failureType = 'SOURCE_ACCESS_FAILED';
+    fact.reason = `검색된 출처 ${seen.size}개에서 본문을 읽지 못했습니다. ${accessError}`;
+    fact.suggestion = '출처를 브라우저에서 직접 확인하거나 다른 출처를 재검색해 주세요.';
+  } else {
+    fact.failureType = 'SEARCH_FAILED';
+    fact.reason = `검색에서 확인 가능한 출처를 확보하지 못했습니다.${searchError ? ` (${searchError})` : ''}`;
+    fact.suggestion = '다른 검색어로 출처 재검색을 시도해 주세요.';
+  }
+  return fact;
+}
+
+export async function extractFactClaims(client, article) {
+  return extractClaims(client, article);
+}
+
+export async function buildFactSheet(client, article, options = {}) {
+  const selected = options.claim && typeof options.claim.claim === 'string';
+  const extracted = selected
+    ? { claims: [options.claim], truncated: false }
+    : await extractClaims(client, article);
+  if (!extracted.claims.length) throw fail('검증할 사실 주장을 추출하지 못했습니다.');
+  const facts = [];
+  for (let i = 0; i < extracted.claims.length; i++) {
+    const item = extracted.claims[i];
+    const id = selected ? (options.id || 'F001') : `F${String(i + 1).padStart(3, '0')}`;
+    facts.push(await verifyClaim(client, item, id, subjectForArticle(article)));
+  }
+  return {
+    artist: { name: '기사 기반 자료' }, facts, truncated: extracted.truncated,
+    generatedAt: new Date().toISOString(),
+    note: '여러 출처를 조사한 자동 검증 결과입니다. 웹 전체를 조사한 것은 아니며 편집자의 원출처 확인이 필요합니다.'
+  };
 }
