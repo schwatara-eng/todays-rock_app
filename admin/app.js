@@ -70,130 +70,180 @@ function hasUnsavedChanges() {
 // ─────────────────────────────────────────────────────────────
 function renderFacts(sheet) {
   const root = $('facts');
+  const checks = $('fact-check-cards');
+  const rows = $('fact-pairs');
   root.replaceChildren();
+  checks.replaceChildren();
+  rows.replaceChildren();
   const facts = sheet?.facts || [];
-  const verified = facts.filter((fact) => fact.verificationStatus === 'VERIFIED');
-  const pending = facts.filter((fact) => fact.failureType === 'PENDING');
-  const checked = facts.length - pending.length;
-  $('fact-count').textContent = sheet ? `${checked}/${facts.length}개 조사 · ${verified.length}개 검증 완료${sheet.truncated ? ' · 일부만 추출' : ''}` : '조사 전';
-
+  const verified = facts.filter(f => f.verificationStatus === 'VERIFIED');
+  const pending = facts.filter(f => f.failureType === 'PENDING');
+  $('fact-count').textContent = sheet ? `${facts.length - pending.length}/${facts.length}개 조사 · ${verified.length}개 검증 완료${sheet.truncated ? ' · 일부만 추출' : ''}` : '조사 전';
+  $('fact-check-count').textContent = sheet ? `${facts.length}개 항목` : '조사 전';
+  const issues = Array.isArray(lastState?.review?.issues) ? lastState.review.issues : [];
   for (const fact of facts) {
-    const card = element('div', '', 'fact');
-    card.append(element('div', `${fact.id} · ${koreanLabel(fact.verificationStatus)}`, 'fact-id'));
-    card.append(element('p', fact.claim || '내용 없음'));
-    if (fact.evidence) card.append(element('p', `근거 원문: ${fact.evidence}`, 'evidence'));
-    if (fact.reason) card.append(element('p', `검수 의견: ${fact.reason}`, 'fact-reason'));
-    if (fact.suggestion) card.append(element('p', `수정 권고: ${fact.suggestion}`, 'fact-reason'));
+    const id = String(fact.id);
+    const card = element('div', '', 'fact fact-claim');
+    card.id = `claim-${id}`;
+    const select = document.createElement('button');
+    select.type = 'button';
+    select.className = 'fact-select';
+    select.textContent = `${id} · ${koreanLabel(fact.verificationStatus || 'NOT_CHECKED')}`;
+    select.addEventListener('click', () => {
+      document.querySelectorAll('.fact-selected').forEach(n => n.classList.remove('fact-selected'));
+      card.classList.add('fact-selected');
+      const target = document.getElementById(`check-${id}`);
+      if (target) { target.classList.add('fact-selected'); target.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+    });
+    card.append(
+    select,
+    element('p', fact.claim ? `“${fact.claim}”` : '내용 없음')
+    );
 
-    if (fact.failureType && fact.failureType !== 'PENDING') {
-      card.append(element('p', `조사 상태: ${koreanLabel(fact.failureType)}`, 'fact-reason'));
+    const result = element('div', '', 'fact fact-check');
+    result.id = `check-${id}`;
+    result.append(element('div', `${id} · ${koreanLabel(fact.verificationStatus || 'NOT_CHECKED')}`, 'fact-id'));
+    if (fact.evidence) result.append(element('p', `근거 원문: ${fact.evidence}`, 'evidence'));
+    if (fact.reason) result.append(element('p', `검수 의견: ${fact.reason}`, 'fact-reason'));
+    if (fact.suggestion) result.append(element('p', `수정 권고: ${fact.suggestion}`, 'fact-reason'));
+    if (fact.failureType && fact.failureType !== 'PENDING') result.append(element('p', `조사 상태: ${koreanLabel(fact.failureType)}`, 'fact-reason'));
+    if (fact.verificationStatus !== 'VERIFIED' && !fact.reason && !fact.evidence) {
+      result.append(element('p', fact.failureType === 'PENDING' ? '아직 검증을 진행하지 않았습니다.' : '직접 확인된 근거가 없어 검증을 완료하지 못했습니다.', 'fact-reason'));
     }
     if (fact.failureType !== 'PENDING' && fact.verificationStatus !== 'VERIFIED') {
       const retry = document.createElement('button');
-      retry.type = 'button';
-      retry.textContent = '이 항목 출처 재검색';
-      retry.className = 'fact-retry';
+      retry.type = 'button'; retry.textContent = '이 항목 출처 재검색'; retry.className = 'fact-retry';
       retry.addEventListener('click', () => run(async () => {
         if (hasUnsavedChanges()) throw new Error('현재 원고를 먼저 저장해 주세요.');
-        message(`${fact.id} 출처를 다시 검색하고 있습니다…`);
-        const data = await post('/local/research-one', { factId: fact.id });
-        showState(data, false);
-        message(`${fact.id} 재검색이 완료됐습니다.`);
+        message(`${id} 출처를 다시 검색하고 있습니다…`);
+        const data = await post('/local/research-one', { factId: id });
+        showState(data, false); message(`${id} 재검색이 완료됐습니다.`);
       }));
-      card.append(retry);
+      result.append(retry);
     }
-    // 검증 성공 여부와 무관하게 실제 검색된 출처 URL과 실패 사유를 표시합니다.
-    // 링크는 HTTPS 주소만 허용하며 텍스트는 textContent로 삽입합니다.
     const sources = Array.isArray(fact.sources) ? fact.sources : [];
     const visibleSources = sources.length ? sources : (fact.source ? [fact.source] : []);
+    const sourceCard = element('div', '', 'fact fact-source-card');
+    sourceCard.id = `sources-${id}`;
+    sourceCard.append(element('div', `${id} · 검색된 출처`, 'fact-id'));
     if (visibleSources.length) {
       const sourceBox = element('div', '', 'fact-sources');
-      sourceBox.style.marginTop = '12px';
       sourceBox.append(element('strong', `검색된 출처 ${visibleSources.length}개 (직접 확인 필요)`));
       for (const [index, source] of visibleSources.entries()) {
         const entry = element('div', '', 'fact-source');
-        entry.style.marginTop = '8px';
         let safeUrl;
-        try {
-          const parsed = new URL(source.url);
-          if (parsed.protocol === 'https:') safeUrl = parsed.href;
-        } catch { /* 잘못된 URL은 링크로 만들지 않습니다. */ }
+        try { const parsed = new URL(source.url); if (parsed.protocol === 'https:') safeUrl = parsed.href; } catch {}
         if (safeUrl) {
           const link = document.createElement('a');
-          link.href = safeUrl;
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
+          link.href = safeUrl; link.target = '_blank'; link.rel = 'noopener noreferrer';
           link.textContent = `${index + 1}. ${source.publisher || new URL(safeUrl).hostname} ↗`;
-          entry.append(link);
-          entry.append(element('div', safeUrl, 'fact-reason'));
-        } else {
-          entry.append(element('div', `${index + 1}. 출처 주소 확인 불가`, 'fact-reason'));
-        }
+          entry.append(link, element('div', safeUrl, 'fact-reason'));
+        } else entry.append(element('div', `${index + 1}. 출처 주소 확인 불가`, 'fact-reason'));
         if (source.failureType) entry.append(element('div', `접근 상태: ${koreanLabel(source.failureType)}`, 'fact-reason'));
         else if (source.verificationStatus) entry.append(element('div', `검증 상태: ${koreanLabel(source.verificationStatus)}`, 'fact-reason'));
         if (source.reason) entry.append(element('div', `상세 사유: ${source.reason}`, 'fact-reason'));
         sourceBox.append(entry);
       }
-      card.append(sourceBox);
+      sourceCard.append(sourceBox);
+    } else {
+      sourceCard.append(element('p', '검색된 출처가 없습니다.', 'fact-reason'));
     }
-    const matchedIssues = findFactIssues(fact, lastState?.review?.issues || []);
-    if (matchedIssues.length) {
+    // 사실 검수의 원문 문장이 기존 팩트시트 주장과 겹치면
+    // 같은 검수 의견을 다시 카드로 출력하지 않습니다.
+    // F003/F004처럼 한 원문에서 여러 사실이 분리된 경우도 포함합니다.
+    const matchedIssues = findFactIssues(fact, issues, facts);
+    const novelIssues = matchedIssues.filter(issue =>
+      !facts.some(saved => reviewRefersToFact(issue, saved))
+    );
+    if (novelIssues.length) {
       const box = element('div', '', 'fact-matched-review');
-      box.append(element('h3', `팩트체크 의견 ${matchedIssues.length}건`));
-      matchedIssues.forEach((issue) => appendReviewIssue(box, issue));
-      card.append(box);
+      box.append(element('h3', `추가 검수 의견 ${novelIssues.length}건`));
+      const existing = facts.flatMap(saved => [saved.claim, saved.evidence, saved.reason, saved.suggestion]).filter(Boolean);
+      novelIssues.forEach(issue => appendReviewIssue(box, issue, existing));
+      if (box.querySelector('.issue')) result.append(box);
     }
-    root.append(card);
+    const pair = element('div', '', 'fact-pair');
+    const combined = element('div', '', 'fact-combined');
+    combined.append(card, result);
+    pair.append(combined, sourceCard);
+    rows.append(pair);
   }
-  if (!facts.length) root.append(element('p', '아직 추출된 사실이 없습니다. 원고 저장 후 팩트시트를 생성하세요.'));
-
-  const issues = Array.isArray(lastState?.review?.issues) ? lastState.review.issues : [];
-  const unmatched = issues.filter((issue) => !matchedFactId(issue, facts));
-  if (unmatched.length) {
-    const extras = element('section', '', 'unmatched-fact-issues');
-    extras.append(element('h3', `연결되지 않은 검수 의견 ${unmatched.length}건`));
-    extras.append(element('p', '팩트시트의 주장과 정확히 대응하지 않는 검수 의견입니다. 누락하지 않고 별도로 표시합니다.'));
-    unmatched.forEach((issue) => appendReviewIssue(extras, issue));
-    root.append(extras);
-  }
+  if (!facts.length) rows.append(element('p', '아직 추출된 사실이 없습니다. 원고 저장 후 팩트시트를 생성하세요.'));
+  // ID 미연결 의견은 별도 화면 카드로 중복 출력하지 않습니다.
+  // 원본 검수 기록(lastState.review)은 변경하거나 삭제하지 않습니다.
+  // 누락된 새로운 주장 여부는 향후 서버 factId 연결 단계에서 처리합니다.
 }
 
-function appendReviewIssue(root, issue) {
+function appendReviewIssue(root, issue, existing = []) {
   const card = element('div', '', 'issue');
   card.append(element('strong', `${koreanLabel(issue.field)} · ${koreanLabel(issue.verdict || issue.category || 'fact')}`));
-  if (issue.text) card.append(element('p', issue.text));
-  if (issue.reason) card.append(element('p', `사유: ${issue.reason}`));
-  if (issue.suggestion) card.append(element('p', `수정 제안: ${issue.suggestion}`));
-  root.append(card);
+  const items = [[issue.text, ''], [issue.reason, '사유: '], [issue.suggestion, '수정 제안: ']];
+  const unique = [];
+  for (const [value, prefix] of items) {
+    if (!value || [...existing, ...unique].some(prev => sameReviewContent(value, prev))) continue;
+    card.append(element('p', `${prefix}${value}`));
+    unique.push(value);
+  }
+  if (unique.length) root.append(card);
 }
 
 function normalizeFactText(value) {
-  return String(value || '').normalize('NFKC')
-    .replace(/[\\s\\u200b\\u00a0]+/g, '')
-    .replace(/[“”‘’"'.,!?()[\\]{}:;·—–-]/g, '')
-    .toLowerCase();
+  return String(value || '').normalize('NFKC').toLowerCase()
+    .replace(/[\s\u200b\u00a0“”‘’"'.,!?()[\]{}:;·—–-]+/g, '');
+}
+
+function sameReviewContent(a, b) {
+  const x = normalizeFactText(a), y = normalizeFactText(b);
+  return !!x && !!y && (x === y || (Math.min(x.length, y.length) >= 24 &&
+    (x.includes(y) || y.includes(x))));
+}
+
+function overlapScore(a, b) {
+  const x = normalizeFactText(a), y = normalizeFactText(b);
+  if (!x || !y) return 0;
+  if (x === y) return 1;
+  if (Math.min(x.length, y.length) >= 12 && (x.includes(y) || y.includes(x))) return 0.95;
+  // 조사 의견이 길어도 핵심 주장 부분이 일치하면 연결합니다.
+  const ngrams = value => {
+    const set = new Set();
+    for (let i = 0; i <= value.length - 4; i++) set.add(value.slice(i, i + 4));
+    return set;
+  };
+  const ax = ngrams(x), by = ngrams(y);
+  if (!ax.size || !by.size) return 0;
+  let common = 0;
+  for (const part of ax) if (by.has(part)) common++;
+  return common / Math.min(ax.size, by.size);
+}
+
+// 원문 검수 문장과 추출된 사실 주장의 의미상 중복을 보수적으로 판별합니다.
+// 문자열 완전 일치뿐 아니라, 긴 문장에서 분리된 F003/F004 주장도 감지합니다.
+function reviewRefersToFact(issue, fact) {
+  const text = String(issue.text || '');
+  const claim = String(fact.claim || '');
+  if (!text || !claim) return false;
+  const score = overlapScore(text, claim);
+  return score >= 0.60 || sameReviewContent(text, claim);
 }
 
 function matchedFactId(issue, facts) {
-  // 1순위: 서버가 제공한 사실 ID
-  const explicit = [issue.factId, issue.fact_id, issue.claimId, issue.claim_id]
-    .filter((id) => id !== undefined && id !== null && String(id).trim());
-  for (const id of explicit) {
-    const found = facts.find((fact) => String(fact.id) === String(id));
+  // 명시적 서버 사실 ID를 최우선으로 사용합니다.
+  for (const id of [issue.factId, issue.fact_id, issue.claimId, issue.claim_id]) {
+    if (id == null) continue;
+    const found = facts.find(f => String(f.id).toUpperCase() === String(id).trim().toUpperCase());
     if (found) return String(found.id);
   }
-
-  // 2순위: 검수 의견의 원문 주장과 팩트시트 주장이 완전히 같은 경우
-  // 유사한 문장을 억지로 연결하지 않아 잘못된 매칭을 방지합니다.
-  const candidate = normalizeFactText(issue.text);
-  if (!candidate || candidate.length < 12) return null;
-  const matches = facts.filter((fact) => normalizeFactText(fact.claim) === candidate);
-  return matches.length === 1 ? String(matches[0].id) : null;
+  const text = String(issue.text || '');
+  if (normalizeFactText(text).length < 8) return null;
+  const candidates = facts.map(f => ({id:String(f.id), score:overlapScore(text, f.claim)}))
+    .sort((a,b) => b.score - a.score);
+  const best = candidates[0], second = candidates[1];
+  if (!best || best.score < 0.62 || (second && best.score - second.score < 0.08)) return null;
+  return best.id;
 }
 
-function findFactIssues(fact, issues) {
-  const facts = lastState?.factSheet?.facts || [];
-  return issues.filter((issue) => matchedFactId(issue, facts) === String(fact.id));
+function findFactIssues(fact, issues, facts = lastState?.factSheet?.facts || []) {
+  return issues.filter(issue => matchedFactId(issue, facts) === String(fact.id));
 }
 
 function renderIssues(targetId, countId, review, kind) {
@@ -439,110 +489,50 @@ $('export-article').addEventListener('click', () => run(async () => {
 function setupEditorialWorkflow() {
   const workspace = document.querySelector('.workspace');
   const draft = document.querySelector('.work-column > .editor');
-  const factPanel = document.querySelector('.facts-panel');
+  const facts = document.querySelector('.facts-panel');
   const sourcePanel = $('review-result')?.closest('section.panel');
   const editorialPanel = $('editorial-result')?.closest('section.panel');
-  const approval = document.querySelector('.approval-panel');
-  if (!workspace || !draft || !factPanel || !sourcePanel || !editorialPanel) return;
-
-  const createStage = (number, name, subtitle, className) => {
-    const section = document.createElement('section');
-    section.className = `workflow-stage ${className}`;
-    const heading = document.createElement('div');
-    heading.className = 'workflow-heading';
-    heading.append(element('span', number, 'workflow-number'));
-    const titles = document.createElement('div');
-    titles.append(element('h2', name));
-    titles.append(element('p', subtitle));
-    heading.append(titles);
-    section.append(heading);
-    return section;
-  };
-
-  const writing = createStage('01', '작성', '에디터 원고 작성 · 초안 저장 · 미리보기', 'workflow-writing');
-  const factcheck = createStage('02', '사실 검수', '팩트시트 · 출처 검색 · 사실 대조 · 재검색', 'workflow-factcheck');
-  const editing = createStage('03', '편집 검토', '원고 구조 · 윤문 · 표현 · 교정', 'workflow-editing');
-
-  const draftHead = draft.querySelector('.panel-head h2');
-  if (draftHead) draftHead.textContent = '원고 작성';
-  const factsHead = factPanel.querySelector('.panel-head h2');
-  if (factsHead) factsHead.textContent = '팩트시트 · 사실 목록';
-  const sourceHead = sourcePanel.querySelector('.panel-head h2');
-  if (sourceHead) sourceHead.textContent = '사실 검수 결과';
-  const editHead = editorialPanel.querySelector('.panel-head h2');
-  if (editHead) editHead.textContent = '편집 검토 결과';
-
-  // 기존 버튼 ID와 이벤트 연결을 보존하면서 역할별로 이동합니다.
+  if (!workspace || !draft || !facts || !sourcePanel || !editorialPanel) return;
+  const writing = document.createElement('div'); writing.className = 'workflow-writing';
+  const factcheck = document.createElement('div'); factcheck.className = 'workflow-factcheck';
+  const editing = document.createElement('div'); editing.className = 'workflow-editing';
+  const factResults = document.createElement('section');
+  factResults.className = 'panel fact-check-panel';
+  const head = document.createElement('div'); head.className = 'panel-head';
+  head.append(element('h2', '02 / 팩트체크 · 검증'));
+  const count = element('span', '—'); count.id = 'fact-check-count'; head.append(count);
+  factResults.append(head);
+  const results = element('div', '', 'fact-check-cards'); results.id = 'fact-check-cards';
+  factResults.append(results);
+  const pairs = element('div', '', 'fact-pairs'); pairs.id = 'fact-pairs';
   const actions = draft.querySelector('.actions');
-  const save = $('save');
-  const research = $('research');
-  const recheck = $('recheck');
-  if (actions && save) {
-    actions.replaceChildren(save);
-    const preview = $('preview-open');
+  if (actions) {
+    const save = $('save'); const preview = $('preview-open');
+    actions.replaceChildren();
+    if (save) actions.append(save);
     if (preview) actions.append(preview);
   }
-  if (research) {
-    research.textContent = '팩트시트 생성 · 출처 검증';
-    const controls = element('div', '', 'actions');
-    controls.append(research);
-    factcheck.append(controls);
-  }
-  if (recheck) {
-    recheck.textContent = '사실 검수 + 편집 재검토';
-    const controls = element('div', '', 'actions');
-    controls.append(recheck);
-    editing.append(controls);
-  }
-
-  const factContent = element('div', '', 'workflow-fact-content');
-  factContent.append(factPanel);
-  factcheck.append(factContent);
-  // 검수 의견은 renderFacts()가 해당 사실 카드 또는 미연결 의견 구역에 표시합니다.
-  // 별도의 사실 검수 결과 박스는 제거하되 기존 DOM 요소는 이벤트 호환을 위해 보존합니다.
-  sourcePanel.hidden = true;
-  sourcePanel.style.display = 'none';
-  factcheck.append(sourcePanel);
+  const research = $('research');
+  if (research) { const controls = element('div', '', 'actions'); controls.append(research); facts.append(controls); }
+  const recheck = $('recheck');
+  if (recheck) { const controls = element('div', '', 'actions'); controls.append(recheck); editing.append(controls); }
+  const draftHead = draft.querySelector('.panel-head h2');
+  if (draftHead) draftHead.textContent = '01 / EDITOR’S DRAFT · 원고 작성';
+  const factsHead = facts.querySelector('.panel-head h2');
+  if (factsHead) factsHead.textContent = '02 / 팩트시트 + 팩트체크';
+  factResults.querySelector('h2').textContent = '03 / 검색된 출처';
+  const editHead = editorialPanel.querySelector('.panel-head h2');
+  if (editHead) editHead.textContent = '04 / EDITORIAL REVIEW · 편집 검토';
   writing.append(draft);
+  factcheck.append(facts, factResults, pairs);
   editing.append(editorialPanel);
-
+  // 기존 사실 검수 결과 DOM은 renderIssues 호환용으로만 유지한다.
+  sourcePanel.hidden = true;
+  sourcePanel.classList.add('legacy-review-hidden');
+  editing.append(sourcePanel);
   workspace.replaceChildren(writing, factcheck, editing);
-  if (approval) {
-    const head = approval.querySelector('.panel-head h2');
-    if (head) head.textContent = '최종 승인 · 게시 준비';
-  }
-  const intro = document.querySelector('.intro > p:last-child');
-  if (intro) intro.textContent = '01 작성 → 02 사실 검수 → 03 편집 검토 → 에디터 최종 승인';
-
-  const style = document.createElement('style');
-  style.textContent = `
-    .workspace {display:flex !important;flex-direction:column;align-items:stretch !important;gap:22px}
-    .workflow-stage {min-width:0;width:100%;border-top:1px solid #4a3732;padding-top:16px}
-    .workflow-heading {display:flex;align-items:center;gap:14px;margin:0 0 15px}
-    .workflow-number {font-size:24px;font-weight:800;color:#d55b4f}
-    .workflow-heading h2 {font-size:20px;letter-spacing:-.4px;margin:0}
-    .workflow-heading p {font-size:12px;color:#afa49b;margin:6px 0 0}
-    .workflow-stage > .panel {width:100%;min-height:0}
-    .workflow-fact-content {display:block}
-    .workflow-fact-content > .panel {position:static !important;inset:auto !important;max-height:none !important;min-height:0 !important;overflow:visible !important;width:100%}
-    .workflow-fact-content .facts {overflow:visible !important;max-height:none !important;display:grid;grid-template-columns:1fr;gap:14px}
-    .workflow-fact-content .fact {padding:20px;margin:0;border:1px solid #51413a;border-radius:6px;background:#211e1c}
-    .workflow-fact-content .fact-id {font-weight:700;font-size:13px}
-    .workflow-fact-content .fact-matched-review {margin-top:16px;padding-top:12px;border-top:1px solid #51413a}
-    .workflow-fact-content .fact-matched-review h3 {font-size:13px;color:#e6b4aa}
-    .workflow-fact-content .unmatched-fact-issues {padding:20px;border:1px solid #645045;border-radius:6px;background:#27211e}
-    .workflow-fact-content .unmatched-fact-issues h3 {font-size:15px;margin:0 0 8px;color:#e6b4aa}
-    .workflow-fact-content .unmatched-fact-issues > p {font-size:12px;color:#bba99e}
-    .workflow-factcheck > .panel[hidden] {display:none}
-    .workflow-factcheck > .panel {margin-top:16px}
-    .workflow-writing .editor {position:static !important;grid-column:auto !important;grid-row:auto !important;max-height:none !important;overflow:visible !important}
-    .workflow-writing .editor textarea {min-height:320px;max-height:none;height:auto}
-    .workflow-factcheck > .actions {margin:0 0 14px}
-    .workflow-editing > .actions {margin:0 0 14px}
-    @media(max-width:900px) {.workflow-fact-content {grid-template-columns:1fr}}
-  `;
-  document.head.append(style);
 }
+
 setupEditorialWorkflow();
 
 initialize();

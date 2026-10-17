@@ -199,7 +199,8 @@ const server = http.createServer(async (req, res) => {
     const staticFiles = {
       '/': ['index.html', 'text/html; charset=utf-8'],
       '/style.css': ['style.css', 'text/css; charset=utf-8'],
-      '/app.js': ['app.js', 'text/javascript; charset=utf-8']
+      '/app.js': ['app.js', 'text/javascript; charset=utf-8'],
+      '/fonts/Galmuri9.woff2': ['../fonts/Galmuri9.woff2', 'font/woff2']
     };
 
     if (req.method === 'GET' && staticFiles[url.pathname]) {
@@ -209,7 +210,14 @@ const server = http.createServer(async (req, res) => {
         'Content-Type': type,
         'Cache-Control': 'no-store',
         'X-Content-Type-Options': 'nosniff',
-        'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'"
+        'Content-Security-Policy':
+          "default-src 'none'; " +
+          "script-src 'self'; " +
+          "style-src 'self' https://fonts.googleapis.com; " +
+          "font-src 'self' https://fonts.gstatic.com; " +
+          "connect-src 'self'; " +
+          "base-uri 'none'; " +
+          "form-action 'none'"
       });
       return res.end(content);
     }

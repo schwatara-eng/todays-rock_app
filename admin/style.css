@@ -1,3 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
+@font-face {
+  font-family: "Galmuri9";
+  src: url("./fonts/Galmuri9.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme:dark;
   font-family:Arial,'Malgun Gothic',sans-serif;
@@ -60,14 +70,18 @@ main {
 }
 
 .intro h1 {
-  font-size:clamp(28px,4vw,48px);
-  margin:12px 0;
+  font-family: "Black Han Sans", sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  margin: 12px 0;
+  font-weight: 400;
 }
 
-.intro em {
-  font-weight:400;
-  color:#d7c5ac;
-  font-style:normal;
+.intro h1 em {
+  font-family: "Galmuri9", monospace;
+  font-size: 0.65em;
+  font-weight: 400;
+  color: #d7c5ac;
+  font-style: normal;
 }
 
 .intro>p:last-child {
@@ -212,10 +226,10 @@ button:disabled {
 }
 
 .issue {
-  border-left:3px solid #d75e50;
-  background:#28211f;
-  padding:12px;
-  margin:12px 0;
+  border-left: 3px solid #d75e50;
+  background: #28211f;
+  padding: 10px;     /* 기존 12px → 10px */
+  margin: 8px 0;     /* 기존 12px → 8px */
 }
 
 .issue strong {
@@ -225,7 +239,8 @@ button:disabled {
 
 .issue p {
   font-size:13px;
-  line-height:1.7;
+  line-height: 1.4;  /* 기존 1.7 → 1.4 */
+  margin: 5px 0;     /* 문단 사이 간격 축소 */
 }
 
 .ok {
@@ -598,4 +613,102 @@ button:disabled {
   .workspace > * {
     width: 100%;
   }
+}
+/* 2026-10-17: 3열 편집실. 기존 레이아웃 선언보다 우선 적용 */
+main {max-width:none;width:100%;padding:28px 2vw 48px;}
+.workspace {display:grid !important;grid-template-columns:minmax(0, 4fr) minmax(0, 3fr) minmax(0, 3fr) !important;gap:14px;align-items:start !important;}
+.workspace > .workflow-writing {grid-column:1;grid-row:1 / span 2;position:sticky;top:14px;min-width:0;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin;}
+.workspace > .workflow-factcheck {grid-column:2 / 4;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;min-width:0;align-items:start;}
+.workspace > .workflow-editing {grid-column:2 / 4;grid-row:2;min-width:0;}
+.workflow-writing .editor {position:static !important;max-height:none !important;overflow:visible !important;min-height:0;}
+.workflow-writing .editor textarea {height:calc(100vh - 350px);min-height:260px;max-height:none;resize:vertical;}
+.workflow-factcheck .facts-panel,.workflow-factcheck .fact-check-panel {position:static !important;inset:auto !important;min-width:0;min-height:0px;max-height:none !important;overflow:visible !important;display:block;}
+.workflow-factcheck .facts-panel .facts {overflow:visible !important;max-height:none !important;display:block;}
+.workflow-factcheck .fact {padding:14px;margin:0 0 12px;border:1px solid #51413a;border-radius:6px;background:#211e1c;overflow-wrap:anywhere;}
+.fact-select {background:transparent;border:0;color:#df8076;padding:0;text-align:left;font-weight:bold;cursor:pointer;}
+.fact-selected {outline:2px solid #d66a60;outline-offset:1px;}
+.fact-check-panel .fact-id {font-weight:700;font-size:13px;}
+.fact-check-panel .fact-sources {margin-top:14px;padding-top:12px;border-top:1px solid #51413a;}
+.fact-check-panel .fact-source {margin-top:10px;}
+.fact-check-panel .fact-matched-review {margin-top:14px;padding-top:12px;border-top:1px solid #51413a;}
+.unmatched-fact-issues {padding:16px;border:1px solid #645045;border-radius:6px;background:#27211e;}
+.legacy-review-hidden {display:none !important;}
+.workflow-editing .panel {min-height:0;}
+@media(max-width:1150px) {
+ .workspace {grid-template-columns:minmax(0, 42fr) minmax(0,58fr) !important;}
+ .workspace > .workflow-writing {grid-column:1;grid-row:1 / span 2;}
+ .workspace > .workflow-factcheck {grid-column:2;grid-row:1;grid-template-columns:1fr;}
+ .workspace > .workflow-editing {grid-column:2;grid-row:2;}
+}
+@media(max-width:750px) {
+ .workspace {display:flex !important;flex-direction:column;}
+ .workspace > .workflow-writing,.workspace > .workflow-factcheck,.workspace > .workflow-editing {position:static;max-height:none;overflow:visible;width:100%;}
+ .workspace > .workflow-factcheck {display:grid;grid-template-columns:1fr;}
+ .workflow-writing .editor textarea {height:340px;}
+}
+
+/* 2026-10-17: 동일 사실 ID의 팩트/검증과 출처를 같은 행에 배치 */
+.workflow-factcheck {grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;align-items:start !important;}
+.workflow-factcheck > .facts-panel,.workflow-factcheck > .fact-check-panel {min-height:0 !important;padding:17px 16px !important;}
+.workflow-factcheck > .facts-panel {grid-column:1;grid-row:1;}
+.workflow-factcheck > .fact-check-panel {grid-column:2;grid-row:1;}
+.workflow-factcheck #facts,.workflow-factcheck #fact-check-cards {display:none !important;}
+.workflow-factcheck > .fact-pairs {grid-column:1/-1;grid-row:2;display:flex;flex-direction:column;gap:12px;min-width:0;}
+.fact-pair {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:stretch;min-width:0;}
+.fact-combined {min-width:0;border:1px solid #51413a;border-radius:6px;background:#211e1c;padding:16px;}
+.fact-combined > .fact {border:0 !important;border-radius:0 !important;background:transparent !important;padding:0 !important;margin:0 !important;}
+.fact-combined > .fact-check {margin-top:14px !important;padding-top:14px !important;border-top:1px solid #51413a !important;}
+.fact-pair > .fact-source-card {margin:0 !important;padding:16px !important;min-width:0;}
+.fact-source-card .fact-sources {margin-top:12px;}
+.fact-source-card .fact-source {padding:10px 0;border-bottom:1px solid #403731;overflow-wrap:anywhere;}
+.fact-source-card .fact-source:last-child {border-bottom:0;}
+.fact-pair .fact-id {font-weight:700;font-size:13px;}
+.fact-combined .fact-claim p {font-weight: 700; margin:10px 0 0;}
+@media(max-width:1150px) {.workflow-factcheck {grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;}}
+@media(max-width:750px) {.workflow-factcheck {grid-template-columns:1fr !important;}.workflow-factcheck > .fact-check-panel {grid-column:1;grid-row:2;}.workflow-factcheck > .fact-pairs {grid-row:3;}.fact-pair {grid-template-columns:1fr;}}
+
+/* 제목과 집계는 헤더 안에서 한 줄로 유지 */
+.workflow-factcheck .panel-head {
+  display:flex !important;
+  flex-flow:row nowrap !important;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.workflow-factcheck .panel-head h2 {white-space:nowrap;font-size:12px;letter-spacing:.35px;flex:0 1 auto;}
+.workflow-factcheck .panel-head span {white-space:nowrap;flex:0 0 auto;font-size:10px;}
+.workflow-factcheck > .facts-panel,
+.workflow-factcheck > .fact-check-panel {min-width:0;}
+/* 원고를 첫 번째 행의 상단에 배치하고 화면을 따라 고정 */
+.workspace > .workflow-writing {grid-row:1 / span 2;align-self:start;z-index:2;}
+
+/* 02·03 헤더: 첫 행 제목, 둘째 행 진행 현황 */
+.workflow-factcheck .panel-head {
+  display:flex !important;
+  flex-direction:column !important;
+  flex-wrap:nowrap !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:9px !important;
+}
+.workflow-factcheck .panel-head h2 {
+  width:100%;white-space:normal !important;line-height:1.5;
+}
+.workflow-factcheck .panel-head span {
+  display:block;width:100%;white-space:normal !important;text-align:left;
+}
+/* 편집 패널 외부 스크롤 제거, 본문 textarea만 내부 스크롤 */
+.workspace > .workflow-writing {
+  overflow:visible !important;
+  max-height:none !important;
+  position:sticky !important;
+  top:14px;
+}
+.workflow-writing .editor {overflow:visible !important;max-height:none !important;}
+.workflow-writing .editor textarea {overflow-y:auto !important;resize:vertical;}
+@media(max-width:750px) {
+  .workspace > .workflow-writing {position:static !important;}
 }
