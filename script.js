@@ -438,74 +438,27 @@ loadWeather();
 loadSongs();
 loadNews();
 
-// ARTIST ARCHIVE
-
-const artistContent =
-  document.querySelector("#artist-current-content");
-
-const archiveBar =
-  document.querySelector("#artist-archive");
-
-const archiveList =
-  document.querySelector("#artist-archive-list");
-
-const returnButton =
-  document.querySelector("#artist-archive-return");
-
-// 이번 주 기사 원본 보관
-const currentArtistHTML = artistContent.innerHTML;
-
-// 지난 기사 목록
-// 새 기사가 등록되면 여기에 추가
-const artistArchive = [];
-
-function renderArtistArchive() {
-  archiveList.replaceChildren();
-
-  if (artistArchive.length === 0) {
-    archiveBar.hidden = true;
-    return;
+// ARTIST ARCHIVE — 지난 기사는 별도 페이지에서 열람
+const archiveBar = document.querySelector("#artist-archive");
+const archiveList = document.querySelector("#artist-archive-list");
+const returnButton = document.querySelector("#artist-archive-return");
+const artistArchive = [
+  { nameOriginal: "Jack White", nameKo: "잭 화이트", url: "artist-jack-white.html" }
+];
+archiveList.replaceChildren();
+artistArchive.forEach((artist, index) => {
+  if (index) {
+    const separator = document.createElement("span");
+    separator.className = "artist-archive-separator";
+    separator.textContent = "/";
+    archiveList.appendChild(separator);
   }
-
-  archiveBar.hidden = false;
-
-  artistArchive.forEach((artist, index) => {
-    if (index > 0) {
-      const separator = document.createElement("span");
-      separator.className = "artist-archive-separator";
-      separator.textContent = "/";
-      archiveList.appendChild(separator);
-    }
-
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "artist-archive-item";
-
-    button.textContent = artist.nameKo
-      ? `${artist.nameOriginal} (${artist.nameKo})`
-      : artist.nameOriginal;
-
-    button.addEventListener("click", () => {
-      artistContent.innerHTML = artist.html;
-
-      archiveList.querySelectorAll("button")
-        .forEach(item => item.classList.remove("active"));
-
-      button.classList.add("active");
-      returnButton.hidden = false;
-    });
-
-    archiveList.appendChild(button);
-  });
-}
-
-returnButton.addEventListener("click", () => {
-  artistContent.innerHTML = currentArtistHTML;
-
-  returnButton.hidden = true;
-
-  archiveList.querySelectorAll("button")
-    .forEach(item => item.classList.remove("active"));
+  const link = document.createElement("a");
+  link.className = "artist-archive-item";
+  link.href = artist.url;
+  link.textContent = artist.nameKo
+    ? `${artist.nameOriginal} (${artist.nameKo})` : artist.nameOriginal;
+  archiveList.appendChild(link);
 });
-
-renderArtistArchive();
+archiveBar.hidden = artistArchive.length === 0;
+returnButton.hidden = true;

@@ -1234,3 +1234,10 @@ main > .artist-feature .artist-feature-sources { margin-top: 14px; }
     font-size: 11px;
   }
 }
+/* Artist archive links and temporary portrait */
+.artist-archive-item { text-decoration: none; }
+.artist-photo-placeholder { display: flex; align-items: center; justify-content: center; background: rgba(242,239,232,.08); border: 1px solid var(--line); min-height: 320px; }
+.artist-photo-placeholder > div { color: var(--gray); font-size: .75rem; letter-spacing: .15em; }
+.artist-editorial-right .artist-feature-header h3 .artist-name-primary { font-size: 1em; opacity: 1; }
+.artist-editorial-right .artist-feature-header h3 .artist-name-secondary { font-size: .46em; opacity: .75; }
+.archive-back-link { display: inline-block; margin: 32px 0; color: var(--paper); text-decoration: underline; }
