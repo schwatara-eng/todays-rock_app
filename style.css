@@ -1,4 +1,6 @@
-@font-face {
+/* 홈페이지·뮤지션·아카이브 스타일 — 중복 선언 정리, 적용 순서와 반응형 조건 유지 */
+
+@font-face  {
   font-family: "Miwon";
   src: url("./fonts/미원Miwon.otf") format("opentype");
   font-style: normal;
@@ -6,7 +8,7 @@
   font-display: swap;
 }
 
-@font-face {
+@font-face  {
   font-family: "SandollSamlipHobbangBasic";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Basic.woff") format("woff");
   font-weight: normal;
@@ -56,14 +58,14 @@ body::after {
   position: fixed;
   z-index: -1;
   inset: 0;
-  background:
-    linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px),
+  background: linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px),
     linear-gradient(135deg, rgba(10, 5, 5, .86), rgba(35, 4, 4, .72) 52%, rgba(5, 5, 5, .92));
   background-size: 32px 32px, 32px 32px, auto;
 }
 
 button,
+
 a {
   font: inherit;
 }
@@ -92,6 +94,7 @@ button {
 }
 
 .site-header p,
+
 footer p {
   color: var(--gray);
   font-size: .72rem;
@@ -115,6 +118,7 @@ main {
 }
 
 .eyebrow,
+
 .section-label {
   color: var(--red);
   font-size: .72rem;
@@ -148,6 +152,7 @@ h1 span {
 }
 
 .weather-card,
+
 .mood-section {
   padding: 48px 0;
 }
@@ -163,11 +168,13 @@ h1 span {
 }
 
 h2,
+
 h3 {
   margin: 12px 0;
 }
 
 #weather-status,
+
 .mood-section h3 {
   font-family: "SandollSamlipHobbangBasic", sans-serif;
   font-weight: 400;
@@ -220,6 +227,7 @@ h3 {
 }
 
 .mood-button:hover,
+
 .mood-button.selected {
   border-color: var(--red);
   color: var(--black);
@@ -356,6 +364,7 @@ h3 {
 }
 
 .listen-link,
+
 .lyrics-link {
   flex: 1;
   padding: 11px 8px;
@@ -367,6 +376,7 @@ h3 {
 }
 
 .listen-link:hover,
+
 .lyrics-link:hover {
   border-color: var(--yellow);
   color: var(--yellow);
@@ -508,15 +518,9 @@ footer {
   }
 }
 
-/* =========================================================
-   2단 편집 레이아웃
-   왼쪽은 뉴스·뮤지션을 읽는 날개단, 오른쪽은 추천 기능 본문이다.
-   기존 추천 기능의 id/class는 유지해 JavaScript 로직을 건드리지 않는다.
-   ========================================================= */
 .content-layout {
   border-top: 1px solid var(--paper);
   display: grid;
-  grid-template-columns: minmax(220px, 27%) minmax(0, 73%);
   align-items: start;
 }
 
@@ -531,7 +535,6 @@ footer {
   padding-left: 4vw;
 }
 
-/* 오른쪽 본문 안에서는 날씨와 기분을 세로로 쌓아 폭을 확보한다. */
 .content-layout .control-panel {
   border-top: 0;
   display: block;
@@ -556,6 +559,7 @@ footer {
 }
 
 .news-panel h2,
+
 .artist-panel h2 {
   margin: 10px 0 28px;
   font-family: "Black Han Sans", sans-serif;
@@ -595,6 +599,7 @@ footer {
 }
 
 .news-link-placeholder,
+
 .artist-link-placeholder {
   display: inline-block;
   margin-top: 14px;
@@ -619,7 +624,6 @@ footer {
   line-height: 1.7;
 }
 
-/* 결과 영역은 오른쪽 본문 폭을 그대로 사용한다. */
 .content-layout .results {
   padding-top: 72px;
 }
@@ -682,8 +686,6 @@ footer {
 }
 
 @media (max-width: 760px) {
-
-  /* 모바일에서는 핵심 기능인 오늘의 록을 먼저 보여준다. */
   .content-layout {
     display: flex;
     flex-direction: column;
@@ -702,19 +704,8 @@ footer {
     border-right: 0;
     border-top: 1px solid var(--paper);
   }
-
 }
 
-
-/* =========================================================
-   2026-10-07 UI 개편 2차
-   - 날개단 : 본문 = 27 : 73
-   - 히어로 얼굴 이미지를 제거하고 원형 날씨 패널을 배치
-   - 본문 WEATHER 블록은 제거하고 MOOD부터 시작
-   ========================================================= */
-
-/* 메인 카피 오른쪽의 원형 날씨 패널.
-   absolute로 배치해 큰 제목의 흐름을 깨지 않게 한다. */
 .hero-weather {
   position: absolute;
   z-index: 2;
@@ -762,12 +753,10 @@ footer {
   font-size: .72rem;
 }
 
-/* 데스크톱에서는 왼쪽 콘텐츠를 27%, 추천 본문을 73% 사용한다. */
 .content-layout {
   grid-template-columns: minmax(220px, 27%) minmax(0, 73%);
 }
 
-/* 날씨가 히어로로 이동했으므로 본문은 MOOD부터 시작한다. */
 .content-layout .mood-section {
   padding-top: 48px;
 }
@@ -785,8 +774,6 @@ footer {
 }
 
 @media (max-width: 760px) {
-
-  /* 모바일에서는 원을 카피 아래에 일반 흐름으로 내려 겹침을 막는다. */
   .hero {
     min-height: auto;
     padding-bottom: 55px;
@@ -802,8 +789,6 @@ footer {
   }
 }
 
-/* NME 기사 제목을 클릭할 수 있게 만들되
-   기존 TODAY'S ROCK의 타이포그래피는 그대로 유지한다. */
 .news-item h3 a {
   color: inherit;
   text-decoration: none;
@@ -831,66 +816,66 @@ footer {
   line-height: 1.7;
 }
 
-/* 오늘의 뮤지션 제목 줄바꿈 방지 */
 .artist-panel h2 {
   white-space: nowrap;
 }
 
-/* Scoped styling: does not modify the other TODAY'S ROCK sections. */
 .artist-feature {
   min-width: 0;
-  overflow-wrap: anywhere
+  overflow-wrap: anywhere;
 }
 
 .artist-feature-header {
-  margin: 22px 0 18px
+  margin: 22px 0 18px;
 }
 
 .artist-feature-header h3 {
   font-size: clamp(26px, 3vw, 38px);
   line-height: 1.2;
-  margin: 8px 0 14px
+  margin: 8px 0 14px;
 }
 
 .artist-feature-lead {
   font-weight: 700;
   font-size: clamp(16px, 2vw, 19px);
-  line-height: 1.6
+  line-height: 1.6;
 }
 
 .artist-feature .artist-copy,
+
 .artist-feature-history,
+
 .artist-feature-editor p {
   line-height: 1.8;
-  font-size: 13px
+  font-size: 13px;
 }
 
 .artist-feature-subtitle {
   margin: 32px 0 14px;
-  font-size: 19px
+  font-size: 19px;
 }
 
 .artist-feature-history {
   list-style: none;
   padding: 0;
-  margin: 0
+  margin: 0;
 }
 
 .artist-feature-history li {
   padding: 13px 0;
   border-bottom: 1px solid currentColor;
-  border-color: rgba(128, 128, 128, .23)
+  border-color: rgba(128, 128, 128, .23);
 }
 
 .artist-feature-history strong {
   display: block;
-  line-height: 1.55
+  line-height: 1.55;
 }
 
 .artist-feature-history li p {
   margin: 6px 0 0;
   font-size: 13px;
-  opacity: .8
+  opacity: .8;
 }
 
 .artist-feature-editor {
@@ -899,11 +884,11 @@ footer {
   background: #e8dfcc;
   color: #302920;
   border-left: 3px solid #bd4d43;
-  border-radius: 0 8px 8px 0
+  border-radius: 0 8px 8px 0;
 }
 
 .artist-feature-editor p:last-child {
-  margin-bottom: 0
+  margin-bottom: 0;
 }
 
 .artist-feature-tracks {
@@ -912,11 +897,11 @@ footer {
   margin: 0;
   display: grid;
   gap: 8px;
-  counter-reset: tracks
+  counter-reset: tracks;
 }
 
 .artist-feature-tracks li {
-  counter-increment: tracks
+  counter-increment: tracks;
 }
 
 .artist-feature-tracks a {
@@ -929,35 +914,37 @@ footer {
   border-radius: 7px;
   color: inherit;
   text-decoration: none;
-  background: rgba(128, 128, 128, .07)
+  background: rgba(128, 128, 128, .07);
 }
 
 .artist-feature-tracks a:hover,
+
 .artist-feature-tracks a:focus-visible {
-  background: rgba(128, 128, 128, .18)
+  background: rgba(128, 128, 128, .18);
 }
 
 .artist-feature-tracks a:before {
   content: counter(tracks, decimal-leading-zero);
   font-size: 12px;
   color: #bd4d43;
-  font-weight: 700
+  font-weight: 700;
 }
 
 .artist-feature-tracks a>span:first-child {
   flex: 1;
-  min-width: 0
+  min-width: 0;
 }
 
 .artist-feature-tracks strong,
+
 .artist-feature-tracks small {
-  display: block
+  display: block;
 }
 
 .artist-feature-tracks small {
   font-size: 12px;
   opacity: .65;
-  margin-top: 3px
+  margin-top: 3px;
 }
 
 .artist-feature-sources {
@@ -966,14 +953,13 @@ footer {
   border-top: none;
   font-size: 11px;
   line-height: 1.8;
-  opacity: .75
+  opacity: .75;
 }
 
 .artist-feature-sources a {
-  color: inherit
+  color: inherit;
 }
 
-/* 오늘의 뮤지션 사진 */
 .artist-feature-photo {
   width: 100%;
   margin: 20px 0 24px;
@@ -988,7 +974,6 @@ footer {
   border-radius: 4px;
 }
 
-/* 에디터 코멘트 제목 및 구분선 */
 .artist-feature-editor > .section-label {
   margin: -6px 0 20px;
   padding-bottom: 12px;
@@ -999,17 +984,12 @@ footer {
   letter-spacing: 0.16em;
 }
 
-
-
-/* =========================================================
-   ARTIST OF THE DAY — compact editorial layout
-   Photo left; introduction, comment, history and tracks right.
-   ========================================================= */
 main > .artist-feature {
   margin: 0 0 50px;
   padding: 42px 0 0;
   border-top: 1px solid var(--paper);
 }
+
 main > .artist-feature > h2 {
   margin: 6px 0 22px;
   font-size: clamp(1.8rem, 3vw, 2.7rem);
@@ -1025,9 +1005,17 @@ main > .artist-feature > h2 {
   gap: 4%;
   align-items: stretch;
 }
+
 .artist-editorial-left,
-.artist-editorial-right { min-width: 0; }
-.artist-editorial-left { position: relative; }
+
+.artist-editorial-right {
+  min-width: 0;
+}
+
+.artist-editorial-left {
+  position: relative;
+}
+
 .artist-editorial-left .artist-feature-photo {
   position: absolute;
   inset: 0;
@@ -1035,6 +1023,7 @@ main > .artist-feature > h2 {
   height: 100%;
   margin: 0;
 }
+
 .artist-editorial-left .artist-feature-photo img {
   display: block;
   width: 100%;
@@ -1043,12 +1032,17 @@ main > .artist-feature > h2 {
   object-fit: cover;
   object-position: center;
 }
+
 .artist-editorial-right {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.artist-editorial-right .artist-feature-header { margin: 0; }
+
+.artist-editorial-right .artist-feature-header {
+  margin: 0;
+}
+
 .artist-editorial-right .artist-feature-header h3 {
   display: flex;
   align-items: baseline;
@@ -1059,6 +1053,7 @@ main > .artist-feature > h2 {
   font-size: clamp(1.65rem, 3vw, 2.65rem);
   line-height: 1.12;
 }
+
 .artist-editorial-right .artist-feature-header h3 .artist-name-main {
   display: inline;
   font-family: "Miwon", serif;
@@ -1066,6 +1061,7 @@ main > .artist-feature > h2 {
   font-weight: 400;
   opacity: 1;
 }
+
 .artist-editorial-right .artist-feature-header h3 .artist-name-sub {
   display: inline;
   font-family: "Miwon", serif;
@@ -1073,59 +1069,82 @@ main > .artist-feature > h2 {
   font-weight: 400;
   opacity: .75;
 }
+
 .artist-editorial-right .artist-feature-lead {
   margin: 0;
   font-size: .92rem;
   line-height: 1.5;
 }
+
 .artist-editorial-right .artist-copy {
   margin: 0;
   color: var(--gray);
   font-size: .78rem;
   line-height: 1.65;
 }
+
 .artist-editorial-right .artist-feature-subtitle {
   margin: 4px 0 7px;
   font-size: 1rem;
 }
+
 .artist-editorial-right .artist-feature-editor {
   margin: 10px 0 20px;
   padding: 14px 18px;
   clear: none;
 }
+
 .artist-editorial-right .artist-feature-editor > .section-label {
   margin: 0 0 9px;
   padding-bottom: 8px;
 }
+
 .artist-editorial-right .artist-feature-editor p:last-child {
   margin: 0;
   font-size: .73rem;
   line-height: 1.55;
 }
+
 .artist-editorial-right .artist-feature-history {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 16px;
 }
-.artist-editorial-right .artist-feature-history li { padding: 7px 0; }
+
+.artist-editorial-right .artist-feature-history li {
+  padding: 7px 0;
+}
+
 .artist-editorial-right .artist-feature-history strong {
   font-size: .75rem;
   line-height: 1.35;
 }
+
 .artist-editorial-right .artist-feature-history li p {
   margin-top: 3px;
   font-size: .71rem;
   line-height: 1.45;
 }
-.artist-feature-track-group { min-width: 0; }
-.artist-feature-track-group .artist-feature-subtitle { margin: 0 0 5px; }
+
+.artist-feature-track-group {
+  min-width: 0;
+}
+
+.artist-feature-track-group .artist-feature-subtitle {
+  margin: 0 0 5px;
+}
+
 .artist-feature-track-group .artist-feature-tracks {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 7px;
   align-items: stretch;
 }
-.artist-feature-track-group .artist-feature-tracks li { min-width: 0; }
+
+.artist-feature-track-group .artist-feature-tracks li {
+  min-width: 0;
+}
+
 .artist-feature-track-group .artist-feature-tracks a {
   position: relative;
   display: flex;
@@ -1139,55 +1158,81 @@ main > .artist-feature > h2 {
   padding: 8px 25px 8px 9px;
   overflow: visible;
 }
+
 .artist-feature-track-group .artist-feature-tracks a::before {
   display: block;
   flex: none;
   text-align: center;
 }
+
 .artist-feature-track-group .artist-feature-tracks a > span:first-child {
   flex: none;
   min-width: 0;
 }
+
 .artist-feature-track-group .artist-feature-tracks a > span:last-child {
   position: absolute;
   top: 8px;
   right: 8px;
   line-height: 1;
 }
+
 .artist-feature-track-group .artist-feature-tracks strong {
   font-size: 14px;
   line-height: 1.2;
   overflow-wrap: anywhere;
   white-space: normal;
 }
+
 .artist-feature-track-group .artist-feature-tracks small {
   margin-top: 3px;
   font-size: 11px;
   line-height: 1.2;
   white-space: normal;
 }
-main > .artist-feature .artist-feature-sources { margin-top: 14px; }
+
+main > .artist-feature .artist-feature-sources {
+  margin-top: 14px;
+}
 
 @media (max-width: 760px) {
-  /* Keep the mobile main-content-first layout despite desktop overrides. */
-  .content-layout { display: flex; flex-direction: column; }
-  .artist-editorial-grid { grid-template-columns: 1fr; gap: 20px; }
+  .content-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .artist-editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
   .artist-editorial-left .artist-feature-photo {
     position: static;
     width: 100%;
     height: auto;
   }
+
   .artist-editorial-left .artist-feature-photo img {
     height: auto;
     aspect-ratio: 4 / 3;
   }
-  .artist-editorial-right .artist-feature-history { grid-template-columns: 1fr; }
-  .artist-feature-track-group .artist-feature-tracks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .artist-feature-track-group .artist-feature-tracks strong { font-size: 13px; }
-  .artist-feature-track-group .artist-feature-tracks small { font-size: 11px; }
-}
 
-/* ARTIST ARCHIVE */
+  .artist-editorial-right .artist-feature-history {
+    grid-template-columns: 1fr;
+  }
+
+  .artist-feature-track-group .artist-feature-tracks {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .artist-feature-track-group .artist-feature-tracks strong {
+    font-size: 13px;
+  }
+
+  .artist-feature-track-group .artist-feature-tracks small {
+    font-size: 11px;
+  }
+}
 
 .artist-archive {
   display: flex;
@@ -1199,6 +1244,7 @@ main > .artist-feature .artist-feature-sources { margin-top: 14px; }
 }
 
 .artist-archive[hidden],
+
 .artist-archive-return[hidden] {
   display: none;
 }
@@ -1237,6 +1283,7 @@ main > .artist-feature .artist-feature-sources { margin-top: 14px; }
 }
 
 .artist-archive-item:hover,
+
 .artist-archive-item.active {
   color: #d56c61;
   text-decoration: underline;
@@ -1264,10 +1311,39 @@ main > .artist-feature .artist-feature-sources { margin-top: 14px; }
     font-size: 11px;
   }
 }
-/* Artist archive links and temporary portrait */
-.artist-archive-item { text-decoration: none; }
-.artist-photo-placeholder { display: flex; align-items: center; justify-content: center; background: rgba(242,239,232,.08); border: 1px solid var(--line); min-height: 320px; }
-.artist-photo-placeholder > div { color: var(--gray); font-size: .75rem; letter-spacing: .15em; }
-.artist-editorial-right .artist-feature-header h3 .artist-name-primary { font-size: 1em; opacity: 1; }
-.artist-editorial-right .artist-feature-header h3 .artist-name-secondary { font-size: .46em; opacity: .75; }
-.archive-back-link { display: inline-block; margin: 32px 0; color: var(--paper); text-decoration: underline; }
+
+.artist-archive-item {
+  text-decoration: none;
+}
+
+.artist-photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(242,239,232,.08);
+  border: 1px solid var(--line);
+  min-height: 320px;
+}
+
+.artist-photo-placeholder > div {
+  color: var(--gray);
+  font-size: .75rem;
+  letter-spacing: .15em;
+}
+
+.artist-editorial-right .artist-feature-header h3 .artist-name-primary {
+  font-size: 1em;
+  opacity: 1;
+}
+
+.artist-editorial-right .artist-feature-header h3 .artist-name-secondary {
+  font-size: .46em;
+  opacity: .75;
+}
+
+.archive-back-link {
+  display: inline-block;
+  margin: 32px 0;
+  color: var(--paper);
+  text-decoration: underline;
+}

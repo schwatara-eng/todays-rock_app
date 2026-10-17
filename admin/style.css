@@ -1,292 +1,290 @@
-@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+/* 편집실·팩트체크·검수 보고서·미리보기 스타일 — 중복 선언 정리, 적용 순서와 반응형 조건 유지 */
 
-/* Galmuri9 is served locally by the editor server. */
-@font-face {
-  font-family: 'Galmuri9';
-  src: url('/fonts/Galmuri9.woff2') format('woff2');
+@import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
+
+@font-face  {
+  font-family: "Galmuri9";
+  src: url("/fonts/Galmuri9.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-
 :root {
-  color-scheme:dark;
-  font-family:Arial,'Malgun Gothic',sans-serif;
-  background:#111;
-  color:#eae6df;
+  color-scheme: dark;
+  font-family: Arial,"Malgun Gothic",sans-serif;
+  background: #111;
+  color: #eae6df;
 }
 
 * {
-  box-sizing:border-box;
+  box-sizing: border-box;
 }
 
 body {
-  margin:0;
-  background:radial-gradient(circle at 90% 0%,#321c1b 0,transparent 30%),#111;
+  margin: 0;
+  background: radial-gradient(circle at 90% 0%,#321c1b 0,transparent 30%),#111;
 }
 
 header {
-  padding:22px max(4vw,24px);
-  border-bottom:1px solid #37322f;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
+  padding: 22px max(4vw,24px);
+  border-bottom: 1px solid #37322f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
 
 .brand {
-  font-size:21px;
-  font-weight:900;
-  letter-spacing:-.8px;
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: -.8px;
 }
 
 .brand span {
-  color:#d54b3e;
+  color: #d54b3e;
 }
 
 .brand small {
-  font-size:10px;
-  letter-spacing:2px;
-  font-weight:500;
-  margin-left:13px;
-  color:#aaa;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  margin-left: 13px;
+  color: #aaa;
 }
 
 .local {
-  font-size:10px;
-  letter-spacing:1.5px;
-  color:#d9a5a0;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #d9a5a0;
 }
 
 main {
-  max-width:1510px;
-  margin:auto;
-  padding:42px 4vw;
+  margin: auto;
 }
 
 .eyebrow {
-  color:#d65c50;
-  letter-spacing:2.5px;
-  font-size:11px;
+  color: #d65c50;
+  letter-spacing: 2.5px;
+  font-size: 11px;
 }
 
 .intro h1 {
-  font-family:"Black Han Sans",sans-serif;
-  font-weight:400;
-  font-size:clamp(28px,4vw,48px);
-  margin:12px 0;
+  font-family: "Black Han Sans",sans-serif;
+  font-weight: 400;
+  font-size: clamp(28px,4vw,48px);
+  margin: 12px 0;
 }
 
 .intro h1 em {
-  font-family:"Galmuri9",monospace;
-  font-size:.65em;
-  font-weight:400;
-  color:#d7c5ac;
-  font-style:normal;
+  font-family: "Galmuri9",monospace;
+  font-size: .65em;
+  font-weight: 400;
+  color: #d7c5ac;
+  font-style: normal;
 }
 
 .intro>p:last-child {
-  color:#aba5a0;
-  font-size:14px;
-  line-height:1.7;
-  margin-bottom:36px;
+  color: #aba5a0;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 36px;
 }
 
 .layout {
-  display:grid;
-  grid-template-columns:1fr 1.4fr 1fr;
-  gap:16px;
-  align-items:start;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 16px;
+  align-items: start;
 }
 
 .panel {
-  border:1px solid #3b3430;
-  background:#1c1b1a;
-  border-radius:7px;
-  padding:22px;
-  min-height:400px;
+  border: 1px solid #3b3430;
+  background: #1c1b1a;
+  border-radius: 7px;
+  padding: 22px;
+  min-height: 400px;
 }
 
 .panel-head {
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  align-items:center;
-  margin-bottom:25px;
-  border-bottom:1px solid #39312d;
-  padding-bottom:14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #39312d;
+  padding-bottom: 14px;
 }
 
 .panel h2 {
-  font-size:12px;
-  letter-spacing:1.6px;
-  margin:0;
+  font-size: 12px;
+  letter-spacing: 1.6px;
+  margin: 0;
 }
 
 .panel-head span {
-  font-size:11px;
-  color:#c2a48d;
+  font-size: 11px;
+  color: #c2a48d;
 }
 
 .fact {
-  border-bottom:1px solid #36302c;
-  padding:0 0 16px;
-  margin-bottom:16px;
+  border-bottom: 1px solid #36302c;
+  padding: 0 0 16px;
+  margin-bottom: 16px;
 }
 
 .fact-id {
-  font-size:11px;
-  color:#d66a60;
+  font-size: 11px;
+  color: #d66a60;
 }
 
 .fact p {
-  font-size:14px;
-  line-height:1.7;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 .fact a {
-  font-size:12px;
-  color:#d7b69c;
-  overflow-wrap:anywhere;
+  font-size: 12px;
+  color: #d7b69c;
+  overflow-wrap: anywhere;
 }
 
 .fact small {
-  display:block;
-  color:#8b9b8d;
-  margin-top:9px;
+  display: block;
+  color: #8b9b8d;
+  margin-top: 9px;
 }
 
 .editor label {
-  display:block;
-  font-size:12px;
-  color:#d1b6a0;
-  margin:15px 0 8px;
+  display: block;
+  font-size: 12px;
+  color: #d1b6a0;
+  margin: 15px 0 8px;
 }
 
-.editor input,.editor textarea {
-  display:block;
-  width:100%;
-  background:#111;
-  border:1px solid #51443d;
-  border-radius:4px;
-  color:#f3ede7;
-  padding:13px;
-  font:14px/1.8 Arial,'Malgun Gothic',sans-serif;
+.editor input,
+.editor textarea {
+  display: block;
+  width: 100%;
+  background: #111;
+  border: 1px solid #51443d;
+  border-radius: 4px;
+  color: #f3ede7;
+  padding: 13px;
+  font: 14px/1.8 Arial,"Malgun Gothic",sans-serif;
 }
 
 .editor textarea {
-  resize:vertical;
-  min-height:250px;
+  resize: vertical;
+  min-height: 250px;
 }
 
-.editor input:focus,.editor textarea:focus {
-  outline:1px solid #c55448;
+.editor input:focus,
+.editor textarea:focus {
+  outline: 1px solid #c55448;
 }
 
 .actions {
-  display:flex;
-  flex-wrap:wrap;
-  gap:9px;
-  margin-top:20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 20px;
 }
 
 button {
-  background:#34302d;
-  border:1px solid #62534b;
-  color:#eee;
-  padding:11px 14px;
-  border-radius:4px;
-  cursor:pointer;
-  font-size:12px;
+  background: #34302d;
+  border: 1px solid #62534b;
+  color: #eee;
+  padding: 11px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
 }
 
 button.primary {
-  background:#a8342c;
-  border-color:#a8342c;
+  background: #a8342c;
+  border-color: #a8342c;
 }
 
 button:hover {
-  filter:brightness(1.2);
+  filter: brightness(1.2);
 }
 
 button:disabled {
-  opacity:.45;
-  cursor:wait;
+  opacity: .45;
+  cursor: wait;
 }
 
-.hint,.notice {
-  font-size:12px;
-  line-height:1.8;
-  color:#a99c93;
-  margin-top:18px;
+.hint,
+.notice {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #a99c93;
+  margin-top: 18px;
 }
 
 .notice {
-  border-top:1px solid #39312d;
-  padding-top:16px;
+  border-top: 1px solid #39312d;
+  padding-top: 16px;
 }
 
 .issue {
   border-left: 3px solid #d75e50;
   background: #28211f;
-  padding: 10px;     /* 기존 12px → 10px */
-  margin: 8px 0;     /* 기존 12px → 8px */
+  padding: 10px;
+  margin: 8px 0;
 }
 
 .issue strong {
-  color:#efb3aa;
-  font-size:12px;
+  color: #efb3aa;
+  font-size: 12px;
 }
 
 .issue p {
-  font-size:13px;
-  line-height: 1.4;  /* 기존 1.7 → 1.4 */
-  margin: 5px 0;     /* 문단 사이 간격 축소 */
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 5px 0;
 }
 
 .ok {
-  color:#b3c7b4;
+  color: #b3c7b4;
 }
 
 #status {
-  min-height:28px;
-  color:#e3b29e;
-  font-size:13px;
-  margin-top:22px;
+  min-height: 28px;
+  color: #e3b29e;
+  font-size: 13px;
+  margin-top: 22px;
 }
 
-@media(max-width:1100px) {
+@media (max-width:1100px) {
   .layout {
-    grid-template-columns:1fr 1.3fr;
+    grid-template-columns: 1fr 1.3fr;
   }
 
   .review {
-    grid-column:1/-1;
+    grid-column: 1/-1;
   }
-
 }
 
-@media(max-width:700px) {
+@media (max-width:700px) {
   .layout {
-    grid-template-columns:1fr;
+    grid-template-columns: 1fr;
   }
 
   .review {
-    grid-column:auto;
+    grid-column: auto;
   }
 
   header {
-    flex-wrap:wrap;
+    flex-wrap: wrap;
   }
 
   .panel {
-    min-height:0;
+    min-height: 0;
   }
-
 }
 
-/* 최종 승인 패널 */
 .approval-panel {
   margin-top: 16px;
   min-height: 0;
@@ -313,7 +311,6 @@ button:disabled {
   accent-color: #c64d42;
 }
 
-/* 로컬 기사 미리보기 */
 .preview-panel[hidden] {
   display: none;
 }
@@ -392,172 +389,636 @@ button:disabled {
   color: #a99b91;
 }
 
-/* 출처의 실제 본문과 검수 사유를 Fact Sheet에서 구분해 표시합니다. */
-.fact .evidence { color: #b3c7b4; font-size: 12px; line-height: 1.65; }
-.fact .fact-reason { color: #d4b5a2; font-size: 12px; line-height: 1.65; }
-
-/* 2026-10-17: 3열 편집실. 기존 레이아웃 선언보다 우선 적용 */
-main {max-width:none;width:100%;padding:28px 2vw 48px;}
-.workspace {display:grid !important;grid-template-columns:minmax(0, 4fr) minmax(0, 3fr) minmax(0, 3fr) !important;gap:14px;align-items:start !important;}
-.workspace > .workflow-writing {grid-column:1;grid-row:1 / span 2;position:sticky;top:14px;min-width:0;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin;}
-.workspace > .workflow-factcheck {grid-column:2 / 4;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;min-width:0;align-items:start;}
-.workspace > .workflow-editing {grid-column:2 / 4;grid-row:2;min-width:0;}
-.workflow-writing .editor {position:static !important;max-height:none !important;overflow:visible !important;min-height:0;}
-.workflow-writing .editor textarea {height:calc(100vh - 350px);min-height:260px;max-height:none;resize:vertical;}
-.workflow-factcheck .facts-panel,.workflow-factcheck .fact-check-panel {position:static !important;inset:auto !important;min-width:0;min-height:0px;max-height:none !important;overflow:visible !important;display:block;}
-.workflow-factcheck .facts-panel .facts {overflow:visible !important;max-height:none !important;display:block;}
-.workflow-factcheck .fact {padding:14px;margin:0 0 12px;border:1px solid #51413a;border-radius:6px;background:#211e1c;overflow-wrap:anywhere;}
-.fact-select {background:transparent;border:0;color:#df8076;padding:0;text-align:left;font-weight:bold;cursor:pointer;}
-.fact-selected {outline:2px solid #d66a60;outline-offset:1px;}
-.fact-check-panel .fact-id {font-weight:700;font-size:13px;}
-.fact-check-panel .fact-sources {margin-top:14px;padding-top:12px;border-top:1px solid #51413a;}
-.fact-check-panel .fact-source {margin-top:10px;}
-.fact-check-panel .fact-matched-review {margin-top:14px;padding-top:12px;border-top:1px solid #51413a;}
-.unmatched-fact-issues {padding:16px;border:1px solid #645045;border-radius:6px;background:#27211e;}
-.legacy-review-hidden {display:none !important;}
-.workflow-editing .panel {min-height:0;}
-@media(max-width:1150px) {
- .workspace {grid-template-columns:minmax(0, 42fr) minmax(0,58fr) !important;}
- .workspace > .workflow-writing {grid-column:1;grid-row:1 / span 2;}
- .workspace > .workflow-factcheck {grid-column:2;grid-row:1;grid-template-columns:1fr;}
- .workspace > .workflow-editing {grid-column:2;grid-row:2;}
-}
-@media(max-width:750px) {
- .workspace {display:flex !important;flex-direction:column;}
- .workspace > .workflow-writing,.workspace > .workflow-factcheck,.workspace > .workflow-editing {position:static;max-height:none;overflow:visible;width:100%;}
- .workspace > .workflow-factcheck {display:grid;grid-template-columns:1fr;}
- .workflow-writing .editor textarea {height:340px;}
+.fact .evidence {
+  color: #b3c7b4;
+  font-size: 12px;
+  line-height: 1.65;
 }
 
-/* 2026-10-17: 동일 사실 ID의 팩트/검증과 출처를 같은 행에 배치 */
-.workflow-factcheck {grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;align-items:start !important;}
-.workflow-factcheck > .facts-panel,.workflow-factcheck > .fact-check-panel {min-height:0 !important;padding:17px 16px !important;}
-.workflow-factcheck > .facts-panel {grid-column:1;grid-row:1;}
-.workflow-factcheck > .fact-check-panel {grid-column:2;grid-row:1;}
-.workflow-factcheck #facts,.workflow-factcheck #fact-check-cards {display:none !important;}
-.workflow-factcheck > .fact-pairs {grid-column:1/-1;grid-row:2;display:flex;flex-direction:column;gap:12px;min-width:0;}
-.fact-pair {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:stretch;min-width:0;}
-.fact-combined {min-width:0;border:1px solid #51413a;border-radius:6px;background:#211e1c;padding:16px;}
-.fact-combined > .fact {border:0 !important;border-radius:0 !important;background:transparent !important;padding:0 !important;margin:0 !important;}
-.fact-combined > .fact-check {margin-top:14px !important;padding-top:14px !important;border-top:1px solid #51413a !important;}
-.fact-pair > .fact-source-card {margin:0 !important;padding:16px !important;min-width:0;}
-.fact-source-card .fact-sources {margin-top:12px;}
-.fact-source-card .fact-source {padding:10px 0;border-bottom:1px solid #403731;overflow-wrap:anywhere;}
-.fact-source-card .fact-source:last-child {border-bottom:0;}
-.fact-pair .fact-id {font-weight:700;font-size:13px;}
-.fact-combined .fact-claim p {font-weight: 700; margin:10px 0 0;}
-@media(max-width:1150px) {.workflow-factcheck {grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;}}
-@media(max-width:750px) {.workflow-factcheck {grid-template-columns:1fr !important;}.workflow-factcheck > .fact-check-panel {grid-column:1;grid-row:2;}.workflow-factcheck > .fact-pairs {grid-row:3;}.fact-pair {grid-template-columns:1fr;}}
+.fact .fact-reason {
+  color: #d4b5a2;
+  font-size: 12px;
+  line-height: 1.65;
+}
 
-/* 제목과 집계는 헤더 안에서 한 줄로 유지 */
+main {
+  max-width: none;
+  width: 100%;
+  padding: 28px 2vw 48px;
+}
+
+.workspace {
+  display: grid !important;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 3fr) !important;
+  gap: 14px;
+  align-items: start !important;
+}
+
+.workspace > .workflow-writing {
+  grid-column: 1;
+  min-width: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.workspace > .workflow-factcheck {
+  grid-column: 2 / 4;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 14px;
+  min-width: 0;
+  align-items: start;
+}
+
+.workspace > .workflow-editing {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  min-width: 0;
+}
+
+.workflow-writing .editor {
+  position: static !important;
+  min-height: 0;
+}
+
+.workflow-writing .editor textarea {
+  height: calc(100vh - 350px);
+  min-height: 260px;
+  max-height: none;
+}
+
+.workflow-factcheck .facts-panel,
+.workflow-factcheck .fact-check-panel {
+  position: static !important;
+  inset: auto !important;
+  min-width: 0;
+  min-height: 0px;
+  max-height: none !important;
+  overflow: visible !important;
+  display: block;
+}
+
+.workflow-factcheck .facts-panel .facts {
+  overflow: visible !important;
+  max-height: none !important;
+  display: block;
+}
+
+.workflow-factcheck .fact {
+  padding: 14px;
+  margin: 0 0 12px;
+  border: 1px solid #51413a;
+  border-radius: 6px;
+  background: #211e1c;
+  overflow-wrap: anywhere;
+}
+
+.fact-select {
+  background: transparent;
+  border: 0;
+  color: #df8076;
+  padding: 0;
+  text-align: left;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.fact-selected {
+  outline: 2px solid #d66a60;
+  outline-offset: 1px;
+}
+
+.fact-check-panel .fact-id {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.fact-check-panel .fact-sources {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #51413a;
+}
+
+.fact-check-panel .fact-source {
+  margin-top: 10px;
+}
+
+.fact-check-panel .fact-matched-review {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #51413a;
+}
+
+.unmatched-fact-issues {
+  padding: 16px;
+  border: 1px solid #645045;
+  border-radius: 6px;
+  background: #27211e;
+}
+
+.legacy-review-hidden {
+  display: none !important;
+}
+
+.workflow-editing .panel {
+  min-height: 0;
+}
+
+@media (max-width:1150px) {
+  .workspace {
+    grid-template-columns: minmax(0, 42fr) minmax(0,58fr) !important;
+  }
+
+  .workspace > .workflow-writing {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .workspace > .workflow-factcheck {
+    grid-column: 2;
+    grid-row: 1;
+    grid-template-columns: 1fr;
+  }
+
+  .workspace > .workflow-editing {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+@media (max-width:750px) {
+  .workspace {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .workspace > .workflow-writing,
+  .workspace > .workflow-factcheck,
+  .workspace > .workflow-editing {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    width: 100%;
+  }
+
+  .workspace > .workflow-factcheck {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-writing .editor textarea {
+    height: 340px;
+  }
+}
+
+.workflow-factcheck {
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
+  align-items: start !important;
+}
+
+.workflow-factcheck > .facts-panel,
+.workflow-factcheck > .fact-check-panel {
+  min-height: 0 !important;
+  padding: 17px 16px !important;
+}
+
+.workflow-factcheck #facts,
+.workflow-factcheck #fact-check-cards {
+  display: none !important;
+}
+
+.workflow-factcheck > .fact-pairs {
+  grid-column: 1/-1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.fact-pair {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 14px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.fact-combined {
+  min-width: 0;
+  border: 1px solid #51413a;
+  border-radius: 6px;
+  background: #211e1c;
+  padding: 16px;
+}
+
+.fact-combined > .fact {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.fact-combined > .fact-check {
+  margin-top: 14px !important;
+  padding-top: 14px !important;
+  border-top: 1px solid #51413a !important;
+}
+
+.fact-pair > .fact-source-card {
+  margin: 0 !important;
+  padding: 16px !important;
+  min-width: 0;
+}
+
+.fact-source-card .fact-sources {
+  margin-top: 12px;
+}
+
+.fact-source-card .fact-source {
+  padding: 10px 0;
+  border-bottom: 1px solid #403731;
+  overflow-wrap: anywhere;
+}
+
+.fact-source-card .fact-source:last-child {
+  border-bottom: 0;
+}
+
+.fact-pair .fact-id {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.fact-combined .fact-claim p {
+  font-weight: 700;
+  margin: 10px 0 0;
+}
+
+@media (max-width:1150px) {
+  .workflow-factcheck {
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
+  }
+}
+
+@media (max-width:750px) {
+  .workflow-factcheck {
+    grid-template-columns: 1fr !important;
+  }
+
+  .workflow-factcheck > .fact-check-panel {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .workflow-factcheck > .fact-pairs {
+    grid-row: 3;
+  }
+
+  .fact-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
 .workflow-factcheck .panel-head {
-  display:flex !important;
-  flex-flow:row nowrap !important;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
+  flex-flow: row nowrap !important;
   border-bottom: none;
   padding-bottom: 0;
   margin-bottom: 0;
 }
-.workflow-factcheck .panel-head h2 {white-space:nowrap;font-size:12px;letter-spacing:.35px;flex:0 1 auto;}
-.workflow-factcheck .panel-head span {white-space:nowrap;flex:0 0 auto;font-size:10px;}
-.workflow-factcheck > .facts-panel,
-.workflow-factcheck > .fact-check-panel {min-width:0;}
-/* 원고를 첫 번째 행의 상단에 배치하고 화면을 따라 고정 */
-.workspace > .workflow-writing {grid-row:1 / span 2;align-self:start;z-index:2;}
 
-/* 02·03 헤더: 첫 행 제목, 둘째 행 진행 현황 */
-.workflow-factcheck .panel-head {
-  display:flex !important;
-  flex-direction:column !important;
-  flex-wrap:nowrap !important;
-  align-items:flex-start !important;
-  justify-content:flex-start !important;
-  gap:9px !important;
-}
 .workflow-factcheck .panel-head h2 {
-  width:100%;white-space:normal !important;line-height:1.5;
+  font-size: 12px;
+  letter-spacing: .35px;
+  flex: 0 1 auto;
 }
+
 .workflow-factcheck .panel-head span {
-  display:block;width:100%;white-space:normal !important;text-align:left;
+  flex: 0 0 auto;
+  font-size: 10px;
 }
-/* 편집 패널 외부 스크롤 제거, 본문 textarea만 내부 스크롤 */
+
+.workflow-factcheck > .facts-panel,
+
+.workflow-factcheck > .fact-check-panel {
+  min-width: 0;
+}
+
 .workspace > .workflow-writing {
-  overflow:visible !important;
-  max-height:none !important;
-  position:sticky !important;
-  top:14px;
-}
-.workflow-writing .editor {overflow:visible !important;max-height:none !important;}
-.workflow-writing .editor textarea {overflow-y:auto !important;resize:vertical;}
-@media(max-width:750px) {
-  .workspace > .workflow-writing {position:static !important;}
+  align-self: start;
+  z-index: 2;
 }
 
-/* ── 팩트체크 개선: 주장 유형 표시와 검수 보고서 ── */
-.fact-type {display:inline-block;margin-left:8px;padding:1px 7px;border-radius:10px;font-size:11px;border:1px solid #51413a;color:#cdbfb4;}
-.fact-type-interpretation {border-color:#7a6a3c;color:#e0c97f;}
-.fact-type-opinion {border-color:#5c5c5c;color:#a9a9a9;}
-.fact-report h3 {font-size:13px;margin:14px 0 8px;}
-.fact-report .report-overall {font-size:13px;line-height:1.7;margin:0 0 10px;}
-.report-table-wrap {overflow-x:auto;}
-.report-table {width:100%;border-collapse:collapse;font-size:12px;line-height:1.6;}
-.report-table th,.report-table td {border-bottom:1px solid #403731;padding:8px 6px;text-align:left;vertical-align:top;}
-.report-table th {color:#cdbfb4;font-weight:700;white-space:nowrap;}
-.report-verdict {white-space:nowrap;font-weight:700;}
-.report-verdict[data-verdict^="확인"],.report-verdict[data-verdict^="해석"] {color:#9fd0a3;}
-.report-verdict[data-verdict^="사실 불일치"],.report-verdict[data-verdict^="출처 충돌"] {color:#ef8b80;}
-.report-verdict[data-verdict^="평론"] {color:#a9a9a9;}
-.report-verdict[data-verdict^="일부"],.report-verdict[data-verdict^="근거"],.report-verdict[data-verdict^="미검증"] {color:#e0c97f;}
-.report-ids {color:#8f8279;font-size:11px;margin-top:2px;}
-.report-source {margin-top:4px;font-size:11px;}
-.report-source a {color:#df8076;}
+.workflow-factcheck .panel-head {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 9px !important;
+}
 
-/* 검수 보고서 패널: 02·03 헤더 아래, 사실별 카드 위에 전체 폭으로 배치 */
-.workflow-factcheck > .fact-report-panel {grid-column:1/-1;grid-row:2;padding:17px 16px !important;min-width:0;}
-.workflow-factcheck > .fact-report-panel[hidden] {display:none !important;}
-.workflow-factcheck > .fact-pairs {grid-row:3;}
-.fact-report-panel .fact-report h3:first-child {margin-top:0;}
-@media(max-width:750px) {.workflow-factcheck > .fact-report-panel {grid-column:1;grid-row:3;}.workflow-factcheck > .fact-pairs {grid-row:4;}}
+.workflow-factcheck .panel-head h2 {
+  width: 100%;
+  white-space: normal !important;
+  line-height: 1.5;
+}
 
+.workflow-factcheck .panel-head span {
+  display: block;
+  width: 100%;
+  white-space: normal !important;
+  text-align: left;
+}
 
-/* 보고서 → 열 제목 → 사실별 항목 순서 */
-.workflow-factcheck > .fact-report-panel {grid-row:1 !important;}
-.workflow-factcheck > .facts-panel {grid-row:2 !important;grid-column:1;}
-.workflow-factcheck > .fact-check-panel {grid-row:2 !important;grid-column:2;}
-.workflow-factcheck > .fact-pairs {grid-row:3 !important;}
-.fact-report summary {cursor:pointer;font-weight:700;padding:4px 0 12px;}
+.workspace > .workflow-writing {
+  overflow: visible !important;
+  max-height: none !important;
+  position: sticky !important;
+  top: 14px;
+}
+
+.workflow-writing .editor {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+.workflow-writing .editor textarea {
+  overflow-y: auto !important;
+  resize: vertical;
+}
+
+@media (max-width:750px) {
+  .workspace > .workflow-writing {
+    position: static !important;
+  }
+}
+
+.fact-type {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  border: 1px solid #51413a;
+  color: #cdbfb4;
+}
+
+.fact-type-interpretation {
+  border-color: #7a6a3c;
+  color: #e0c97f;
+}
+
+.fact-type-opinion {
+  border-color: #5c5c5c;
+  color: #a9a9a9;
+}
+
+.fact-report h3 {
+  font-size: 13px;
+  margin: 14px 0 8px;
+}
+
+.fact-report .report-overall {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0 0 10px;
+}
+
+.report-table-wrap {
+  overflow-x: auto;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.report-table th,
+.report-table td {
+  border-bottom: 1px solid #403731;
+  padding: 8px 6px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-table th {
+  color: #cdbfb4;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.report-verdict {
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+.report-verdict[data-verdict^="확인"],
+.report-verdict[data-verdict^="해석"] {
+  color: #9fd0a3;
+}
+
+.report-verdict[data-verdict^="사실 불일치"],
+.report-verdict[data-verdict^="출처 충돌"] {
+  color: #ef8b80;
+}
+
+.report-verdict[data-verdict^="평론"] {
+  color: #a9a9a9;
+}
+
+.report-verdict[data-verdict^="일부"],
+.report-verdict[data-verdict^="근거"],
+.report-verdict[data-verdict^="미검증"] {
+  color: #e0c97f;
+}
+
+.report-ids {
+  color: #8f8279;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.report-source {
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+.report-source a {
+  color: #df8076;
+}
+
+.workflow-factcheck > .fact-report-panel {
+  grid-column: 1/-1;
+  padding: 17px 16px !important;
+  min-width: 0;
+}
+
+.workflow-factcheck > .fact-report-panel[hidden] {
+  display: none !important;
+}
+
+.fact-report-panel .fact-report h3:first-child {
+  margin-top: 0;
+}
+
+@media (max-width:750px) {
+  .workflow-factcheck > .fact-report-panel {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .workflow-factcheck > .fact-pairs {
+    grid-row: 4;
+  }
+}
+
+.workflow-factcheck > .fact-report-panel {
+  grid-row: 1 !important;
+}
+
+.workflow-factcheck > .facts-panel {
+  grid-row: 2 !important;
+  grid-column: 1;
+}
+
+.workflow-factcheck > .fact-check-panel {
+  grid-row: 2 !important;
+  grid-column: 2;
+}
+
+.workflow-factcheck > .fact-pairs {
+  grid-row: 3 !important;
+}
+
+.fact-report summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 4px 0 12px;
+}
+
 .fact-pairs.facts-collapsed .fact-combined,
-.fact-pairs.sources-collapsed .fact-source-card {display:none !important;}
-.fact-pairs.facts-collapsed .fact-pair {grid-template-columns:1fr;}
-.fact-pairs.sources-collapsed .fact-pair {grid-template-columns:1fr;}
-.fact-pairs.facts-collapsed.sources-collapsed {display:none !important;}
-#preview-frame {display:block;width:100%;height:85vh;border:0;background:#171412;}
-.section-toggle {font-size:11px;padding:5px 10px;}
-@media(max-width:750px) {
-  .workflow-factcheck > .fact-check-panel {grid-column:1;grid-row:3 !important;}
-  .workflow-factcheck > .fact-pairs {grid-row:4 !important;}
+
+.fact-pairs.sources-collapsed .fact-source-card {
+  display: none !important;
 }
 
-/* 검수보고서와 항목 표시 단추 */
-.report-toggle-head {display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-.fact-report .report-toggle-head h3 {margin:0;}
-.report-content[hidden], .workflow-factcheck > .fact-pairs[hidden] {display:none !important;}
+.fact-pairs.facts-collapsed .fact-pair {
+  grid-template-columns: 1fr;
+}
 
-/* 접힘 높이를 실제 콘텐츠에 맞추고 오른쪽 검토 패널을 연속 배치 */
-.workspace > .workflow-writing {grid-row:1 !important;}
-.workflow-review-column {grid-column:2 / 4;grid-row:1;display:flex;flex-direction:column;gap:14px;min-width:0;align-self:start;}
-.workflow-review-column > .workflow-factcheck {display:grid;gap:14px;align-content:start;min-width:0;}
-.workflow-review-column > .workflow-editing {min-width:0;}
-.workflow-factcheck > .fact-report-panel {min-height:0 !important;height:auto;}
-.report-toggle-head {margin-bottom:0;}
-.report-content:not([hidden]) {margin-top:12px;}
-/* 문서가 짧아지거나 스크롤바가 사라져도 배경 기준은 화면으로 고정 */
-html {scrollbar-gutter:stable;}
-body {min-height:100vh;background-attachment:fixed;background-size:100vw 100vh;background-repeat:no-repeat;}
-@media(max-width:1150px) {.workflow-review-column {grid-column:2;}}
-@media(max-width:750px) {.workflow-review-column {width:100%;}}
+.fact-pairs.sources-collapsed .fact-pair {
+  grid-template-columns: 1fr;
+}
 
-/* 기사 전체를 외부 페이지 스크롤로 표시 */
-#preview-frame {height:1px;min-height:0;overflow:hidden;}
+.fact-pairs.facts-collapsed.sources-collapsed {
+  display: none !important;
+}
+
+#preview-frame {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: #171412;
+}
+
+.section-toggle {
+  font-size: 11px;
+  padding: 5px 10px;
+}
+
+@media (max-width:750px) {
+  .workflow-factcheck > .fact-check-panel {
+    grid-column: 1;
+    grid-row: 3 !important;
+  }
+
+  .workflow-factcheck > .fact-pairs {
+    grid-row: 4 !important;
+  }
+}
+
+.report-toggle-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fact-report .report-toggle-head h3 {
+  margin: 0;
+}
+
+.report-content[hidden],
+ .workflow-factcheck > .fact-pairs[hidden] {
+  display: none !important;
+}
+
+.workspace > .workflow-writing {
+  grid-row: 1 !important;
+}
+
+.workflow-review-column {
+  grid-column: 2 / 4;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  align-self: start;
+}
+
+.workflow-review-column > .workflow-factcheck {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  min-width: 0;
+}
+
+.workflow-review-column > .workflow-editing {
+  min-width: 0;
+}
+
+.workflow-factcheck > .fact-report-panel {
+  min-height: 0 !important;
+  height: auto;
+}
+
+.report-toggle-head {
+  margin-bottom: 0;
+}
+
+.report-content:not([hidden]) {
+  margin-top: 12px;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
+}
+
+@media (max-width:1150px) {
+  .workflow-review-column {
+    grid-column: 2;
+  }
+}
+
+@media (max-width:750px) {
+  .workflow-review-column {
+    width: 100%;
+  }
+}
+
+#preview-frame {
+  height: 1px;
+  min-height: 0;
+  overflow: hidden;
+}
