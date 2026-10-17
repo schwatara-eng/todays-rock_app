@@ -9,6 +9,31 @@
 // 1. 화면 요소와 현재 저장된 기사 버전
 // ─────────────────────────────────────────────────────────────
 const $ = (id) => document.getElementById(id);
+// 검수 상태 및 분류명 한글 표시
+const reviewLabels = {
+  VERIFIED: '검증 완료',
+  CONTRADICTED: '사실 불일치',
+  INSUFFICIENT: '근거 부족',
+  NOT_CHECKED: '미검증',
+  'NOT CHECKED': '미검증',
+
+  readability: '가독성',
+  structure: '구성',
+  style: '문체·표현',
+  repetition: '반복·중복',
+
+  unsupported: '근거 없음',
+  misleading: '오해 소지',
+  needs_review: '추가 검토 필요',
+
+  title: '제목',
+  body: '본문'
+};
+
+function koreanLabel(value) {
+  if (typeof value !== 'string') return value ?? '';
+  return reviewLabels[value] || reviewLabels[value.toUpperCase()] || value;
+}
 let lastSaved = { title: '', body: '' };
 let lastState = null;
 
@@ -40,11 +65,11 @@ function renderFacts(sheet) {
   root.replaceChildren();
   const facts = sheet?.facts || [];
   const verified = facts.filter((fact) => fact.verificationStatus === 'VERIFIED');
-  $('fact-count').textContent = `${verified.length}/${facts.length} VERIFIED${sheet?.truncated ? ' · 일부만 조사' : ''}`;
+  $('fact-count').textContent = `${verified.length}/${facts.length} 검증 완료${sheet?.truncated ? ' · 일부만 조사' : ''}`;
 
   for (const fact of facts) {
     const card = element('div', '', 'fact');
-    card.append(element('div', `${fact.id} · ${fact.verificationStatus}`, 'fact-id'));
+    card.append(element('div', `${fact.id} · ${koreanLabel(fact.verificationStatus)}`, 'fact-id'));
     card.append(element('p', fact.claim || '내용 없음'));
     if (fact.evidence) card.append(element('p', `근거 원문: ${fact.evidence}`, 'evidence'));
     if (fact.reason) card.append(element('p', `검수 의견: ${fact.reason}`, 'fact-reason'));
@@ -67,13 +92,13 @@ function renderIssues(targetId, countId, review, kind) {
   root.replaceChildren();
 
   if (!review) {
-    $(countId).textContent = 'NOT CHECKED';
+    $(countId).textContent = '미검토';
     root.append(element('p', '현재 저장된 기사에 대한 검토 결과가 없습니다.'));
     return;
   }
 
   const issues = Array.isArray(review.issues) ? review.issues : [];
-  $(countId).textContent = `${issues.length} ISSUES`;
+  $(countId).textContent = `문제 ${issues.length}건`;
 
   if (issues.length === 0) {
     root.append(element('p', 'AI가 지적한 문제가 없습니다. 편집자 확인은 별도로 필요합니다.', 'ok'));
@@ -81,7 +106,10 @@ function renderIssues(targetId, countId, review, kind) {
 
   for (const issue of issues) {
     const card = element('div', '', 'issue');
-    card.append(element('strong', `${issue.field} · ${issue.verdict || issue.category || kind}`));
+    card.append(element(
+  'strong',
+  `${koreanLabel(issue.field)} · ${koreanLabel(issue.verdict || issue.category || kind)}`
+));
     if (issue.text) card.append(element('p', issue.text));
     card.append(element('p', `사유: ${issue.reason}`));
     card.append(element('p', `수정 제안: ${issue.suggestion}`));

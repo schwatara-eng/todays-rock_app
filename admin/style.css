@@ -329,7 +329,7 @@ button:disabled {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior: auto;
   padding-right: 8px;
   scrollbar-width: thin;
   scrollbar-color: #66514a transparent;
@@ -503,3 +503,99 @@ button:disabled {
 /* 출처의 실제 본문과 검수 사유를 Fact Sheet에서 구분해 표시합니다. */
 .fact .evidence { color: #b3c7b4; font-size: 12px; line-height: 1.65; }
 .fact .fact-reason { color: #d4b5a2; font-size: 12px; line-height: 1.65; }
+
+/* 편집실: 왼쪽 고정 편집창 + 오른쪽 검수 결과 */
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+/* 기존 열 묶음을 풀고 각 패널을 그리드에 배치 */
+.work-column,
+.facts-column {
+  display: contents;
+}
+
+/* 01. 왼쪽 원고 편집창 */
+.work-column > .editor {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  position: sticky;
+  top: 16px;
+  align-self: start;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* 원고 입력창 자체도 스크롤 가능 */
+.work-column .editor textarea {
+  height: 42vh;
+  min-height: 220px;
+  max-height: 55vh;
+  resize: vertical;
+}
+
+/* 02. 오른쪽 팩트시트 */
+.facts-column {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.facts-panel {
+  position: static;
+  inset: auto;
+  max-height: 65vh;
+  min-height: 300px;
+}
+
+/* 03. 오른쪽 사실 검수 */
+.work-column > section:nth-child(2) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* 04. 오른쪽 편집 검토 */
+.work-column > section:nth-child(3) {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+/* 모바일에서는 고정 해제 */
+@media (max-width: 900px) {
+  .workspace {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-column,
+  .facts-column {
+    display: contents;
+  }
+
+  .work-column > .editor {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    order: 1;
+  }
+
+  .facts-column {
+    order: 2;
+  }
+
+  .work-column > section:nth-child(2) {
+    order: 3;
+  }
+
+  .work-column > section:nth-child(3) {
+    order: 4;
+  }
+
+  .workspace > * {
+    width: 100%;
+  }
+}
