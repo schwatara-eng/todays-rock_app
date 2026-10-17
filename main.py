@@ -10,25 +10,13 @@ from pathlib import Path
 import pymysql
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, RedirectResponse
 
 load_dotenv(Path(__file__).parent / ".env")
 
 app = FastAPI(title="TODAY'S ROCK API")
 from editor_bridge import router as editor_router
 app.include_router(editor_router)
-
-# Live Server에서 FastAPI로 요청할 수 있게 허용
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://127.0.0.1:5500",
-        "http://localhost:5500",
-    ],
-    allow_methods=["GET"],
-    allow_headers=["*"],
-)
-
 
 @app.get("/api/songs")
 def get_songs():
@@ -159,3 +147,61 @@ async def get_news():
             logging.warning("Google 번역 API 키가 없습니다.")
 
         return articles
+
+
+# 홈페이지·공개 자산만 제공한다. 프로젝트 전체를 정적 폴더로 노출하지 않는다.
+ROOT = Path(__file__).resolve().parent
+
+
+def public_file(asset: str):
+    path = (ROOT / asset).resolve()
+    if not path.is_relative_to(ROOT) or not path.is_file():
+        raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
+    return FileResponse(path, headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"})
+
+
+@app.get("/", include_in_schema=False)
+@app.get("/index.html", include_in_schema=False)
+def homepage():
+    return public_file("index.html")
+
+
+@app.get("/style.css", include_in_schema=False)
+def homepage_css():
+    return public_file("style.css")
+
+
+@app.get("/script.js", include_in_schema=False)
+def homepage_js():
+    return public_file("script.js")
+
+
+@app.get("/artist-jack-white.html", include_in_schema=False)
+def musician_article():
+    return public_file("artist-jack-white.html")
+
+
+@app.get("/images/{asset:path}", include_in_schema=False)
+def image_asset(asset: str):
+    if any(part.startswith(".") for part in Path(asset).parts) or Path(asset).suffix.lower() not in {".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".ico", ".mp4", ".webm"}:
+        raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
+    path = (ROOT / "images" / asset).resolve()
+    if not path.is_relative_to(ROOT / "images"):
+        raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
+    return public_file("images/" + asset)
+
+
+@app.get("/fonts/{asset:path}", include_in_schema=False)
+def font_asset(asset: str):
+    if any(part.startswith(".") for part in Path(asset).parts) or Path(asset).suffix.lower() not in {".woff", ".woff2", ".otf", ".ttf"}:
+        raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
+    path = (ROOT / "fonts" / asset).resolve()
+    if not path.is_relative_to(ROOT / "fonts"):
+        raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
+    return public_file("fonts/" + asset)
+
+
+@app.get("/admin/", include_in_schema=False)
+@app.get("/admin/index.html", include_in_schema=False)
+def legacy_editor():
+    return RedirectResponse("/editor/")

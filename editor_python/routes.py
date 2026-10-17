@@ -177,15 +177,6 @@ async def editor_asset(asset:str,request:Request):
     if asset not in ('app.js','style.css','fonts/Galmuri9.woff2'):return reply({'error':'파일 없음'},404)
     return await static(request,ROOT/'fonts/Galmuri9.woff2' if asset.startswith('fonts/') else ROOT/'admin'/asset)
 
-@router.get('/app.js',include_in_schema=False)
-async def admin_js(request:Request):return await static(request,ROOT/'admin/app.js')
-
-@router.get('/style.css',include_in_schema=False)
-async def admin_css(request:Request):return await static(request,ROOT/'admin/style.css')
-
-@router.get('/fonts/Galmuri9.woff2',include_in_schema=False)
-async def font(request:Request):return await static(request,ROOT/'fonts/Galmuri9.woff2')
-
 @router.get('/site/{asset:path}')
 async def preview(asset:str,request:Request):
     allowed=asset in ('index.html','artist-jack-white.html','style.css') or re.fullmatch(r"(images|fonts)/[\w가-힣 .'-]+\.(png|jpe?g|webp|woff2?|otf)",asset,re.I)
@@ -193,3 +184,4 @@ async def preview(asset:str,request:Request):
     path=(ROOT/asset).resolve()
     if not path.is_relative_to(ROOT.resolve()):return reply({'error':'파일 없음'},404)
     return await static(request,path)
+

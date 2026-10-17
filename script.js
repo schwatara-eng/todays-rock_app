@@ -22,7 +22,7 @@ const resultSection = document.querySelector("#result-section");
 
 async function loadSongs() {
   try {
-    const response = await fetch("http://localhost:8000/api/songs");
+    const response = await fetch("/api/songs");
     if (!response.ok) throw new Error("곡 데이터를 불러오지 못했습니다.");
 
     songs = await response.json();
@@ -352,7 +352,7 @@ async function loadNews() {
 
   try {
     // 우리가 만든 Node.js API에 GET 요청을 보낸다.
-    const response = await fetch("http://localhost:8000/api/news");
+    const response = await fetch("/api/news");
 
     // 서버에서 오류 응답이 왔다면 catch로 이동한다.
     if (!response.ok) {
@@ -462,3 +462,4 @@ artistArchive.forEach((artist, index) => {
 });
 archiveBar.hidden = artistArchive.length === 0;
 returnButton.hidden = true;
+
