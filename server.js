@@ -1,3 +1,20 @@
+require("dotenv").config({
+  path: require("path").join(__dirname, ".env")
+});
+
+const mysql = require("mysql2/promise");
+
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT || 3306),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  charset: "utf8mb4",
+  waitForConnections: true,
+  connectionLimit: 5
+});
+
 const http = require("http");
 // NME가 보내주는 RSS(XML)를
 // JavaScript 객체로 변환하기 위해 사용하는 라이브러리
@@ -6,7 +23,64 @@ const { XMLParser } = require("fast-xml-parser");
 const PORT = 3000;
 
 const server = http.createServer(async (req, res) => {
+    if (req.url === "/api/songs") {
+    try {
+      const [rows] = await pool.query(
+        "SELECT * FROM v_songs ORDER BY id"
+      );
 
+      // DB의 태그 문자열을 웹앱에서 사용하는 배열로 변환
+      const songs = rows.map(({ lyrics_url, ...song }) => ({
+        ...song,
+        moods: song.moods ? song.moods.split(",") : [],
+        weathers: song.weathers ? song.weathers.split(",") : [],
+        lyricsUrl: lyrics_url
+      }));
+
+      res.writeHead(200, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*"
+      });
+      res.end(JSON.stringify(songs));
+    } catch (error) {
+      console.error("곡 조회 실패:", error.code);
+
+      res.writeHead(500, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*"
+      });
+      res.end(JSON.stringify({
+        error: "MySQL에서 곡을 가져오지 못했습니다."
+      }));
+    }
+    return;
+  }
+
+    // 기존 뉴스·번역 기능을 로컬 서버에서 실행
+  if (req.url === "/api/news") {
+    const newsHandler = require("./api/news");
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    // news.js가 사용하는 응답 방식을 Node 서버에 연결
+    res.status = function (code) {
+      this.statusCode = code;
+      return this;
+    };
+
+    res.json = function (data) {
+      this.setHeader(
+        "Content-Type",
+        "application/json; charset=utf-8"
+      );
+      this.end(JSON.stringify(data));
+      return this;
+    };
+
+    await newsHandler(req, res);
+    return;
+  }
+  
   // 우리가 만들 API 주소
   if (req.url === "/api/news") {
 
