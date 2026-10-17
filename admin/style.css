@@ -494,3 +494,22 @@ main {max-width:none;width:100%;padding:28px 2vw 48px;}
 @media(max-width:750px) {
   .workspace > .workflow-writing {position:static !important;}
 }
+
+/* ── 팩트체크 개선: 주장 유형 표시와 검수 보고서 ── */
+.fact-type {display:inline-block;margin-left:8px;padding:1px 7px;border-radius:10px;font-size:11px;border:1px solid #51413a;color:#cdbfb4;}
+.fact-type-interpretation {border-color:#7a6a3c;color:#e0c97f;}
+.fact-type-opinion {border-color:#5c5c5c;color:#a9a9a9;}
+.fact-report h3 {font-size:13px;margin:14px 0 8px;}
+.fact-report .report-overall {font-size:13px;line-height:1.7;margin:0 0 10px;}
+.report-table-wrap {overflow-x:auto;}
+.report-table {width:100%;border-collapse:collapse;font-size:12px;line-height:1.6;}
+.report-table th,.report-table td {border-bottom:1px solid #403731;padding:8px 6px;text-align:left;vertical-align:top;}
+.report-table th {color:#cdbfb4;font-weight:700;white-space:nowrap;}
+.report-verdict {white-space:nowrap;font-weight:700;}
+.report-verdict[data-verdict^="확인"],.report-verdict[data-verdict^="해석"] {color:#9fd0a3;}
+.report-verdict[data-verdict^="사실 불일치"],.report-verdict[data-verdict^="출처 충돌"] {color:#ef8b80;}
+.report-verdict[data-verdict^="평론"] {color:#a9a9a9;}
+.report-verdict[data-verdict^="일부"],.report-verdict[data-verdict^="근거"],.report-verdict[data-verdict^="미검증"] {color:#e0c97f;}
+.report-ids {color:#8f8279;font-size:11px;margin-top:2px;}
+.report-source {margin-top:4px;font-size:11px;}
+.report-source a {color:#df8076;}

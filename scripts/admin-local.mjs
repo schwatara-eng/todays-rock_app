@@ -156,7 +156,9 @@ async function getState() {
 
   const hash = article && validArticle(article) ? fingerprint(article) : null;
   const researchCurrent = Boolean(hash && factSheet?.articleHash === hash);
-  const allVerified = Boolean(researchCurrent && !factSheet.truncated && factSheet.facts.length && factSheet.facts.every(f => f.verificationStatus === 'VERIFIED'));
+  // 평론적 표현(OPINION)은 사실 검증 대상이 아니므로 승인 조건에서 '해결됨'으로 봅니다.
+  const allVerified = Boolean(researchCurrent && !factSheet.truncated && factSheet.facts.length &&
+    factSheet.facts.every(f => f.verificationStatus === 'VERIFIED' || f.verificationStatus === 'OPINION'));
   const factCurrent = Boolean(allVerified && factReview?.articleHash === hash && factReview?.researchHash === factSheet.articleHash);
   const editorialCurrent = Boolean(hash && editorialReview?.articleHash === hash);
   const approved = Boolean(factCurrent && editorialCurrent && hash && approval?.articleHash === hash && approval?.status === 'approved');
@@ -176,6 +178,15 @@ async function getState() {
       status: approved ? 'approved' : 'draft',
       published: false
     }
+  };
+}
+
+// 이전 형식의 팩트시트에도 type·group·keywords가 없을 수 있으므로 기본값을 채워 API로 보냅니다.
+function claimPayload(fact) {
+  return {
+    claim: fact.claim, field: fact.field, excerpt: fact.excerpt,
+    type: fact.type || 'fact', group: fact.group || null,
+    keywords: Array.isArray(fact.keywords) ? fact.keywords : []
   };
 }
 
@@ -299,16 +310,24 @@ const server = http.createServer(async (req, res) => {
         if (!extracted.claims?.length) return send(res, 422, { error: '검증할 사실 주장을 찾지 못했습니다.' });
         sheet = {
           artist: { name: '기사 기반 자료' }, articleHash,
-          facts: extracted.claims.map((claim, i) => ({
-            id: `F${String(i + 1).padStart(3, '0')}`,
-            claim: claim.claim, field: claim.field, excerpt: claim.excerpt,
-            verificationStatus: 'NOT CHECKED', source: null, sources: [], evidence: '',
-            reason: '아직 조사하지 않았습니다.', suggestion: '', checkedAt: null,
-            failureType: 'PENDING'
-          })),
+          facts: extracted.claims.map((claim, i) => {
+            const base = {
+              id: `F${String(i + 1).padStart(3, '0')}`,
+              claim: claim.claim, field: claim.field, excerpt: claim.excerpt,
+              type: claim.type || 'fact', group: claim.group || null,
+              keywords: Array.isArray(claim.keywords) ? claim.keywords : [],
+              source: null, sources: [], evidence: '', suggestion: ''
+            };
+            // 평론적 표현은 웹 검색 없이 바로 표시합니다. (API 호출 없음)
+            return base.type === 'opinion'
+              ? { ...base, verificationStatus: 'OPINION', failureType: null, checkedAt: new Date().toISOString(),
+                  reason: '평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.' }
+              : { ...base, verificationStatus: 'NOT CHECKED', failureType: 'PENDING', checkedAt: null,
+                  reason: '아직 조사하지 않았습니다.' };
+          }),
           truncated: Boolean(extracted.truncated),
           generatedAt: new Date().toISOString(),
-          note: '단계별 조사 중. 검증 버튼을 다시 누르면 다음 항목 1개를 조사합니다.'
+          note: '단계별 조사 중. 같은 대상을 다루는 주장끼리 묶어 출처 검색 1회로 함께 조사합니다.'
         };
         await saveJson(paths.researchedFacts, sheet);
         await invalidateApproval();
@@ -318,13 +337,28 @@ const server = http.createServer(async (req, res) => {
       if (index < 0) {
         return send(res, 200, await getState());
       }
-      const pending = sheet.facts[index];
+      // 첫 미조사 항목과 같은 그룹의 미조사 항목을 함께 조사합니다. (그룹 정보가 없으면 1개씩)
+      const first = sheet.facts[index];
+      const batch = sheet.facts
+        .filter(f => f.failureType === 'PENDING' && (f === first || (first.group && f.group === first.group)))
+        .slice(0, 8);
       const result = await requireApi('artist-fact-research', {
         article: normalize(saved),
-        claim: { claim: pending.claim, field: pending.field, excerpt: pending.excerpt },
-        factId: pending.id
+        claims: batch.map(claimPayload),
+        factIds: batch.map(f => f.id)
       });
-      sheet.facts[index] = result.factSheet.facts[0];
+      for (const fact of result.factSheet.facts || []) {
+        const at = sheet.facts.findIndex(f => f.id === fact.id);
+        if (at >= 0) sheet.facts[at] = fact;
+      }
+      // 응답에서 빠진 항목이 있으면 무한 반복을 막기 위해 검색 실패로 표시합니다.
+      for (const fact of batch) {
+        const at = sheet.facts.findIndex(f => f.id === fact.id);
+        if (sheet.facts[at].failureType === 'PENDING') {
+          sheet.facts[at] = { ...sheet.facts[at], failureType: 'SEARCH_FAILED', checkedAt: new Date().toISOString(),
+            reason: '조사 응답에서 이 항목의 결과가 누락되었습니다. 재검색해 주세요.' };
+        }
+      }
       sheet.generatedAt = new Date().toISOString();
       await saveJson(paths.researchedFacts, sheet);
       await invalidateApproval();
@@ -348,13 +382,66 @@ const server = http.createServer(async (req, res) => {
       const index = sheet.facts.findIndex(f => f.id === data.factId);
       if (index < 0) return send(res, 404, { error: '검증 항목을 찾지 못했습니다.' });
       const oldFact = sheet.facts[index];
+      const previousSources = Array.isArray(oldFact.sources)
+  ? oldFact.sources
+  : [];
+
+const previousAttempts = Array.isArray(oldFact.attempts)
+  ? oldFact.attempts
+  : [];
+
+const excludedUrls = [
+  ...new Set([
+    ...previousSources.map(source => source.url),
+    ...previousAttempts.flatMap(attempt =>
+      (attempt.sources || []).map(source => source.url)
+    )
+  ].filter(Boolean))
+];
       if (oldFact.failureType === 'PENDING') return send(res, 409, { error: '미조사 항목은 기본 검증을 먼저 실행하세요.' });
+      if (oldFact.verificationStatus === 'OPINION') return send(res, 409, { error: '평론적 표현은 출처 재검색 대상이 아닙니다.' });
       const result = await requireApi('artist-fact-research', {
         article: normalize(saved),
-        claim: { claim: oldFact.claim, field: oldFact.field, excerpt: oldFact.excerpt },
-        factId: oldFact.id
+        claim: claimPayload(oldFact),
+        factId: oldFact.id,
+        excludeUrls: excludedUrls
       });
-      sheet.facts[index] = result.factSheet.facts[0];
+      const newFact = result.factSheet.facts[0];
+
+const mergedSources = [
+  ...previousSources,
+  ...(newFact.sources || []).filter(source =>
+    !previousSources.some(old => old.url === source.url)
+  )
+];
+
+const attempts = [
+  ...previousAttempts,
+  {
+    checkedAt: oldFact.checkedAt,
+    verificationStatus: oldFact.verificationStatus,
+    failureType: oldFact.failureType,
+    reason: oldFact.reason,
+    sources: previousSources
+  }
+];
+
+sheet.facts[index] = {
+  ...newFact,
+  sources: mergedSources,
+  attempts,
+  ...(oldFact.verificationStatus === 'VERIFIED' &&
+      newFact.verificationStatus !== 'VERIFIED'
+    ? {
+        verificationStatus: oldFact.verificationStatus,
+        source: oldFact.source,
+        evidence: oldFact.evidence,
+        reason: oldFact.reason,
+        suggestion: oldFact.suggestion,
+        failureType: oldFact.failureType
+      }
+    : {})
+};
       sheet.generatedAt = new Date().toISOString();
       await saveJson(paths.researchedFacts, sheet);
       const reviewResult = await requireApi('artist-review', { article: saved, factSheet: sheet });

@@ -24,6 +24,13 @@ const reviewLabels = {
   EVIDENCE_INSUFFICIENT: '직접 근거 부족',
   CONFLICTING_EVIDENCE: '출처 간 근거 충돌',
   'NOT CHECKED': '미검증',
+  OPINION: '평론적 표현',
+  SOURCE_CONTRADICTS: '출처와 불일치',
+  VERIFY_FAILED: '판정 오류',
+
+  fact: '사실',
+  interpretation: '해석·평가',
+  opinion: '평론',
 
   readability: '가독성',
   structure: '구성',
@@ -77,8 +84,10 @@ function renderFacts(sheet) {
   rows.replaceChildren();
   const facts = sheet?.facts || [];
   const verified = facts.filter(f => f.verificationStatus === 'VERIFIED');
+  const opinions = facts.filter(f => f.verificationStatus === 'OPINION');
   const pending = facts.filter(f => f.failureType === 'PENDING');
-  $('fact-count').textContent = sheet ? `${facts.length - pending.length}/${facts.length}개 조사 · ${verified.length}개 검증 완료${sheet.truncated ? ' · 일부만 추출' : ''}` : '조사 전';
+  $('fact-count').textContent = sheet ? `${facts.length - pending.length}/${facts.length}개 조사 · ${verified.length}개 검증 완료${opinions.length ? ` · 평론 ${opinions.length}개` : ''}${sheet.truncated ? ' · 일부만 추출' : ''}` : '조사 전';
+  renderReport(root, lastState?.review?.report, facts);
   $('fact-check-count').textContent = sheet ? `${facts.length}개 항목` : '조사 전';
   const issues = Array.isArray(lastState?.review?.issues) ? lastState.review.issues : [];
   for (const fact of facts) {
@@ -97,8 +106,10 @@ function renderFacts(sheet) {
     });
     card.append(
     select,
+    element('span', koreanLabel(fact.type || 'fact'), `fact-type fact-type-${fact.type || 'fact'}`),
     element('p', fact.claim ? `“${fact.claim}”` : '내용 없음')
     );
+    if (fact.excerpt && fact.excerpt !== fact.claim) card.append(element('p', `원고: ${fact.excerpt}`, 'fact-reason'));
 
     const result = element('div', '', 'fact fact-check');
     result.id = `check-${id}`;
@@ -110,7 +121,7 @@ function renderFacts(sheet) {
     if (fact.verificationStatus !== 'VERIFIED' && !fact.reason && !fact.evidence) {
       result.append(element('p', fact.failureType === 'PENDING' ? '아직 검증을 진행하지 않았습니다.' : '직접 확인된 근거가 없어 검증을 완료하지 못했습니다.', 'fact-reason'));
     }
-    if (fact.failureType !== 'PENDING' && fact.verificationStatus !== 'VERIFIED') {
+    if (fact.failureType !== 'PENDING' && fact.verificationStatus !== 'VERIFIED' && fact.verificationStatus !== 'OPINION') {
       const retry = document.createElement('button');
       retry.type = 'button'; retry.textContent = '이 항목 출처 재검색'; retry.className = 'fact-retry';
       retry.addEventListener('click', () => run(async () => {
@@ -172,6 +183,60 @@ function renderFacts(sheet) {
   // ID 미연결 의견은 별도 화면 카드로 중복 출력하지 않습니다.
   // 원본 검수 기록(lastState.review)은 변경하거나 삭제하지 않습니다.
   // 누락된 새로운 주장 여부는 향후 서버 factId 연결 단계에서 처리합니다.
+}
+
+// 편집자용 검수 보고서: 원고 주장 / 판정 / 근거 및 판단 표 + 전체 의견 + 수정 제안
+// 판정 라벨은 서버가 팩트시트 상태로 정한 값이며, AI가 쓴 것은 설명 문장뿐입니다.
+function renderReport(root, report, facts) {
+  if (!facts.length) return;
+  const box = element('div', '', 'fact-report');
+  if (!report) {
+    const pending = facts.some(f => f.failureType === 'PENDING');
+    box.append(element('p', pending ? '모든 항목을 조사하면 검수 보고서가 만들어집니다.' : '검수 보고서가 아직 없습니다. 재검수를 실행하면 만들어집니다.', 'fact-reason'));
+    root.append(box);
+    return;
+  }
+  box.append(element('h3', '검수 보고서'));
+  if (report.overall) box.append(element('p', report.overall, 'report-overall'));
+  const wrap = element('div', '', 'report-table-wrap');
+  const table = document.createElement('table');
+  table.className = 'report-table';
+  const head = document.createElement('tr');
+  ['원고의 주장', '판정', '근거 및 판단'].forEach(t => head.append(element('th', t)));
+  table.append(head);
+  for (const row of report.rows || []) {
+    const tr = document.createElement('tr');
+    const claimCell = element('td', row.text);
+    claimCell.append(element('div', (row.factIds || []).join(', '), 'report-ids'));
+    const verdict = element('td', row.verdict, 'report-verdict');
+    verdict.dataset.verdict = row.verdict;
+    const note = element('td', row.note);
+    for (const source of row.sources || []) {
+      try {
+        const url = new URL(source.url);
+        if (url.protocol !== 'https:') continue;
+        const link = document.createElement('a');
+        link.href = url.href; link.target = '_blank'; link.rel = 'noopener noreferrer';
+        link.textContent = `${source.publisher || url.hostname} ↗`;
+        const line = element('div', '', 'report-source'); line.append(link); note.append(line);
+      } catch { /* 잘못된 주소는 표시하지 않음 */ }
+    }
+    tr.append(claimCell, verdict, note);
+    table.append(tr);
+  }
+  wrap.append(table);
+  box.append(wrap);
+  const corrections = report.corrections || [];
+  box.append(element('h3', corrections.length ? `수정 제안 ${corrections.length}건` : '수정 제안 없음'));
+  for (const item of corrections) {
+    const card = element('div', '', 'issue');
+    card.append(element('strong', `${koreanLabel(item.field)} · ${(item.factIds || []).join(', ')}`));
+    card.append(element('p', `원문: ${item.text}`));
+    card.append(element('p', `사유: ${item.problem}`));
+    card.append(element('p', `수정 제안: ${item.suggestion}`));
+    box.append(card);
+  }
+  root.append(box);
 }
 
 function appendReviewIssue(root, issue, existing = []) {
