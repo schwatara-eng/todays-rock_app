@@ -51,6 +51,7 @@ function koreanLabel(value) {
 }
 let lastSaved = { title: '', body: '' };
 let lastState = null;
+let reportExpanded = true;
 
 function message(text) {
   $('status').textContent = text;
@@ -192,14 +193,30 @@ function renderReport(root, report, facts) {
   root.hidden = !facts.length;
   if (!facts.length) return;
   const box = element('div', '', 'fact-report');
+  const reportHead = element('div', '', 'report-toggle-head');
+  const heading = element('h3', '검수 보고서');
+  const toggle = element('button', reportExpanded ? '접기' : '펼치기', 'section-toggle');
+  toggle.type = 'button';
+  toggle.setAttribute('aria-expanded', String(reportExpanded));
+  toggle.setAttribute('aria-controls', 'report-content');
+  const content = element('div', '', 'report-content');
+  content.id = 'report-content'; content.hidden = !reportExpanded;
+  toggle.addEventListener('click', () => {
+    reportExpanded = !reportExpanded;
+    content.hidden = !reportExpanded;
+    toggle.textContent = reportExpanded ? '접기' : '펼치기';
+    toggle.setAttribute('aria-expanded', String(reportExpanded));
+  });
+  reportHead.append(heading, toggle);
+  box.append(reportHead, content);
   if (!report) {
     const pending = facts.some(f => f.failureType === 'PENDING');
-    box.append(element('p', pending ? '모든 항목을 조사하면 검수 보고서가 만들어집니다.' : '검수 보고서가 아직 없습니다. 재검수를 실행하면 만들어집니다.', 'fact-reason'));
+    content.append(element('p', pending ? '모든 항목을 조사하면 검수 보고서가 만들어집니다.' : '검수 보고서가 아직 없습니다. 재검수를 실행하면 만들어집니다.', 'fact-reason'));
     root.append(box);
     return;
   }
-  box.append(element('h3', '검수 보고서'));
-  if (report.overall) box.append(element('p', report.overall, 'report-overall'));
+
+  if (report.overall) content.append(element('p', report.overall, 'report-overall'));
   const wrap = element('div', '', 'report-table-wrap');
   const table = document.createElement('table');
   table.className = 'report-table';
@@ -227,16 +244,16 @@ function renderReport(root, report, facts) {
     table.append(tr);
   }
   wrap.append(table);
-  box.append(wrap);
+  content.append(wrap);
   const corrections = report.corrections || [];
-  box.append(element('h3', corrections.length ? `수정 제안 ${corrections.length}건` : '수정 제안 없음'));
+  content.append(element('h3', corrections.length ? `수정 제안 ${corrections.length}건` : '수정 제안 없음'));
   for (const item of corrections) {
     const card = element('div', '', 'issue');
     card.append(element('strong', `${koreanLabel(item.field)} · ${(item.factIds || []).join(', ')}`));
     card.append(element('p', `원문: ${item.text}`));
     card.append(element('p', `사유: ${item.problem}`));
     card.append(element('p', `수정 제안: ${item.suggestion}`));
-    box.append(card);
+    content.append(card);
   }
   root.append(box);
 }
@@ -488,40 +505,97 @@ for (const id of ['title', 'body']) {
 // 6. 로컬 기사 미리보기와 승인된 기사 데이터 내보내기
 // ─────────────────────────────────────────────────────────────
 
-// 줄바꿈은 문단으로 표현합니다. innerHTML 대신 textContent를 사용해
-// 기사 내용에 HTML 코드가 있어도 실행되지 않도록 합니다.
-function renderPreview() {
+// 공개 기사 템플릿과 CSS를 사용하되 편집 중인 텍스트만 안전하게 삽입합니다.
+async function renderPreview() {
   const article = currentArticle();
-  if (!article.title.trim() || !article.body.trim()) {
-    throw new Error('미리보기할 기사 제목과 본문이 필요합니다.');
+  if (!article.title.trim() || !article.body.trim()) throw new Error('미리보기할 기사 제목과 본문이 필요합니다.');
+  const response = await fetch('/site/artist-jack-white.html', { cache: 'no-store' });
+  if (!response.ok) throw new Error('홈페이지 기사 디자인을 불러오지 못했습니다.');
+  const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
+  doc.querySelectorAll('script').forEach(n => n.remove());
+  // srcdoc의 상대 주소를 로컬 서버가 제공하는 공개 사이트 자산으로 연결합니다.
+  doc.querySelectorAll('[href], [src]').forEach(n => {
+    for (const attr of ['href', 'src']) {
+      const value = n.getAttribute(attr);
+      if (value && !/^(https?:|#)/i.test(value)) n.setAttribute(attr, '/site/' + value.replace(/^\.\//, ''));
+    }
+  });
+  const sections = {intro: [], history: [], comment: [], tracks: []};
+  let section = 'intro';
+  for (const line of article.body.split(/\r?\n/).map(s => s.trim()).filter(Boolean)) {
+    if (/^주요 앨범과 활동$/.test(line)) section = 'history';
+    else if (/^(에디터 코멘트|EDITOR['’]S COMMENT)$/i.test(line)) section = 'comment';
+    else if (/^대표곡$/.test(line)) section = 'tracks';
+    else sections[section].push(line);
   }
-
-  $('preview-title').textContent = article.title.trim();
-  const approved = lastState?.state?.approved === true && !hasUnsavedChanges();
-  $('preview-meta').textContent = approved
-    ? 'EDITOR APPROVED · NOT PUBLISHED'
-    : 'DRAFT PREVIEW · NOT PUBLISHED';
-
-  const body = $('preview-body');
-  body.replaceChildren();
-  const paragraphs = article.body.trim().split(/\n\s*\n/);
-  for (const paragraph of paragraphs) {
-    const p = document.createElement('p');
-    p.textContent = paragraph.trim();
-    body.append(p);
-  }
+  const name = lastState?.article?.artist || { name: 'Jack White', nameKo: '잭 화이트' };
+  const normalizeName = v => v.replace(/[^\p{L}\p{N}]/gu, '').toLowerCase();
+  const first = normalizeName(sections.intro[0] || '');
+  if ([name.name, name.nameKo, `${name.nameKo}${name.name}`, `${name.name}${name.nameKo}`].filter(Boolean).some(v => normalizeName(v) === first)) sections.intro.shift();
+  doc.querySelector('.artist-name-main').textContent = name.name || article.title;
+  doc.querySelector('.artist-name-sub').textContent = name.nameKo || '';
+  doc.querySelector('.artist-feature-lead').textContent = sections.intro.shift() || article.title;
+  const copy = doc.querySelector('.artist-copy');
+  const paragraphs = sections.intro.map(text => {
+    const p = doc.createElement('p'); p.className = 'artist-copy'; p.textContent = text; return p;
+  });
+  copy.replaceWith(...paragraphs);
+  const comment = doc.querySelector('.artist-feature-editor');
+  comment.querySelectorAll('p:not(.section-label)').forEach(n => n.remove());
+  sections.comment.forEach(text => { const p = doc.createElement('p'); p.textContent = text; comment.append(p); });
+  comment.hidden = !sections.comment.length;
+  const history = doc.querySelector('.artist-feature-history'); history.replaceChildren();
+  sections.history.forEach(text => {
+    const li = doc.createElement('li'); const split = text.indexOf(':');
+    const strong = doc.createElement('strong'); strong.textContent = split < 0 ? text : text.slice(0, split); li.append(strong);
+    if (split >= 0) { const p = doc.createElement('p'); p.textContent = text.slice(split + 1).trim(); li.append(p); }
+    history.append(li);
+  });
+  const tracks = doc.querySelector('.artist-feature-tracks'); tracks.replaceChildren();
+  sections.tracks.forEach(text => {
+    const li = doc.createElement('li'), link = doc.createElement('a'), label = doc.createElement('span');
+    link.href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(text);
+    link.target = '_blank'; link.rel = 'noopener noreferrer';
+    const parts = text.split(/\s+[–—−-]\s+/);
+    const strong = doc.createElement('strong'); strong.textContent = parts.shift();
+    label.append(strong);
+    if (parts.length) { const small = doc.createElement('small'); small.textContent = parts.join(' – '); label.append(small); }
+    const arrow = doc.createElement('span'); arrow.textContent = '↗'; arrow.setAttribute('aria-hidden', 'true');
+    link.append(label, arrow); li.append(link); tracks.append(li);
+  });
+  // 기존 기사 출처를 편집 원고의 검증된 출처로 재사용하지 않습니다.
+  doc.querySelector('.artist-feature-sources')?.remove();
+  doc.querySelector('.archive-back-link')?.closest('p')?.remove();
+  doc.querySelector('.artist-feature > h2').textContent = '오늘의 뮤지션';
+  doc.querySelector('.artist-feature > .section-label').textContent = "TODAY'S MUSICIAN";
+  doc.title = article.title.trim() + ' — 미리보기';
+  const frame = $('preview-frame');
+  frame.onload = () => {
+    frame._resizeObserver?.disconnect();
+    const preview = frame.contentDocument;
+    if (!preview) return;
+    const fit = () => {
+      const main = preview.querySelector('main');
+      if (!main) return;
+      const height = Math.ceil(main.getBoundingClientRect().bottom + 60);
+      if (height > 0 && frame.style.height !== `${height}px`) frame.style.height = `${height}px`;
+    };
+    frame._resizeObserver = new ResizeObserver(fit);
+    frame._resizeObserver.observe(preview.querySelector('main'));
+    preview.querySelectorAll('img').forEach(img => img.addEventListener('load', fit, { once: true }));
+    preview.fonts.ready.then(fit);
+    fit();
+  };
+  frame.setAttribute('scrolling', 'no');
+  frame.srcdoc = '<!DOCTYPE html>' + doc.documentElement.outerHTML;
   $('preview-panel').hidden = false;
   $('preview-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-$('preview-open').addEventListener('click', () => {
-  try {
-    renderPreview();
-    message('로컬 기사 미리보기를 열었습니다. 실제 사이트에는 반영되지 않습니다.');
-  } catch (error) {
-    message(`오류: ${error.message}`);
-  }
-});
+$('preview-open').addEventListener('click', () => run(async () => {
+  await renderPreview();
+  message('홈페이지 디자인으로 미리보기를 열었습니다. 저장 전 수정 내용도 반영됩니다.');
+}));
 
 $('preview-close').addEventListener('click', () => {
   $('preview-panel').hidden = true;
@@ -594,15 +668,36 @@ function setupEditorialWorkflow() {
   const editHead = editorialPanel.querySelector('.panel-head h2');
   if (editHead) editHead.textContent = '04 / EDITORIAL REVIEW · 편집 검토';
   writing.append(draft);
-  factcheck.append(facts, factResults, report, pairs);
+  factcheck.append(report, facts, factResults, pairs);
+  const sectionButtons = [];
+  let itemsCollapsed = false;
+  for (const panel of [facts, factResults]) {
+    const button = element('button', '접기', 'section-toggle');
+    button.type = 'button';
+    button.setAttribute('aria-expanded', 'true');
+    button.setAttribute('aria-controls', 'fact-pairs');
+    button.addEventListener('click', () => {
+      itemsCollapsed = !itemsCollapsed;
+      pairs.hidden = itemsCollapsed;
+      for (const control of sectionButtons) {
+        control.textContent = itemsCollapsed ? '펼치기' : '접기';
+        control.setAttribute('aria-expanded', String(!itemsCollapsed));
+      }
+    });
+    sectionButtons.push(button);
+    panel.querySelector('.panel-head').append(button);
+  }
   editing.append(editorialPanel);
   // 기존 사실 검수 결과 DOM은 renderIssues 호환용으로만 유지한다.
   sourcePanel.hidden = true;
   sourcePanel.classList.add('legacy-review-hidden');
   editing.append(sourcePanel);
-  workspace.replaceChildren(writing, factcheck, editing);
+  const reviewColumn = element('div', '', 'workflow-review-column');
+  reviewColumn.append(factcheck, editing);
+  workspace.replaceChildren(writing, reviewColumn);
 }
 
 setupEditorialWorkflow();
 
 initialize();
+

@@ -207,6 +207,18 @@ const server = http.createServer(async (req, res) => {
       return send(res, 403, { error: '로컬 접근만 허용합니다.' });
     }
 
+    // 공개 템플릿·스타일·이미지만 제공하며 .env 및 기사 기록은 노출하지 않습니다.
+    if (req.method === 'GET' && url.pathname.startsWith('/site/')) {
+      const asset = decodeURIComponent(url.pathname.slice(6));
+      const allowed = ['index.html', 'artist-jack-white.html', 'style.css'].includes(asset) ||
+        /^(images|fonts)\/[\w가-힣 .'-]+\.(png|jpe?g|webp|woff2?|otf)$/i.test(asset);
+      if (!allowed) return send(res, 404, { error: '허용되지 않은 파일입니다.' });
+      const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.woff': 'font/woff', '.otf': 'font/otf' };
+      const content = await readFile(path.join(uiDir, '..', asset));
+      res.writeHead(200, { 'Content-Type': types[path.extname(asset).toLowerCase()], 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
+      return res.end(content);
+    }
+
     const staticFiles = {
       '/': ['index.html', 'text/html; charset=utf-8'],
       '/style.css': ['style.css', 'text/css; charset=utf-8'],
@@ -225,8 +237,9 @@ const server = http.createServer(async (req, res) => {
           "default-src 'none'; " +
           "script-src 'self'; " +
           "style-src 'self' https://fonts.googleapis.com; " +
-          "font-src 'self' https://fonts.gstatic.com; " +
+          "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; " +
           "connect-src 'self'; " +
+          "frame-src 'self'; img-src 'self'; " +
           "base-uri 'none'; " +
           "form-action 'none'"
       });
@@ -514,3 +527,4 @@ server.listen(port, host, () => {
   console.log(`AI API 서버 후보: ${upstreamCandidates.join(' → ')}`);
   console.log('외부 접속은 허용되지 않습니다.');
 });
+
