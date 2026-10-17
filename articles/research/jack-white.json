@@ -2,11 +2,11 @@
   "artist": {
     "name": "기사 기반 자료"
   },
-  "articleHash": "ee21f2b56769e6cc38dd2423f661e367c89d91579eed6186119bbe1562076a7e",
+  "articleHash": "7511dda5c59f87800d28f253bb862ee2dec9dd79f1576bec2e34bfa5a0364e71",
   "facts": [
     {
       "id": "F001",
-      "claim": "잭 화이트는 디트로이트 출신이다.",
+      "claim": "디트로이트 출신의 기타리스트이자 싱어송라이터 잭 화이트이다.",
       "field": "body",
       "excerpt": "디트로이트 출신의 기타리스트이자 싱어송라이터 잭 화이트(Jack White).",
       "type": "fact",
@@ -14,80 +14,7 @@
       "keywords": [
         "Jack White",
         "Detroit",
-        "디트로이트"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://thirdmanrecords.com/collections/jack-white",
-        "publisher": "Third Man Records (official site)"
-      },
-      "sources": [
-        {
-          "url": "https://thirdmanrecords.com/collections/jack-white",
-          "publisher": "Third Man Records (official site)",
-          "verificationStatus": "VERIFIED",
-          "evidence": "Born the youngest of ten children, raised in Southwest Detroit and a resident of Nashville since 2005, Jack White is one of the most prolific and renowned artists of the past fifteen years.",
-          "reason": "sourceText는 잭 화이트가 'Southwest Detroit'에서 자랐다고 직접 밝히고 있어 '디트로이트 출신'이라는 표현을 뒷받침합니다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "Born the youngest of ten children, raised in Southwest Detroit and a resident of Nashville since 2005, Jack White is one of the most prolific and renowned artists of the past fifteen years.",
-      "reason": "sourceText는 잭 화이트가 'Southwest Detroit'에서 자랐다고 직접 밝히고 있어 '디트로이트 출신'이라는 표현을 뒷받침합니다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:20:17.137Z",
-      "failureType": null
-    },
-    {
-      "id": "F002",
-      "claim": "잭 화이트는 기타리스트다.",
-      "field": "body",
-      "excerpt": "디트로이트 출신의 기타리스트이자 싱어송라이터 잭 화이트(Jack White).",
-      "type": "fact",
-      "group": "G1",
-      "keywords": [
-        "Jack White",
-        "guitarist",
-        "기타리스트"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
-        "publisher": "Detroit Historical Society"
-      },
-      "sources": [
-        {
-          "url": "https://thirdmanrecords.com/collections/jack-white",
-          "publisher": "Third Man Records (official site)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "Born the youngest of ten children, raised in Southwest Detroit and a resident of Nashville since 2005, Jack White is one of the most prolific and renowned artists of the past fifteen years.",
-          "reason": "sourceText는 잭 화이트를 'artist'로 지칭하고 솔로·밴드 활동을 언급하지만, '기타리스트'라는 직함이나 악기 연주 사실을 명시적으로 적시하지 않습니다. 따라서 기타리스트라는 요소는 확인되지 않습니다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
-          "publisher": "Detroit Historical Society",
-          "verificationStatus": "VERIFIED",
-          "evidence": "songwriter Jack White (vocals, guitar, and keyboards)",
-          "reason": "sourceText가 잭 화이트를 'songwriter Jack White (vocals, guitar, and keyboards)'로 소개하며 그가 기타(guitar)를 연주한다고 직접 명시하고 있다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "songwriter Jack White (vocals, guitar, and keyboards)",
-      "reason": "sourceText가 잭 화이트를 'songwriter Jack White (vocals, guitar, and keyboards)'로 소개하며 그가 기타(guitar)를 연주한다고 직접 명시하고 있다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:20:17.137Z",
-      "failureType": null
-    },
-    {
-      "id": "F003",
-      "claim": "잭 화이트는 싱어송라이터다.",
-      "field": "body",
-      "excerpt": "디트로이트 출신의 기타리스트이자 싱어송라이터 잭 화이트(Jack White).",
-      "type": "fact",
-      "group": "G1",
-      "keywords": [
-        "Jack White",
-        "singer-songwriter",
+        "기타리스트",
         "싱어송라이터"
       ],
       "verificationStatus": "VERIFIED",
@@ -97,106 +24,66 @@
       },
       "sources": [
         {
-          "url": "https://thirdmanrecords.com/collections/jack-white",
-          "publisher": "Third Man Records (official site)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "Born the youngest of ten children, raised in Southwest Detroit and a resident of Nashville since 2005, Jack White is one of the most prolific and renowned artists of the past fifteen years.",
-          "reason": "sourceText는 잭 화이트의 솔로 앨범 출시 등 음악 활동을 설명하지만 '싱어송라이터'라는 표현이나 그가 노래를 쓰고 부른다는 상세한 언급은 없습니다. '아티스트'라는 일반적 표현만 확인됩니다.",
+          "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+          "publisher": "Detroit Historical Society",
+          "verificationStatus": "VERIFIED",
+          "evidence": "members were Meg White (drums and occasional vocals) and songwriter Jack White (vocals, guitar, and keyboards)",
+          "reason": "sourceText에 잭 화이트가 디트로이트 출신이며 보컬과 기타(및 작곡)를 담당한 인물이라고 분명히 적혀 있다.",
           "suggestion": ""
-        },
+        }
+      ],
+      "evidence": "members were Meg White (drums and occasional vocals) and songwriter Jack White (vocals, guitar, and keyboards)",
+      "reason": "sourceText에 잭 화이트가 디트로이트 출신이며 보컬과 기타(및 작곡)를 담당한 인물이라고 분명히 적혀 있다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-17T08:39:17.850Z",
+      "failureType": null
+    },
+    {
+      "id": "F002",
+      "claim": "1997년 메그 화이트와 결성한 2인조 화이트 스트라이프스(The White Stripes)로 이름을 알렸다.",
+      "field": "body",
+      "excerpt": "1997년 메그 화이트와 결성한 2인조 화이트 스트라이프스(The White Stripes)로 이름을 알렸다.",
+      "type": "fact",
+      "group": "G1",
+      "keywords": [
+        "1997",
+        "Meg White",
+        "The White Stripes",
+        "결성"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+        "publisher": "Detroit Historical Society"
+      },
+      "sources": [
         {
           "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
           "publisher": "Detroit Historical Society",
           "verificationStatus": "VERIFIED",
-          "evidence": "songwriter Jack White (vocals, guitar, and keyboards)",
-          "reason": "sourceText에서 잭 화이트를 'songwriter'이자 'vocals'를 담당하는 인물로 서술해, 작사·작곡을 하는 동시에 보컬을 맡는 싱어송라이터라는 사실을 모두 뒷받침한다.",
+          "evidence": "The White Stripes was a two-person rock band from Detroit, Michigan that has added to the lexicon of Detroit sound. Formed in 1997, members were Meg White (drums and occasional vocals) and songwriter Jack White (vocals, guitar, and keyboards)",
+          "reason": "sourceText에 화이트 스트라이프스가 2인조 밴드였고 1997년 결성되었으며 멤버로 메그 화이트와 잭 화이트가 명시되어 있다.",
           "suggestion": ""
         }
       ],
-      "evidence": "songwriter Jack White (vocals, guitar, and keyboards)",
-      "reason": "sourceText에서 잭 화이트를 'songwriter'이자 'vocals'를 담당하는 인물로 서술해, 작사·작곡을 하는 동시에 보컬을 맡는 싱어송라이터라는 사실을 모두 뒷받침한다.",
+      "evidence": "The White Stripes was a two-person rock band from Detroit, Michigan that has added to the lexicon of Detroit sound. Formed in 1997, members were Meg White (drums and occasional vocals) and songwriter Jack White (vocals, guitar, and keyboards)",
+      "reason": "sourceText에 화이트 스트라이프스가 2인조 밴드였고 1997년 결성되었으며 멤버로 메그 화이트와 잭 화이트가 명시되어 있다.",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:20:17.137Z",
+      "checkedAt": "2026-10-17T08:39:17.850Z",
       "failureType": null
     },
     {
-      "id": "F004",
-      "claim": "잭 화이트는 1997년 메그 화이트와 2인조 밴드 화이트 스트라이프스(The White Stripes)를 결성했다.",
+      "id": "F003",
+      "claim": "베이스 없이 기타와 드럼만으로 연주했다.",
       "field": "body",
-      "excerpt": "1997년 메그 화이트와 결성한 2인조 화이트 스트라이프스(The White Stripes)로 이름을 알렸다.",
+      "excerpt": "베이스 없이 기타와 드럼만으로 꽉 찬 소리를 만들어냈고, 빨강·하양·검정 세 가지 색으로 무대와 앨범을 통일했다.",
       "type": "fact",
-      "group": "G2",
+      "group": "G1",
       "keywords": [
-        "The White Stripes",
-        "Meg White",
-        "1997"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://www.sonymusic.co.jp/artist/thewhitestripes/profile/",
-        "publisher": "Sony Music (Japan)"
-      },
-      "sources": [
-        {
-          "url": "https://www.sonymusic.co.jp/artist/thewhitestripes/profile/",
-          "publisher": "Sony Music (Japan)",
-          "verificationStatus": "VERIFIED",
-          "evidence": "アメリカ・デトロイト出身のジャック・ホワイト（Vo/G）とメグ・ホワイト（Dr）によって、1997年に結成されたユニット。",
-          "reason": "sourceText가 잭 화이트(Vo/G)와 메그 화이트(Dr)에 의해 1997년에 결성되었다고 명시하고 있어, 주장된 결성 연도·구성원·2인조 밴드라는 객관적 요소를 모두 뒷받침한다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "アメリカ・デトロイト出身のジャック・ホワイト（Vo/G）とメグ・ホワイト（Dr）によって、1997年に結成されたユニット。",
-      "reason": "sourceText가 잭 화이트(Vo/G)와 메그 화이트(Dr)에 의해 1997년에 결성되었다고 명시하고 있어, 주장된 결성 연도·구성원·2인조 밴드라는 객관적 요소를 모두 뒷받침한다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:20:57.960Z",
-      "failureType": null
-    },
-    {
-      "id": "F005",
-      "claim": "화이트 스트라이프스는 베이스 없이 기타와 드럼만으로 연주했다.",
-      "field": "body",
-      "excerpt": "베이스 없이 기타와 드럼만으로 꽉 찬 소리를 만들어냈고,",
-      "type": "fact",
-      "group": "G2",
-      "keywords": [
-        "The White Stripes",
-        "no bass",
-        "guitar and drums",
-        "베이스 없이"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://www.sonymusic.co.jp/artist/thewhitestripes/profile/",
-        "publisher": "Sony Music (Japan)"
-      },
-      "sources": [
-        {
-          "url": "https://www.sonymusic.co.jp/artist/thewhitestripes/profile/",
-          "publisher": "Sony Music (Japan)",
-          "verificationStatus": "VERIFIED",
-          "evidence": "ジャック・ホワイト（Vo/G）とメグ・ホワイト（Dr）によって、1997年に結成されたユニット。",
-          "reason": "sourceText가 밴드 구성원을 잭 화이트(보컬·기타)와 메그 화이트(드럼)로만 표기하고 있어, 베이스 없이 기타와 드럼만으로 연주했다는 핵심 요소를 뒷받침한다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "ジャック・ホワイト（Vo/G）とメグ・ホワイト（Dr）によって、1997年に結成されたユニット。",
-      "reason": "sourceText가 밴드 구성원을 잭 화이트(보컬·기타)와 메그 화이트(드럼)로만 표기하고 있어, 베이스 없이 기타와 드럼만으로 연주했다는 핵심 요소를 뒷받침한다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:20:57.960Z",
-      "failureType": null
-    },
-    {
-      "id": "F006",
-      "claim": "화이트 스트라이프스는 빨강·하양·검정 세 가지 색으로 무대와 앨범을 통일했다.",
-      "field": "body",
-      "excerpt": "빨강·하양·검정 세 가지 색으로 무대와 앨범을 통일했다.",
-      "type": "fact",
-      "group": "G2",
-      "keywords": [
-        "The White Stripes",
-        "red white black",
-        "색 통일"
+        "bass 없이",
+        "guitar",
+        "drums",
+        "The White Stripes"
       ],
       "verificationStatus": "VERIFIED",
       "source": {
@@ -205,96 +92,39 @@
       },
       "sources": [
         {
-          "url": "https://www.sonymusic.co.jp/artist/thewhitestripes/profile/",
-          "publisher": "Sony Music (Japan)",
+          "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+          "publisher": "Detroit Historical Society",
           "verificationStatus": "INSUFFICIENT",
-          "evidence": "ガレージロック・リバイバルを代表するバンドとなる。2000年代のロックを語る上で、最も重要なグループの一つ。",
-          "reason": "출처에는 밴드의 무대·앨범 색채를 빨강·하양·검정으로 통일했다는 언급이 전혀 없어 확인할 수 없다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://myspace.com/thewhitestripesofficial/bio",
-          "publisher": "The White Stripes (official Myspace bio)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "Welcome to Myspace. Just start typing to find music.\nThis is your queue. Just start typing to find music.\nPlay Next\nPlay Last\nStart Radio\nNew Mix\nCreate a mix. Sign in to start building your own.",
-          "reason": "sourceText에 '빨강·하양·검정' 또는 무대와 앨범의 색상을 통일했다는 언급이 없다. 출처에는 밴드 관련 정보 대신 Myspace 페이지의 UI·템플릿 코드와 일반 문구만 포함되어 있어 색상 통일에 관한 진술을 확인할 수 없다.",
+          "evidence": "members were Meg White (drums and occasional vocals) and songwriter Jack White (vocals, guitar, and keyboards)",
+          "reason": "sourceText는 잭 화이트가 기타를, 메그 화이트가 드럼을 맡았음을 확인해 주지만(기타와 드럼으로 연주한 것은 확인됨), 밴드에 베이스가 없었다는 점을 명시적으로 부정하거나 직접적으로 확인하지는 않는다.",
           "suggestion": ""
         },
         {
           "url": "https://en.wikipedia.org/wiki/The_White_Stripes",
           "publisher": "Wikipedia",
           "verificationStatus": "VERIFIED",
-          "evidence": "The duo were noted for their mysterious public image, their fashion and design aesthetic which featured a simple color scheme of red, white, and black—which was used on every album and single cover they released—and their fascination with the number three.",
-          "reason": "출처의 문장이 밴드의 패션·디자인 미학이 'red, white, and black'의 단순한 색 구성표를 특징으로 했고 그것이 그들이 발매한 모든 앨범과 싱글 커버에 사용되었다고 명시하고 있어 주장의 모든 요소(세 가지 색·무대/앨범 통일)가 출처에 뒷받침됩니다.",
+          "evidence": "The group consisted of Jack White (guitar, keyboards, piano, vocals) and Meg White (drums, percussion, vocals)",
+          "reason": "sourceText에서 밴드 구성원이 기타(잭 화이트)와 드럼(메그 화이트) 두 사람으로 이루어졌고, 악기 편성에 베이스 플레이어가 없었다고 명확히 밝히고 있음(따라서 ‘베이스 없이 기타와 드럼만으로 연주했다’는 진술을 뒷받침함).",
           "suggestion": ""
         }
       ],
-      "evidence": "The duo were noted for their mysterious public image, their fashion and design aesthetic which featured a simple color scheme of red, white, and black—which was used on every album and single cover they released—and their fascination with the number three.",
-      "reason": "출처의 문장이 밴드의 패션·디자인 미학이 'red, white, and black'의 단순한 색 구성표를 특징으로 했고 그것이 그들이 발매한 모든 앨범과 싱글 커버에 사용되었다고 명시하고 있어 주장의 모든 요소(세 가지 색·무대/앨범 통일)가 출처에 뒷받침됩니다.",
+      "evidence": "The group consisted of Jack White (guitar, keyboards, piano, vocals) and Meg White (drums, percussion, vocals)",
+      "reason": "sourceText에서 밴드 구성원이 기타(잭 화이트)와 드럼(메그 화이트) 두 사람으로 이루어졌고, 악기 편성에 베이스 플레이어가 없었다고 명확히 밝히고 있음(따라서 ‘베이스 없이 기타와 드럼만으로 연주했다’는 진술을 뒷받침함).",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:20:57.960Z",
+      "checkedAt": "2026-10-17T08:39:17.850Z",
       "failureType": null
     },
     {
-      "id": "F007",
-      "claim": "잭 화이트는 블루스를 뿌리에 두고 아날로그 녹음과 바이닐을 선호한다.",
+      "id": "F004",
+      "claim": "베이스 없이 기타와 드럼만으로 꽉 찬 소리를 만들어냈다.",
       "field": "body",
-      "excerpt": "블루스를 뿌리에 두고 아날로그 녹음과 바이닐을 선호하는 그는 지금도 특유의 '손맛'이 살아 있는 록을 들려준다.",
-      "type": "fact",
-      "group": "G3",
-      "keywords": [
-        "Jack White",
-        "blues",
-        "analog recording",
-        "vinyl",
-        "아날로그",
-        "바이닐"
-      ],
-      "verificationStatus": "INSUFFICIENT",
-      "source": null,
-      "sources": [
-        {
-          "url": "https://thirdmanrecords.com/blogs/news/behind-the-blue-series-musical-origin-stories-with-jack-white",
-          "publisher": "Third Man Records (official)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "",
-          "reason": "출처는 잭 화이트가 7인치 45rpm 싱글(바이닐)을 중심으로 한 ‘Blue Series’를 운영하고, 같은 스튜디오에서 하루 만에 레코딩해 같은 프레스 공장에서 제작하는 방식을 고수한다는 점을 분명히 보여준다. 따라서 '바이닐을 선호한다'는 부분은 출처로 확인되나, 출처에는 그가 음악적 뿌리로 '블루스'를 둔다거나 아날로그 녹음을 선호한다는 문장이 명시적으로 없어, 블루스 뿌리와 아날로그 녹음 선호는 확인되지 않는다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.soundonsound.com/techniques/inside-track-jack-white",
-          "publisher": "Sound on Sound",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "For Jack White, analogue recording is not about looking back to the past, but choosing the ideal medium for his art.",
-          "reason": "출처는 잭 화이트가 아날로그 녹음을 선호하고 Third Man Records에서 바이닐 발매를 병행한다는 점을 분명히 뒷받침한다. 하지만 '블루스를 뿌리에 두고 있다'는 표현은 sourceText에 직접적으로 언급되어 있지 않아 확인할 수 없다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.theguardian.com/music/2013/mar/07/jack-white-blues-artists",
-          "publisher": "The Guardian",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "Vinyl was the romantic side of listening to blues, because it involves the listener from the smell of it to the process of dropping the needle on the record.",
-          "reason": "출처는 잭 화이트가 블루스에서 배웠고 블루스에 대한 열정이 있으며 바이닐으로 재발매하는 등 바이닐을 선호한다는 점은 분명히 보여준다. 다만 ‘아날로그 녹음’을 선호한다는 표현은 출처에 명시적으로 언급되어 있지 않아 확인할 수 없다. 따라서 블루스 뿌리와 바이닐 선호는 확인되나 아날로그 녹음 선호는 확인 불가로 전체 주장은 일부만 확인된다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "",
-      "reason": "Third Man Records (official): 출처는 잭 화이트가 7인치 45rpm 싱글(바이닐)을 중심으로 한 ‘Blue Series’를 운영하고, 같은 스튜디오에서 하루 만에 레코딩해 같은 프레스 공장에서 제작하는 방식을 고수한다는 점을 분명히 보여준다. 따라서 '바이닐을 선호한다'는 부분은 출처로 확인되나, 출처에는 그가 음악적 뿌리로 '블루스'를 둔다거나 아날로그 녹음을 선호한다는 문장이 명시적으로 없어, 블루스 뿌리와 아날로그 녹음 선호는 확인되지 않는다. / Sound on Sound: 출처는 잭 화이트가 아날로그 녹음을 선호하고 Third Man Records에서 바이닐 발매를 병행한다는 점을 분명히 뒷받침한다. 하지만 '블루스를 뿌리에 두고 있다'는 표현은 sourceText에 직접적으로 언급되어 있지 않아 확인할 수 없다. / The Guardian: 출처는 잭 화이트가 블루스에서 배웠고 블루스에 대한 열정이 있으며 바이닐으로 재발매하는 등 바이닐을 선호한다는 점은 분명히 보여준다. 다만 ‘아날로그 녹음’을 선호한다는 표현은 출처에 명시적으로 언급되어 있지 않아 확인할 수 없다. 따라서 블루스 뿌리와 바이닐 선호는 확인되나 아날로그 녹음 선호는 확인 불가로 전체 주장은 일부만 확인된다.",
-      "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
-      "checkedAt": "2026-10-17T08:21:27.719Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
-    },
-    {
-      "id": "F008",
-      "claim": "잭 화이트는 특유의 '손맛'이 살아 있는 록을 들려준다.",
-      "field": "body",
-      "excerpt": "블루스를 뿌리에 두고 아날로그 녹음과 바이닐을 선호하는 그는 지금도 특유의 '손맛'이 살아 있는 록을 들려준다.",
+      "excerpt": "베이스 없이 기타와 드럼만으로 꽉 찬 소리를 만들어냈고, 빨강·하양·검정 세 가지 색으로 무대와 앨범을 통일했다.",
       "type": "opinion",
-      "group": "G3",
+      "group": "G1",
       "keywords": [
-        "Jack White",
-        "손맛",
-        "rock"
+        "꽉 찬 소리",
+        "sound",
+        "The White Stripes"
       ],
       "source": null,
       "sources": [],
@@ -302,51 +132,189 @@
       "suggestion": "",
       "verificationStatus": "OPINION",
       "failureType": null,
-      "checkedAt": "2026-10-17T08:19:51.159Z",
+      "checkedAt": "2026-10-17T08:35:01.384Z",
       "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다."
     },
     {
-      "id": "F009",
+      "id": "F005",
+      "claim": "빨강·하양·검정 세 가지 색으로 무대와 앨범을 통일했다.",
+      "field": "body",
+      "excerpt": "베이스 없이 기타와 드럼만으로 꽉 찬 소리를 만들어냈고, 빨강·하양·검정 세 가지 색으로 무대와 앨범을 통일했다.",
+      "type": "fact",
+      "group": "G1",
+      "keywords": [
+        "red",
+        "white",
+        "black",
+        "stage",
+        "album art",
+        "color scheme"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+        "publisher": "Detroit Historical Society"
+      },
+      "sources": [
+        {
+          "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+          "publisher": "Detroit Historical Society",
+          "verificationStatus": "VERIFIED",
+          "evidence": "They also developed their own color scheme of red, white, and black, which appeared on each of their album and single covers.",
+          "reason": "sourceText가 화이트 스트라이프스가 앨범과 싱글 커버에 빨강·하양·검정의 색채 계획을 사용했다고 명확히 적고 있다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "They also developed their own color scheme of red, white, and black, which appeared on each of their album and single covers.",
+      "reason": "sourceText가 화이트 스트라이프스가 앨범과 싱글 커버에 빨강·하양·검정의 색채 계획을 사용했다고 명확히 적고 있다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-17T08:39:17.850Z",
+      "failureType": null
+    },
+    {
+      "id": "F006",
       "claim": "2000년대 초 개러지 록 리바이벌의 상징이 되었다.",
       "field": "body",
       "excerpt": "2000년대 초 개러지 록 리바이벌의 상징이 된 이유다.",
       "type": "interpretation",
-      "group": "G2",
+      "group": "G1",
       "keywords": [
         "garage rock revival",
-        "2000s",
-        "The White Stripes",
-        "symbol",
-        "개러지 록 리바이벌"
+        "early 2000s",
+        "symbol"
       ],
       "verificationStatus": "VERIFIED",
       "source": {
-        "url": "https://www.sonymusic.co.jp/artist/thewhitestripes/profile/",
-        "publisher": "Sony Music (Japan)"
+        "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+        "publisher": "Detroit Historical Society"
       },
       "sources": [
         {
-          "url": "https://www.sonymusic.co.jp/artist/thewhitestripes/profile/",
-          "publisher": "Sony Music (Japan)",
+          "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+          "publisher": "Detroit Historical Society",
           "verificationStatus": "VERIFIED",
-          "evidence": "ガレージロック・リバイバルを代表するバンドとなる。2000年代のロックを語る上で、最も重要なグループの一つ。",
-          "reason": "sourceText가 이들을 'ガレージロック・リバイバルを代表するバンド'이며 '2000年代のロックを語る上で、最も重要なグループの一つ'이라고 명시해, 2000년대 초 개러지 록 리바이벌의 상징이라는 해석적 진술과 취지가 일치한다.",
+          "evidence": "The White Stripes rose to prominence in 2002 after releasing several singles and three albums within the Detroit music scene.",
+          "reason": "sourceText는 밴드가 2002년에 두각을 나타내며 국제적 명성을 얻었다고 적어 '2000년대 초 개러지 록 리바이벌의 상징'이라는 취지를 뒷받침한다.",
           "suggestion": ""
         }
       ],
-      "evidence": "ガレージロック・リバイバルを代表するバンドとなる。2000年代のロックを語る上で、最も重要なグループの一つ。",
-      "reason": "sourceText가 이들을 'ガレージロック・リバイバルを代表するバンド'이며 '2000年代のロックを語る上で、最も重要なグループの一つ'이라고 명시해, 2000년대 초 개러지 록 리바이벌의 상징이라는 해석적 진술과 취지가 일치한다.",
+      "evidence": "The White Stripes rose to prominence in 2002 after releasing several singles and three albums within the Detroit music scene.",
+      "reason": "sourceText는 밴드가 2002년에 두각을 나타내며 국제적 명성을 얻었다고 적어 '2000년대 초 개러지 록 리바이벌의 상징'이라는 취지를 뒷받침한다.",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:20:57.960Z",
+      "checkedAt": "2026-10-17T08:39:17.850Z",
       "failureType": null
     },
     {
+      "id": "F007",
+      "claim": "블루스를 뿌리에 두고 있다.",
+      "field": "body",
+      "excerpt": "블루스를 뿌리에 두고 아날로그 녹음과 바이닐을 선호하는 그는 지금도 특유의 '손맛'이 살아 있는 록을 들려준다.",
+      "type": "interpretation",
+      "group": "G1",
+      "keywords": [
+        "blues",
+        "roots",
+        "Jack White"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+        "publisher": "Detroit Historical Society"
+      },
+      "sources": [
+        {
+          "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+          "publisher": "Detroit Historical Society",
+          "verificationStatus": "VERIFIED",
+          "evidence": "The White Stripes’ trademark was their uncomplicated, technically simple writing and recording style, with musical production influenced by garage rock, blues, and early punk.",
+          "reason": "sourceText는 밴드의 음악적 제작이 개러지 록 뿐 아니라 블루스의 영향을 받았다고 명시해 '블루스를 뿌리에 두고 있다'는 평가와 취지가 일치한다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "The White Stripes’ trademark was their uncomplicated, technically simple writing and recording style, with musical production influenced by garage rock, blues, and early punk.",
+      "reason": "sourceText는 밴드의 음악적 제작이 개러지 록 뿐 아니라 블루스의 영향을 받았다고 명시해 '블루스를 뿌리에 두고 있다'는 평가와 취지가 일치한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-17T08:39:17.850Z",
+      "failureType": null
+    },
+    {
+      "id": "F008",
+      "claim": "아날로그 녹음과 바이닐을 선호한다.",
+      "field": "body",
+      "excerpt": "블루스를 뿌리에 두고 아날로그 녹음과 바이닐을 선호하는 그는 지금도 특유의 '손맛'이 살아 있는 록을 들려준다.",
+      "type": "fact",
+      "group": "G1",
+      "keywords": [
+        "analog recording",
+        "vinyl",
+        "preference",
+        "Third Man"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://newrepublic.com/article/68312/jumble-jumble",
+        "publisher": "The New Republic"
+      },
+      "sources": [
+        {
+          "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+          "publisher": "Detroit Historical Society",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "The White Stripes’ trademark was their uncomplicated, technically simple writing and recording style, with musical production influenced by garage rock, blues, and early punk.",
+          "reason": "sourceText는 밴드의 단순한 작곡·녹음 스타일과 제작 영향(개러지 록·블루스·초기 펑크)을 언급하지만, 아날로그 녹음과 바이닐을 선호한다는 구체적 진술은 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/The_White_Stripes",
+          "publisher": "Wikipedia",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "",
+          "reason": "출처는 밴드가 저해상도(로우파이) 접근과 ‘고풍의 녹음 장비(preference for antiquated recording equipment)’를 선호했음을 밝히고 있고 바이닐로 재발매한 사례도 있으나, ‘잭 화이트(또는 그가) 아날로그 녹음과 바이닐을 선호한다’는 개인적 취향을 직접적으로 단정하는 문장은 없음(아날로그 녹음 여부와 개인 차원의 '선호'가 명시되지 않음).",
+          "suggestion": ""
+        },
+        {
+          "url": "https://newrepublic.com/article/68312/jumble-jumble",
+          "publisher": "The New Republic",
+          "verificationStatus": "VERIFIED",
+          "evidence": "A note in the booklet of the White Stripes’ Elephant, which appeared in 2003, proclaimed in red italic type: “No computers were used during the recording, mixing or mastering of this record.",
+          "reason": "sourceText는 스튜디오에서 컴퓨터 등을 사용하지 않고 즉석 라이브로 녹음하며(기술을 거부한다고 서술) 앨범을 'literally a record, released on vinyl LP as well as CD'로 발매했다고 명시해, 아날로그 녹음과 바이닐을 선호한다는 주장을 뒷받침한다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "A note in the booklet of the White Stripes’ Elephant, which appeared in 2003, proclaimed in red italic type: “No computers were used during the recording, mixing or mastering of this record.",
+      "reason": "sourceText는 스튜디오에서 컴퓨터 등을 사용하지 않고 즉석 라이브로 녹음하며(기술을 거부한다고 서술) 앨범을 'literally a record, released on vinyl LP as well as CD'로 발매했다고 명시해, 아날로그 녹음과 바이닐을 선호한다는 주장을 뒷받침한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-17T08:39:17.850Z",
+      "failureType": null
+    },
+    {
+      "id": "F009",
+      "claim": "지금도 특유의 '손맛'이 살아 있는 록을 들려준다.",
+      "field": "body",
+      "excerpt": "블루스를 뿌리에 두고 아날로그 녹음과 바이닐을 선호하는 그는 지금도 특유의 '손맛'이 살아 있는 록을 들려준다.",
+      "type": "opinion",
+      "group": "G1",
+      "keywords": [
+        "손맛",
+        "style",
+        "Jack White"
+      ],
+      "source": null,
+      "sources": [],
+      "evidence": "",
+      "suggestion": "",
+      "verificationStatus": "OPINION",
+      "failureType": null,
+      "checkedAt": "2026-10-17T08:35:01.384Z",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다."
+    },
+    {
       "id": "F010",
-      "claim": "The White Stripes의 앨범 Elephant(2003)에는 'Seven Nation Army'가 수록되어 있다.",
+      "claim": "The White Stripes – Elephant (2003)에 '세븐 네이션 아미(Seven Nation Army)'가 실렸다.",
       "field": "body",
       "excerpt": "The White Stripes – Elephant (2003): '세븐 네이션 아미(Seven Nation Army)'가 실린 앨범.",
       "type": "fact",
-      "group": "G4",
+      "group": "G2",
       "keywords": [
         "Elephant",
         "2003",
@@ -355,8 +323,8 @@
       ],
       "verificationStatus": "VERIFIED",
       "source": {
-        "url": "https://thirdmanrecords.com/products/elephant",
-        "publisher": "Third Man Records (official label/Jack White)"
+        "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
+        "publisher": "Wikipedia"
       },
       "sources": [
         {
@@ -364,102 +332,11 @@
           "publisher": "The White Stripes (official site)",
           "verificationStatus": "INSUFFICIENT",
           "evidence": "",
-          "reason": "AI가 지지 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText에 앨범 제목과 발매 연도(Released April 1, 2003)와 트랙 목록(Disc 1의 1번 트랙으로 'Seven Nation Army')이 모두 명시되어 있어 해당 노래가 2003년 앨범 Elephant에 수록된 사실을 뒷받침한다.)",
+          "reason": "AI가 지지 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText의 앨범 정보가 'Elephant'가 2003년에 발매되었고 Disc 1 트랙 목록에 'Seven Nation Army'가 1번으로 명시되어 있어, 해당 곡이 2003년작 Elephant에 수록된 점을 모두 뒷받침한다.)",
           "suggestion": ""
         },
         {
-          "url": "https://thirdmanrecords.com/products/elephant",
-          "publisher": "Third Man Records (official label/Jack White)",
-          "verificationStatus": "VERIFIED",
-          "evidence": "Tracklist\nThe White Stripes - Elephant\nSeven Nation Army",
-          "reason": "sourceText의 트랙리스트에 앨범 제목과 함께 'Seven Nation Army'가 수록곡으로 명확히 적혀 있어 해당 곡이 Elephant에 수록된 사실을 직접 뒷받침함.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "Tracklist\nThe White Stripes - Elephant\nSeven Nation Army",
-      "reason": "sourceText의 트랙리스트에 앨범 제목과 함께 'Seven Nation Army'가 수록곡으로 명확히 적혀 있어 해당 곡이 Elephant에 수록된 사실을 직접 뒷받침함.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:21:49.437Z",
-      "failureType": null
-    },
-    {
-      "id": "F011",
-      "claim": "'Seven Nation Army'의 리프는 전 세계 축구장에서 응원가로 울려 퍼진다.",
-      "field": "body",
-      "excerpt": "이 곡의 리프는 지금도 전 세계 축구장에서 응원가로 울려 퍼진다.",
-      "type": "interpretation",
-      "group": "G4",
-      "keywords": [
-        "Seven Nation Army",
-        "soccer chants",
-        "football",
-        "응원가"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://thirdmanrecords.com/products/elephant",
-        "publisher": "Third Man Records (official label/Jack White)"
-      },
-      "sources": [
-        {
-          "url": "https://www.whitestripes.com/release/elephant/",
-          "publisher": "The White Stripes (official site)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "1. Seven Nation Army",
-          "reason": "sourceText에는 이 곡의 리프가 전 세계 축구장에서 응원가로 울려 퍼진다는 내용이나 유사한 서술이 전혀 없다. 출처는 앨범 정보와 트랙 목록만 제공한다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://thirdmanrecords.com/products/elephant",
-          "publisher": "Third Man Records (official label/Jack White)",
-          "verificationStatus": "VERIFIED",
-          "evidence": "Featuring the song that took over the world, Seven Nation Army, now a stadium chant known around the world by football and soccer fans alike.",
-          "reason": "sourceText에 이 곡이 'now a stadium chant known around the world by football and soccer fans alike'라고 명시되어 있어, 곡의 리프가 전 세계 축구장 응원가로 울려 퍼진다는 해석과 취지가 일치함.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "Featuring the song that took over the world, Seven Nation Army, now a stadium chant known around the world by football and soccer fans alike.",
-      "reason": "sourceText에 이 곡이 'now a stadium chant known around the world by football and soccer fans alike'라고 명시되어 있어, 곡의 리프가 전 세계 축구장 응원가로 울려 퍼진다는 해석과 취지가 일치함.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:21:49.437Z",
-      "failureType": null
-    },
-    {
-      "id": "F012",
-      "claim": "잭 화이트는 The Raconteurs와 The Dead Weather에서 활동했다.",
-      "field": "body",
-      "excerpt": "The Raconteurs · The Dead Weather: 밴드를 바꿔가며 파워팝과 어두운 블루스 록을 오갔다.",
-      "type": "fact",
-      "group": "G5",
-      "keywords": [
-        "The Raconteurs",
-        "The Dead Weather",
-        "Jack White"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://www.theguardian.com/music/2022/apr/11/i-thought-id-end-up-running-an-upholstery-shop-jack-white-on-the-white-stripes-bar-brawls-and-fame",
-        "publisher": "The Guardian"
-      },
-      "sources": [
-        {
-          "url": "https://theraconteurs.com/",
-          "publisher": "The Raconteurs (official site)",
-          "verificationStatus": "NOT CHECKED",
-          "evidence": "",
-          "reason": "본문 접근 실패: 읽을 수 있는 본문이 거의 없습니다. 자바스크립트로 그려지는 페이지일 수 있습니다.",
-          "failureType": "SOURCE_ACCESS_FAILED"
-        },
-        {
-          "url": "https://thirdmanrecords.com/collections/the-dead-weather",
-          "publisher": "Third Man Records (official label / Jack White's label)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "Together Jack White, Alison Mosshart, Dean Fertita, and Jack Lawrence have created a dark magic all their own, a heavy brew of melding heavy riffs, thick beats, and blues snarl with raw soul power and unrelenting sexual energy.",
-          "reason": "원문은 잭 화이트가 The Dead Weather의 구성원임을 분명히 밝히고 있으나(잭 화이트가 함께 창조했다고 서술), 잭 화이트가 The Raconteurs의 멤버였다는 점은 출처에서 명확히 서술되어 있지 않다. Raconteurs가 본문에 언급되긴 하나 문장 구성상 ‘Jack White and Jack Lawrence’s band The Raconteurs’처럼 해석되어 잭 화이트가 그 밴드의 멤버였다는 직접적 서술은 없다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.allmusic.com/artist/jack-white-mn0000128873/biography",
+          "url": "https://www.allmusic.com/album/elephant-mw0000022228",
           "publisher": "AllMusic",
           "verificationStatus": "NOT CHECKED",
           "evidence": "",
@@ -467,91 +344,273 @@
           "failureType": "SOURCE_ACCESS_FAILED"
         },
         {
-          "url": "https://www.theguardian.com/music/2022/apr/11/i-thought-id-end-up-running-an-upholstery-shop-jack-white-on-the-white-stripes-bar-brawls-and-fame",
-          "publisher": "The Guardian",
+          "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
+          "publisher": "Wikipedia",
           "verificationStatus": "VERIFIED",
-          "evidence": "He fronted the Raconteurs and played drums in the Dead Weather, and has been a producer and video-maker, while his eclectic Third Man operation takes in everything from a record label and record shops to a publishing imprint.",
-          "reason": "원문에 잭 화이트가 Raconteurs에서 프론트(lead)로 활동했고 Dead Weather에서는 드럼을 맡았다고 직접 서술되어 있어, 두 밴드에서 활동했다는 주장을 모두 뒷받침한다.",
+          "evidence": "The lead single from their fourth studio album, Elephant (2003), the song was written by Jack White",
+          "reason": "sourceText가 'Seven Nation Army'를 2003년 발매된 싱글이자 그들의 네 번째 정규 앨범 Elephant(2003)의 리드 싱글이라고 명시하고 있어 앨범에 수록된 사실을 분명히 뒷받침함.",
           "suggestion": ""
         }
       ],
-      "evidence": "He fronted the Raconteurs and played drums in the Dead Weather, and has been a producer and video-maker, while his eclectic Third Man operation takes in everything from a record label and record shops to a publishing imprint.",
-      "reason": "원문에 잭 화이트가 Raconteurs에서 프론트(lead)로 활동했고 Dead Weather에서는 드럼을 맡았다고 직접 서술되어 있어, 두 밴드에서 활동했다는 주장을 모두 뒷받침한다.",
+      "evidence": "The lead single from their fourth studio album, Elephant (2003), the song was written by Jack White",
+      "reason": "sourceText가 'Seven Nation Army'를 2003년 발매된 싱글이자 그들의 네 번째 정규 앨범 Elephant(2003)의 리드 싱글이라고 명시하고 있어 앨범에 수록된 사실을 분명히 뒷받침함.",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:22:24.232Z",
+      "checkedAt": "2026-10-17T08:40:22.870Z",
       "failureType": null
     },
     {
+      "id": "F011",
+      "claim": "'세븐 네이션 아미'의 리프는 전 세계 축구장에서 응원가로 울려 퍼진다.",
+      "field": "body",
+      "excerpt": "이 곡의 리프는 지금도 전 세계 축구장에서 응원가로 울려 퍼진다.",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "Seven Nation Army",
+        "riff",
+        "stadium",
+        "football chants"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
+        "publisher": "Wikipedia"
+      },
+      "sources": [
+        {
+          "url": "https://www.whitestripes.com/release/elephant/",
+          "publisher": "The White Stripes (official site)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Disc 1\n1. Seven Nation Army\n03:51",
+          "reason": "sourceText에는 곡의 리프가 전 세계 축구장에서 응원가로 울려 퍼진다는 내용이 전혀 언급되어 있지 않다. 출처는 곡 수록 여부와 트랙 길이만 제공한다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.allmusic.com/album/elephant-mw0000022228",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "본문 접근 실패: 출처 페이지 HTTP 403",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
+          "publisher": "Wikipedia",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Seven Nation Army\" achieved lasting commercial success and has been called \"arguably....the world's most popular sports anthem\"",
+          "reason": "sourceText가 이 곡의 리프가 스포츠 행사에서 널리 사용되며 '세계에서 가장 인기 있는 스포츠 응원가'로 불린다고 직접 기술하고, 여러 나라·대회에서 응원가로 사용된 구체적 사례들을 제시함으로써 주장을 뒷받침함.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "Seven Nation Army\" achieved lasting commercial success and has been called \"arguably....the world's most popular sports anthem\"",
+      "reason": "sourceText가 이 곡의 리프가 스포츠 행사에서 널리 사용되며 '세계에서 가장 인기 있는 스포츠 응원가'로 불린다고 직접 기술하고, 여러 나라·대회에서 응원가로 사용된 구체적 사례들을 제시함으로써 주장을 뒷받침함.",
+      "suggestion": "",
+      "checkedAt": "2026-10-17T08:40:22.870Z",
+      "failureType": null
+    },
+    {
+      "id": "F012",
+      "claim": "The Raconteurs와 The Dead Weather에서 활동했다.",
+      "field": "body",
+      "excerpt": "The Raconteurs · The Dead Weather: 밴드를 바꿔가며 파워팝과 어두운 블루스 록을 오갔다.",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "The Raconteurs",
+        "The Dead Weather",
+        "bands"
+      ],
+      "verificationStatus": "INSUFFICIENT",
+      "source": null,
+      "sources": [
+        {
+          "url": "https://www.whitestripes.com/release/elephant/",
+          "publisher": "The White Stripes (official site)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Elephant\nReleased April 1, 2003\nBuy / Listen Now\nArtist Store\nApple Music",
+          "reason": "sourceText(앨범 트랙리스트 페이지)에는 The Raconteurs와 The Dead Weather에 대한 언급이 없어, 해당 밴드들에서 활동했다는 주장을 확인할 수 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.allmusic.com/album/elephant-mw0000022228",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "본문 접근 실패: 출처 페이지 HTTP 403",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
+          "publisher": "Wikipedia",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Seven Nation Army\" is a song by the American rock duo the White Stripes, released by V2 Records and XL Recordings on February 17, 2003.",
+          "reason": "articleContext에서는 The Raconteurs와 The Dead Weather에서 활동했다고 언급하지만, 제공된 sourceText(곡 관련 원문)에는 두 밴드에서 활동했다는 언급이 없어 출처만으로는 확인할 수 없음.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://americansongwriter.com/how-the-white-stripes-seven-nation-army-became-the-universal-sports-chant/",
+          "publisher": "American Songwriter",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Tagged:\nJack White , Seven Nation Army , The White Stripes",
+          "reason": "제시된 sourceText에는 The Raconteurs나 The Dead Weather에 대한 언급이 없다. 따라서 해당 밴드들에서 활동했다는 사실을 확인할 수 없다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "",
+      "reason": "The White Stripes (official site): sourceText(앨범 트랙리스트 페이지)에는 The Raconteurs와 The Dead Weather에 대한 언급이 없어, 해당 밴드들에서 활동했다는 주장을 확인할 수 없다. / Wikipedia: articleContext에서는 The Raconteurs와 The Dead Weather에서 활동했다고 언급하지만, 제공된 sourceText(곡 관련 원문)에는 두 밴드에서 활동했다는 언급이 없어 출처만으로는 확인할 수 없음. / American Songwriter: 제시된 sourceText에는 The Raconteurs나 The Dead Weather에 대한 언급이 없다. 따라서 해당 밴드들에서 활동했다는 사실을 확인할 수 없다.",
+      "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
+      "checkedAt": "2026-10-17T08:40:22.870Z",
+      "failureType": "EVIDENCE_INSUFFICIENT"
+    },
+    {
       "id": "F013",
-      "claim": "잭 화이트는 내슈빌에 서드 맨 레코즈(Third Man Records)를 세웠다.",
+      "claim": "이들에서 파워팝과 어두운 블루스 록을 오갔다.",
+      "field": "body",
+      "excerpt": "The Raconteurs · The Dead Weather: 밴드를 바꿔가며 파워팝과 어두운 블루스 록을 오갔다.",
+      "type": "interpretation",
+      "group": "G2",
+      "keywords": [
+        "power pop",
+        "blues rock",
+        "genre"
+      ],
+      "verificationStatus": "INSUFFICIENT",
+      "source": null,
+      "sources": [
+        {
+          "url": "https://www.whitestripes.com/release/elephant/",
+          "publisher": "The White Stripes (official site)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Elephant\nReleased April 1, 2003\nBuy / Listen Now\nArtist Store\nApple Music",
+          "reason": "해당 해석(파워팝과 어두운 블루스 록을 오갔다는 평가)은 출처에 제시된 내용과 취지가 같아야 VERIFIED이나, sourceText에는 장르적 평가나 밴드들의 음악 색채에 관한 언급이 없어 확인 불가하다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.allmusic.com/album/elephant-mw0000022228",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "본문 접근 실패: 출처 페이지 HTTP 403",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
+          "publisher": "Wikipedia",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Seven Nation Army\" is a song by the American rock duo the White Stripes, released by V2 Records and XL Recordings on February 17, 2003.",
+          "reason": "주장(두 밴드에서 '파워팝과 어두운 블루스 록을 오갔다')은 articleContext에 있으나, 제공된 sourceText에는 The Raconteurs·The Dead Weather의 음악적 성격(파워팝·어두운 블루스 록)에 대한 설명이 없어 출처만으로는 확인 불가.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://americansongwriter.com/how-the-white-stripes-seven-nation-army-became-the-universal-sports-chant/",
+          "publisher": "American Songwriter",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Tagged:\nJack White , Seven Nation Army , The White Stripes",
+          "reason": "sourceText는 '파워팝'이나 '어두운 블루스 록'이라는 장르 서술이나 The Raconteurs·The Dead Weather의 음악적 성향에 대한 언급이 없다. 해당 해석을 뒷받침할 정보가 부족하다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "",
+      "reason": "The White Stripes (official site): 해당 해석(파워팝과 어두운 블루스 록을 오갔다는 평가)은 출처에 제시된 내용과 취지가 같아야 VERIFIED이나, sourceText에는 장르적 평가나 밴드들의 음악 색채에 관한 언급이 없어 확인 불가하다. / Wikipedia: 주장(두 밴드에서 '파워팝과 어두운 블루스 록을 오갔다')은 articleContext에 있으나, 제공된 sourceText에는 The Raconteurs·The Dead Weather의 음악적 성격(파워팝·어두운 블루스 록)에 대한 설명이 없어 출처만으로는 확인 불가. / American Songwriter: sourceText는 '파워팝'이나 '어두운 블루스 록'이라는 장르 서술이나 The Raconteurs·The Dead Weather의 음악적 성향에 대한 언급이 없다. 해당 해석을 뒷받침할 정보가 부족하다.",
+      "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
+      "checkedAt": "2026-10-17T08:40:22.870Z",
+      "failureType": "EVIDENCE_INSUFFICIENT"
+    },
+    {
+      "id": "F014",
+      "claim": "Third Man Records는 내슈빌에 세운 레이블이자 레코드숍이다.",
       "field": "body",
       "excerpt": "Third Man Records (2009~): 내슈빌에 세운 레이블이자 레코드숍.",
       "type": "fact",
-      "group": "G6",
+      "group": "G3",
       "keywords": [
         "Third Man Records",
-        "Third Man",
+        "2009",
         "Nashville",
-        "내슈빌",
-        "2009"
+        "record shop",
+        "label"
       ],
       "verificationStatus": "INSUFFICIENT",
       "source": {
-        "url": "https://musicrow.com/2009/03/jack-white-debuts-nashville-hq-and-new-band/",
-        "publisher": "MusicRow"
+        "url": "https://thirdmanrecordsstore.shop/about",
+        "publisher": "Third Man Records (official)"
       },
       "sources": [
         {
           "url": "https://thirdmanrecords.com/pages/nashville-store",
           "publisher": "Third Man Records (official)",
           "verificationStatus": "CONTRADICTED",
-          "evidence": "Third Man Records was launched by Jack White in Detroit, MI in 2001, and in 2009 opened its current Nashville, TN location, which houses a record store, novelties lounge (featuring the Third Man Record Booth), label offices and distribution center, photo studio, and the world’s only live venue with direct-to-acetate recording capabilities.",
-          "reason": "출처는 Third Man Records가 잭 화이트에 의해 디트로이트(Detroit, MI)에서 2001년에 시작되었고 2009년에 현재의 내슈빌 위치를 열었다고 명시한다. 즉 ‘내슈빌에 세웠다’는 표현은 시작(설립) 장소를 잘못 전달한다.",
-          "suggestion": "잭 화이트는 2001년 디트로이트에서 Third Man Records를 시작했고, 2009년에 현재의 내슈빌 매장(레이블 사무실과 레코드숍 포함)을 열었다."
+          "evidence": "Third Man Records was launched by Jack White in Detroit, MI in 2001, and in 2009 opened its current Nashville, TN location, which houses a record store,",
+          "reason": "출처는 Third Man Records가 잭 화이트에 의해 2001년 디트로이트에서 시작되었고 2009년에 현재의 내슈빌 지점을 열었다고 명확히 적고 있다. 따라서 ‘내슈빌에 세운(설립한)’이라고 단정하는 주장은 출처 내용과 직접 모순된다. 다만 출처는 내슈빌 지점에 레코드숍과 레이블 사무실이 있다고 밝히고 있다.",
+          "suggestion": "“Third Man Records는 2001년 디트로이트에서 시작했고, 2009년 현재의 내슈빌 지점에 레코드숍과 레이블 사무실을 열었다.”"
         },
         {
-          "url": "https://thirdmanrecords.com/",
+          "url": "https://thirdmanrecordsstore.shop/about",
           "publisher": "Third Man Records (official)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "Third Man Records\nTMR x Victrola Limited Edition Turntable...\nThird Man Hardware\nHoleyboard Pedalboard V2\nThird Man Records\nTMR x Victrola Tempo Speakers\nThird Man Records\nTMR x Victrola Wave Turntable",
-          "reason": "출처에는 'Third Man Records'와 잭 화이트 관련 항목들이 나열되어 있으나, 잭 화이트가 서드 맨 레코즈를 '세웠다(창립했다)'거나 그 레이블이 '내슈빌에 있다'고 명시적으로 서술한 구절이 없다. 따라서 '세웠다'와 '내슈빌에'라는 두 요소 중 어느 것도 출처에서 확인되지 않는다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.worldradiohistory.com/Archive-All-Music/Billboard/00s/2009/BB-2009-06-13.pdf",
-          "publisher": "Billboard (archived PDF)",
-          "verificationStatus": "NOT CHECKED",
-          "evidence": "",
-          "reason": "본문 접근 실패: PDF 출처는 자동으로 읽지 않습니다. 직접 확인해 주세요.",
-          "failureType": "SOURCE_ACCESS_FAILED"
-        },
-        {
-          "url": "https://musicrow.com/2009/03/jack-white-debuts-nashville-hq-and-new-band/",
-          "publisher": "MusicRow",
           "verificationStatus": "VERIFIED",
-          "evidence": "White has established a headquarters for his Third Man Records label and recording/photography studio in downtown Nashville.",
-          "reason": "sourceText에 잭 화이트가 'Third Man Records' 레이블의 본부와 스튜디오를 내슈빌 도심에 세웠다고 명확히 서술되어 있어, '내슈빌에 세웠다'는 주장을 뒷받침합니다.",
+          "evidence": "Founded in 2009, Third Man Records is a multifaceted record label and boutique retail experience dedicated to the preservation and promotion of analog culture.",
+          "reason": "sourceText가 Third Man Records를 'record label and boutique retail experience'로 명시하고 본사 위치로 'Nashville'을 명시하고 있어, 내슈빌에 세운 레이블이자 레코드숍이라는 표현을 뒷받침한다.",
           "suggestion": ""
         }
       ],
-      "evidence": "White has established a headquarters for his Third Man Records label and recording/photography studio in downtown Nashville.",
-      "reason": "출처 사이에 내용이 엇갈립니다. Third Man Records (official): 출처는 Third Man Records가 잭 화이트에 의해 디트로이트(Detroit, MI)에서 2001년에 시작되었고 2009년에 현재의 내슈빌 위치를 열었다고 명시한다. 즉 ‘내슈빌에 세웠다’는 표현은 시작(설립) 장소를 잘못 전달한다. / Third Man Records (official): 출처에는 'Third Man Records'와 잭 화이트 관련 항목들이 나열되어 있으나, 잭 화이트가 서드 맨 레코즈를 '세웠다(창립했다)'거나 그 레이블이 '내슈빌에 있다'고 명시적으로 서술한 구절이 없다. 따라서 '세웠다'와 '내슈빌에'라는 두 요소 중 어느 것도 출처에서 확인되지 않는다. / MusicRow: sourceText에 잭 화이트가 'Third Man Records' 레이블의 본부와 스튜디오를 내슈빌 도심에 세웠다고 명확히 서술되어 있어, '내슈빌에 세웠다'는 주장을 뒷받침합니다.",
+      "evidence": "Founded in 2009, Third Man Records is a multifaceted record label and boutique retail experience dedicated to the preservation and promotion of analog culture.",
+      "reason": "출처 사이에 내용이 엇갈립니다. Third Man Records (official): 출처는 Third Man Records가 잭 화이트에 의해 2001년 디트로이트에서 시작되었고 2009년에 현재의 내슈빌 지점을 열었다고 명확히 적고 있다. 따라서 ‘내슈빌에 세운(설립한)’이라고 단정하는 주장은 출처 내용과 직접 모순된다. 다만 출처는 내슈빌 지점에 레코드숍과 레이블 사무실이 있다고 밝히고 있다. / Third Man Records (official): sourceText가 Third Man Records를 'record label and boutique retail experience'로 명시하고 본사 위치로 'Nashville'을 명시하고 있어, 내슈빌에 세운 레이블이자 레코드숍이라는 표현을 뒷받침한다.",
       "suggestion": "엇갈리는 출처를 직접 비교해 확정해 주세요.",
-      "checkedAt": "2026-10-17T08:22:50.295Z",
+      "checkedAt": "2026-10-17T08:40:57.485Z",
       "failureType": "CONFLICTING_EVIDENCE"
     },
     {
-      "id": "F014",
-      "claim": "Third Man Records는 2009년부터 활동 중인 레이블이자 레코드숍이다.",
+      "id": "F015",
+      "claim": "Third Man Records는 2009년부터 활동하고 있다 (2009~).",
       "field": "body",
       "excerpt": "Third Man Records (2009~): 내슈빌에 세운 레이블이자 레코드숍.",
       "type": "fact",
-      "group": "G6",
+      "group": "G3",
       "keywords": [
         "Third Man Records",
-        "2009",
-        "label",
-        "record shop"
+        "2009~",
+        "founded 2009"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://thirdmanrecordsstore.shop/about",
+        "publisher": "Third Man Records (official)"
+      },
+      "sources": [
+        {
+          "url": "https://thirdmanrecords.com/pages/nashville-store",
+          "publisher": "Third Man Records (official)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Third Man Records was launched by Jack White in Detroit, MI in 2001, and in 2009 opened its current Nashville, TN location,",
+          "reason": "출처는 내슈빌의 현재 지점을 2009년에 열었다고 명시하지만, 레이블 자체는 2001년 디트로이트에서 시작되었다고도 적고 있다. 따라서 ‘2009년부터 활동하고 있다(2009~)’가 레이블의 전체 활동 시작 연도를 말하려는 것인지, 내슈빌 지점의 개점을 말하려는 것인지가 불분명하며, 전자를 주장하는 경우 출처는 이를 지지하지 않는다. 후자의 의미(내슈빌 지점이 2009년부터 존재함)는 출처가 확인한다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://thirdmanrecordsstore.shop/about",
+          "publisher": "Third Man Records (official)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Founded in 2009, Third Man Records is a multifaceted record label and boutique retail experience dedicated to the preservation and promotion of analog culture.",
+          "reason": "sourceText가 'Founded in 2009'라고 명시하고 현재형으로 회사 성격을 설명하고 있어 2009년부터 활동하고 있음을 뒷받침한다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "Founded in 2009, Third Man Records is a multifaceted record label and boutique retail experience dedicated to the preservation and promotion of analog culture.",
+      "reason": "sourceText가 'Founded in 2009'라고 명시하고 현재형으로 회사 성격을 설명하고 있어 2009년부터 활동하고 있음을 뒷받침한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-17T08:40:57.485Z",
+      "failureType": null
+    },
+    {
+      "id": "F016",
+      "claim": "Third Man Records는 바이닐 부활의 한 축을 맡아왔다.",
+      "field": "body",
+      "excerpt": "Third Man Records (2009~): 내슈빌에 세운 레이블이자 레코드숍. 바이닐 부활의 한 축을 맡아왔다.",
+      "type": "interpretation",
+      "group": "G3",
+      "keywords": [
+        "vinyl revival",
+        "Third Man Records",
+        "influence"
       ],
       "verificationStatus": "VERIFIED",
       "source": {
@@ -563,424 +622,477 @@
           "url": "https://thirdmanrecords.com/pages/nashville-store",
           "publisher": "Third Man Records (official)",
           "verificationStatus": "VERIFIED",
-          "evidence": "Third Man Records was launched by Jack White in Detroit, MI in 2001, and in 2009 opened its current Nashville, TN location, which houses a record store, novelties lounge (featuring the Third Man Record Booth), label offices and distribution center, photo studio, and the world’s only live venue with direct-to-acetate recording capabilities.",
-          "reason": "출처는 2009년에 현재의 내슈빌 위치를 열었고 그 장소가 'a record store'와 'label offices'를 포함한다고 명시하고 있어, 2009년부터 존재하는 레이블이자 레코드숍이라는 주장과 객관적 요소(연도·레이블·레코드숍)를 뒷받침한다.",
+          "evidence": "Third Man is an innovator in the world of vinyl records and a boundary pusher in the world of recorded music, aiming to bring tangibility and spontaneity back into the record business",
+          "reason": "출처는 Third Man을 ‘vinyl records의 혁신가’라고 직접 규정하고, 레코드 사업에 촉감과 즉흥성을 되살리려 한다고 밝혀 바이닐 부활에 기여해왔다는 해석을 뒷받침한다.",
           "suggestion": ""
         }
       ],
-      "evidence": "Third Man Records was launched by Jack White in Detroit, MI in 2001, and in 2009 opened its current Nashville, TN location, which houses a record store, novelties lounge (featuring the Third Man Record Booth), label offices and distribution center, photo studio, and the world’s only live venue with direct-to-acetate recording capabilities.",
-      "reason": "출처는 2009년에 현재의 내슈빌 위치를 열었고 그 장소가 'a record store'와 'label offices'를 포함한다고 명시하고 있어, 2009년부터 존재하는 레이블이자 레코드숍이라는 주장과 객관적 요소(연도·레이블·레코드숍)를 뒷받침한다.",
+      "evidence": "Third Man is an innovator in the world of vinyl records and a boundary pusher in the world of recorded music, aiming to bring tangibility and spontaneity back into the record business",
+      "reason": "출처는 Third Man을 ‘vinyl records의 혁신가’라고 직접 규정하고, 레코드 사업에 촉감과 즉흥성을 되살리려 한다고 밝혀 바이닐 부활에 기여해왔다는 해석을 뒷받침한다.",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:22:50.295Z",
+      "checkedAt": "2026-10-17T08:40:57.485Z",
       "failureType": null
     },
     {
-      "id": "F015",
-      "claim": "잭 화이트의 솔로 앨범 No Name(2024)은 2025년 그래미 '베스트 록 앨범' 후보에 올랐다.",
+      "id": "F017",
+      "claim": "솔로 앨범 No Name(2024)은 2025년 그래미 '베스트 록 앨범' 후보에 올랐다.",
       "field": "body",
       "excerpt": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
       "type": "fact",
-      "group": "G7",
+      "group": "G4",
       "keywords": [
         "No Name",
         "2024",
         "2025 Grammy",
         "Best Rock Album",
-        "Grammy nomination"
+        "nominee"
       ],
       "verificationStatus": "VERIFIED",
       "source": {
-        "url": "https://www.grammy.com/awards/categories/best-rock-album/2025/",
-        "publisher": "The Recording Academy (GRAMMY.com)"
+        "url": "https://www.grammy.com/artists/jack-white/15627/",
+        "publisher": "Recording Academy (GRAMMY.com)"
       },
       "sources": [
         {
-          "url": "https://www.grammy.com/awards/categories/best-rock-album/2025/",
-          "publisher": "The Recording Academy (GRAMMY.com)",
+          "url": "https://www.grammy.com/artists/jack-white/15627/",
+          "publisher": "Recording Academy (GRAMMY.com)",
           "verificationStatus": "VERIFIED",
-          "evidence": "No Name\nJack White",
-          "reason": "sourceText의 2025년 'Winners & Nominees 2025' 항목에서 'No Name'이 Jack White의 작품으로 'Nominees' 목록에 올라 있다. 이로써 해당 앨범이 2025년 그래미 베스트 록 앨범 후보에 오른 사실이 출처로 뒷받침된다.",
+          "evidence": "2025\nBest Rock Album\nJack White\nNo Name",
+          "reason": "sourceText의 연도·부문·작품명이 2025년 ‘Best Rock Album’ 후보로 No Name(작품명)을, 아티스트를 Jack White로 분명히 제시하고 있어 해당 사실을 뒷받침함.",
           "suggestion": ""
         }
       ],
-      "evidence": "No Name\nJack White",
-      "reason": "sourceText의 2025년 'Winners & Nominees 2025' 항목에서 'No Name'이 Jack White의 작품으로 'Nominees' 목록에 올라 있다. 이로써 해당 앨범이 2025년 그래미 베스트 록 앨범 후보에 오른 사실이 출처로 뒷받침된다.",
+      "evidence": "2025\nBest Rock Album\nJack White\nNo Name",
+      "reason": "sourceText의 연도·부문·작품명이 2025년 ‘Best Rock Album’ 후보로 No Name(작품명)을, 아티스트를 Jack White로 분명히 제시하고 있어 해당 사실을 뒷받침함.",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:23:31.567Z",
-      "failureType": null
-    },
-    {
-      "id": "F016",
-      "claim": "No Name의 2025년 그래미 후보 지명은 잭 화이트의 솔로 경력 34번째 노미네이트였다.",
-      "field": "body",
-      "excerpt": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
-      "type": "fact",
-      "group": "G7",
-      "keywords": [
-        "No Name",
-        "34th solo nomination",
-        "Grammy",
-        "노미네이트"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://www.sonymusic.ca/press_release/jack-white-announces-no-name-tour",
-        "publisher": "Sony Music Canada (press release)"
-      },
-      "sources": [
-        {
-          "url": "https://www.grammy.com/awards/categories/best-rock-album/2025/",
-          "publisher": "The Recording Academy (GRAMMY.com)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "No Name\nJack White",
-          "reason": "sourceText는 'No Name'이 2025년 후보임을 보여주지만, 잭 화이트의 솔로 경력에서의 34번째 노미네이트라는 수치(솔로 경력 관련 노미네이트 횟수)는 전혀 언급하지 않는다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.grammy.com/news/2025-grammys-nominations-full-winners-nominees-list/",
-          "publisher": "The Recording Academy (GRAMMY.com)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "No Name — Jack White",
-          "reason": "출처에는 'No Name — Jack White'로 2025 그래미 후보 명단에 잭 화이트의 작품이 등재된 것은 확인되나, 해당 항목이 '베스트 록 앨범' 후보인지 또는 이 지명이 솔로 경력 34번째라는 수치적 정보는 전혀 언급되어 있지 않습니다. 따라서 '2025년 그래미 후보 지명' 자체는 일부 확인되지만 '솔로 경력 34번째 노미네이트'라는 부분은 출처에서 확인되지 않습니다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.sonymusic.ca/press_release/jack-white-announces-no-name-tour",
-          "publisher": "Sony Music Canada (press release)",
-          "verificationStatus": "VERIFIED",
-          "evidence": "The acclaimed collection was recently honored with a 2025 GRAMMY® Award nomination for “Best Rock Album” – White’s 34 th solo career nomination and 46 th overall along with 16 total GRAMMY® Award wins.",
-          "reason": "sourceText가 No Name의 2025년 'Best Rock Album' 노미네이트가 잭 화이트의 솔로 경력 34번째 노미네이트라고 명시적으로 적고 있으므로 해당 주장은 출처로 완전히 뒷받침됩니다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "The acclaimed collection was recently honored with a 2025 GRAMMY® Award nomination for “Best Rock Album” – White’s 34 th solo career nomination and 46 th overall along with 16 total GRAMMY® Award wins.",
-      "reason": "sourceText가 No Name의 2025년 'Best Rock Album' 노미네이트가 잭 화이트의 솔로 경력 34번째 노미네이트라고 명시적으로 적고 있으므로 해당 주장은 출처로 완전히 뒷받침됩니다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:23:31.567Z",
-      "failureType": null
-    },
-    {
-      "id": "F017",
-      "claim": "그 후보 지명은 통산 46번째 노미네이트였다.",
-      "field": "body",
-      "excerpt": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
-      "type": "fact",
-      "group": "G7",
-      "keywords": [
-        "46th nomination",
-        "Grammy",
-        "통산 46"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://www.sonymusic.ca/press_release/jack-white-announces-no-name-tour",
-        "publisher": "Sony Music Canada (press release)"
-      },
-      "sources": [
-        {
-          "url": "https://www.grammy.com/awards/categories/best-rock-album/2025/",
-          "publisher": "The Recording Academy (GRAMMY.com)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "No Name\nJack White",
-          "reason": "sourceText는 'No Name'의 2025년 후보 지명을 기록하고 있으나, 이것이 통산 46번째 노미네이트였다는 총합 수치는 출처에 전혀 나오지 않는다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.grammy.com/news/2025-grammys-nominations-full-winners-nominees-list/",
-          "publisher": "The Recording Academy (GRAMMY.com)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "No Name — Jack White",
-          "reason": "출처에 잭 화이트의 통산 노미네이트 횟수에 관한 언급이 없습니다. 텍스트에서 'No Name — Jack White'라는 후보 등재는 확인되지만, 이것이 통산 46번째 노미네이트였다는 수치는 출처에 나오지 않습니다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.sonymusic.ca/press_release/jack-white-announces-no-name-tour",
-          "publisher": "Sony Music Canada (press release)",
-          "verificationStatus": "VERIFIED",
-          "evidence": "The acclaimed collection was recently honored with a 2025 GRAMMY® Award nomination for “Best Rock Album” – White’s 34 th solo career nomination and 46 th overall along with 16 total GRAMMY® Award wins.",
-          "reason": "sourceText가 No Name의 2025년 그래미 노미네이트가 통산 46번째 노미네이트라고 명확히 기술하고 있으므로 해당 주장은 출처로 완전히 뒷받침됩니다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "The acclaimed collection was recently honored with a 2025 GRAMMY® Award nomination for “Best Rock Album” – White’s 34 th solo career nomination and 46 th overall along with 16 total GRAMMY® Award wins.",
-      "reason": "sourceText가 No Name의 2025년 그래미 노미네이트가 통산 46번째 노미네이트라고 명확히 기술하고 있으므로 해당 주장은 출처로 완전히 뒷받침됩니다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:23:31.567Z",
+      "checkedAt": "2026-10-17T08:41:42.778Z",
       "failureType": null
     },
     {
       "id": "F018",
-      "claim": "잭 화이트는 그래미 수상을 총 16회 했다.",
+      "claim": "그 후보 지명은 솔로 경력 34번째 노미네이트였다.",
       "field": "body",
-      "excerpt": "그래미 수상은 총 16회다.",
+      "excerpt": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
       "type": "fact",
-      "group": "G7",
+      "group": "G4",
       "keywords": [
-        "Jack White",
-        "Grammy Awards",
-        "16 wins",
-        "그래미 16회"
+        "34번째",
+        "solo nominations",
+        "Grammy"
       ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://www.sonymusic.ca/press_release/jack-white-announces-no-name-tour",
-        "publisher": "Sony Music Canada (press release)"
-      },
+      "verificationStatus": "INSUFFICIENT",
+      "source": null,
       "sources": [
         {
-          "url": "https://www.grammy.com/awards/categories/best-rock-album/2025/",
-          "publisher": "The Recording Academy (GRAMMY.com)",
+          "url": "https://www.grammy.com/artists/jack-white/15627/",
+          "publisher": "Recording Academy (GRAMMY.com)",
           "verificationStatus": "INSUFFICIENT",
-          "evidence": "The Grammy Award for Best Rock Album recognizes artistic excellence in albums across the spectrum of rock music.",
-          "reason": "sourceText에는 그래미 수상 횟수(예: 잭 화이트가 그래미를 총 16회 수상했다)는 기재되어 있지 않다. 그래미 관련 설명과 2025년 수상자·후보 목록은 있지만 개인의 총 수상 횟수는 언급되지 않는다.",
+          "evidence": "Nominations\n34",
+          "reason": "sourceText는 전체 'Nominations 34'라고만 표기해 '34'라는 숫자는 확인되지만, 이것이 '솔로 경력'에 한한 수치인지(솔로 경력 34번째 노미네이트인지)는 명시하지 않아 '솔로 경력'이라는 부분은 확인 불가함.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.grammy.com/awards/categories/best-rock-album/2025/",
+          "publisher": "Recording Academy (GRAMMY.com)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Dark Matter\nPearl Jam\nNo Name\nJack White\nPrevious Years",
+          "reason": "출처에는 해당 음반(No Name)이 2025년 '베스트 록 앨범' 후보에 올랐다는 점만 확인되며, '솔로 경력 34번째 노미네이트'라는 수치나 경력별 구분(솔로 vs 통산)에 대한 언급이 없다.",
           "suggestion": ""
         },
         {
           "url": "https://www.grammy.com/news/2025-grammys-nominations-full-winners-nominees-list/",
-          "publisher": "The Recording Academy (GRAMMY.com)",
+          "publisher": "Recording Academy (GRAMMY.com)",
           "verificationStatus": "INSUFFICIENT",
-          "evidence": "No Name — Jack White",
-          "reason": "출처 전체에서 잭 화이트의 그래미 수상 횟수(총 16회)에 대한 언급이 없습니다. 그래미 수상·후보 관련 전체 목록과 여러 수상자들은 나열되어 있으나, 잭 화이트의 누적 수상 횟수는 명시되어 있지 않습니다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.sonymusic.ca/press_release/jack-white-announces-no-name-tour",
-          "publisher": "Sony Music Canada (press release)",
-          "verificationStatus": "VERIFIED",
-          "evidence": "The acclaimed collection was recently honored with a 2025 GRAMMY® Award nomination for “Best Rock Album” – White’s 34 th solo career nomination and 46 th overall along with 16 total GRAMMY® Award wins.",
-          "reason": "sourceText가 잭 화이트의 그래미 수상 횟수를 '16 total GRAMMY® Award wins'로 명시하고 있으므로 해당 주장은 출처로 완전히 뒷받침됩니다.",
+          "evidence": "",
+          "reason": "원문(sourceText)에서 'No Name — Jack White'가 2025 그래미 후보 목록에 등재된 것은 확인되지만, 그것이 \"솔로 경력 34번째 노미네이트\"였다는 구체적 수치(솔로 경력의 몇 번째인지)를 뒷받침하는 문구는 전혀 없다.",
           "suggestion": ""
         }
       ],
-      "evidence": "The acclaimed collection was recently honored with a 2025 GRAMMY® Award nomination for “Best Rock Album” – White’s 34 th solo career nomination and 46 th overall along with 16 total GRAMMY® Award wins.",
-      "reason": "sourceText가 잭 화이트의 그래미 수상 횟수를 '16 total GRAMMY® Award wins'로 명시하고 있으므로 해당 주장은 출처로 완전히 뒷받침됩니다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:23:31.567Z",
-      "failureType": null
+      "evidence": "",
+      "reason": "Recording Academy (GRAMMY.com): sourceText는 전체 'Nominations 34'라고만 표기해 '34'라는 숫자는 확인되지만, 이것이 '솔로 경력'에 한한 수치인지(솔로 경력 34번째 노미네이트인지)는 명시하지 않아 '솔로 경력'이라는 부분은 확인 불가함. / Recording Academy (GRAMMY.com): 출처에는 해당 음반(No Name)이 2025년 '베스트 록 앨범' 후보에 올랐다는 점만 확인되며, '솔로 경력 34번째 노미네이트'라는 수치나 경력별 구분(솔로 vs 통산)에 대한 언급이 없다. / Recording Academy (GRAMMY.com): 원문(sourceText)에서 'No Name — Jack White'가 2025 그래미 후보 목록에 등재된 것은 확인되지만, 그것이 \"솔로 경력 34번째 노미네이트\"였다는 구체적 수치(솔로 경력의 몇 번째인지)를 뒷받침하는 문구는 전혀 없다.",
+      "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
+      "checkedAt": "2026-10-17T08:41:42.778Z",
+      "failureType": "EVIDENCE_INSUFFICIENT"
     },
     {
       "id": "F019",
-      "claim": "솔로 앨범 Frozen Charlotte(2026)는 2026년 7월 북미 투어 첫날에 맞춰 공개되었다.",
+      "claim": "그 후보 지명은 통산 46번째 노미네이트였다.",
       "field": "body",
-      "excerpt": "솔로 Frozen Charlotte (2026): 2026년 7월, 북미 투어 첫날에 맞춰 공개된 신작이다.",
+      "excerpt": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
       "type": "fact",
-      "group": "G8",
+      "group": "G4",
       "keywords": [
-        "Frozen Charlotte",
-        "2026",
-        "North American tour",
-        "북미 투어",
-        "7월"
+        "46번째",
+        "total nominations",
+        "Grammy"
       ],
-      "verificationStatus": "VERIFIED",
+      "verificationStatus": "CONTRADICTED",
       "source": {
-        "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-seventh-studio-album-frozen-charlotte",
-        "publisher": "Third Man Records (official)"
+        "url": "https://www.grammy.com/artists/jack-white/15627/",
+        "publisher": "Recording Academy (GRAMMY.com)"
       },
       "sources": [
         {
-          "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-seventh-studio-album-frozen-charlotte",
-          "publisher": "Third Man Records (official)",
-          "verificationStatus": "VERIFIED",
-          "evidence": "NORTH AMERICAN DATES BEGIN JULY 10 IN WASHINGTON, DC\nFROZEN CHARLOTTE ARRIVES VIA THIRD MAN RECORDS ON FRIDAY, JULY 10",
-          "reason": "sourceText에 북미 투어의 북미 일정 시작일이 'JULY 10'로 명시되어 있고 같은 날짜에 앨범이 발매된다고 명확히 적혀 있어(앨범 발매일과 투어 첫날이 일치함) 주장의 모든 요소가 뒷받침된다.",
+          "url": "https://www.grammy.com/artists/jack-white/15627/",
+          "publisher": "Recording Academy (GRAMMY.com)",
+          "verificationStatus": "CONTRADICTED",
+          "evidence": "Nominations\n34",
+          "reason": "sourceText는 전체 노미네이션 수를 'Nominations 34'로 제시하고 있어 '통산 46번째 노미네이트'라는 주장과 직접적으로 모순됨.",
+          "suggestion": "해당 지명은 통산 34번째 노미네이트였다."
+        },
+        {
+          "url": "https://www.grammy.com/awards/categories/best-rock-album/2025/",
+          "publisher": "Recording Academy (GRAMMY.com)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Dark Matter\nPearl Jam\nNo Name\nJack White\nPrevious Years",
+          "reason": "출처는 No Name이 2025년 '베스트 록 앨범' 후보 목록에 포함되어 있음을 보여주지만, '통산 46번째 노미네이트'라는 총 횟수에 대한 어떤 정보도 제공하지 않는다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.grammy.com/news/2025-grammys-nominations-full-winners-nominees-list/",
+          "publisher": "Recording Academy (GRAMMY.com)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "",
+          "reason": "원문에서 'No Name — Jack White'가 2025년 그래미 목록에 포함된 것은 확인되지만, 이것이 \"통산 46번째 노미네이트\"였다는 전체 누적 노미네이트 수를 명시한 문구는 없다.",
           "suggestion": ""
         }
       ],
-      "evidence": "NORTH AMERICAN DATES BEGIN JULY 10 IN WASHINGTON, DC\nFROZEN CHARLOTTE ARRIVES VIA THIRD MAN RECORDS ON FRIDAY, JULY 10",
-      "reason": "sourceText에 북미 투어의 북미 일정 시작일이 'JULY 10'로 명시되어 있고 같은 날짜에 앨범이 발매된다고 명확히 적혀 있어(앨범 발매일과 투어 첫날이 일치함) 주장의 모든 요소가 뒷받침된다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:24:07.046Z",
-      "failureType": null
+      "evidence": "Nominations\n34",
+      "reason": "sourceText는 전체 노미네이션 수를 'Nominations 34'로 제시하고 있어 '통산 46번째 노미네이트'라는 주장과 직접적으로 모순됨.",
+      "suggestion": "해당 지명은 통산 34번째 노미네이트였다.",
+      "checkedAt": "2026-10-17T08:41:42.778Z",
+      "failureType": "SOURCE_CONTRADICTS"
     },
     {
       "id": "F020",
-      "claim": "Frozen Charlotte는 내슈빌의 서드 맨 스튜디오에서 녹음되었다.",
+      "claim": "그래미 수상은 총 16회다.",
       "field": "body",
-      "excerpt": "내슈빌의 서드 맨 스튜디오에서 녹음했다.",
+      "excerpt": "그래미 수상은 총 16회다.",
       "type": "fact",
-      "group": "G8",
+      "group": "G4",
       "keywords": [
-        "Frozen Charlotte",
-        "Third Man Studio",
-        "Nashville",
-        "서드 맨 스튜디오"
+        "16 wins",
+        "Grammy Awards",
+        "Jack White"
       ],
       "verificationStatus": "INSUFFICIENT",
       "source": null,
       "sources": [
         {
-          "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-seventh-studio-album-frozen-charlotte",
-          "publisher": "Third Man Records (official)",
+          "url": "https://www.grammy.com/artists/jack-white/15627/",
+          "publisher": "Recording Academy (GRAMMY.com)",
           "verificationStatus": "INSUFFICIENT",
-          "evidence": "FROZEN CHARLOTTE ARRIVES VIA THIRD MAN RECORDS ON FRIDAY, JULY 10",
-          "reason": "sourceText에는 앨범 발매 및 레이블 정보(Third Man Records)는 나오지만, 녹음 장소(내슈빌의 서드 맨 스튜디오)라는 구체적 진술은 찾을 수 없다. 발매처는 확인되나 녹음 장소에 대한 언급은 없다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.allmusic.com/album/frozen-charlotte-mw0004830553",
-          "publisher": "AllMusic",
-          "verificationStatus": "NOT CHECKED",
           "evidence": "",
-          "reason": "본문 접근 실패: 출처 페이지 HTTP 403",
-          "failureType": "SOURCE_ACCESS_FAILED"
+          "reason": "AI가 반박 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText는 그래미 수상(총 횟수)을 'Wins 12'로 제시하고 있어 '총 16회'라는 주장은 출처와 직접적으로 모순됨.)",
+          "suggestion": "그래미 수상은 총 12회다."
         },
         {
-          "url": "https://www.nme.com/news/music/jack-white-announces-new-album-frozen-charlotte-and-shares-blues-infused-new-single-dollar-bill-3949951",
-          "publisher": "NME",
+          "url": "https://www.grammy.com/awards/categories/best-rock-album/2025/",
+          "publisher": "Recording Academy (GRAMMY.com)",
           "verificationStatus": "INSUFFICIENT",
-          "evidence": "The album was teased earlier this week, through the Third Man Release Lab, a free, two-part , behind-the-scenes online series that explores Third Man Records’ creative approach to record releases and demystifies the album release process.",
-          "reason": "원문에서 앨범이 내슈빌의 서드 맨 스튜디오에서 녹음되었다고 명시적으로 기술하지 않습니다. 출처에는 Third Man Records와 이를 통한 공개(Third Man Release Lab) 관련 설명은 있으나, 녹음 장소·스튜디오에 대한 언급은 없습니다.",
+          "evidence": "The Rolling Stones won the 2025 Grammy Award for Best Rock Album with \"Hackney Diamonds\"",
+          "reason": "출처는 연도별 수상자와 후보 목록을 제공하지만, 특정 인물(잭 화이트)의 그래미 수상 총회수(예: 16회)에 대한 언급이나 합계는 전혀 포함하고 있지 않다.",
           "suggestion": ""
         },
         {
-          "url": "https://www.spinmagazine.com/2026/06/jack-white-new-album/",
-          "publisher": "SPIN",
+          "url": "https://www.grammy.com/news/2025-grammys-nominations-full-winners-nominees-list/",
+          "publisher": "Recording Academy (GRAMMY.com)",
           "verificationStatus": "INSUFFICIENT",
-          "evidence": "The former White Stripes frontman has announced Frozen Charlotte , his seventh solo studio album, due July 10 via Third Man Records.",
-          "reason": "출처 본문에서는 앨범이 Third Man Records를 통해 발매된다는 점과 프로듀서가 잭 화이트라는 점을 언급하지만, ‘내슈빌의 서드 맨 스튜디오에서 녹음했다’는 구체적 녹음 장소에 대해서는 전혀 언급하지 않는다. 따라서 녹음 장소는 본문만으로 확인할 수 없다.",
+          "evidence": "",
+          "reason": "원문(sourceText)에 그래미 수상 총계(예: \"총 16회\")를 명시한 문장은 없다. 수상 내역과 당해 수상자·수상작 목록은 있으나 총 횟수를 집계해 언급한 부분은 확인되지 않는다.",
           "suggestion": ""
         }
       ],
       "evidence": "",
-      "reason": "Third Man Records (official): sourceText에는 앨범 발매 및 레이블 정보(Third Man Records)는 나오지만, 녹음 장소(내슈빌의 서드 맨 스튜디오)라는 구체적 진술은 찾을 수 없다. 발매처는 확인되나 녹음 장소에 대한 언급은 없다. / NME: 원문에서 앨범이 내슈빌의 서드 맨 스튜디오에서 녹음되었다고 명시적으로 기술하지 않습니다. 출처에는 Third Man Records와 이를 통한 공개(Third Man Release Lab) 관련 설명은 있으나, 녹음 장소·스튜디오에 대한 언급은 없습니다. / SPIN: 출처 본문에서는 앨범이 Third Man Records를 통해 발매된다는 점과 프로듀서가 잭 화이트라는 점을 언급하지만, ‘내슈빌의 서드 맨 스튜디오에서 녹음했다’는 구체적 녹음 장소에 대해서는 전혀 언급하지 않는다. 따라서 녹음 장소는 본문만으로 확인할 수 없다.",
+      "reason": "Recording Academy (GRAMMY.com): AI가 반박 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText는 그래미 수상(총 횟수)을 'Wins 12'로 제시하고 있어 '총 16회'라는 주장은 출처와 직접적으로 모순됨.) / Recording Academy (GRAMMY.com): 출처는 연도별 수상자와 후보 목록을 제공하지만, 특정 인물(잭 화이트)의 그래미 수상 총회수(예: 16회)에 대한 언급이나 합계는 전혀 포함하고 있지 않다. / Recording Academy (GRAMMY.com): 원문(sourceText)에 그래미 수상 총계(예: \"총 16회\")를 명시한 문장은 없다. 수상 내역과 당해 수상자·수상작 목록은 있으나 총 횟수를 집계해 언급한 부분은 확인되지 않는다.",
       "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
-      "checkedAt": "2026-10-17T08:24:07.046Z",
+      "checkedAt": "2026-10-17T08:41:42.778Z",
       "failureType": "EVIDENCE_INSUFFICIENT"
     },
     {
       "id": "F021",
-      "claim": "Frozen Charlotte는 일곱 번째 솔로 앨범이다.",
+      "claim": "솔로 Frozen Charlotte(2026)는 2026년 7월 북미 투어 첫날에 맞춰 공개되었다.",
       "field": "body",
-      "excerpt": "일곱 번째 솔로 앨범이다.",
+      "excerpt": "솔로 Frozen Charlotte (2026): 2026년 7월, 북미 투어 첫날에 맞춰 공개된 신작이다.",
       "type": "fact",
-      "group": "G8",
+      "group": "G5",
       "keywords": [
-        "seventh solo album",
         "Frozen Charlotte",
-        "7th"
+        "2026",
+        "July",
+        "North American tour",
+        "release date"
       ],
       "verificationStatus": "VERIFIED",
       "source": {
         "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-seventh-studio-album-frozen-charlotte",
-        "publisher": "Third Man Records (official)"
+        "publisher": "Third Man Records (official blog)"
       },
       "sources": [
         {
           "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-seventh-studio-album-frozen-charlotte",
-          "publisher": "Third Man Records (official)",
+          "publisher": "Third Man Records (official blog)",
           "verificationStatus": "VERIFIED",
-          "evidence": "Jack White Announces Seventh Studio Album, Frozen Charlotte",
-          "reason": "sourceText가 해당 앨범을 'seventh studio album'이라고 여러 차례 명시하고 있어(앨범의 순번이 일곱 번째라는 점을 명확히 뒷받침함) 주장이 전부 확인된다.",
+          "evidence": "NORTH AMERICAN DATES BEGIN JULY 10 IN WASHINGTON, DC\nFROZEN CHARLOTTE ARRIVES VIA THIRD MAN RECORDS ON FRIDAY, JULY 10",
+          "reason": "원문은 북미 투어 시작일(7월 10일)과 앨범 발매일(7월 10일)을 모두 명시하여, 투어 첫날에 맞춰 공개되었다는 주장을 뒷받침한다.",
           "suggestion": ""
         }
       ],
-      "evidence": "Jack White Announces Seventh Studio Album, Frozen Charlotte",
-      "reason": "sourceText가 해당 앨범을 'seventh studio album'이라고 여러 차례 명시하고 있어(앨범의 순번이 일곱 번째라는 점을 명확히 뒷받침함) 주장이 전부 확인된다.",
+      "evidence": "NORTH AMERICAN DATES BEGIN JULY 10 IN WASHINGTON, DC\nFROZEN CHARLOTTE ARRIVES VIA THIRD MAN RECORDS ON FRIDAY, JULY 10",
+      "reason": "원문은 북미 투어 시작일(7월 10일)과 앨범 발매일(7월 10일)을 모두 명시하여, 투어 첫날에 맞춰 공개되었다는 주장을 뒷받침한다.",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:24:07.046Z",
+      "checkedAt": "2026-10-17T08:42:09.714Z",
       "failureType": null
     },
     {
       "id": "F022",
-      "claim": "잭 화이트는 최근 로큰롤 명예의 전당에 헌액되었다.",
+      "claim": "Frozen Charlotte는 내슈빌의 서드 맨 스튜디오에서 녹음했다.",
       "field": "body",
-      "excerpt": "그 밖의 활동: 최근 로큰롤 명예의 전당에 헌액됐다.",
+      "excerpt": "내슈빌의 서드 맨 스튜디오에서 녹음했다.",
       "type": "fact",
-      "group": "G9",
+      "group": "G5",
       "keywords": [
-        "Rock and Roll Hall of Fame",
-        "inducted",
-        "로큰롤 명예의 전당"
+        "Third Man Studio",
+        "Nashville",
+        "recorded",
+        "Frozen Charlotte"
       ],
       "verificationStatus": "VERIFIED",
       "source": {
-        "url": "https://rockhall.com/inductees/white-stripes/",
-        "publisher": "Rock & Roll Hall of Fame (official)"
+        "url": "https://thirdmanrecords.com/products/frozen-charlotte",
+        "publisher": "Third Man Records (상품 페이지)"
       },
       "sources": [
         {
-          "url": "https://rockhall.com/inductees/white-stripes/",
-          "publisher": "Rock & Roll Hall of Fame (official)",
+          "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-seventh-studio-album-frozen-charlotte",
+          "publisher": "Third Man Records (official blog)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "FROZEN CHARLOTTE ARRIVES VIA THIRD MAN RECORDS ON FRIDAY, JULY 10",
+          "reason": "원문은 Third Man Records를 통해 발매된다고만 적혀 있어 레이블 소유 장소(내슈빌) 언급은 있으나, ‘내슈빌의 서드 맨 스튜디오에서 녹음했다’는 녹음 장소에 대한 직접적 언급은 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://thirdmanrecords.com/products/frozen-charlotte",
+          "publisher": "Third Man Records (상품 페이지)",
           "verificationStatus": "VERIFIED",
-          "evidence": "Inducted by Iggy Pop\nAccepted by Jack White\nImpact\nThey had an insane chemistry, and Meg’s playing was incredibly instinctual, hypnotic and unique.",
-          "reason": "출처에 로큰롤 명예의 전당(Induction) 항목이 있으며, ‘Inducted by Iggy Pop’과 함께 ‘Accepted by Jack White’라는 문구가 있어 잭 화이트가 헌액을 받아들였음이 직접적으로 확인된다. 또한 출처 내에 ‘Find The White Stripes in the 2025 Inductees Exhibit’ 등 2025년 헌액 관련 문구가 있어 최근(2025년) 헌액임을 뒷받침한다.",
+          "evidence": "Recorded in White's Third Man Studio in Nashville, this album shows Jack carrying on the same raucous, raw, and frenetic energy from his lauded 2024 album, No Name.",
+          "reason": "sourceText의 직접적인 문장 'Recorded in White's Third Man Studio in Nashville'가 앨범이 내슈빌의 서드 맨 스튜디오에서 녹음되었음을 명확히 뒷받침한다.",
           "suggestion": ""
         }
       ],
-      "evidence": "Inducted by Iggy Pop\nAccepted by Jack White\nImpact\nThey had an insane chemistry, and Meg’s playing was incredibly instinctual, hypnotic and unique.",
-      "reason": "출처에 로큰롤 명예의 전당(Induction) 항목이 있으며, ‘Inducted by Iggy Pop’과 함께 ‘Accepted by Jack White’라는 문구가 있어 잭 화이트가 헌액을 받아들였음이 직접적으로 확인된다. 또한 출처 내에 ‘Find The White Stripes in the 2025 Inductees Exhibit’ 등 2025년 헌액 관련 문구가 있어 최근(2025년) 헌액임을 뒷받침한다.",
+      "evidence": "Recorded in White's Third Man Studio in Nashville, this album shows Jack carrying on the same raucous, raw, and frenetic energy from his lauded 2024 album, No Name.",
+      "reason": "sourceText의 직접적인 문장 'Recorded in White's Third Man Studio in Nashville'가 앨범이 내슈빌의 서드 맨 스튜디오에서 녹음되었음을 명확히 뒷받침한다.",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:24:26.410Z",
+      "checkedAt": "2026-10-17T08:42:09.714Z",
       "failureType": null
     },
     {
       "id": "F023",
-      "claim": "2025년 10월 잭 화이트는 가사와 미발표 시, 희귀 사진을 묶은 책 'Jack White Collected Lyrics and Selected Writing Volume 1'을 냈다.",
+      "claim": "Frozen Charlotte는 일곱 번째 솔로 앨범이다.",
       "field": "body",
-      "excerpt": "2025년 10월에는 가사와 미발표 시, 희귀 사진을 묶은 책 『Jack White Collected Lyrics and Selected Writing Volume 1』도 냈다.",
+      "excerpt": "일곱 번째 솔로 앨범이다.",
       "type": "fact",
-      "group": "G10",
+      "group": "G5",
       "keywords": [
-        "Jack White Collected Lyrics and Selected Writing Volume 1",
-        "2025 October",
-        "book",
-        "가사집"
+        "7th solo album",
+        "Frozen Charlotte"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-seventh-studio-album-frozen-charlotte",
+        "publisher": "Third Man Records (official blog)"
+      },
+      "sources": [
+        {
+          "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-seventh-studio-album-frozen-charlotte",
+          "publisher": "Third Man Records (official blog)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Jack White has announced the release of his forthcoming seventh studio album, Frozen Charlotte , arriving via Third Man Records on Friday, July 10",
+          "reason": "원문이 해당 작품을 'seventh studio album'이라고 명확히 지칭하고 있어 ‘일곱 번째 솔로 앨범’이라는 주장과 일치한다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "Jack White has announced the release of his forthcoming seventh studio album, Frozen Charlotte , arriving via Third Man Records on Friday, July 10",
+      "reason": "원문이 해당 작품을 'seventh studio album'이라고 명확히 지칭하고 있어 ‘일곱 번째 솔로 앨범’이라는 주장과 일치한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-17T08:42:09.714Z",
+      "failureType": null
+    },
+    {
+      "id": "F024",
+      "claim": "잭 화이트는 최근 로큰롤 명예의 전당(Rock and Roll Hall of Fame)에 헌액됐다.",
+      "field": "body",
+      "excerpt": "그 밖의 활동: 최근 로큰롤 명예의 전당에 헌액됐다.",
+      "type": "fact",
+      "group": "G6",
+      "keywords": [
+        "Rock and Roll Hall of Fame",
+        "inducted",
+        "Jack White"
       ],
       "verificationStatus": "INSUFFICIENT",
       "source": null,
       "sources": [
         {
-          "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-collected-lyrics-and-selected-writing-volume-1",
-          "publisher": "Third Man Records (official)",
+          "url": "https://rockhall.com/press-release/the-rock-roll-hall-of-fame-foundation-unveils-electrifying-class-of-2025-inductees/",
+          "publisher": "Rock & Roll Hall of Fame (official)",
           "verificationStatus": "INSUFFICIENT",
-          "evidence": "The anthology further includes selected poems and writing by White, rare and exclusive photos, and new essays written especially for this book by award-winning, Pulitzer Prize and National Book Award-nominated poet  Adrian Matejka , award-winning, Detroit-based filmmaker and writer  dream hampton , and Third Man Records co-founder  Ben Blackwell",
-          "reason": "출처는 이 책이 가사를 모은 컬렉션이며(“compiles lyrics…”), 희귀·독점 사진과 ‘selected poems and writing’(선택된 시와 글)을 포함한다고 명시하고 출간일도 ‘October 21’로 2025년 10월임을 밝힌다. 그러나 '미발표 시(unpublished poems)'라는 표현은 나오지 않아 그 부분은 확인되지 않는다. 따라서 가사 수록·희귀 사진·2025년 10월 출간은 출처로 확인되나, ‘미발표 시’ 여부는 출처에 언급이 없어 불충분하다.",
+          "evidence": "Performer Category:\nBad Company\nChubby Checker\nJoe Cocker\nCyndi Lauper\nOutkast\nSoundgarden\nThe White Stripes",
+          "reason": "출처에는 2025년 헌액자 명단에 'The White Stripes'가 포함되어 있다고만 적혀 있습니다. 출처 텍스트는 팀(밴드)명인 'The White Stripes'를 명시했을 뿐, 잭 화이트 개인이 별도로 헌액되었다고 명시하지 않습니다. 따라서 '잭 화이트는 헌액됐다'는 개인 헌액 여부는 출처만으로 확인되지 않습니다.",
           "suggestion": ""
         },
         {
-          "url": "https://thirdmanrecords.com/products/jack-white-collected-lyrics-and-selected-writing-vol-1-standard-edition",
-          "publisher": "Third Man Records (product page)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "The collection compiles  lyrics from White's  solo recordings including No Name , The Raconteurs,   Dead Weather, and collaborations. Also featured will be exclusive and rare photos of White, selected poems and writing by White, and essays contributed by poet Adrian Matejka, author of  The Big Smoke  (Penguin, 2013), a finalist for the Pulitzer Prize, Detroit  filmmaker and writer dream hampton, who  was named one of TIME 100's most influential people in the world, and Third Man Records co-founder Ben Blackwell.",
-          "reason": "원문은 해당 책이 잭 화이트의 가사, 희귀 사진, 시와 글을 모았음을 분명히 밝히고 있으나(가사·미발표 시의 존재 여부는 'selected poems and writing'로 부분 확인 가능), 출간 시점(2025년 10월)에 관해서는 전혀 언급하지 않는다. 따라서 책의 내용은 확인되지만 '2025년 10월에 냈다'라는 날짜 요소는 출처로 뒷받침되지 않는다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.thirdmanbooks.com/catalog/jackwhitecollectedlyricsandselectedwriting",
-          "publisher": "Third Man Books (publisher catalog)",
+          "url": "https://rockhall.com/inductees/white-stripes/",
+          "publisher": "Rock & Roll Hall of Fame (official)",
           "verificationStatus": "INSUFFICIENT",
           "evidence": "",
-          "reason": "출처는 해당 책이 가사와 'selected poems and writing', 'rare and exclusive photos'를 포함한다고 명시해 책의 내용(가사·시·희귀 사진)은 확인되지만, 출간 시점은 'Date: January 5, 2026'로 2025년 10월이라는 주장은 출처와 맞지 않습니다. 또한 '미발표 시'(unpublished poems)라고 명시되어 있지 않으므로 그 부분도 확인되지 않습니다.",
+          "reason": "AI가 지지 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText는 The White Stripes가 2025년 로큰롤 명예의 전당 헌액 대상이며, 헌액을 잭 화이트가 직접 수락했음을 명확히 적고 있다. 따라서 ‘잭 화이트는 ... 헌액됐다’는 표현은 출처로 뒷받침된다.)",
+          "suggestion": ""
+        },
+        {
+          "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-collected-lyrics-and-selected-writing-volume-1",
+          "publisher": "Third Man Records (official/label)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "The upcoming collection compiles lyrics from White’s solo recordings thus far, alongside his acclaimed work with  The Raconteurs ,   The   Dead Weather , and other collaborations.",
+          "reason": "sourceText에 로큰롤 명예의 전당 헌액에 대한 언급이 전혀 없다. 제공된 출처는 주로 책 출간 소식을 다루고 있어 해당 사실을 확인할 수 없다.",
           "suggestion": ""
         }
       ],
       "evidence": "",
-      "reason": "Third Man Records (official): 출처는 이 책이 가사를 모은 컬렉션이며(“compiles lyrics…”), 희귀·독점 사진과 ‘selected poems and writing’(선택된 시와 글)을 포함한다고 명시하고 출간일도 ‘October 21’로 2025년 10월임을 밝힌다. 그러나 '미발표 시(unpublished poems)'라는 표현은 나오지 않아 그 부분은 확인되지 않는다. 따라서 가사 수록·희귀 사진·2025년 10월 출간은 출처로 확인되나, ‘미발표 시’ 여부는 출처에 언급이 없어 불충분하다. / Third Man Records (product page): 원문은 해당 책이 잭 화이트의 가사, 희귀 사진, 시와 글을 모았음을 분명히 밝히고 있으나(가사·미발표 시의 존재 여부는 'selected poems and writing'로 부분 확인 가능), 출간 시점(2025년 10월)에 관해서는 전혀 언급하지 않는다. 따라서 책의 내용은 확인되지만 '2025년 10월에 냈다'라는 날짜 요소는 출처로 뒷받침되지 않는다. / Third Man Books (publisher catalog): 출처는 해당 책이 가사와 'selected poems and writing', 'rare and exclusive photos'를 포함한다고 명시해 책의 내용(가사·시·희귀 사진)은 확인되지만, 출간 시점은 'Date: January 5, 2026'로 2025년 10월이라는 주장은 출처와 맞지 않습니다. 또한 '미발표 시'(unpublished poems)라고 명시되어 있지 않으므로 그 부분도 확인되지 않습니다.",
+      "reason": "Rock & Roll Hall of Fame (official): 출처에는 2025년 헌액자 명단에 'The White Stripes'가 포함되어 있다고만 적혀 있습니다. 출처 텍스트는 팀(밴드)명인 'The White Stripes'를 명시했을 뿐, 잭 화이트 개인이 별도로 헌액되었다고 명시하지 않습니다. 따라서 '잭 화이트는 헌액됐다'는 개인 헌액 여부는 출처만으로 확인되지 않습니다. / Rock & Roll Hall of Fame (official): AI가 지지 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText는 The White Stripes가 2025년 로큰롤 명예의 전당 헌액 대상이며, 헌액을 잭 화이트가 직접 수락했음을 명확히 적고 있다. 따라서 ‘잭 화이트는 ... 헌액됐다’는 표현은 출처로 뒷받침된다.) / Third Man Records (official/label): sourceText에 로큰롤 명예의 전당 헌액에 대한 언급이 전혀 없다. 제공된 출처는 주로 책 출간 소식을 다루고 있어 해당 사실을 확인할 수 없다.",
       "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
-      "checkedAt": "2026-10-17T08:25:01.613Z",
+      "checkedAt": "2026-10-17T08:42:44.081Z",
       "failureType": "EVIDENCE_INSUFFICIENT"
     },
     {
-      "id": "F024",
-      "claim": "에디터는 잭 화이트의 음악이 '덜어냄'에서 시작한다고 평가했다.",
+      "id": "F025",
+      "claim": "2025년 10월에 『Jack White Collected Lyrics and Selected Writing Volume 1』을 냈다.",
       "field": "body",
-      "excerpt": "에디터 코멘트\n\n잭 화이트의 음악은 '덜어냄'에서 시작한다.",
-      "type": "interpretation",
-      "group": "G11",
+      "excerpt": "2025년 10월에는 가사와 시, 희귀 사진을 묶은 책 『Jack White Collected Lyrics and Selected Writing Volume 1』도 냈다.",
+      "type": "fact",
+      "group": "G6",
       "keywords": [
-        "editor comment",
-        "덜어냄",
-        "interpretation"
+        "2025 October",
+        "Collected Lyrics and Selected Writing Volume 1",
+        "book"
       ],
       "verificationStatus": "VERIFIED",
       "source": {
-        "url": "https://pitchfork.com/reviews/albums/22350-jack-white-acoustic-recordings-1998-2016/",
-        "publisher": "Pitchfork"
+        "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-collected-lyrics-and-selected-writing-volume-1",
+        "publisher": "Third Man Records (official/label)"
       },
       "sources": [
         {
-          "url": "https://www.allmusic.com/artist/jack-white-mn0000128873/biography",
+          "url": "https://rockhall.com/press-release/the-rock-roll-hall-of-fame-foundation-unveils-electrifying-class-of-2025-inductees/",
+          "publisher": "Rock & Roll Hall of Fame (official)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "April 27, 2025\nThe Rock & Roll Hall of Fame foundation unveils electrifying class of 2025 inductees",
+          "reason": "출처 전반을 확인한 결과 해당 출판물(2025년 10월 출간의 『Jack White Collected Lyrics and Selected Writing Volume 1』)에 대한 언급이 없습니다. 따라서 이 책이 2025년 10월에 나왔다는 사실은 출처만으로는 확인할 수 없습니다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://rockhall.com/inductees/white-stripes/",
+          "publisher": "Rock & Roll Hall of Fame (official)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Find The White Stripes in the 2025 Inductees Exhibit",
+          "reason": "출처 전체에 2025년 10월 출간의 책『Jack White Collected Lyrics and Selected Writing Volume 1』에 관한 언급이 없다. 책의 존재·연도·월·제목 중 어떤 요소도 sourceText에서 확인되지 않는다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-collected-lyrics-and-selected-writing-volume-1",
+          "publisher": "Third Man Records (official/label)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Jack White Collected Lyrics and Selected Writing Volume 1  arrives   at Third Man Records digital and physical storefronts and booksellers in the United States on Tuesday, October 21.",
+          "reason": "출처 기사(2025년 6월 24일자)가 해당 서적을 소개하며 \"arrives ... on Tuesday, October 21.\"라고 명시해 10월 출간을 뒷받침한다. 기사 날짜가 2025년이므로 2025년 10월 출간으로 볼 수 있다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "Jack White Collected Lyrics and Selected Writing Volume 1  arrives   at Third Man Records digital and physical storefronts and booksellers in the United States on Tuesday, October 21.",
+      "reason": "출처 기사(2025년 6월 24일자)가 해당 서적을 소개하며 \"arrives ... on Tuesday, October 21.\"라고 명시해 10월 출간을 뒷받침한다. 기사 날짜가 2025년이므로 2025년 10월 출간으로 볼 수 있다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-17T08:42:44.081Z",
+      "failureType": null
+    },
+    {
+      "id": "F026",
+      "claim": "에디터는 잭 화이트의 음악을 '덜어냄'에서 시작한다고 표현했다.",
+      "field": "body",
+      "excerpt": "에디터 코멘트\n\n잭 화이트의 음악은 '덜어냄'에서 시작한다.",
+      "type": "opinion",
+      "group": "G7",
+      "keywords": [
+        "에디터 코멘트",
+        "덜어냄",
+        "opinion"
+      ],
+      "source": null,
+      "sources": [],
+      "evidence": "",
+      "suggestion": "",
+      "verificationStatus": "OPINION",
+      "failureType": null,
+      "checkedAt": "2026-10-17T08:35:01.384Z",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다."
+    },
+    {
+      "id": "F027",
+      "claim": "원고는 신작 공연이 휴대폰 없이 진행됐다고 전하고 있다.",
+      "field": "body",
+      "excerpt": "신작 공연은 휴대폰 없이 진행됐다.",
+      "type": "fact",
+      "group": "G7",
+      "keywords": [
+        "no phones",
+        "live show",
+        "policy"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://calendar.houseofyes.org/e/2EoeQWKhcc",
+        "publisher": "House of Yes (venue)"
+      },
+      "sources": [
+        {
+          "url": "https://calendar.houseofyes.org/e/2EoeQWKhcc",
+          "publisher": "House of Yes (venue)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "No Phones / No Photos on the Dancefloor. Please mind the vibe and keep your phones tucked away while dancing.",
+          "reason": "sourceText에 ‘No Phones / No Photos on the Dancefloor. Please mind the vibe and keep your phones tucked away while dancing.’라고 명시되어 있어 공연장에서 휴대폰 사용을 금지했고, 원고의 표현과 내용이 일치한다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "No Phones / No Photos on the Dancefloor. Please mind the vibe and keep your phones tucked away while dancing.",
+      "reason": "sourceText에 ‘No Phones / No Photos on the Dancefloor. Please mind the vibe and keep your phones tucked away while dancing.’라고 명시되어 있어 공연장에서 휴대폰 사용을 금지했고, 원고의 표현과 내용이 일치한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-17T08:43:06.692Z",
+      "failureType": null
+    },
+    {
+      "id": "F028",
+      "claim": "대표곡으로 'Seven Nation Army', 'Fell in Love with a Girl', 'Steady, As She Goes'를 제시했다.",
+      "field": "body",
+      "excerpt": "대표곡\n\nSeven Nation Army – The White Stripes\nFell in Love with a Girl – The White Stripes\nSteady, As She Goes – The Raconteurs",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "Seven Nation Army",
+        "Fell in Love with a Girl",
+        "Steady, As She Goes",
+        "representative songs"
+      ],
+      "verificationStatus": "INSUFFICIENT",
+      "source": null,
+      "sources": [
+        {
+          "url": "https://www.whitestripes.com/release/elephant/",
+          "publisher": "The White Stripes (official site)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Disc 1\n1. Seven Nation Army\n03:51",
+          "reason": "sourceText는 'Seven Nation Army'의 수록을 명확히 보여주어 첫 곡은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'는 이 출처의 트랙리스트에 등장하지 않아 대표곡 목록 전체를 확인할 수 없다(확인된 항목: Seven Nation Army; 확인되지 않은 항목: Fell in Love with a Girl, Steady, As She Goes).",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.allmusic.com/album/elephant-mw0000022228",
           "publisher": "AllMusic",
           "verificationStatus": "NOT CHECKED",
           "evidence": "",
@@ -988,22 +1100,30 @@
           "failureType": "SOURCE_ACCESS_FAILED"
         },
         {
-          "url": "https://pitchfork.com/reviews/albums/22350-jack-white-acoustic-recordings-1998-2016/",
-          "publisher": "Pitchfork",
-          "verificationStatus": "VERIFIED",
-          "evidence": "the absence of noise becomes a form of presence.",
-          "reason": "출처 본문에서 잭 화이트의 여러 작품이 전자 기타를 주요 악기로 하지 않는 곡들로 구성되었고, “the absence of noise becomes a form of presence.” 등 '덜어냄(stripped-down)'이 그의 음악적 특성으로 서술되어 있어, 에디터의 평가(음악이 '덜어냄'에서 시작한다)는 출처가 분명히 뒷받침한다.",
+          "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
+          "publisher": "Wikipedia",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "it was \"much more of a straightforward rock song\" than the band's 2002 single \"Fell in Love with a Girl\"",
+          "reason": "sourceText는 'Seven Nation Army'와 'Fell in Love with a Girl'을 분명히 언급하지만(후자는 2002년 싱글로 비교되며), 'Steady, As She Goes'에 대한 언급은 제공된 sourceText에서 찾을 수 없어 세 곡 전체를 대표곡으로 제시했다는 주장을 전부 확인할 수 없음.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://americansongwriter.com/how-the-white-stripes-seven-nation-army-became-the-universal-sports-chant/",
+          "publisher": "American Songwriter",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "The opening track on The White Stripes’ fourth album Elephant , “Seven Nation Army”",
+          "reason": "sourceText는 'Seven Nation Army'가 The White Stripes의 곡임을 분명히 언급하지만, 'Fell in Love with a Girl'과 'Steady, As She Goes'에 대해서는 언급이 없어 전체 목록을 확인할 수 없다. (확인된 요소: 'Seven Nation Army'가 The White Stripes의 곡이라는 점만 확인됨)",
           "suggestion": ""
         }
       ],
-      "evidence": "the absence of noise becomes a form of presence.",
-      "reason": "출처 본문에서 잭 화이트의 여러 작품이 전자 기타를 주요 악기로 하지 않는 곡들로 구성되었고, “the absence of noise becomes a form of presence.” 등 '덜어냄(stripped-down)'이 그의 음악적 특성으로 서술되어 있어, 에디터의 평가(음악이 '덜어냄'에서 시작한다)는 출처가 분명히 뒷받침한다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:25:24.710Z",
-      "failureType": null
+      "evidence": "",
+      "reason": "The White Stripes (official site): sourceText는 'Seven Nation Army'의 수록을 명확히 보여주어 첫 곡은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'는 이 출처의 트랙리스트에 등장하지 않아 대표곡 목록 전체를 확인할 수 없다(확인된 항목: Seven Nation Army; 확인되지 않은 항목: Fell in Love with a Girl, Steady, As She Goes). / Wikipedia: sourceText는 'Seven Nation Army'와 'Fell in Love with a Girl'을 분명히 언급하지만(후자는 2002년 싱글로 비교되며), 'Steady, As She Goes'에 대한 언급은 제공된 sourceText에서 찾을 수 없어 세 곡 전체를 대표곡으로 제시했다는 주장을 전부 확인할 수 없음. / American Songwriter: sourceText는 'Seven Nation Army'가 The White Stripes의 곡임을 분명히 언급하지만, 'Fell in Love with a Girl'과 'Steady, As She Goes'에 대해서는 언급이 없어 전체 목록을 확인할 수 없다. (확인된 요소: 'Seven Nation Army'가 The White Stripes의 곡이라는 점만 확인됨)",
+      "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
+      "checkedAt": "2026-10-17T08:40:22.870Z",
+      "failureType": "EVIDENCE_INSUFFICIENT"
     }
   ],
-  "truncated": true,
-  "generatedAt": "2026-10-17T08:25:24.722Z",
+  "truncated": false,
+  "generatedAt": "2026-10-17T08:43:06.707Z",
   "note": "단계별 조사 중. 같은 대상을 다루는 주장끼리 묶어 출처 검색 1회로 함께 조사합니다."
 }

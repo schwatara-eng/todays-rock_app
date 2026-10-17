@@ -35,7 +35,7 @@ export function getClient() {
     err.httpStatus = 503;
     throw err;
   }
-  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: 60000, maxRetries: 1 });
+  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: 180000, maxRetries: 1 });
 }
 
 export async function loadFactSheet() {
@@ -60,13 +60,13 @@ export async function loadFactSheet() {
   return { factSheet, facts };
 }
 
-export async function structuredResponse(client, { instructions, input, name, schema }) {
+export async function structuredResponse(client, { instructions, input, name, schema, maxOutputTokens = 6500 }) {
   const response = await client.responses.create({
     model: process.env.OPENAI_MODEL || 'gpt-5-mini',
     instructions,
     input: JSON.stringify(input),
     reasoning: { effort: 'low' },
-    max_output_tokens: 6500,
+    max_output_tokens: maxOutputTokens,
     text: { format: { type: 'json_schema', name, strict: true, schema } }
   });
   if (response.status !== 'completed' || !response.output_text?.trim()) {

@@ -513,3 +513,10 @@ main {max-width:none;width:100%;padding:28px 2vw 48px;}
 .report-ids {color:#8f8279;font-size:11px;margin-top:2px;}
 .report-source {margin-top:4px;font-size:11px;}
 .report-source a {color:#df8076;}
+
+/* 검수 보고서 패널: 02·03 헤더 아래, 사실별 카드 위에 전체 폭으로 배치 */
+.workflow-factcheck > .fact-report-panel {grid-column:1/-1;grid-row:2;padding:17px 16px !important;min-width:0;}
+.workflow-factcheck > .fact-report-panel[hidden] {display:none !important;}
+.workflow-factcheck > .fact-pairs {grid-row:3;}
+.fact-report-panel .fact-report h3:first-child {margin-top:0;}
+@media(max-width:750px) {.workflow-factcheck > .fact-report-panel {grid-column:1;grid-row:3;}.workflow-factcheck > .fact-pairs {grid-row:4;}}

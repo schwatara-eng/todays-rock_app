@@ -16,7 +16,7 @@ import { isIP } from 'node:net';
 import { structuredResponse } from './artist-common.js';
 
 const model = () => process.env.OPENAI_MODEL || 'gpt-5-mini';
-const MAX_CLAIMS = 24;            // 추출할 최대 주장 수 (호출 수는 그룹 수에 비례)
+const MAX_CLAIMS = 40;            // 추출할 최대 주장 수 (호출 수는 그룹 수에 비례하므로 넉넉하게)
 const MAX_CANDIDATES = 5;         // 그룹당 확보할 출처 후보 수 (접근 실패 대비)
 const MAX_READ_SOURCES = 3;       // 그룹당 본문을 읽어 판정할 최대 출처 수
 const MAX_PAGE_BYTES = 2_000_000; // 이보다 크면 앞부분까지만 읽고 계속 진행 (실패 처리하지 않음)
@@ -361,6 +361,8 @@ async function extractClaims(client, article) {
 - fact: 출처로 참·거짓을 확인할 수 있는 객관적 사실 (출신지, 직업, 결성 연도, 멤버, 발매일, 편성, 수상·후보, 횟수 등)
 - interpretation: 음악사적 평가·영향처럼 출처로 '그렇게 평가된다'는 것을 확인할 수 있는 해석 (예: 개러지 록 리바이벌의 상징)
 - opinion: 감상·비유·최상급 평론 표현처럼 객관적 확인이 불가능한 문장 (예: 가장 손맛 나는 록, 꽉 찬 소리)
+  '에디터 코멘트'처럼 필자 자신의 평가로 제시된 문장도 opinion입니다. ('에디터는 …라고 평가했다' 같은 문장으로 바꾸지 마세요)
+  interpretation은 원고가 외부의 평가('…로 꼽힌다', '…의 상징이 됐다')나 음악사적 위상을 사실처럼 서술할 때만 씁니다.
 
 [추출 규칙]
 - 하나의 문장에 여러 사실이 있으면 독립적으로 검증 가능한 단위로 나누세요.
@@ -380,7 +382,8 @@ async function extractClaims(client, article) {
   (인물·밴드·앨범·곡명의 원어 표기, 연도·숫자, 핵심 명사. 예: "Jack White", "Detroit", "1997", "Meg White")
 
 opinion도 목록에 포함하되 짧게 쓰세요. 주요 사실을 우선해 최대 ${MAX_CLAIMS}개를 반환하세요.`,
-    input: { article }
+    input: { article },
+    maxOutputTokens: 14000
   });
   const unique = new Set();
   const claims = [];

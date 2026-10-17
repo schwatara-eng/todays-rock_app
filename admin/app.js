@@ -87,7 +87,7 @@ function renderFacts(sheet) {
   const opinions = facts.filter(f => f.verificationStatus === 'OPINION');
   const pending = facts.filter(f => f.failureType === 'PENDING');
   $('fact-count').textContent = sheet ? `${facts.length - pending.length}/${facts.length}개 조사 · ${verified.length}개 검증 완료${opinions.length ? ` · 평론 ${opinions.length}개` : ''}${sheet.truncated ? ' · 일부만 추출' : ''}` : '조사 전';
-  renderReport(root, lastState?.review?.report, facts);
+  renderReport($('fact-report') || root, lastState?.review?.report, facts);
   $('fact-check-count').textContent = sheet ? `${facts.length}개 항목` : '조사 전';
   const issues = Array.isArray(lastState?.review?.issues) ? lastState.review.issues : [];
   for (const fact of facts) {
@@ -188,6 +188,8 @@ function renderFacts(sheet) {
 // 편집자용 검수 보고서: 원고 주장 / 판정 / 근거 및 판단 표 + 전체 의견 + 수정 제안
 // 판정 라벨은 서버가 팩트시트 상태로 정한 값이며, AI가 쓴 것은 설명 문장뿐입니다.
 function renderReport(root, report, facts) {
+  if (root.id === 'fact-report') root.replaceChildren();
+  root.hidden = !facts.length;
   if (!facts.length) return;
   const box = element('div', '', 'fact-report');
   if (!report) {
@@ -570,6 +572,8 @@ function setupEditorialWorkflow() {
   const results = element('div', '', 'fact-check-cards'); results.id = 'fact-check-cards';
   factResults.append(results);
   const pairs = element('div', '', 'fact-pairs'); pairs.id = 'fact-pairs';
+  // 검수 보고서: 사실별 카드 위에 전체 폭으로 표시합니다.
+  const report = element('section', '', 'panel fact-report-panel'); report.id = 'fact-report'; report.hidden = true;
   const actions = draft.querySelector('.actions');
   if (actions) {
     const save = $('save');
@@ -590,7 +594,7 @@ function setupEditorialWorkflow() {
   const editHead = editorialPanel.querySelector('.panel-head h2');
   if (editHead) editHead.textContent = '04 / EDITORIAL REVIEW · 편집 검토';
   writing.append(draft);
-  factcheck.append(facts, factResults, pairs);
+  factcheck.append(facts, factResults, report, pairs);
   editing.append(editorialPanel);
   // 기존 사실 검수 결과 DOM은 renderIssues 호환용으로만 유지한다.
   sourcePanel.hidden = true;
