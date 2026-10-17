@@ -39,14 +39,16 @@ body {
   font-family: "Noto Sans KR", sans-serif;
 }
 
-body::before {
-  content: "";
+.bg-video {
   position: fixed;
-  z-index: -2;
   inset: 0;
-  background: url("images/pexels-pexels-user-891499677-19762492.jpg") center / cover no-repeat;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
   filter: grayscale(45%) contrast(115%) brightness(32%) saturate(80%);
   transform: scale(1.02);
+  pointer-events: none;
 }
 
 body::after {
