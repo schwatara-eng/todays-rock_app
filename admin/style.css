@@ -36,19 +36,23 @@ header {
 }
 
 .brand {
-  font-size: 21px;
-  font-weight: 900;
-  letter-spacing: -.8px;
+  color: #f2efe8;
+  font-family: "Black Han Sans", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: .02em;
+  text-decoration: none;
 }
 
 .brand span {
-  color: #d54b3e;
+  color: inherit;
 }
 
 .brand small {
+  font-family: Arial, "Malgun Gothic", sans-serif;
   font-size: 10px;
-  letter-spacing: 2px;
   font-weight: 500;
+  letter-spacing: 2px;
   margin-left: 13px;
   color: #aaa;
 }
