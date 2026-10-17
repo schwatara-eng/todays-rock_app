@@ -507,13 +507,14 @@ function setupEditorialWorkflow() {
   const pairs = element('div', '', 'fact-pairs'); pairs.id = 'fact-pairs';
   const actions = draft.querySelector('.actions');
   if (actions) {
-    const save = $('save'); const preview = $('preview-open');
+    const save = $('save');
+    const research = $('research');
+    const preview = $('preview-open');
     actions.replaceChildren();
     if (save) actions.append(save);
+    if (research) actions.append(research);
     if (preview) actions.append(preview);
   }
-  const research = $('research');
-  if (research) { const controls = element('div', '', 'actions'); controls.append(research); facts.append(controls); }
   const recheck = $('recheck');
   if (recheck) { const controls = element('div', '', 'actions'); controls.append(recheck); editing.append(controls); }
   const draftHead = draft.querySelector('.panel-head h2');

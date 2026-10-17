@@ -134,29 +134,27 @@ function subjectForArticle(article) {
 }
 
 function isRelevantSource(source, subject) {
-  if (!subject.aliases.length) return false;
-  const title = String(source.title || source.page_title || '');
-  const snippet = String(source.snippet || '');
-  const url = String(source.url || '');
-  const evidence = `${title} ${snippet} ${url}`.toLowerCase();
-  // 다른 음악가의 약력 페이지를 잘못 채택하지 않도록 명시적 주제 일치를 요구합니다.
-  return subject.aliases.some(alias => evidence.includes(alias.toLowerCase())) ||
-    /jack[-_]?white/i.test(url);
+  // 검색 도구가 반환한 출처는 제목·설명이 없어도 허용한다.
+  // 실제 관련성과 사실 여부는 출처 본문 검증에서 판단한다.
+  return Boolean(source?.url);
 }
 
 async function searchSources(client, claim, subject) {
-  if (!subject.aliases.length) return [];
   const response = await client.responses.create({
     model: model(), reasoning: { effort: 'low' },
     tools: [{ type: 'web_search', search_context_size: 'medium' }],
     include: ['web_search_call.action.sources'],
     tool_choice: 'required',
-    instructions: `음악 기사 출처 조사자입니다. 검증 대상 인물은 반드시 ${subject.name}입니다.
-검색 결과에서 다른 음악가의 전기나 무관한 PDF를 절대 선정하지 마세요.
-실제 검색 결과에 있는 URL만 사용하고 관련성이 불명확하면 빈 배열을 반환하세요.
-공식 아티스트 사이트, 음반사, 시상식 기관, 신뢰할 만한 언론을 우선합니다.
+instructions: `음악 기사 사실 검증을 위한 출처 조사자입니다.
+검증 대상 문장에서 작품명, 앨범명, 곡명, 연도, 사건 등 핵심 키워드를 추출해 검색하세요.
+기사 전체의 주제명이나 인물명을 검색어에 강제로 포함하지 마세요.
+검증 대상 문장에 필요한 경우에만 인물명을 사용하세요.
+실제 검색 결과에 있는 출처만 선정하세요.
+URL에 특정 키워드가 포함되는지는 관련성 판단 기준으로 사용하지 마세요.
+공식 사이트, 음반사, 시상식 기관, 신뢰할 만한 언론을 우선하세요.
 응답은 JSON만: {"sources":[{"url":"...","publisher":"...","reason":"..."}]}`,
-    input: `인물: ${subject.name}\n검증 주장: ${claim}\n검색어에 인물의 영문 전체 이름을 반드시 포함하고 이 사람에 관한 직접적인 근거를 찾으세요.`,
+input: `검증 대상 문장: ${claim}
+이 문장의 사실관계를 확인할 수 있는 직접적인 출처를 검색하세요.`,
     max_output_tokens: 1800
   });
   if (response.status !== 'completed') throw fail('웹 검색 AI 응답 미완료', 502);
@@ -188,6 +186,11 @@ async function searchSources(client, claim, subject) {
     try {
       const key = canonicalUrl(candidate.url);
       const found = discovered.get(key);
+      console.log('[출처 검사]', {
+  url: candidate.url,
+  검색목록일치: Boolean(found),
+  관련성통과: found ? isRelevantSource(found, subject) : false
+});
       if (!found || !isRelevantSource(found, subject)) continue;
       if (result.some(item => canonicalUrl(item.url) === key)) continue;
       result.push({ url: found.url, publisher: candidate.publisher || new URL(key).hostname });
