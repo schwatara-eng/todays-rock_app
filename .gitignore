@@ -9,3 +9,8 @@ node_modules/
 # Vercel
 .vercel/
 .vercel
+
+__pycache__/
+*.pyc
+
+.venv/
