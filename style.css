@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Miwon";
+  src: url("./fonts/미원Miwon.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
   --black: #101010;
   --paper: #f2efe8;
@@ -1028,19 +1036,22 @@ main > .artist-feature > h2 {
   flex-wrap: wrap;
   gap: 20px;
   margin: 0 0 6px;
+  font-family: "Miwon", serif;
   font-size: clamp(1.65rem, 3vw, 2.65rem);
   line-height: 1.12;
 }
-.artist-editorial-right .artist-feature-header h3 span[lang="en"] {
+.artist-editorial-right .artist-feature-header h3 .artist-name-main {
   display: inline;
+  font-family: "Miwon", serif;
   font-size: 1em;
+  font-weight: 400;
   opacity: 1;
 }
-.artist-editorial-right .artist-feature-header h3 span[lang="ko"] {
+.artist-editorial-right .artist-feature-header h3 .artist-name-sub {
   display: inline;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "Miwon", serif;
   font-size: .46em;
-  font-weight: 700;
+  font-weight: 400;
   opacity: .75;
 }
 .artist-editorial-right .artist-feature-lead {
