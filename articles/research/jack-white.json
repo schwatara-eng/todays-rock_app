@@ -530,10 +530,10 @@
         "record shop",
         "label"
       ],
-      "verificationStatus": "INSUFFICIENT",
+      "verificationStatus": "VERIFIED",
       "source": {
-        "url": "https://thirdmanrecordsstore.shop/about",
-        "publisher": "Third Man Records (official)"
+        "url": "https://musicrow.com/2009/03/jack-white-debuts-nashville-hq-and-new-band/",
+        "publisher": "MusicRow"
       },
       "sources": [
         {
@@ -551,13 +551,47 @@
           "evidence": "Founded in 2009, Third Man Records is a multifaceted record label and boutique retail experience dedicated to the preservation and promotion of analog culture.",
           "reason": "sourceText가 Third Man Records를 'record label and boutique retail experience'로 명시하고 본사 위치로 'Nashville'을 명시하고 있어, 내슈빌에 세운 레이블이자 레코드숍이라는 표현을 뒷받침한다.",
           "suggestion": ""
+        },
+        {
+          "url": "https://musicrow.com/2009/03/jack-white-debuts-nashville-hq-and-new-band/",
+          "publisher": "MusicRow",
+          "verificationStatus": "VERIFIED",
+          "evidence": "The new Third Man Records building houses label offices, a vinyl record store, a photo studio and a performance stage",
+          "reason": "원문에서 서드 맨 레코즈의 내슈빌 본부를 세웠고 그 건물에 'a vinyl record store'를 포함하고 있다고 분명히 적고 있어, '내슈빌에 세운 레이블이자 레코드숍'이라는 진술을 온전히 뒷받침한다.",
+          "suggestion": ""
         }
       ],
-      "evidence": "Founded in 2009, Third Man Records is a multifaceted record label and boutique retail experience dedicated to the preservation and promotion of analog culture.",
-      "reason": "출처 사이에 내용이 엇갈립니다. Third Man Records (official): 출처는 Third Man Records가 잭 화이트에 의해 2001년 디트로이트에서 시작되었고 2009년에 현재의 내슈빌 지점을 열었다고 명확히 적고 있다. 따라서 ‘내슈빌에 세운(설립한)’이라고 단정하는 주장은 출처 내용과 직접 모순된다. 다만 출처는 내슈빌 지점에 레코드숍과 레이블 사무실이 있다고 밝히고 있다. / Third Man Records (official): sourceText가 Third Man Records를 'record label and boutique retail experience'로 명시하고 본사 위치로 'Nashville'을 명시하고 있어, 내슈빌에 세운 레이블이자 레코드숍이라는 표현을 뒷받침한다.",
-      "suggestion": "엇갈리는 출처를 직접 비교해 확정해 주세요.",
-      "checkedAt": "2026-10-17T08:40:57.485Z",
-      "failureType": "CONFLICTING_EVIDENCE"
+      "evidence": "The new Third Man Records building houses label offices, a vinyl record store, a photo studio and a performance stage",
+      "reason": "원문에서 서드 맨 레코즈의 내슈빌 본부를 세웠고 그 건물에 'a vinyl record store'를 포함하고 있다고 분명히 적고 있어, '내슈빌에 세운 레이블이자 레코드숍'이라는 진술을 온전히 뒷받침한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-17T15:05:58.058Z",
+      "failureType": null,
+      "attempts": [
+        {
+          "checkedAt": "2026-10-17T08:40:57.485Z",
+          "verificationStatus": "INSUFFICIENT",
+          "failureType": "CONFLICTING_EVIDENCE",
+          "reason": "출처 사이에 내용이 엇갈립니다. Third Man Records (official): 출처는 Third Man Records가 잭 화이트에 의해 2001년 디트로이트에서 시작되었고 2009년에 현재의 내슈빌 지점을 열었다고 명확히 적고 있다. 따라서 ‘내슈빌에 세운(설립한)’이라고 단정하는 주장은 출처 내용과 직접 모순된다. 다만 출처는 내슈빌 지점에 레코드숍과 레이블 사무실이 있다고 밝히고 있다. / Third Man Records (official): sourceText가 Third Man Records를 'record label and boutique retail experience'로 명시하고 본사 위치로 'Nashville'을 명시하고 있어, 내슈빌에 세운 레이블이자 레코드숍이라는 표현을 뒷받침한다.",
+          "sources": [
+            {
+              "url": "https://thirdmanrecords.com/pages/nashville-store",
+              "publisher": "Third Man Records (official)",
+              "verificationStatus": "CONTRADICTED",
+              "evidence": "Third Man Records was launched by Jack White in Detroit, MI in 2001, and in 2009 opened its current Nashville, TN location, which houses a record store,",
+              "reason": "출처는 Third Man Records가 잭 화이트에 의해 2001년 디트로이트에서 시작되었고 2009년에 현재의 내슈빌 지점을 열었다고 명확히 적고 있다. 따라서 ‘내슈빌에 세운(설립한)’이라고 단정하는 주장은 출처 내용과 직접 모순된다. 다만 출처는 내슈빌 지점에 레코드숍과 레이블 사무실이 있다고 밝히고 있다.",
+              "suggestion": "“Third Man Records는 2001년 디트로이트에서 시작했고, 2009년 현재의 내슈빌 지점에 레코드숍과 레이블 사무실을 열었다.”"
+            },
+            {
+              "url": "https://thirdmanrecordsstore.shop/about",
+              "publisher": "Third Man Records (official)",
+              "verificationStatus": "VERIFIED",
+              "evidence": "Founded in 2009, Third Man Records is a multifaceted record label and boutique retail experience dedicated to the preservation and promotion of analog culture.",
+              "reason": "sourceText가 Third Man Records를 'record label and boutique retail experience'로 명시하고 본사 위치로 'Nashville'을 명시하고 있어, 내슈빌에 세운 레이블이자 레코드숍이라는 표현을 뒷받침한다.",
+              "suggestion": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "F015",
@@ -1124,6 +1158,6 @@
     }
   ],
   "truncated": false,
-  "generatedAt": "2026-10-17T08:43:06.707Z",
+  "generatedAt": "2026-10-17T15:05:58.058Z",
   "note": "단계별 조사 중. 같은 대상을 다루는 주장끼리 묶어 출처 검색 1회로 함께 조사합니다."
 }
