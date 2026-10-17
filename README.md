@@ -21,23 +21,25 @@
 | HTML / CSS / JavaScript | 홈페이지와 편집실 화면 |
 | FastAPI / Uvicorn | 곡·뉴스 API와 편집실 접속을 받는 메인 서버, 포트 8000 |
 | MySQL / PyMySQL | 500곡 및 기분·날씨 연결 데이터 저장·조회 |
-| Node.js / OpenAI SDK | 편집실 내부 검색·검수 로직 실행 |
+| Python / httpx | OpenAI Responses API 호출 및 출처 본문 대조 |
 | JSON 파일 | 원고·팩트시트·검수·승인 기록 저장 |
 | VS Code Live Server | 현재 홈페이지 화면 제공, 보통 포트 5500 |
 
-편집실은 `http://localhost:8000/editor/`로 접속합니다. 별도의 편집실 실행 명령은 필요하지 않습니다. `editor_bridge.py`가 편집실 최초 접속 시 내부 Node.js 작업자를 `127.0.0.1:4178`에서 자동 시작하고 요청을 전달합니다. 정상 종료 시 작업자도 종료합니다.
+편집실은 `http://localhost:8000/editor/`로 접속합니다. FastAPI가 편집실 화면·원고 저장·검색·검수·승인·내보내기를 모두 처리합니다. 내부 Node.js 작업자와 4178 포트는 사용하지 않습니다. 곡·뉴스·편집실 서버를 실행하는 명령은 하나입니다.
 
-이는 **접속 주소와 실행 명령을 FastAPI로 통합한 구조**입니다. 내부 Node.js 작업자는 남아 있으므로 Python 단일 프로세스 구조는 아닙니다. 모든 서버 로직을 Python으로 작성해야 하는 과제라면 추가 이식이 필요합니다.
+홈페이지 화면 제공은 기존 Live Server를 사용합니다. 이번 전환은 편집실의 Node.js 의존성을 없애는 작업이며 홈페이지 제공 방식은 유지합니다.
 
 ## 주요 파일
 
 ```text
 todays-rock_app/
 ├── main.py                         # 곡 조회·뉴스 수집/번역 및 편집실 라우터 연결
-├── editor_bridge.py                # 편집실 연결·내부 작업자 실행/종료
-├── editor_ai/                      # 기존 JavaScript 검색·검수 모듈
-├── scripts/
-│   └── admin-local-fastapi.mjs      # 편집실 내부 작업자
+├── editor_bridge.py                # main.py import 호환용, Python 라우터 연결
+├── editor_python/                  # Python 편집실 구현
+│   ├── routes.py                   # 화면·저장·검토·승인·내보내기
+│   ├── ai.py                       # OpenAI 호출·검색·안전한 본문 수집·인용 대조
+│   └── prompts.json                # 기존 프롬프트·JSON 스키마
+├── requirements.txt                # Python 의존 패키지
 ├── admin/                          # 편집실 HTML·CSS·JavaScript
 ├── articles/                       # 초안·조사·검수·승인 JSON
 ├── facts/                          # 수동 팩트시트
@@ -49,16 +51,21 @@ todays-rock_app/
 ├── style.css
 ├── images/
 ├── fonts/
-├── package.json
-├── package-lock.json
 └── README.md
 ```
 
-기존 `api/`의 편집실 모듈은 `editor_ai/`로 옮겼습니다. 뉴스 처리는 `main.py`로 옮겼습니다. 현재 실행에는 예전 `server.js`, `scripts/admin-local.mjs`, `vercel dev`가 필요하지 않습니다. 예전 실행 스크립트가 삭제한 파일을 가리키는 경우 `package.json`의 해당 명령도 정리해야 합니다.
+기존 `editor_ai/`와 `scripts/admin-local-fastapi.mjs`는 `editor_python/`로 대체했습니다. `editor_bridge.py`는 같은 이름의 Python 연결 파일로 교체합니다. 기존 `main.py`의 아래 연결 코드는 유지합니다.
+
+```python
+from editor_bridge import router as editor_router
+app.include_router(editor_router)
+```
+
+`app = FastAPI(...)` 선언 뒤에 있어야 합니다. 원래 곡·뉴스 API와 `.env` 로드는 그대로 유지합니다. `api/`, `server.js`, `scripts/admin-local.mjs`, `vercel dev`는 현재 서버 실행에 필요하지 않습니다.
 
 ## 처음 설치할 때
 
-프로젝트 폴더를 VS Code로 열고 PowerShell 터미널에서 진행합니다. Python, Node.js 및 MySQL Server가 필요합니다. 기존에 설치했다면 다시 만들 필요가 없습니다.
+프로젝트 폴더를 VS Code로 열고 PowerShell 터미널에서 진행합니다. Python 및 MySQL Server가 필요합니다. 기존에 설치했다면 다시 만들 필요가 없습니다.
 
 ### 1. MySQL 데이터 준비
 
@@ -82,20 +89,12 @@ MySQL Workbench에서 로컬 서버에 접속하고 `db/todays_rock.sql`을 실�
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install fastapi uvicorn pymysql cryptography python-dotenv httpx
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 이후 명령은 가상환경의 Python을 직접 지정하므로 별도 활성화 없이 실행할 수 있습니다.
 
-### 3. Node.js 패키지 설치
-
-```powershell
-npm.cmd install
-```
-
-편집실에서 OpenAI SDK를 사용하므로 Node.js와 npm 패키지는 계속 필요합니다. 기존 `package.json`과 `package-lock.json`을 유지합니다.
-
-### 4. 환경변수 설정
+### 3. 환경변수 설정
 
 프로젝트 최상위의 로컬 `.env`에 아래 항목을 설정합니다. 아래 값은 예시이며 실제 비밀값은 GitHub에 올리지 않습니다.
 
@@ -111,7 +110,7 @@ ADMIN_SECRET=로컬_편집실용_비밀값
 # OPENAI_MODEL=사용할_모델명
 ```
 
-기존 설정이 있으면 그대로 유지합니다. `main.py`는 프로젝트의 `.env`를 읽어야 하며, 편집실 작업자는 해당 설정을 이어받습니다. 번역 설정이나 요청에 문제가 있으면 뉴스가 영어 원문으로 표시될 수 있습니다.
+기존 설정이 있으면 그대로 유지합니다. `main.py`는 프로젝트의 `.env`를 읽어야 하며, Python 편집실은 같은 프로세스의 설정을 사용합니다. 번역 설정이나 요청에 문제가 있으면 뉴스가 영어 원문으로 표시될 수 있습니다.
 
 ## 실행 방법
 
@@ -135,7 +134,7 @@ ADMIN_SECRET=로컬_편집실용_비밀값
 
 홈페이지 `script.js`의 곡·뉴스 요청 주소는 FastAPI의 8000 포트를 사용합니다. Live Server 포트가 달라지면 FastAPI의 CORS 허용 주소도 확인합니다. 편집실은 현재 8000 포트를 기준으로 쓰기 요청을 검사합니다.
 
-종료는 메인 서버 터미널에서 `Ctrl+C`를 누릅니다. 내부 4178 작업자를 따로 실행하거나 브라우저로 직접 접속할 필요는 없습니다.
+종료는 메인 서버 터미널에서 `Ctrl+C`를 누릅니다. 추가 서버나 Node.js 실행은 필요하지 않습니다. 로컬 개발에서는 Uvicorn 작업자 하나를 사용합니다.
 
 ## 편집실 사용 흐름
 
@@ -154,16 +153,17 @@ AI가 찾은 링크와 검수 결과만으로 사실을 확정하지 않습니�
 ## 확인한 상태와 남은 범위
 
 - 로컬 MySQL의 데이터 수량과 홈페이지 추천곡·뉴스 표시 확인
-- FastAPI 편집실 접속 및 데이터 로드 확인
-- 임시 테스트 데이터로 원고 저장, 미검수 승인 차단, 미승인 내보내기 차단, 다른 출처의 쓰기 요청 차단 확인
+- 이전 연결판의 FastAPI 편집실 접속 및 데이터 로드 확인; Python 전환판의 실제 사용자 화면은 적용 후 확인 필요
+- Python 전환판: 임시 데이터와 모의 AI 응답으로 저장·그룹 조사·개별 재검색 이력·검토·승인·내보내기·수정 후 승인 무효화 확인
+- 기존 JS/Python 기사 해시 일치, 미검수 승인 차단, 잘못된 출처·호스트·큰 요청 차단, 검색 결과 밖 URL 및 출처에 없는 인용문 배제 확인
 - 실제 사용자 원고에 대한 외부 검색·유료 AI 호출·승인·내보내기 전체 흐름은 별도 실행 확인 필요
 - 기사 관련 기록은 JSON 저장이며 MySQL로 이전하지 않음
-- 내부 JavaScript 검수 로직의 전체 Python 이식은 미진행
+- 편집실 검색·검수·저장·승인 로직의 Python 전환 완료. 실제 유료 AI 호출은 사용자 환경에서 추가 확인 필요
 - PostgreSQL·Supabase 전환 및 재배포는 향후 검토 사항
 
 ## GitHub에 올릴 때
 
-소스코드, SQL, 필요한 기사 자료, `package.json`, `package-lock.json`을 보관합니다. `.env`, `.venv/`, `node_modules/`, `__pycache__/`, `.vercel/`은 Git 추적 대상에서 제외합니다.
+소스코드, SQL, 필요한 기사 자료와 `requirements.txt`를 보관합니다. 현재 앱 실행에는 npm 패키지가 필요하지 않습니다. 다른 도구가 npm을 사용한다면 해당 설정은 별도로 보관합니다. `.env`, `.venv/`, `node_modules/`, `__pycache__/`, `.vercel/`은 Git 추적 대상에서 제외합니다.
 
 `.gitignore` 예시:
 
