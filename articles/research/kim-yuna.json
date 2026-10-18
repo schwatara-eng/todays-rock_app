@@ -1358,8 +1358,11 @@
         "Jaurim",
         "대표곡"
       ],
-      "verificationStatus": "INSUFFICIENT",
-      "source": null,
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.yna.co.kr/view/AKR20081217035600005",
+        "publisher": "연합뉴스 (Yonhap News)"
+      },
       "sources": [
         {
           "url": "https://music.apple.com/us/album/shadow-of-your-smile/1486291052",
@@ -1384,13 +1387,71 @@
           "evidence": "2026 Google LLC, Sundar Pichai, 1600 Amphitheatre Parkway, Mountain View CA 94043, USA, 0807-882-594 (무료), yt-support-solutions-kr@google.com",
           "reason": "sourceText에는 '하하하쏭'이라는 곡명이나 해당 곡을 자우림 명의로 소개하는 문구가 없습니다. 출처만으로는 이 대표곡 표기를 확인할 수 없습니다.",
           "suggestion": ""
+        },
+        {
+          "url": "https://world.kbs.co.kr/service/program_playlist_view.htm?bbs=weekend_playlist&lang=e&no=51091&procode=weekend",
+          "publisher": "KBS WORLD (official)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "prev\nnext\nConnect\nYoutube\nFacebook\nX\nInstagram\nMore\nBanner Zone\nMore Service\nKBS WORLD\nAndroid iOS\nKBS WORLD Radio On-Air\nAndroid iOS\nRSS Service\nPodcasts",
+          "reason": "제공된 sourceText에는 자우림이나 '하하하쏭'에 대한 언급이 전혀 없어, 해당 곡이 '대표곡'으로 소개되었다는 주장을 확인할 수 없습니다. 기사 본문이나 곡 목록이 포함된 구절이 필요합니다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://music.bugs.co.kr/track/80012453",
+          "publisher": "Bugs (음원 사이트)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "전체 관람가] 하하하쏭\n자우림(Jaurim)\n2004.10.16",
+          "reason": "sourceText에는 '하하하쏭'이 자우림의 곡으로 등록되어 있음은 확인되지만, 그것이 '대표곡'으로 소개되었다는 표현이나 분류는 나오지 않습니다. 즉 곡명·아티스트는 확인되지만 ‘대표곡으로 소개되었다’는 지위 표시는 확인되지 않습니다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.yna.co.kr/view/AKR20081217035600005",
+          "publisher": "연합뉴스 (Yonhap News)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "그룹 동방신기, 소설가 이외수, 가수 윤종신이 삼성의 '하하하 캠페인' 주제곡으로 선정된 4인조 혼성그룹 자우림의 히트곡 '하하하쏭'을 함께 부른 UCC가 인터넷 상에서 화제다",
+          "reason": "sourceText에서 해당 곡을 '자우림의 히트곡'으로 직접 지칭하며 자우림 명의의 곡으로 소개하고 있으므로 주장과 일치한다.",
+          "suggestion": ""
         }
       ],
-      "evidence": "",
-      "reason": "Apple Music: sourceText에 대표곡으로 '하하하쏭'이란 표기는 없고 트랙 목록이나 대표곡 명시가 없어 자우림 명의로 소개되었는지 확인할 수 없다. / Wikipedia (Jaurim page): sourceText는 밴드의 초기 싱글 'Hey Hey Hey'를 언급하지만, '하하하쏭'이라는 곡명이나 그것이 자우림 명의의 대표곡으로 소개되었다는 내용은 없다. / YouTube (Jaurim official channel): sourceText에는 '하하하쏭'이라는 곡명이나 해당 곡을 자우림 명의로 소개하는 문구가 없습니다. 출처만으로는 이 대표곡 표기를 확인할 수 없습니다.",
-      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T02:36:45.905Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "evidence": "그룹 동방신기, 소설가 이외수, 가수 윤종신이 삼성의 '하하하 캠페인' 주제곡으로 선정된 4인조 혼성그룹 자우림의 히트곡 '하하하쏭'을 함께 부른 UCC가 인터넷 상에서 화제다",
+      "reason": "sourceText에서 해당 곡을 '자우림의 히트곡'으로 직접 지칭하며 자우림 명의의 곡으로 소개하고 있으므로 주장과 일치한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T03:50:52.209Z",
+      "failureType": null,
+      "attempts": [
+        {
+          "checkedAt": "2026-10-18T02:36:45.905Z",
+          "verificationStatus": "INSUFFICIENT",
+          "failureType": "EVIDENCE_INSUFFICIENT",
+          "reason": "Apple Music: sourceText에 대표곡으로 '하하하쏭'이란 표기는 없고 트랙 목록이나 대표곡 명시가 없어 자우림 명의로 소개되었는지 확인할 수 없다. / Wikipedia (Jaurim page): sourceText는 밴드의 초기 싱글 'Hey Hey Hey'를 언급하지만, '하하하쏭'이라는 곡명이나 그것이 자우림 명의의 대표곡으로 소개되었다는 내용은 없다. / YouTube (Jaurim official channel): sourceText에는 '하하하쏭'이라는 곡명이나 해당 곡을 자우림 명의로 소개하는 문구가 없습니다. 출처만으로는 이 대표곡 표기를 확인할 수 없습니다.",
+          "sources": [
+            {
+              "url": "https://music.apple.com/us/album/shadow-of-your-smile/1486291052",
+              "publisher": "Apple Music",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "Shadow Of Your Smile\nKim Yuna\nK-Pop · 2001\nPreview\nNovember 20, 2001\n14 songs, 55 minutes",
+              "reason": "sourceText에 대표곡으로 '하하하쏭'이란 표기는 없고 트랙 목록이나 대표곡 명시가 없어 자우림 명의로 소개되었는지 확인할 수 없다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Jaurim",
+              "publisher": "Wikipedia (Jaurim page)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "They changed the band's name to Jaurim in 1997 and became major with their first released single 'Hey Hey Hey' (an original soundtrack of 꽃을 든 남자, A Man who is holding Flowers",
+              "reason": "sourceText는 밴드의 초기 싱글 'Hey Hey Hey'를 언급하지만, '하하하쏭'이라는 곡명이나 그것이 자우림 명의의 대표곡으로 소개되었다는 내용은 없다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://www.youtube.com/watch?v=y6tMA7mjFiA",
+              "publisher": "YouTube (Jaurim official channel)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "2026 Google LLC, Sundar Pichai, 1600 Amphitheatre Parkway, Mountain View CA 94043, USA, 0807-882-594 (무료), yt-support-solutions-kr@google.com",
+              "reason": "sourceText에는 '하하하쏭'이라는 곡명이나 해당 곡을 자우림 명의로 소개하는 문구가 없습니다. 출처만으로는 이 대표곡 표기를 확인할 수 없습니다.",
+              "suggestion": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "F025",
@@ -1489,6 +1550,6 @@
     }
   ],
   "truncated": false,
-  "generatedAt": "2026-10-18T03:23:19.421Z",
+  "generatedAt": "2026-10-18T03:50:52.209Z",
   "note": "같은 대상을 다루는 주장끼리 묶어 조사합니다."
 }
