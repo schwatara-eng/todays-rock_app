@@ -219,7 +219,7 @@ function renderFacts(sheet) {
     if (fact.verificationStatus !== 'VERIFIED' && !fact.reason && !fact.evidence) {
       result.append(element('p', fact.failureType === 'PENDING' ? '아직 검증을 진행하지 않았습니다.' : '직접 확인된 근거가 없어 검증을 완료하지 못했습니다.', 'fact-reason'));
     }
-    if (fact.type !== 'opinion' && fact.verificationStatus !== 'OPINION') {
+    if (fact.type !== 'opinion' && fact.verificationStatus !== 'OPINION' && fact.verificationStatus !== 'VERIFIED') {
       const retry = document.createElement('button');
       retry.type = 'button'; retry.textContent = fact.failureType === 'PENDING' ? '이 항목만 검증' : '이 항목 출처 재검색'; retry.className = 'fact-retry';
       retry.addEventListener('click', () => run(async () => {
