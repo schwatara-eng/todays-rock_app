@@ -1,8 +1,11 @@
-/* 편집실·팩트체크·검수 보고서·미리보기 스타일 — 중복 선언 정리, 적용 순서와 반응형 조건 유지 */
+/* TODAY'S ROCK 편집실 스타일
+ * 1. 기본  2. 공통 패널·입력·버튼  3. 작업 공간 배치  4. 팩트시트·출처 카드
+ * 5. 검수 보고서  6. 승인·미리보기  7. 뮤지션 선택·사진  8. 팩트 항목 수정  9. 반응형
+ */
 
 @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
 
-@font-face  {
+@font-face {
   font-family: "Galmuri9";
   src: url("/fonts/Galmuri9.woff2") format("woff2");
   font-weight: 400;
@@ -10,9 +13,10 @@
   font-display: swap;
 }
 
+/* ── 1. 기본 ─────────────────────────────────────────────── */
 :root {
   color-scheme: dark;
-  font-family: Arial,"Malgun Gothic",sans-serif;
+  font-family: Arial, "Malgun Gothic", sans-serif;
   background: #111;
   color: #eae6df;
 }
@@ -21,13 +25,21 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   margin: 0;
-  background: radial-gradient(circle at 90% 0%,#321c1b 0,transparent 30%),#111;
+  min-height: 100vh;
+  background: radial-gradient(circle at 90% 0%, #321c1b 0, transparent 30%), #111;
+  background-attachment: fixed;
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
 }
 
 header {
-  padding: 22px max(4vw,24px);
+  padding: 22px max(4vw, 24px);
   border-bottom: 1px solid #37322f;
   display: flex;
   justify-content: space-between;
@@ -64,7 +76,9 @@ header {
 }
 
 main {
+  width: 100%;
   margin: auto;
+  padding: 28px 2vw 48px;
 }
 
 .eyebrow {
@@ -74,34 +88,35 @@ main {
 }
 
 .intro h1 {
-  font-family: "Black Han Sans",sans-serif;
+  font-family: "Black Han Sans", sans-serif;
   font-weight: 400;
-  font-size: clamp(28px,4vw,48px);
+  font-size: clamp(28px, 4vw, 48px);
   margin: 12px 0;
 }
 
 .intro h1 em {
-  font-family: "Galmuri9",monospace;
+  font-family: "Galmuri9", monospace;
   font-size: .65em;
   font-weight: 400;
   color: #d7c5ac;
   font-style: normal;
 }
 
-.intro>p:last-child {
+.intro > p:last-child {
   color: #aba5a0;
   font-size: 14px;
   line-height: 1.7;
   margin-bottom: 36px;
 }
 
-.layout {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr 1fr;
-  gap: 16px;
-  align-items: start;
+#status {
+  min-height: 28px;
+  color: #e3b29e;
+  font-size: 13px;
+  margin-top: 22px;
 }
 
+/* ── 2. 공통 패널·입력·버튼 ──────────────────────────────── */
 .panel {
   border: 1px solid #3b3430;
   background: #1c1b1a;
@@ -131,34 +146,6 @@ main {
   color: #c2a48d;
 }
 
-.fact {
-  border-bottom: 1px solid #36302c;
-  padding: 0 0 16px;
-  margin-bottom: 16px;
-}
-
-.fact-id {
-  font-size: 11px;
-  color: #d66a60;
-}
-
-.fact p {
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.fact a {
-  font-size: 12px;
-  color: #d7b69c;
-  overflow-wrap: anywhere;
-}
-
-.fact small {
-  display: block;
-  color: #8b9b8d;
-  margin-top: 9px;
-}
-
 .editor label {
   display: block;
   font-size: 12px;
@@ -175,7 +162,7 @@ main {
   border-radius: 4px;
   color: #f3ede7;
   padding: 13px;
-  font: 14px/1.8 Arial,"Malgun Gothic",sans-serif;
+  font: 14px/1.8 Arial, "Malgun Gothic", sans-serif;
 }
 
 .editor textarea {
@@ -216,7 +203,7 @@ button:hover {
 
 button:disabled {
   opacity: .45;
-  cursor: wait;
+  cursor: not-allowed;
 }
 
 .hint,
@@ -254,143 +241,121 @@ button:disabled {
   color: #b3c7b4;
 }
 
-#status {
-  min-height: 28px;
-  color: #e3b29e;
-  font-size: 13px;
-  margin-top: 22px;
+.section-toggle {
+  font-size: 11px;
+  padding: 5px 10px;
 }
 
-@media (max-width:1100px) {
-  .layout {
-    grid-template-columns: 1fr 1.3fr;
-  }
-
-  .review {
-    grid-column: 1/-1;
-  }
+/* 섹션 제목은 모두 같은 서체 */
+.workflow-writing .editor > .panel-head h2,
+.workflow-factcheck .panel-head h2,
+.fact-excluded-list > summary,
+.fact-report > summary {
+  font-family: Arial, "Malgun Gothic", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 1.6px;
+  line-height: 1.5;
 }
 
-@media (max-width:700px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
-  .review {
-    grid-column: auto;
-  }
-
-  header {
-    flex-wrap: wrap;
-  }
-
-  .panel {
-    min-height: 0;
-  }
+/* ── 3. 작업 공간 배치 (app.js의 setupEditorialWorkflow가 만드는 구조) ──
+ * .workspace
+ *   ├ .workflow-writing        01 원고 (왼쪽, 스크롤 시 고정)
+ *   └ .workflow-review-column  오른쪽 열
+ *       ├ .workflow-factcheck  검수 보고서 + 02·03 팩트시트/출처
+ *       └ .workflow-editing    04 편집 검토
+ */
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 3fr);
+  gap: 14px;
+  align-items: start;
 }
 
-.approval-panel {
-  margin-top: 16px;
+.workspace > .workflow-writing {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  position: sticky;
+  top: 14px;
+  z-index: 2;
+  min-width: 0;
+}
+
+.workflow-writing .editor {
+  /* 01 상자 전체가 브라우저 창 안에 들어오게: 위아래 여백(14px씩)을 뺀 높이 */
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 28px);
+  min-height: 520px;
+}
+
+.workflow-writing .editor > * {
+  flex: 0 0 auto;
+}
+
+/* 남는 세로 공간은 본문 칸이 모두 차지합니다. */
+.workflow-writing .editor textarea {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 120px;
+  overflow-y: auto;
+  resize: none;
+}
+
+.workflow-review-column {
+  grid-column: 2 / 4;
+  grid-row: 1;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.workflow-review-column > .workflow-factcheck {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  align-content: start;
+  min-width: 0;
+}
+
+.workflow-review-column > .workflow-editing {
+  min-width: 0;
+}
+
+.workflow-editing .panel {
   min-height: 0;
 }
 
-.approval-panel > p {
-  color: #c7bcb3;
-  line-height: 1.8;
-  font-size: 13px;
-}
-
-.checkline {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  line-height: 1.7;
-  font-size: 14px;
-  margin-top: 18px;
-  cursor: pointer;
-}
-
-.checkline input {
-  margin-top: 5px;
-  accent-color: #c64d42;
-}
-
-.preview-panel[hidden] {
+/* 예전 사실 검수 패널: renderIssues 호환용으로만 남겨 두고 숨김 */
+.legacy-review-hidden {
   display: none;
 }
 
-.preview-panel {
-  margin-top: 24px;
-  border: 1px solid #40332d;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #11100f;
+/* ── 4. 팩트시트·출처 카드 ───────────────────────────────── */
+.fact {
+  border-bottom: 1px solid #36302c;
+  padding: 0 0 16px;
+  margin-bottom: 16px;
 }
 
-.preview-toolbar {
-  padding: 16px 22px;
-  border-bottom: 1px solid #3b302c;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-
-.preview-toolbar strong {
-  font-size: 12px;
-  letter-spacing: 1.5px;
-}
-
-.preview-toolbar strong span {
-  color: #d36b60;
-  margin-left: 10px;
-  font-weight: normal;
-}
-
-.preview-article {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: clamp(26px, 5vw, 72px);
-}
-
-.preview-kicker {
-  color: #c34e43;
-  font-size: 12px;
-  letter-spacing: 2px;
-  font-weight: bold;
-}
-
-.preview-article h2 {
-  margin: 16px 0;
-  font-size: clamp(28px, 4vw, 48px);
-  line-height: 1.3;
-  letter-spacing: -1px;
-}
-
-#preview-meta {
+.fact-id {
   font-size: 11px;
-  letter-spacing: 1px;
-  color: #c3a58f;
-  border-bottom: 1px solid #45332e;
-  padding-bottom: 24px;
-  margin-bottom: 28px;
+  color: #d66a60;
 }
 
-#preview-body p {
-  font-size: 16px;
-  line-height: 2;
-  color: #e3dcd5;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  margin: 0 0 24px;
+.fact p {
+  font-size: 14px;
+  line-height: 1.7;
 }
 
-.preview-footnote {
-  margin: 0;
-  padding: 14px 22px;
-  border-top: 1px solid #3b302c;
+.fact a {
   font-size: 12px;
-  color: #a99b91;
+  color: #d7b69c;
+  overflow-wrap: anywhere;
 }
 
 .fact .evidence {
@@ -403,79 +368,6 @@ button:disabled {
   color: #d4b5a2;
   font-size: 12px;
   line-height: 1.65;
-}
-
-main {
-  max-width: none;
-  width: 100%;
-  padding: 28px 2vw 48px;
-}
-
-.workspace {
-  display: grid !important;
-  grid-template-columns: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 3fr) !important;
-  gap: 14px;
-  align-items: start !important;
-}
-
-.workspace > .workflow-writing {
-  grid-column: 1;
-  min-width: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-}
-
-.workspace > .workflow-factcheck {
-  grid-column: 2 / 4;
-  grid-row: 1;
-  display: grid;
-  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-  gap: 14px;
-  min-width: 0;
-  align-items: start;
-}
-
-.workspace > .workflow-editing {
-  grid-column: 2 / 4;
-  grid-row: 2;
-  min-width: 0;
-}
-
-.workflow-writing .editor {
-  position: static !important;
-  min-height: 0;
-}
-
-.workflow-writing .editor textarea {
-  height: calc(100vh - 350px);
-  min-height: 260px;
-  max-height: none;
-}
-
-.workflow-factcheck .facts-panel,
-.workflow-factcheck .fact-check-panel {
-  position: static !important;
-  inset: auto !important;
-  min-width: 0;
-  min-height: 0px;
-  max-height: none !important;
-  overflow: visible !important;
-  display: block;
-}
-
-.workflow-factcheck .facts-panel .facts {
-  overflow: visible !important;
-  max-height: none !important;
-  display: block;
-}
-
-.workflow-factcheck .fact {
-  padding: 14px;
-  margin: 0 0 12px;
-  border: 1px solid #51413a;
-  border-radius: 6px;
-  background: #211e1c;
-  overflow-wrap: anywhere;
 }
 
 .fact-select {
@@ -493,119 +385,153 @@ main {
   outline-offset: 1px;
 }
 
-.fact-check-panel .fact-id {
-  font-weight: 700;
-  font-size: 13px;
+.fact-type {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  border: 1px solid #51413a;
+  color: #cdbfb4;
 }
 
-.fact-check-panel .fact-sources {
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid #51413a;
+.fact-type-opinion {
+  border-color: #5c5c5c;
+  color: #a9a9a9;
 }
 
-.fact-check-panel .fact-source {
-  margin-top: 10px;
+/* 02·03 머리와 항목 카드를 한 스크롤 상자에 담습니다. */
+.fact-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  align-items: start;
+  min-width: 0;
+  grid-auto-rows: max-content;   /* 행이 상자 높이에 눌려 머리글이 겹치지 않게 */
+  align-content: start;
+  max-height: min(72vh, 860px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+  overscroll-behavior-y: contain;
+  border: 1px solid #3b3430;
+  border-radius: 7px;
+  padding: 0 14px 14px;      /* 위쪽 여백은 고정되는 제목 묶음(.fact-workspace-head)이 가집니다 */
+  background: #2a2725; /* 02+03 큰 상자는 안쪽 칸보다 한 단계 밝게 */
 }
 
-.fact-check-panel .fact-matched-review {
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid #51413a;
+.fact-workspace:focus-visible {
+  outline: 1px solid #c2a48d;
+  outline-offset: 2px;
 }
 
-.unmatched-fact-issues {
-  padding: 16px;
-  border: 1px solid #645045;
-  border-radius: 6px;
-  background: #27211e;
+/* 02·03 제목 상자 묶음: 큰 상자를 스크롤해도 맨 위에 고정됩니다.
+ * 큰 상자 색으로 둘레(14px)를 채워, 고정됐을 때 아래 카드가 비쳐 보이지 않게 합니다. */
+.fact-workspace-head {
+  grid-row: 1;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  min-width: 0;
+  margin: 0 -14px;
+  padding: 14px;
+  background: #2a2725;
 }
 
-.legacy-review-hidden {
-  display: none !important;
-}
-
-.workflow-editing .panel {
+.fact-workspace-head > .facts-panel,
+.fact-workspace-head > .fact-check-panel {
+  align-self: stretch;
+  min-width: 0;
   min-height: 0;
+  padding: 17px 16px;
 }
 
-@media (max-width:1150px) {
-  .workspace {
-    grid-template-columns: minmax(0, 42fr) minmax(0,58fr) !important;
-  }
-
-  .workspace > .workflow-writing {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-  }
-
-  .workspace > .workflow-factcheck {
-    grid-column: 2;
-    grid-row: 1;
-    grid-template-columns: 1fr;
-  }
-
-  .workspace > .workflow-editing {
-    grid-column: 2;
-    grid-row: 2;
-  }
+.fact-workspace-head > .facts-panel {
+  display: flex;
+  flex-direction: column;
 }
 
-@media (max-width:750px) {
-  .workspace {
-    display: flex !important;
-    flex-direction: column;
-  }
-
-  .workspace > .workflow-writing,
-  .workspace > .workflow-factcheck,
-  .workspace > .workflow-editing {
-    position: static;
-    max-height: none;
-    overflow: visible;
-    width: 100%;
-  }
-
-  .workspace > .workflow-factcheck {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .workflow-writing .editor textarea {
-    height: 340px;
-  }
+/* 02 패널의 원래 목록 칸은 쓰지 않습니다. (항목은 .fact-pairs에 그립니다) */
+#facts {
+  display: none;
 }
 
-.workflow-factcheck {
-  grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
-  align-items: start !important;
+.workflow-factcheck .panel-head {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 9px;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
-.workflow-factcheck > .facts-panel,
-.workflow-factcheck > .fact-check-panel {
-  min-height: 0 !important;
-  padding: 17px 16px !important;
+.workflow-factcheck .panel-head h2 {
+  flex: 0 1 auto;
+  width: 100%;
+  white-space: normal;
 }
 
-.workflow-factcheck #facts,
-.workflow-factcheck #fact-check-cards {
-  display: none !important;
+.workflow-factcheck .panel-head span {
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  font-size: 10px;
+  white-space: normal;
+  text-align: left;
 }
 
-.workflow-factcheck > .fact-pairs {
-  grid-column: 1/-1;
+.fact-header-actions,
+.fact-header-extra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+
+.fact-header-actions {
+  width: 100%;
+}
+
+.fact-header-extra button {
+  font-size: 11px;
+  padding: 5px 10px;
+}
+
+.fact-workspace > .fact-pairs {
+  grid-column: 1 / -1;
+  grid-row: 2;
   display: flex;
   flex-direction: column;
   gap: 12px;
   min-width: 0;
 }
 
+.fact-workspace > .fact-pairs[hidden] {
+  display: none;
+}
+
 .fact-pair {
   display: grid;
-  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 14px;
   align-items: stretch;
   min-width: 0;
+}
+
+/* 카드 공통 상자 → 한 쌍 안에서 위치별로 덮어씀 (선언 순서 유지) */
+.workflow-factcheck .fact {
+  padding: 14px;
+  margin: 0 0 12px;
+  border: 1px solid #51413a;
+  border-radius: 6px;
+  background: #211e1c;
+  overflow-wrap: anywhere;
 }
 
 .fact-combined {
@@ -617,23 +543,33 @@ main {
 }
 
 .fact-combined > .fact {
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  padding: 0 !important;
-  margin: 0 !important;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 .fact-combined > .fact-check {
-  margin-top: 14px !important;
-  padding-top: 14px !important;
-  border-top: 1px solid #51413a !important;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #51413a;
+}
+
+.fact-combined .fact-claim p {
+  font-weight: 700;
+  margin: 10px 0 0;
 }
 
 .fact-pair > .fact-source-card {
-  margin: 0 !important;
-  padding: 16px !important;
+  margin: 0;
+  padding: 16px;
   min-width: 0;
+}
+
+.fact-pair .fact-id {
+  font-weight: 700;
+  font-size: 13px;
 }
 
 .fact-source-card .fact-sources {
@@ -650,133 +586,24 @@ main {
   border-bottom: 0;
 }
 
-.fact-pair .fact-id {
-  font-weight: 700;
-  font-size: 13px;
-}
-
-.fact-combined .fact-claim p {
-  font-weight: 700;
-  margin: 10px 0 0;
-}
-
-@media (max-width:1150px) {
-  .workflow-factcheck {
-    grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
-  }
-}
-
-@media (max-width:750px) {
-  .workflow-factcheck {
-    grid-template-columns: 1fr !important;
-  }
-
-  .workflow-factcheck > .fact-check-panel {
-    grid-column: 1;
-    grid-row: 2;
-  }
-
-  .workflow-factcheck > .fact-pairs {
-    grid-row: 3;
-  }
-
-  .fact-pair {
-    grid-template-columns: 1fr;
-  }
-}
-
-.workflow-factcheck .panel-head {
-  flex-flow: row nowrap !important;
-  border-bottom: none;
-  padding-bottom: 0;
-  margin-bottom: 0;
-}
-
-.workflow-factcheck .panel-head h2 {
-  font-size: 12px;
-  letter-spacing: .35px;
-  flex: 0 1 auto;
-}
-
-.workflow-factcheck .panel-head span {
-  flex: 0 0 auto;
-  font-size: 10px;
-}
-
-.workflow-factcheck > .facts-panel,
-
-.workflow-factcheck > .fact-check-panel {
+/* ── 5. 검수 보고서 ──────────────────────────────────────── */
+.workflow-factcheck > .fact-report-panel {
+  grid-column: 1 / -1;
+  grid-row: 1;
   min-width: 0;
+  min-height: 0;
+  padding: 17px 16px;
 }
 
-.workspace > .workflow-writing {
-  align-self: start;
-  z-index: 2;
+.fact-report > summary {
+  display: list-item;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
 }
 
-.workflow-factcheck .panel-head {
-  display: flex !important;
-  flex-direction: column !important;
-  flex-wrap: nowrap !important;
-  align-items: flex-start !important;
-  justify-content: flex-start !important;
-  gap: 9px !important;
-}
-
-.workflow-factcheck .panel-head h2 {
-  width: 100%;
-  white-space: normal !important;
-  line-height: 1.5;
-}
-
-.workflow-factcheck .panel-head span {
-  display: block;
-  width: 100%;
-  white-space: normal !important;
-  text-align: left;
-}
-
-.workspace > .workflow-writing {
-  overflow: visible !important;
-  max-height: none !important;
-  position: sticky !important;
-  top: 14px;
-}
-
-.workflow-writing .editor {
-  overflow: visible !important;
-  max-height: none !important;
-}
-
-.workflow-writing .editor textarea {
-  overflow-y: auto !important;
-  resize: vertical;
-}
-
-@media (max-width:750px) {
-  .workspace > .workflow-writing {
-    position: static !important;
-  }
-}
-
-.fact-type {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 1px 7px;
-  border-radius: 10px;
-  font-size: 11px;
-  border: 1px solid #51413a;
-  color: #cdbfb4;
-}
-
-.fact-type-interpretation {
-  border-color: #7a6a3c;
-  color: #e0c97f;
-}
-
-.fact-type-opinion {
-  border-color: #5c5c5c;
-  color: #a9a9a9;
+.report-content {
+  margin-top: 12px;
 }
 
 .fact-report h3 {
@@ -820,8 +647,7 @@ main {
   font-weight: 700;
 }
 
-.report-verdict[data-verdict^="확인"],
-.report-verdict[data-verdict^="해석"] {
+.report-verdict[data-verdict^="확인"] {
   color: #9fd0a3;
 }
 
@@ -855,179 +681,84 @@ main {
   color: #df8076;
 }
 
-.workflow-factcheck > .fact-report-panel {
-  grid-column: 1/-1;
-  padding: 17px 16px !important;
-  min-width: 0;
+/* ── 6. 승인·미리보기 ────────────────────────────────────── */
+.approval-panel {
+  margin-top: 16px;
+  min-height: 0;
 }
 
-.workflow-factcheck > .fact-report-panel[hidden] {
-  display: none !important;
+.approval-panel > p {
+  color: #c7bcb3;
+  line-height: 1.8;
+  font-size: 13px;
 }
 
-.fact-report-panel .fact-report h3:first-child {
-  margin-top: 0;
-}
-
-@media (max-width:750px) {
-  .workflow-factcheck > .fact-report-panel {
-    grid-column: 1;
-    grid-row: 3;
-  }
-
-  .workflow-factcheck > .fact-pairs {
-    grid-row: 4;
-  }
-}
-
-.workflow-factcheck > .fact-report-panel {
-  grid-row: 1 !important;
-}
-
-.workflow-factcheck > .facts-panel {
-  grid-row: 2 !important;
-  grid-column: 1;
-}
-
-.workflow-factcheck > .fact-check-panel {
-  grid-row: 2 !important;
-  grid-column: 2;
-}
-
-.workflow-factcheck > .fact-pairs {
-  grid-row: 3 !important;
-}
-
-.fact-report summary {
+.checkline {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.7;
+  font-size: 14px;
+  margin-top: 18px;
   cursor: pointer;
-  font-weight: 700;
-  padding: 4px 0 12px;
 }
 
-.fact-pairs.facts-collapsed .fact-combined,
-
-.fact-pairs.sources-collapsed .fact-source-card {
-  display: none !important;
+.checkline input {
+  margin-top: 5px;
+  accent-color: #c64d42;
 }
 
-.fact-pairs.facts-collapsed .fact-pair {
-  grid-template-columns: 1fr;
+.preview-panel {
+  margin-top: 24px;
+  border: 1px solid #40332d;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #11100f;
 }
 
-.fact-pairs.sources-collapsed .fact-pair {
-  grid-template-columns: 1fr;
+.preview-panel[hidden] {
+  display: none;
 }
 
-.fact-pairs.facts-collapsed.sources-collapsed {
-  display: none !important;
+.preview-toolbar {
+  padding: 16px 22px;
+  border-bottom: 1px solid #3b302c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
 
+.preview-toolbar strong {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+}
+
+.preview-toolbar strong span {
+  color: #d36b60;
+  margin-left: 10px;
+  font-weight: normal;
+}
+
+/* 높이는 app.js가 기사 길이에 맞춰 정합니다. */
 #preview-frame {
   display: block;
   width: 100%;
+  height: 1px;
   border: 0;
+  overflow: hidden;
   background: #171412;
 }
 
-.section-toggle {
-  font-size: 11px;
-  padding: 5px 10px;
-}
-
-@media (max-width:750px) {
-  .workflow-factcheck > .fact-check-panel {
-    grid-column: 1;
-    grid-row: 3 !important;
-  }
-
-  .workflow-factcheck > .fact-pairs {
-    grid-row: 4 !important;
-  }
-}
-
-.report-toggle-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.fact-report .report-toggle-head h3 {
+.preview-footnote {
   margin: 0;
+  padding: 14px 22px;
+  border-top: 1px solid #3b302c;
+  font-size: 12px;
+  color: #a99b91;
 }
 
-.report-content[hidden],
- .workflow-factcheck > .fact-pairs[hidden] {
-  display: none !important;
-}
-
-.workspace > .workflow-writing {
-  grid-row: 1 !important;
-}
-
-.workflow-review-column {
-  grid-column: 2 / 4;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  min-width: 0;
-  align-self: start;
-}
-
-.workflow-review-column > .workflow-factcheck {
-  display: grid;
-  gap: 14px;
-  align-content: start;
-  min-width: 0;
-}
-
-.workflow-review-column > .workflow-editing {
-  min-width: 0;
-}
-
-.workflow-factcheck > .fact-report-panel {
-  min-height: 0 !important;
-  height: auto;
-}
-
-.report-toggle-head {
-  margin-bottom: 0;
-}
-
-.report-content:not([hidden]) {
-  margin-top: 12px;
-}
-
-html {
-  scrollbar-gutter: stable;
-}
-
-body {
-  min-height: 100vh;
-  background-attachment: fixed;
-  background-size: 100vw 100vh;
-  background-repeat: no-repeat;
-}
-
-@media (max-width:1150px) {
-  .workflow-review-column {
-    grid-column: 2;
-  }
-}
-
-@media (max-width:750px) {
-  .workflow-review-column {
-    width: 100%;
-  }
-}
-
-#preview-frame {
-  height: 1px;
-  min-height: 0;
-  overflow: hidden;
-}
-
-/* 뮤지션 선택 막대 */
+/* ── 7. 뮤지션 선택·사진 ─────────────────────────────────── */
 .panel.artist-bar {
   min-height: 0;
   display: flex;
@@ -1055,10 +786,14 @@ body {
   min-width: 0;
 }
 
-.artist-bar select { min-width: 220px; }
+.artist-bar select {
+  min-width: 220px;
+}
 
 .artist-bar select:focus,
-.artist-bar input:focus { outline: 1px solid #c55448; }
+.artist-bar input:focus {
+  outline: 1px solid #c55448;
+}
 
 .artist-new-form {
   display: flex;
@@ -1067,15 +802,14 @@ body {
   flex-basis: 100%;
 }
 
-.artist-new-form[hidden] { display: none; }
-
-.artist-new-form input { flex: 1 1 180px; }
-
-@media (max-width:750px) {
-  .artist-bar select { flex: 1 1 100%; min-width: 0; }
+.artist-new-form[hidden] {
+  display: none;
 }
 
-/* 뮤지션 사진 등록 */
+.artist-new-form input {
+  flex: 1 1 180px;
+}
+
 .photo-field {
   display: flex;
   align-items: center;
@@ -1094,41 +828,150 @@ body {
   margin: 0 0 6px;
 }
 
-/* 팩트시트 개별 추출 오류 수정 */
-.fact-edit-actions { display: flex; flex-wrap: wrap; gap: 7px; margin: 12px 0 8px; }
-.fact-edit-actions button, .fact-exclude button, .fact-excluded-item button { font-size: 11px; padding: 7px 10px; }
-.fact-edit-form { padding: 12px; margin-top: 10px; border: 1px solid #625248; border-radius: 4px; background: #171412; }
-.fact-edit-form[hidden] { display: none; }
-.fact-edit-form label { display: block; font-size: 12px; font-weight: normal; margin: 10px 0; }
-.fact-edit-form input, .fact-edit-form select, .fact-edit-form textarea, .fact-exclude input { display: block; box-sizing: border-box; width: 100%; min-width: 0; margin-top: 6px; padding: 8px; border: 1px solid #625248; border-radius: 3px; background: #211e1c; color: #eee7df; font: inherit; }
-.fact-edit-form textarea { resize: vertical; }
-.fact-edit-hint { font-size: 11px !important; font-weight: normal !important; color: #baafa3; line-height: 1.6; }
-.fact-excluded-list { border: 1px solid #51413a; border-radius: 6px; padding: 12px 16px; background: #211e1c; }
-.fact-exclude { margin-top: 10px; font-size: 11px; }
-.fact-exclude summary, .fact-excluded-list summary { cursor: pointer; }
-.fact-exclude button { margin-top: 8px; }
-.fact-excluded-item { padding: 12px 0; border-bottom: 1px solid #51413a; font-size: 12px; overflow-wrap: anywhere; }
+/* ── 8. 팩트 항목 수정·제외 ──────────────────────────────── */
+.fact-edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 12px 0 8px;
+}
 
-/* 02 박스: 3행 버튼과 오른쪽 아래 안내 */
-.fact-header-actions, .fact-header-extra { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
-.fact-header-actions { width: 100%; }
-.fact-header-extra button { font-size: 11px; padding: 5px 10px; }
-.workflow-factcheck > .facts-panel { display: flex; flex-direction: column; }
+.fact-edit-actions button,
+.fact-exclude button,
+.fact-excluded-item button {
+  font-size: 11px;
+  padding: 7px 10px;
+}
 
-/* 02·03 박스는 같은 그리드 행에서 높이를 맞춘다. */
-.workflow-factcheck > .facts-panel,
-.workflow-factcheck > .fact-check-panel { align-self: stretch; }
+.fact-edit-form {
+  padding: 12px;
+  margin-top: 10px;
+  border: 1px solid #625248;
+  border-radius: 4px;
+  background: #171412;
+}
 
-/* 검수 보고서는 기본 삼각형 토글, 섹션 제목은 01과 같은 서체 */
-.fact-report > summary { display: list-item; cursor: pointer; padding: 0; margin: 0; }
-.workflow-writing .editor > .panel-head h2,
-.workflow-factcheck .panel-head h2,
-.fact-excluded-list > summary,
-.fact-report > summary {
-  font-family: Arial, "Malgun Gothic", sans-serif;
+.fact-edit-form[hidden] {
+  display: none;
+}
+
+.fact-edit-form label {
+  display: block;
   font-size: 12px;
-  font-weight: 700;
-  font-style: normal;
-  letter-spacing: 1.6px;
-  line-height: 1.5;
+  font-weight: normal;
+  margin: 10px 0;
+}
+
+.fact-edit-form input,
+.fact-edit-form select,
+.fact-edit-form textarea,
+.fact-exclude input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin-top: 6px;
+  padding: 8px;
+  border: 1px solid #625248;
+  border-radius: 3px;
+  background: #211e1c;
+  color: #eee7df;
+  font: inherit;
+}
+
+.fact-edit-form textarea {
+  resize: vertical;
+}
+
+/* 카드 안의 .fact p 글자 규칙보다 우선해야 해서 !important를 남김 */
+.fact-edit-hint {
+  font-size: 11px !important;
+  font-weight: normal !important;
+  color: #baafa3;
+  line-height: 1.6;
+}
+
+.fact-excluded-list {
+  border: 1px solid #51413a;
+  border-radius: 6px;
+  padding: 12px 16px;
+  background: #211e1c;
+}
+
+.fact-exclude {
+  margin-top: 10px;
+  font-size: 11px;
+}
+
+.fact-exclude summary,
+.fact-excluded-list summary {
+  cursor: pointer;
+}
+
+.fact-exclude button {
+  margin-top: 8px;
+}
+
+.fact-excluded-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #51413a;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+/* ── 9. 반응형 ───────────────────────────────────────────── */
+@media (max-width: 1150px) {
+  .workspace {
+    grid-template-columns: minmax(0, 42fr) minmax(0, 58fr);
+  }
+
+  .workflow-review-column {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 750px) {
+  .workspace {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .workspace > .workflow-writing {
+    position: static;
+    width: 100%;
+  }
+
+  .workflow-review-column {
+    width: 100%;
+  }
+
+  .workflow-writing .editor {
+    height: auto;
+    min-height: 0;
+  }
+
+  .workflow-writing .editor textarea {
+    flex: none;
+    height: 340px;
+    resize: vertical;
+  }
+
+  .fact-workspace-head,
+  .fact-pair {
+    grid-template-columns: 1fr;
+  }
+
+  .artist-bar select {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  header {
+    flex-wrap: wrap;
+  }
+
+  .panel {
+    min-height: 0;
+  }
 }

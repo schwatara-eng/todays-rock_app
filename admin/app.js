@@ -177,11 +177,9 @@ function renderFactTools(rows, sheet) {
 }
 
 function renderFacts(sheet) {
-  const root = $('facts');
-  const checks = $('fact-check-cards');
   const rows = $('fact-pairs');
-  root.replaceChildren();
-  checks.replaceChildren();
+  const scrollPane = rows.closest('.fact-workspace');
+  const savedScroll = scrollPane?.scrollTop || 0;
   rows.replaceChildren();
   const facts = sheet?.facts || [];
   renderFactTools(rows, sheet);
@@ -189,9 +187,8 @@ function renderFacts(sheet) {
   const opinions = facts.filter(f => f.verificationStatus === 'OPINION');
   const pending = facts.filter(f => f.failureType === 'PENDING');
   $('fact-count').textContent = sheet ? `${facts.length - pending.length}/${facts.length}개 조사 · ${verified.length}개 검증 완료${opinions.length ? ` · 평론 ${opinions.length}개` : ''}${sheet.truncated ? ' · 일부만 추출' : ''}` : '조사 전';
-  renderReport($('fact-report') || root, lastState?.review?.report, facts);
+  renderReport($('fact-report'), lastState?.review?.report, facts);
   $('fact-check-count').textContent = sheet ? `${facts.length}개 항목` : '조사 전';
-  const issues = Array.isArray(lastState?.review?.issues) ? lastState.review.issues : [];
   for (const fact of facts) {
     const id = String(fact.id);
     const card = element('div', '', 'fact fact-claim');
@@ -207,9 +204,9 @@ function renderFacts(sheet) {
       if (target) { target.classList.add('fact-selected'); target.scrollIntoView({behavior:'smooth',block:'nearest'}); }
     });
     card.append(
-    select,
-    element('span', koreanLabel(fact.type || 'fact'), `fact-type fact-type-${fact.type || 'fact'}`),
-    element('p', fact.claim ? `“${fact.claim}”` : '내용 없음')
+      select,
+      element('span', koreanLabel(fact.type || 'fact'), `fact-type fact-type-${fact.type || 'fact'}`),
+      element('p', fact.claim ? `“${fact.claim}”` : '내용 없음')
     );
     if (fact.excerpt && fact.excerpt !== fact.claim) card.append(element('p', `원고: ${fact.excerpt}`, 'fact-reason'));
 
@@ -262,20 +259,6 @@ function renderFacts(sheet) {
     } else {
       sourceCard.append(element('p', '검색된 출처가 없습니다.', 'fact-reason'));
     }
-    // 사실 검수의 원문 문장이 기존 팩트시트 주장과 겹치면
-    // 같은 검수 의견을 다시 카드로 출력하지 않습니다.
-    // F003/F004처럼 한 원문에서 여러 사실이 분리된 경우도 포함합니다.
-    const matchedIssues = findFactIssues(fact, issues, facts);
-    const novelIssues = matchedIssues.filter(issue =>
-      !facts.some(saved => reviewRefersToFact(issue, saved))
-    );
-    if (novelIssues.length) {
-      const box = element('div', '', 'fact-matched-review');
-      box.append(element('h3', `추가 검수 의견 ${novelIssues.length}건`));
-      const existing = facts.flatMap(saved => [saved.claim, saved.evidence, saved.reason, saved.suggestion]).filter(Boolean);
-      novelIssues.forEach(issue => appendReviewIssue(box, issue, existing));
-      if (box.querySelector('.issue')) result.append(box);
-    }
     const pair = element('div', '', 'fact-pair');
     const combined = element('div', '', 'fact-combined');
     combined.append(card, result);
@@ -283,15 +266,14 @@ function renderFacts(sheet) {
     rows.append(pair);
   }
   if (!facts.length) rows.append(element('p', '아직 추출된 사실이 없습니다. 원고 저장 후 팩트시트를 생성하세요.'));
-  // ID 미연결 의견은 별도 화면 카드로 중복 출력하지 않습니다.
-  // 원본 검수 기록(lastState.review)은 변경하거나 삭제하지 않습니다.
-  // 누락된 새로운 주장 여부는 향후 서버 factId 연결 단계에서 처리합니다.
+  if (scrollPane) scrollPane.scrollTop = savedScroll;
 }
 
 // 편집자용 검수 보고서: 원고 주장 / 판정 / 근거 및 판단 표 + 전체 의견 + 수정 제안
 // 판정 라벨은 서버가 팩트시트 상태로 정한 값이며, AI가 쓴 것은 설명 문장뿐입니다.
 function renderReport(root, report, facts) {
-  if (root.id === 'fact-report') root.replaceChildren();
+  if (!root) return;
+  root.replaceChildren();
   root.hidden = !facts.length;
   if (!facts.length) return;
   const box = document.createElement('details'); box.className = 'fact-report';
@@ -349,78 +331,6 @@ function renderReport(root, report, facts) {
   root.append(box);
 }
 
-function appendReviewIssue(root, issue, existing = []) {
-  const card = element('div', '', 'issue');
-  card.append(element('strong', `${koreanLabel(issue.field)} · ${koreanLabel(issue.verdict || issue.category || 'fact')}`));
-  const items = [[issue.text, ''], [issue.reason, '사유: '], [issue.suggestion, '수정 제안: ']];
-  const unique = [];
-  for (const [value, prefix] of items) {
-    if (!value || [...existing, ...unique].some(prev => sameReviewContent(value, prev))) continue;
-    card.append(element('p', `${prefix}${value}`));
-    unique.push(value);
-  }
-  if (unique.length) root.append(card);
-}
-
-function normalizeFactText(value) {
-  return String(value || '').normalize('NFKC').toLowerCase()
-    .replace(/[\s\u200b\u00a0“”‘’"'.,!?()[\]{}:;·—–-]+/g, '');
-}
-
-function sameReviewContent(a, b) {
-  const x = normalizeFactText(a), y = normalizeFactText(b);
-  return !!x && !!y && (x === y || (Math.min(x.length, y.length) >= 24 &&
-    (x.includes(y) || y.includes(x))));
-}
-
-function overlapScore(a, b) {
-  const x = normalizeFactText(a), y = normalizeFactText(b);
-  if (!x || !y) return 0;
-  if (x === y) return 1;
-  if (Math.min(x.length, y.length) >= 12 && (x.includes(y) || y.includes(x))) return 0.95;
-  // 조사 의견이 길어도 핵심 주장 부분이 일치하면 연결합니다.
-  const ngrams = value => {
-    const set = new Set();
-    for (let i = 0; i <= value.length - 4; i++) set.add(value.slice(i, i + 4));
-    return set;
-  };
-  const ax = ngrams(x), by = ngrams(y);
-  if (!ax.size || !by.size) return 0;
-  let common = 0;
-  for (const part of ax) if (by.has(part)) common++;
-  return common / Math.min(ax.size, by.size);
-}
-
-// 원문 검수 문장과 추출된 사실 주장의 의미상 중복을 보수적으로 판별합니다.
-// 문자열 완전 일치뿐 아니라, 긴 문장에서 분리된 F003/F004 주장도 감지합니다.
-function reviewRefersToFact(issue, fact) {
-  const text = String(issue.text || '');
-  const claim = String(fact.claim || '');
-  if (!text || !claim) return false;
-  const score = overlapScore(text, claim);
-  return score >= 0.60 || sameReviewContent(text, claim);
-}
-
-function matchedFactId(issue, facts) {
-  // 명시적 서버 사실 ID를 최우선으로 사용합니다.
-  for (const id of [issue.factId, issue.fact_id, issue.claimId, issue.claim_id]) {
-    if (id == null) continue;
-    const found = facts.find(f => String(f.id).toUpperCase() === String(id).trim().toUpperCase());
-    if (found) return String(found.id);
-  }
-  const text = String(issue.text || '');
-  if (normalizeFactText(text).length < 8) return null;
-  const candidates = facts.map(f => ({id:String(f.id), score:overlapScore(text, f.claim)}))
-    .sort((a,b) => b.score - a.score);
-  const best = candidates[0], second = candidates[1];
-  if (!best || best.score < 0.62 || (second && best.score - second.score < 0.08)) return null;
-  return best.id;
-}
-
-function findFactIssues(fact, issues, facts = lastState?.factSheet?.facts || []) {
-  return issues.filter(issue => matchedFactId(issue, facts) === String(fact.id));
-}
-
 function renderIssues(targetId, countId, review, kind) {
   const root = $(targetId);
   root.replaceChildren();
@@ -440,10 +350,7 @@ function renderIssues(targetId, countId, review, kind) {
 
   for (const issue of issues) {
     const card = element('div', '', 'issue');
-    card.append(element(
-  'strong',
-  `${koreanLabel(issue.field)} · ${koreanLabel(issue.verdict || issue.category || kind)}`
-));
+    card.append(element('strong', `${koreanLabel(issue.field)} · ${koreanLabel(issue.verdict || issue.category || kind)}`));
     if (issue.text) card.append(element('p', issue.text));
     card.append(element('p', `사유: ${issue.reason}`));
     card.append(element('p', `수정 제안: ${issue.suggestion}`));
@@ -460,7 +367,6 @@ function showArticle(article) {
 function showState(data, replaceArticle = true) {
   lastState = data;
   if (replaceArticle) showArticle(data.article);
-  renderIssues('review-result', 'issue-count', data.review, 'fact');
   renderFacts(data.factSheet);
   renderIssues('editorial-result', 'editorial-count', data.editorialReview, 'editorial');
 
@@ -491,15 +397,21 @@ function showPhoto(article) {
 // ─────────────────────────────────────────────────────────────
 // 3. 서버 통신과 버튼 중복 실행 방지
 // ─────────────────────────────────────────────────────────────
+// 서버 응답을 JSON으로 읽습니다. 서버 오류 페이지처럼 JSON이 아니어도 알아볼 수 있게 알려 줍니다.
+async function readJson(response) {
+  let data;
+  try { data = await response.json(); } catch { data = {}; }
+  if (!response.ok) throw new Error(data.error || `서버 응답 오류 (HTTP ${response.status})`);
+  return data;
+}
+
 async function post(endpoint, payload = {}) {
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...payload, artist: currentArtist })
   });
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
-  return result;
+  return readJson(response);
 }
 
 async function run(task) {
@@ -517,10 +429,7 @@ async function run(task) {
 }
 
 async function getJson(url) {
-  const response = await fetch(url, { cache: 'no-store' });
-  const data = await response.json();
-  if (!response.ok) throw new Error(data.error || '불러오기 실패');
-  return data;
+  return readJson(await fetch(url, { cache: 'no-store' }));
 }
 
 const artistQuery = () => `artist=${encodeURIComponent(currentArtist)}`;
@@ -668,7 +577,7 @@ $('editorial').addEventListener('click', () => run(async () => {
 }));
 
 // ─────────────────────────────────────────────────────────────
-// 5. 사람의 명시적 최종 승인 (실제 게시는 수행하지 않음)
+// 5. 사람의 명시적 최종 승인 (승인만으로는 홈에 게시되지 않음)
 // ─────────────────────────────────────────────────────────────
 $('approve').addEventListener('click', () => run(async () => {
   if (hasUnsavedChanges()) throw new Error('수정한 원고를 먼저 저장하고 재검토하세요.');
@@ -699,7 +608,7 @@ for (const id of ['title', 'body']) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// 6. 로컬 기사 미리보기와 승인된 기사 데이터 내보내기
+// 6. 기사 미리보기·승인 기사 내보내기·사진 등록·홈 게시
 // ─────────────────────────────────────────────────────────────
 
 // 공개 기사 템플릿과 CSS를 사용하되 편집 중인 텍스트만 안전하게 삽입합니다.
@@ -752,9 +661,18 @@ async function renderPreview() {
   // 활동 제목에서 앨범명만 이탤릭(<em>)으로 표시합니다.
   // 규칙: 'N집 앨범명 (연도)', '솔로 앨범명 (연도)', '밴드 – 앨범명 (연도)' 형식일 때 앨범명 부분.
   const ALBUM = /^(.*(?:\d+집|솔로|EP|싱글)\s+|.+\s[–—−-]\s+)(.+?)(\s*\(\d{4}[^)]*\))$/;
-  sections.history.forEach(text => {
-    const li = doc.createElement('li'); const split = text.indexOf(':');
-    const title = split < 0 ? text : text.slice(0, split).trim();
+  // 활동 항목은 게시(publish.py)와 같은 규칙으로 읽습니다.
+  //   한 줄 형식: '제목: 설명'   두 줄 형식: '제목' 다음 줄에 '설명'
+  const historyItems = [];
+  for (const text of sections.history) {
+    const split = text.indexOf(':');
+    const last = historyItems[historyItems.length - 1];
+    if (split >= 0) historyItems.push({ title: text.slice(0, split).trim(), desc: text.slice(split + 1).trim() });
+    else if (last && last.desc === null) last.desc = text;
+    else historyItems.push({ title: text, desc: null });
+  }
+  historyItems.forEach(({ title, desc }) => {
+    const li = doc.createElement('li');
     const strong = doc.createElement('strong');
     const album = title.match(ALBUM);
     if (album) {
@@ -762,7 +680,7 @@ async function renderPreview() {
       strong.append(album[1], em, album[3]);
     } else strong.textContent = title;
     li.append(strong);
-    if (split >= 0) { const p = doc.createElement('p'); p.textContent = text.slice(split + 1).trim(); li.append(p); }
+    if (desc) { const p = doc.createElement('p'); p.textContent = desc; li.append(p); }
     history.append(li);
   });
   const tracks = doc.querySelector('.artist-feature-tracks'); tracks.replaceChildren();
@@ -845,9 +763,7 @@ $('preview-close').addEventListener('click', () => {
 $('export-article').addEventListener('click', () => run(async () => {
   if (hasUnsavedChanges()) throw new Error('현재 수정한 원고를 먼저 저장하고 재검토하세요.');
 
-  const response = await fetch(`/local/publication-export?${artistQuery()}`, { cache: 'no-store' });
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
+  const result = await getJson(`/local/publication-export?${artistQuery()}`);
 
   const blob = new Blob([`${JSON.stringify(result, null, 2)}\n`], {
     type: 'application/json;charset=utf-8'
@@ -874,9 +790,7 @@ $('photo-file').addEventListener('change', () => run(async () => {
       headers: { 'Content-Type': file.type || 'application/octet-stream' },
       body: file
     });
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
-    showState(result, false);
+    showState(await readJson(response), false);
     message('뮤지션 사진을 등록했습니다. 미리보기와 홈 게시에 이 사진이 쓰입니다.');
   } finally {
     input.value = '';
@@ -908,6 +822,9 @@ function setupEditorialWorkflow() {
   if (!workspace || !draft || !facts || !sourcePanel || !editorialPanel) return;
   const writing = document.createElement('div'); writing.className = 'workflow-writing';
   const factcheck = document.createElement('div'); factcheck.className = 'workflow-factcheck';
+  const factWorkspace = element('section', '', 'fact-workspace');
+  factWorkspace.setAttribute('aria-label', '팩트시트와 검증 출처');
+  factWorkspace.tabIndex = 0;
   const editing = document.createElement('div'); editing.className = 'workflow-editing';
   const factResults = document.createElement('section');
   factResults.className = 'panel fact-check-panel';
@@ -915,8 +832,6 @@ function setupEditorialWorkflow() {
   head.append(element('h2', '02 / 팩트체크 · 검증'));
   const count = element('span', '—'); count.id = 'fact-check-count'; head.append(count);
   factResults.append(head);
-  const results = element('div', '', 'fact-check-cards'); results.id = 'fact-check-cards';
-  factResults.append(results);
   const pairs = element('div', '', 'fact-pairs'); pairs.id = 'fact-pairs';
   // 검수 보고서: 사실별 카드 위에 전체 폭으로 표시합니다.
   const report = element('section', '', 'panel fact-report-panel'); report.id = 'fact-report'; report.hidden = true;
@@ -940,7 +855,11 @@ function setupEditorialWorkflow() {
   const editHead = editorialPanel.querySelector('.panel-head h2');
   if (editHead) editHead.textContent = '04 / EDITORIAL REVIEW · 편집 검토';
   writing.append(draft);
-  factcheck.append(report, facts, factResults, pairs);
+  // 02·03 제목 상자는 한 묶음으로 큰 상자 맨 위에 고정합니다. (CSS .fact-workspace-head)
+  const factHead = element('div', '', 'fact-workspace-head');
+  factHead.append(facts, factResults);
+  factWorkspace.append(factHead, pairs);
+  factcheck.append(report, factWorkspace);
   const sectionButtons = [];
   let itemsCollapsed = false;
   for (const panel of [facts, factResults]) {
@@ -972,6 +891,27 @@ function setupEditorialWorkflow() {
   const reviewColumn = element('div', '', 'workflow-review-column');
   reviewColumn.append(factcheck, editing);
   workspace.replaceChildren(writing, reviewColumn);
+  matchFactBoxHeight(draft, factWorkspace);
+}
+
+// 02+03 상자의 세로 길이를 01 원고 작성 상자와 똑같이 맞춥니다.
+// 항목을 접었을 때와 한 열로 쌓이는 좁은 화면에서는 맞추지 않고 내용 높이만큼 줄어듭니다.
+function matchFactBoxHeight(draft, box) {
+  const narrow = window.matchMedia('(max-width: 750px)');
+  const pairs = box.querySelector('.fact-pairs');
+  const sync = () => {
+    if (narrow.matches || pairs?.hidden) {
+      box.style.height = '';
+      box.style.maxHeight = '';
+    } else {
+      box.style.height = `${draft.offsetHeight}px`;
+      box.style.maxHeight = 'none';
+    }
+  };
+  new ResizeObserver(sync).observe(draft);
+  narrow.addEventListener('change', sync);
+  if (pairs) new MutationObserver(sync).observe(pairs, { attributes: true, attributeFilter: ['hidden'] });
+  sync();
 }
 
 setupEditorialWorkflow();
