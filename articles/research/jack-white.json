@@ -420,8 +420,11 @@
         "The Dead Weather",
         "bands"
       ],
-      "verificationStatus": "INSUFFICIENT",
-      "source": null,
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://thirdmanrecords.com/collections/the-dead-weather",
+        "publisher": "Third Man Records (official label)"
+      },
       "sources": [
         {
           "url": "https://www.whitestripes.com/release/elephant/",
@@ -454,13 +457,71 @@
           "evidence": "Tagged:\nJack White , Seven Nation Army , The White Stripes",
           "reason": "제시된 sourceText에는 The Raconteurs나 The Dead Weather에 대한 언급이 없다. 따라서 해당 밴드들에서 활동했다는 사실을 확인할 수 없다.",
           "suggestion": ""
+        },
+        {
+          "url": "https://theraconteurs.com/",
+          "publisher": "The Raconteurs (official site)",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://thirdmanrecords.com/collections/the-dead-weather",
+          "publisher": "Third Man Records (official label)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "The Dead Weather first united after Alison Mosshart’s band The Kills supported Jack White and Jack Lawrence’s band The Raconteurs on a string of North American dates",
+          "reason": "sourceText에서 잭 화이트가 'Jack White and Jack Lawrence’s band The Raconteurs'로 언급되며, 또한 The Dead Weather의 구성원으로 Jack White가 나열되어 있어 두 밴드에서 활동한 사실을 모두 뒷받침한다.",
+          "suggestion": ""
         }
       ],
-      "evidence": "",
-      "reason": "The White Stripes (official site): sourceText(앨범 트랙리스트 페이지)에는 The Raconteurs와 The Dead Weather에 대한 언급이 없어, 해당 밴드들에서 활동했다는 주장을 확인할 수 없다. / Wikipedia: articleContext에서는 The Raconteurs와 The Dead Weather에서 활동했다고 언급하지만, 제공된 sourceText(곡 관련 원문)에는 두 밴드에서 활동했다는 언급이 없어 출처만으로는 확인할 수 없음. / American Songwriter: 제시된 sourceText에는 The Raconteurs나 The Dead Weather에 대한 언급이 없다. 따라서 해당 밴드들에서 활동했다는 사실을 확인할 수 없다.",
-      "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
-      "checkedAt": "2026-10-17T08:40:22.870Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "evidence": "The Dead Weather first united after Alison Mosshart’s band The Kills supported Jack White and Jack Lawrence’s band The Raconteurs on a string of North American dates",
+      "reason": "sourceText에서 잭 화이트가 'Jack White and Jack Lawrence’s band The Raconteurs'로 언급되며, 또한 The Dead Weather의 구성원으로 Jack White가 나열되어 있어 두 밴드에서 활동한 사실을 모두 뒷받침한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T01:11:22.801Z",
+      "failureType": null,
+      "attempts": [
+        {
+          "checkedAt": "2026-10-17T08:40:22.870Z",
+          "verificationStatus": "INSUFFICIENT",
+          "failureType": "EVIDENCE_INSUFFICIENT",
+          "reason": "The White Stripes (official site): sourceText(앨범 트랙리스트 페이지)에는 The Raconteurs와 The Dead Weather에 대한 언급이 없어, 해당 밴드들에서 활동했다는 주장을 확인할 수 없다. / Wikipedia: articleContext에서는 The Raconteurs와 The Dead Weather에서 활동했다고 언급하지만, 제공된 sourceText(곡 관련 원문)에는 두 밴드에서 활동했다는 언급이 없어 출처만으로는 확인할 수 없음. / American Songwriter: 제시된 sourceText에는 The Raconteurs나 The Dead Weather에 대한 언급이 없다. 따라서 해당 밴드들에서 활동했다는 사실을 확인할 수 없다.",
+          "sources": [
+            {
+              "url": "https://www.whitestripes.com/release/elephant/",
+              "publisher": "The White Stripes (official site)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "Elephant\nReleased April 1, 2003\nBuy / Listen Now\nArtist Store\nApple Music",
+              "reason": "sourceText(앨범 트랙리스트 페이지)에는 The Raconteurs와 The Dead Weather에 대한 언급이 없어, 해당 밴드들에서 활동했다는 주장을 확인할 수 없다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://www.allmusic.com/album/elephant-mw0000022228",
+              "publisher": "AllMusic",
+              "verificationStatus": "NOT CHECKED",
+              "evidence": "",
+              "reason": "본문 접근 실패: 출처 페이지 HTTP 403",
+              "failureType": "SOURCE_ACCESS_FAILED"
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
+              "publisher": "Wikipedia",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "Seven Nation Army\" is a song by the American rock duo the White Stripes, released by V2 Records and XL Recordings on February 17, 2003.",
+              "reason": "articleContext에서는 The Raconteurs와 The Dead Weather에서 활동했다고 언급하지만, 제공된 sourceText(곡 관련 원문)에는 두 밴드에서 활동했다는 언급이 없어 출처만으로는 확인할 수 없음.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://americansongwriter.com/how-the-white-stripes-seven-nation-army-became-the-universal-sports-chant/",
+              "publisher": "American Songwriter",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "Tagged:\nJack White , Seven Nation Army , The White Stripes",
+              "reason": "제시된 sourceText에는 The Raconteurs나 The Dead Weather에 대한 언급이 없다. 따라서 해당 밴드들에서 활동했다는 사실을 확인할 수 없다.",
+              "suggestion": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "F013",
@@ -1158,6 +1219,6 @@
     }
   ],
   "truncated": false,
-  "generatedAt": "2026-10-17T15:05:58.058Z",
+  "generatedAt": "2026-10-18T01:11:22.801Z",
   "note": "단계별 조사 중. 같은 대상을 다루는 주장끼리 묶어 출처 검색 1회로 함께 조사합니다."
 }
