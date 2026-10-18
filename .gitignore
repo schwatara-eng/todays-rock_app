@@ -14,3 +14,5 @@ __pycache__/
 *.pyc
 
 .venv/
+# git am 패치 파일
+*.patch
