@@ -2,7 +2,8 @@
   "artist": {
     "name": "기사 기반 자료"
   },
-  "articleHash": "7511dda5c59f87800d28f253bb862ee2dec9dd79f1576bec2e34bfa5a0364e71",
+  "articleHash": "8710eabf47ea2d8b4e8764ce6b021b2d249aeb3a337fae803e23fa1de2c96b0b",
+  "articleText": "잭 화이트\n잭 화이트 Jack White\n\n기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람\n\n디트로이트 출신의 기타리스트이자 싱어송라이터 잭 화이트(Jack White). 1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다. 베이스 없이 기타와 드럼만으로 꽉 찬 소리를 만들어냈고, 빨강·하양·검정 세 가지 색으로 무대와 앨범을 통일했다. 2000년대 초 개러지 록 리바이벌의 상징이 된 이유다. 블루스를 뿌리에 두고 아날로그 녹음과 바이닐을 선호하는 그는 지금도 특유의 '손맛'이 살아 있는 록을 들려준다.\n\n주요 앨범과 활동\n\nThe White Stripes – Elephant (2003): '세븐 네이션 아미(Seven Nation Army)'가 실린 앨범. 이 곡의 리프는 지금도 전 세계 축구장에서 응원가로 울려 퍼진다.\nThe Raconteurs · The Dead Weather: 밴드를 바꿔가며 파워팝과 어두운 블루스 록을 오갔다.\nThird Man Records (2009~): 내슈빌에 세운 레이블이자 레코드숍. 바이닐 부활의 한 축을 맡아왔다.\n솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다. 그래미 수상은 총 16회다. \n솔로 Frozen Charlotte (2026): 2026년 7월, 북미 투어 첫날에 맞춰 공개된 신작이다. 내슈빌의 서드 맨 스튜디오에서 녹음했다. 일곱 번째 솔로 앨범이다. \n그 밖의 활동: 최근 화이트 스트라입스로 로큰롤 명예의 전당에 헌액됐다. 2025년 10월에는 가사와 시, 희귀 사진을 묶은 책 『Jack White Collected Lyrics and Selected Writing Volume 1』도 냈다. \n\n에디터 코멘트\n\n잭 화이트의 음악은 '덜어냄'에서 시작한다. 악기를 줄이고, 색을 줄이고, 녹음 과정의 기술도 줄인다. 그렇게 남은 빈자리를 기타 톤과 목소리의 긴장감이 채운다. 매끈하게 다듬은 소리에 지쳤다면, 거칠게 긁히는 리프 한 줄이 오히려 숨통을 틔워줄 것이다. 신작 공연은 휴대폰 없이 진행됐다. 지금 이 순간의 소리에 집중하라는 태도 역시 그의 음악과 닮았다. 답답한 날, 볼륨을 올리고 들어보자. \n\n대표곡\n\nSeven Nation Army – The White Stripes\nFell in Love with a Girl – The White Stripes\nSteady, As She Goes – The Raconteurs",
   "facts": [
     {
       "id": "F001",
@@ -34,40 +35,6 @@
       ],
       "evidence": "members were Meg White (drums and occasional vocals) and songwriter Jack White (vocals, guitar, and keyboards)",
       "reason": "sourceText에 잭 화이트가 디트로이트 출신이며 보컬과 기타(및 작곡)를 담당한 인물이라고 분명히 적혀 있다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:39:17.850Z",
-      "failureType": null
-    },
-    {
-      "id": "F002",
-      "claim": "1997년 메그 화이트와 결성한 2인조 화이트 스트라이프스(The White Stripes)로 이름을 알렸다.",
-      "field": "body",
-      "excerpt": "1997년 메그 화이트와 결성한 2인조 화이트 스트라이프스(The White Stripes)로 이름을 알렸다.",
-      "type": "fact",
-      "group": "G1",
-      "keywords": [
-        "1997",
-        "Meg White",
-        "The White Stripes",
-        "결성"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
-        "publisher": "Detroit Historical Society"
-      },
-      "sources": [
-        {
-          "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
-          "publisher": "Detroit Historical Society",
-          "verificationStatus": "VERIFIED",
-          "evidence": "The White Stripes was a two-person rock band from Detroit, Michigan that has added to the lexicon of Detroit sound. Formed in 1997, members were Meg White (drums and occasional vocals) and songwriter Jack White (vocals, guitar, and keyboards)",
-          "reason": "sourceText에 화이트 스트라이프스가 2인조 밴드였고 1997년 결성되었으며 멤버로 메그 화이트와 잭 화이트가 명시되어 있다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "The White Stripes was a two-person rock band from Detroit, Michigan that has added to the lexicon of Detroit sound. Formed in 1997, members were Meg White (drums and occasional vocals) and songwriter Jack White (vocals, guitar, and keyboards)",
-      "reason": "sourceText에 화이트 스트라이프스가 2인조 밴드였고 1997년 결성되었으며 멤버로 메그 화이트와 잭 화이트가 명시되어 있다.",
       "suggestion": "",
       "checkedAt": "2026-10-17T08:39:17.850Z",
       "failureType": null
@@ -1014,52 +981,6 @@
       "failureType": null
     },
     {
-      "id": "F024",
-      "claim": "잭 화이트는 최근 로큰롤 명예의 전당(Rock and Roll Hall of Fame)에 헌액됐다.",
-      "field": "body",
-      "excerpt": "그 밖의 활동: 최근 로큰롤 명예의 전당에 헌액됐다.",
-      "type": "fact",
-      "group": "G6",
-      "keywords": [
-        "Rock and Roll Hall of Fame",
-        "inducted",
-        "Jack White"
-      ],
-      "verificationStatus": "INSUFFICIENT",
-      "source": null,
-      "sources": [
-        {
-          "url": "https://rockhall.com/press-release/the-rock-roll-hall-of-fame-foundation-unveils-electrifying-class-of-2025-inductees/",
-          "publisher": "Rock & Roll Hall of Fame (official)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "Performer Category:\nBad Company\nChubby Checker\nJoe Cocker\nCyndi Lauper\nOutkast\nSoundgarden\nThe White Stripes",
-          "reason": "출처에는 2025년 헌액자 명단에 'The White Stripes'가 포함되어 있다고만 적혀 있습니다. 출처 텍스트는 팀(밴드)명인 'The White Stripes'를 명시했을 뿐, 잭 화이트 개인이 별도로 헌액되었다고 명시하지 않습니다. 따라서 '잭 화이트는 헌액됐다'는 개인 헌액 여부는 출처만으로 확인되지 않습니다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://rockhall.com/inductees/white-stripes/",
-          "publisher": "Rock & Roll Hall of Fame (official)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "",
-          "reason": "AI가 지지 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText는 The White Stripes가 2025년 로큰롤 명예의 전당 헌액 대상이며, 헌액을 잭 화이트가 직접 수락했음을 명확히 적고 있다. 따라서 ‘잭 화이트는 ... 헌액됐다’는 표현은 출처로 뒷받침된다.)",
-          "suggestion": ""
-        },
-        {
-          "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-collected-lyrics-and-selected-writing-volume-1",
-          "publisher": "Third Man Records (official/label)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "The upcoming collection compiles lyrics from White’s solo recordings thus far, alongside his acclaimed work with  The Raconteurs ,   The   Dead Weather , and other collaborations.",
-          "reason": "sourceText에 로큰롤 명예의 전당 헌액에 대한 언급이 전혀 없다. 제공된 출처는 주로 책 출간 소식을 다루고 있어 해당 사실을 확인할 수 없다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "",
-      "reason": "Rock & Roll Hall of Fame (official): 출처에는 2025년 헌액자 명단에 'The White Stripes'가 포함되어 있다고만 적혀 있습니다. 출처 텍스트는 팀(밴드)명인 'The White Stripes'를 명시했을 뿐, 잭 화이트 개인이 별도로 헌액되었다고 명시하지 않습니다. 따라서 '잭 화이트는 헌액됐다'는 개인 헌액 여부는 출처만으로 확인되지 않습니다. / Rock & Roll Hall of Fame (official): AI가 지지 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText는 The White Stripes가 2025년 로큰롤 명예의 전당 헌액 대상이며, 헌액을 잭 화이트가 직접 수락했음을 명확히 적고 있다. 따라서 ‘잭 화이트는 ... 헌액됐다’는 표현은 출처로 뒷받침된다.) / Third Man Records (official/label): sourceText에 로큰롤 명예의 전당 헌액에 대한 언급이 전혀 없다. 제공된 출처는 주로 책 출간 소식을 다루고 있어 해당 사실을 확인할 수 없다.",
-      "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
-      "checkedAt": "2026-10-17T08:42:44.081Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
-    },
-    {
       "id": "F025",
       "claim": "2025년 10월에 『Jack White Collected Lyrics and Selected Writing Volume 1』을 냈다.",
       "field": "body",
@@ -1216,9 +1137,209 @@
       "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
       "checkedAt": "2026-10-17T08:40:22.870Z",
       "failureType": "EVIDENCE_INSUFFICIENT"
+    },
+    {
+      "id": "F029",
+      "claim": "잭 화이트는 1997년 멕 화이트와 함께 화이트 스트라입스(The White Stripes)를 결성했다.",
+      "field": "body",
+      "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "1997",
+        "Meg White",
+        "The White Stripes",
+        "결성"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+        "publisher": "Detroit Historical Society"
+      },
+      "sources": [
+        {
+          "url": "https://www.whitestripes.com/",
+          "publisher": "The White Stripes (official site)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "The White Stripes Greatest Hits Out Now",
+          "reason": "출처 텍스트에는 밴드 결성 연도(1997)나 멕 화이트(Meg White)와의 결성에 관한 언급이 전혀 없어 해당 주장 전체를 확인할 수 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.allmusic.com/artist/mn0000921710",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://rockhall.com/inductees/white-stripes/",
+          "publisher": "Rock & Roll Hall of Fame",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "This bass drum was played by Meg White at the White Stripes’ second-ever show in 1997 and for many years afterwards",
+          "reason": "출처 텍스트는 화이트 스트라입스가 1997년에 활동하고 있었음을(1997년 공연 관련 언급) 보여주지만, ‘1997년 결성했다’는 사실을 명확히 서술하고 있지 않다. 확인된 부분: 1997년에 두 번째 공연이 있었다는 점. 확인되지 않은 부분: 결성 연도(1997년)라는 명시적 진술.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+          "publisher": "Detroit Historical Society",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Formed in 1997, members were Meg White (drums and occasional vocals) and songwriter Jack White (vocals, guitar, and keyboards",
+          "reason": "sourceText에 'Formed in 1997'이라며 밴드 구성원으로 Meg White와 Jack White를 명시하고 있어, 1997년에 멕 화이트와 함께 결성되었다는 주장을 명확히 뒷받침한다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "Formed in 1997, members were Meg White (drums and occasional vocals) and songwriter Jack White (vocals, guitar, and keyboards",
+      "reason": "sourceText에 'Formed in 1997'이라며 밴드 구성원으로 Meg White와 Jack White를 명시하고 있어, 1997년에 멕 화이트와 함께 결성되었다는 주장을 명확히 뒷받침한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T05:00:04.778Z",
+      "failureType": null
+    },
+    {
+      "id": "F030",
+      "claim": "화이트 스트라입스(The White Stripes)는 2인조 밴드이다.",
+      "field": "body",
+      "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "The White Stripes",
+        "2인조",
+        "duo"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+        "publisher": "Detroit Historical Society"
+      },
+      "sources": [
+        {
+          "url": "https://www.whitestripes.com/",
+          "publisher": "The White Stripes (official site)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "The White Stripes Greatest Hits Out Now",
+          "reason": "출처 텍스트에는 멤버 수나 '2인조'라는 표현이 등장하지 않아 밴드가 2인조라는 사실을 확인할 수 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.allmusic.com/artist/mn0000921710",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://rockhall.com/inductees/white-stripes/",
+          "publisher": "Rock & Roll Hall of Fame",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "",
+          "reason": "AI 인용문을 실제 출처 본문에서 찾지 못했습니다. 출처는 잭 화이트와 멕 화이트가 만든 밴드를 ‘a duo’ 또는 ‘Rock’s Minimalist Power Duo’ 등으로 반복해서 묘사하여 2인조임을 분명히 뒷받침한다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+          "publisher": "Detroit Historical Society",
+          "verificationStatus": "VERIFIED",
+          "evidence": "The White Stripes was a two-person rock band from Detroit, Michigan that has added to the lexicon of Detroit sound",
+          "reason": "sourceText가 'The White Stripes was a two-person rock band'라고 직접 서술하고 있어, 2인조 밴드라는 주장이 분명히 확인된다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "The White Stripes was a two-person rock band from Detroit, Michigan that has added to the lexicon of Detroit sound",
+      "reason": "sourceText가 'The White Stripes was a two-person rock band'라고 직접 서술하고 있어, 2인조 밴드라는 주장이 분명히 확인된다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T05:00:04.778Z",
+      "failureType": null
+    },
+    {
+      "id": "F031",
+      "claim": "화이트 스트라입스(The White Stripes)는 '화이트 스트라입스'라는 이름을 사용했다.",
+      "field": "body",
+      "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "The White Stripes",
+        "밴드 이름"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.whitestripes.com/",
+        "publisher": "The White Stripes (official site)"
+      },
+      "sources": [
+        {
+          "url": "https://www.whitestripes.com/",
+          "publisher": "The White Stripes (official site)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "The White Stripes Greatest Hits Out Now",
+          "reason": "출처 텍스트에서 밴드 이름으로 'The White Stripes'가 명백히 사용되고 있어, '화이트 스트라입스'라는 명칭 사용은 뒷받침된다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "The White Stripes Greatest Hits Out Now",
+      "reason": "출처 텍스트에서 밴드 이름으로 'The White Stripes'가 명백히 사용되고 있어, '화이트 스트라입스'라는 명칭 사용은 뒷받침된다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T05:00:04.778Z",
+      "failureType": null
+    },
+    {
+      "id": "F032",
+      "claim": "화이트 스트라입스가 최근 로큰롤 명예의 전당(Rock and Roll Hall of Fame)에 헌액되었다.",
+      "field": "body",
+      "excerpt": "그 밖의 활동: 최근 화이트 스트라입스로 로큰롤 명예의 전당에 헌액됐다.",
+      "type": "fact",
+      "group": "G9",
+      "keywords": [
+        "Rock and Roll Hall of Fame",
+        "화이트 스트라입스",
+        "헌액"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://rockhall.com/inductees/white-stripes/",
+        "publisher": "Rock & Roll Hall of Fame (rockhall.com)"
+      },
+      "sources": [
+        {
+          "url": "https://rockhall.com/inductees/white-stripes/",
+          "publisher": "Rock & Roll Hall of Fame (rockhall.com)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Inducted:\n2025\nCategory:\nPerformer\nInducted By:\nIggy Pop",
+          "reason": "sourceText에 \"Inducted: 2025\"와 \"Category: Performer\" 등 헌액 관련 정보가 명시되어 있어 화이트 스트라입스가 (최근인) 2025년에 로큰롤 명예의 전당에 헌액된 사실을 직접적으로 뒷받침한다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "Inducted:\n2025\nCategory:\nPerformer\nInducted By:\nIggy Pop",
+      "reason": "sourceText에 \"Inducted: 2025\"와 \"Category: Performer\" 등 헌액 관련 정보가 명시되어 있어 화이트 스트라입스가 (최근인) 2025년에 로큰롤 명예의 전당에 헌액된 사실을 직접적으로 뒷받침한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T05:00:19.048Z",
+      "failureType": null
+    },
+    {
+      "id": "F033",
+      "claim": "'기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람'이라는 표현은 평론적·감상적 진술이다.",
+      "field": "body",
+      "excerpt": "기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람",
+      "type": "opinion",
+      "group": "G0",
+      "keywords": [
+        "평론",
+        "opinion"
+      ],
+      "verificationStatus": "OPINION",
+      "source": null,
+      "sources": [],
+      "evidence": "",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T04:59:21.511Z",
+      "failureType": null
     }
   ],
   "truncated": false,
-  "generatedAt": "2026-10-18T01:11:22.801Z",
-  "note": "단계별 조사 중. 같은 대상을 다루는 주장끼리 묶어 출처 검색 1회로 함께 조사합니다."
+  "generatedAt": "2026-10-18T05:00:19.048Z",
+  "note": "같은 대상을 다루는 주장끼리 묶어 조사합니다. 이전 검증 26개 유지, 새 항목 5개."
 }
