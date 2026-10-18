@@ -660,9 +660,19 @@ async function renderPreview() {
   sections.comment.forEach(text => { const p = doc.createElement('p'); p.textContent = text; comment.append(p); });
   comment.hidden = !sections.comment.length;
   const history = doc.querySelector('.artist-feature-history'); history.replaceChildren();
+  // 활동 제목에서 앨범명만 이탤릭(<em>)으로 표시합니다.
+  // 규칙: 'N집 앨범명 (연도)', '솔로 앨범명 (연도)', '밴드 – 앨범명 (연도)' 형식일 때 앨범명 부분.
+  const ALBUM = /^(.*(?:\d+집|솔로|EP|싱글)\s+|.+\s[–—−-]\s+)(.+?)(\s*\(\d{4}[^)]*\))$/;
   sections.history.forEach(text => {
     const li = doc.createElement('li'); const split = text.indexOf(':');
-    const strong = doc.createElement('strong'); strong.textContent = split < 0 ? text : text.slice(0, split); li.append(strong);
+    const title = split < 0 ? text : text.slice(0, split).trim();
+    const strong = doc.createElement('strong');
+    const album = title.match(ALBUM);
+    if (album) {
+      const em = doc.createElement('em'); em.textContent = album[2];
+      strong.append(album[1], em, album[3]);
+    } else strong.textContent = title;
+    li.append(strong);
     if (split >= 0) { const p = doc.createElement('p'); p.textContent = text.slice(split + 1).trim(); li.append(p); }
     history.append(li);
   });

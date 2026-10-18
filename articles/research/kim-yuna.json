@@ -223,14 +223,14 @@
       "claim": "자우림에서는 몽환적이면서도 날 선 모던 록을 들려준다.",
       "field": "body",
       "excerpt": "자우림에서는 몽환적이면서도 날 선 모던 록을, 솔로에서는 피아노와 현악이 어우러진 서늘한 서정을 들려준다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G2",
       "keywords": [
         "자우림",
         "모던 록",
         "몽환적"
       ],
-      "verificationStatus": "VERIFIED",
+      "verificationStatus": "OPINION",
       "source": {
         "url": "https://www.elle.com/culture/music/g42815124/korean-indie-artists/",
         "publisher": "ELLE"
@@ -278,9 +278,9 @@
         }
       ],
       "evidence": "Jaurim’s music is at once unique, striking, complex, and mysterious",
-      "reason": "출처의 해당 문장은 자우림의 음악을 'unique, striking, complex, and mysterious'라고 묘사하고 있으며(몽환적·신비한 성격을 뒷받침), 'alternative rock ballads and bangers'라고도 명시해 록 성격을 분명히 밝히고 있다. 따라서 '몽환적이면서도 날 선 모던 록'이라는 해석은 출처의 취지와 일치한다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "",
-      "checkedAt": "2026-10-18T03:20:20.472Z",
+      "checkedAt": "2026-10-18T04:45:33.297Z",
       "failureType": null,
       "attempts": [
         {
@@ -330,7 +330,7 @@
       "claim": "솔로 활동에서는 피아노와 현악이 어우러진 서늘한 서정을 들려준다.",
       "field": "body",
       "excerpt": "자우림에서는 몽환적이면서도 날 선 모던 록을, 솔로에서는 피아노와 현악이 어우러진 서늘한 서정을 들려준다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G2",
       "keywords": [
         "솔로",
@@ -338,7 +338,7 @@
         "현악",
         "서정"
       ],
-      "verificationStatus": "INSUFFICIENT",
+      "verificationStatus": "OPINION",
       "source": null,
       "sources": [
         {
@@ -375,10 +375,10 @@
         }
       ],
       "evidence": "",
-      "reason": "Yonhap News Agency (English): sourceText는 김윤아가 밴드의 작곡가이자 보컬이라고 언급하지만, 솔로 활동에서 ‘피아노와 현악이 어우러진 서늘한 서정’을 들려준다는 구체적 서술이나 근거는 없다. / Korea JoongAng Daily (English): 원문에는 김윤아의 솔로 활동이 피아노와 현악이 어우러진 ‘서늘한 서정’이라고 서술한 부분이 없다. 다만 그녀가 영화 OST에 참여했고 보컬로서 다양한 면모를 보였다는 언급은 있어 솔로 활동 자체는 확인되지만, 악기 편성·음색에 대한 구체적 설명은 없다. / HelloKPop: 출처에는 피아노·어쿠스틱 반주와 현악 풍의 곡 묘사가 있으나(앨범 내 특정 트랙에 대한 설명), '솔로 활동'에서 피아노와 현악이 어우러진 '서늘한 서정'을 들려준다고 특정해 말하고 있지 않음. 따라서 피아노·현악 요소는 확인되나 그것이 '솔로 활동'에 해당한다는 부분은 출처에서 확인되지 않는다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T02:33:24.882Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "checkedAt": "2026-10-18T04:45:33.297Z",
+      "failureType": null
     },
     {
       "id": "F007",
@@ -570,14 +570,14 @@
       "claim": "자우림은 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.",
       "field": "body",
       "excerpt": "'헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G3",
       "keywords": [
         "홍대 인디 신",
         "대중 무대",
         "성공"
       ],
-      "verificationStatus": "VERIFIED",
+      "verificationStatus": "OPINION",
       "source": {
         "url": "https://thekmeal.com/indie-pick-jaurim/",
         "publisher": "The K Meal"
@@ -641,9 +641,9 @@
         }
       ],
       "evidence": "Even before their huge success with ‘Hey, Hey, Hey’ they already had a massive following. Hongdae, where they had their start, was the place to be for indie artists",
-      "reason": "출처는 자우림이 홍대에서 시작했음을 밝히고(‘Hongdae, where they had their start’) 동시에 ‘Hey, Hey, Hey’로 큰 성공을 거두기 전에도 이미 많은 팬을 확보했다며 빠르게 주목을 받았음을 서술하고 있어, ‘홍대 인디 신에서 대중 무대로 단숨에 올라섰다’는 평가와 같은 취지로 뒷받침된다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "",
-      "checkedAt": "2026-10-18T04:18:11.681Z",
+      "checkedAt": "2026-10-18T04:45:33.297Z",
       "failureType": null,
       "attempts": [
         {
@@ -980,14 +980,14 @@
       "claim": "'매직 카펫 라이드'는 지금도 축제와 응원 현장에서 울려 퍼지는 곡이라고 서술되었다.",
       "field": "body",
       "excerpt": "'매직 카펫 라이드'를 담은 앨범. 지금도 축제와 응원 현장에서 울려 퍼지는 곡이다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G3",
       "keywords": [
         "매직 카펫 라이드",
         "축제",
         "응원"
       ],
-      "verificationStatus": "INSUFFICIENT",
+      "verificationStatus": "OPINION",
       "source": null,
       "sources": [
         {
@@ -1064,10 +1064,10 @@
         }
       ],
       "evidence": "",
-      "reason": "New York State Department of Agriculture & Markets (official fair announcement): 출처에는 ‘매직 카펫 라이드’가 2014년 그레이트 뉴욕 스테이트 페어(Chevy Court) 공연에 오른다는 문구 등 축제(페어) 무대와 관련된 언급이 있지만, ‘응원 현장’(cheering venues)에서 울려 퍼진다는 표현이나 그에 해당하는 근거는 없다. 따라서 ‘축제’ 측면은 출처로 확인되나 ‘응원 현장’이라는 부분은 확인되지 않는다. / The Concert Database: 제공된 sourceText는 'Magic Carpet Ride'의 아티스트·녹음연도·앨범 등 곡의 기본 정보와 공연 연혁 일부만 담고 있으며, “지금도 축제와 응원 현장에서 울려 퍼진다”는 현재의 활용이나 빈도에 관해 아무런 언급이 없다. 따라서 원문의 서술을 출처로 확인할 수 없다. / Melon (Korean music platform): sourceText에는 '매직 카펫 라이드'가 대히트하여 자우림을 국민 밴드 반열에 올린 곡이었다고 서술되어 있으나, '지금도 축제와 응원 현장에서 울려 퍼지는 곡'이라는 현재의 이용 사례나 표현은 찾아볼 수 없다. 확인된 부분: 히트 여부와 영향력. 확인되지 않은 부분: 현재 축제·응원에서 여전히 울려 퍼진다는 진술.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T04:27:57.620Z",
-      "failureType": "EVIDENCE_INSUFFICIENT",
+      "checkedAt": "2026-10-18T04:45:33.297Z",
+      "failureType": null,
       "attempts": [
         {
           "checkedAt": "2026-10-18T02:35:17.665Z",
@@ -1190,14 +1190,14 @@
       "claim": "'봄날은 간다'에서 록 보컬이 아닌 담담하게 무너지는 목소리를 각인시켰다고 서술되었다.",
       "field": "body",
       "excerpt": "록 보컬이 아닌, 담담하게 무너지는 김윤아의 목소리를 처음 각인시켰다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G3",
       "keywords": [
         "봄날은 간다",
         "보컬",
         "각인"
       ],
-      "verificationStatus": "INSUFFICIENT",
+      "verificationStatus": "OPINION",
       "source": null,
       "sources": [
         {
@@ -1242,10 +1242,10 @@
         }
       ],
       "evidence": "",
-      "reason": "Wikipedia (English): 출처에는 '봄날은 간다'나 그 곡에서 김윤아의 보컬이 '담담하게 무너진다'는 표현이 전혀 등장하지 않는다. 따라서 해당 해석은 출처로는 확인되지 않는다. / Korean Film Archive (Koreafilm): sourceText는 영화 자료 페이지로, 김윤아의 보컬 스타일(예: 록 보컬이 아닌 담담한 무너지는 목소리)을 각인시켰다는 평가나 관련 서술이 전혀 없어 확인 불가하다. / www.donga.com: sourceText에는 '롤 보컬이 아닌, 담담하게 무너지는' 식의 보컬 묘사는 없다. 다만 '김윤아의 보컬이 돋보이는 곡'이라는 표현만 있어, 사용된 보컬의 특징(담담하게 무너지는 등)은 확인되지 않는다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T02:35:17.665Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "checkedAt": "2026-10-18T04:45:33.297Z",
+      "failureType": null
     },
     {
       "id": "F016",
@@ -1286,7 +1286,7 @@
       "claim": "솔로 음반에서 재즈·샹송풍의 세계를 열었다고 서술되었다.",
       "field": "body",
       "excerpt": "밴드와는 결이 다른 재즈·샹송풍의 솔로 세계를 열었다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G3",
       "keywords": [
         "재즈",
@@ -1294,7 +1294,7 @@
         "솔로",
         "Shadow of Your Smile"
       ],
-      "verificationStatus": "INSUFFICIENT",
+      "verificationStatus": "OPINION",
       "source": null,
       "sources": [
         {
@@ -1323,10 +1323,10 @@
         }
       ],
       "evidence": "",
-      "reason": "Apple Music: sourceText는 앨범 제목과 발매 연도 등 메타데이터만 제공하고 있으며, 솔로 음반의 음악적 성격(재즈·샹송풍)이라는 서술은 포함되어 있지 않아 확인할 수 없다. / Wikipedia (Jaurim page): sourceText에 솔로 1집이나 ‘재즈·샹송풍의 솔로 세계’를 열었다는 서술이 없다. 원문에는 밴드(Jaurim)와 김윤아의 역할·가창력 등에 대한 언급은 있으나 솔로 음반의 음악적 성격(재즈·샹송)을 밝히는 문장은 없다. / YouTube (Jaurim official channel): sourceText에는 솔로 음반이 '재즈·샹송풍의 세계를 열었다'고 평가하는 내용이나 해당 문구가 전혀 나오지 않습니다. 따라서 이 해석적 진술을 출처만으로 확인할 수 없습니다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T02:36:45.905Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "checkedAt": "2026-10-18T04:45:33.297Z",
+      "failureType": null
     },
     {
       "id": "F018",
@@ -1722,7 +1722,7 @@
       "claim": "한 인터뷰에서 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가했다.",
       "field": "body",
       "excerpt": "최근 한 인터뷰에서는 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가하기도 했다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G1",
       "keywords": [
         "인터뷰",
@@ -1731,7 +1731,7 @@
         "데뷔 이전 이후",
         "김윤아"
       ],
-      "verificationStatus": "VERIFIED",
+      "verificationStatus": "OPINION",
       "source": {
         "url": "https://www.khan.co.kr/en/article/202604210838037",
         "publisher": "Kyunghyang Shinmun (English)"
@@ -1747,9 +1747,9 @@
         }
       ],
       "evidence": "The history of South Korean rock bandsespecially that of female ‘frontpersons’is divided into before and after the debut of Kim Yuna (52",
-      "reason": "sourceText에 'The history of South Korean rock bands especially that of female ‘frontpersons’ is divided into before and after the debut of Kim Yuna'라는 문장이 있어, 인터뷰에서 한국 록밴드 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 명확히 평가하고 있다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "",
-      "checkedAt": "2026-10-18T04:13:14.030Z",
+      "checkedAt": "2026-10-18T04:45:33.297Z",
       "failureType": null
     },
     {
@@ -1839,7 +1839,7 @@
       "claim": "자우림은 홍대 인디 신에서 대중 무대로 빠르게 올라섰다.",
       "field": "body",
       "excerpt": "자우림 데뷔 (1997): '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G2",
       "keywords": [
         "자우림",
@@ -1847,7 +1847,7 @@
         "대중 무대",
         "인디에서 메이저"
       ],
-      "verificationStatus": "INSUFFICIENT",
+      "verificationStatus": "OPINION",
       "source": null,
       "sources": [
         {
@@ -1884,10 +1884,10 @@
         }
       ],
       "evidence": "",
-      "reason": "Spotify Newsroom: 출처는 밴드의 영향력과 대중화 기여를 언급하지만 '홍대 인디 신에서'나 '단숨에/빠르게 올라섰다'는 장소적·속도적 서술은 전혀 언급하지 않는다. 확인된 부분: 밴드가 대중화에 기여했다는 점은 출처에서 확인된다. 확인되지 않은 부분: '홍대 인디 신에서'라는 특정 출신지와 '단숨에/빠르게'라는 속도 표현은 출처에 없음. / Apple Music (Shadow Of Your Smile album page): sourceText에 자우림의 데뷔 연도, 홍대 인디 신 활동, 또는 ‘대중 무대로 단숨에 올라섰다’는 서술이 전혀 없다. 따라서 해당 주장을 판단할 근거가 부족하다. / en.wikipedia.org: 출처에는 자우림이 '인디 신'에서 활동했다는 언급과 1997년 'Hey Hey Hey'로 메이저가 되었다는 언급은 있으나, '홍대 인디 신'이라는 특정 지역(Hongdae) 표기와 '빠르게(단숨에)' 올라섰다는 속도에 대한 정보는 없다. 따라서 일부(인디 신에서 대중 무대로 올라섰다는 점)는 확인되지만, 홍대·빠르게라는 요소는 출처에서 확인되지 않는다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T04:14:28.876Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "checkedAt": "2026-10-18T04:45:33.297Z",
+      "failureType": null
     },
     {
       "id": "F031",

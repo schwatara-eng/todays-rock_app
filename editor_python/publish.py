@@ -20,6 +20,8 @@ TEMPLATE = ROOT / 'artist-jack-white.html'   # 아카이브 페이지의 틀(머
 START = '<div id="artist-current-content">'
 END = '<!-- artist-current-content -->'
 MAX_PHOTO = 8 * 1024 * 1024
+# 활동 제목 중 앨범명: 'N집 앨범명 (연도)', '솔로 앨범명 (연도)', '밴드 – 앨범명 (연도)'
+ALBUM = re.compile(r'^(.*(?:\d+집|솔로|EP|싱글)\s+|.+\s[–—−-]\s+)(.+?)(\s*\(\d{4}[^)]*\))$')
 
 
 class PublishError(Exception):
@@ -128,7 +130,9 @@ def render_feature(article, photo, sheet):
         out += ['       <h4 class="artist-feature-subtitle">주요 앨범과 활동</h4>',
                 '       <ul class="artist-feature-history">']
         for title, desc in history_items(s['history']):
-            out.append(f'        <li><strong>{t(title)}</strong>' + (f'<p>{t(desc)}</p>' if desc else '') + '</li>')
+            m = ALBUM.match(title)                # 앨범명만 이탤릭
+            head = f'{t(m[1])}<em>{t(m[2])}</em>{t(m[3])}' if m else t(title)
+            out.append(f'        <li><strong>{head}</strong>' + (f'<p>{t(desc)}</p>' if desc else '') + '</li>')
         out += ['       </ul>']
     if s['tracks']:
         out += ['       <div class="artist-feature-track-group">',

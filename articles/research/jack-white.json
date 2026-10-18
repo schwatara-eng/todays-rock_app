@@ -176,14 +176,14 @@
       "claim": "2000년대 초 개러지 록 리바이벌의 상징이 되었다.",
       "field": "body",
       "excerpt": "2000년대 초 개러지 록 리바이벌의 상징이 된 이유다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G1",
       "keywords": [
         "garage rock revival",
         "early 2000s",
         "symbol"
       ],
-      "verificationStatus": "VERIFIED",
+      "verificationStatus": "OPINION",
       "source": {
         "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
         "publisher": "Detroit Historical Society"
@@ -199,9 +199,9 @@
         }
       ],
       "evidence": "The White Stripes rose to prominence in 2002 after releasing several singles and three albums within the Detroit music scene.",
-      "reason": "sourceText는 밴드가 2002년에 두각을 나타내며 국제적 명성을 얻었다고 적어 '2000년대 초 개러지 록 리바이벌의 상징'이라는 취지를 뒷받침한다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:39:17.850Z",
+      "checkedAt": "2026-10-18T04:45:04.195Z",
       "failureType": null
     },
     {
@@ -209,14 +209,14 @@
       "claim": "블루스를 뿌리에 두고 있다.",
       "field": "body",
       "excerpt": "블루스를 뿌리에 두고 아날로그 녹음과 바이닐을 선호하는 그는 지금도 특유의 '손맛'이 살아 있는 록을 들려준다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G1",
       "keywords": [
         "blues",
         "roots",
         "Jack White"
       ],
-      "verificationStatus": "VERIFIED",
+      "verificationStatus": "OPINION",
       "source": {
         "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
         "publisher": "Detroit Historical Society"
@@ -232,9 +232,9 @@
         }
       ],
       "evidence": "The White Stripes’ trademark was their uncomplicated, technically simple writing and recording style, with musical production influenced by garage rock, blues, and early punk.",
-      "reason": "sourceText는 밴드의 음악적 제작이 개러지 록 뿐 아니라 블루스의 영향을 받았다고 명시해 '블루스를 뿌리에 두고 있다'는 평가와 취지가 일치한다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:39:17.850Z",
+      "checkedAt": "2026-10-18T04:45:04.195Z",
       "failureType": null
     },
     {
@@ -528,14 +528,14 @@
       "claim": "이들에서 파워팝과 어두운 블루스 록을 오갔다.",
       "field": "body",
       "excerpt": "The Raconteurs · The Dead Weather: 밴드를 바꿔가며 파워팝과 어두운 블루스 록을 오갔다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G2",
       "keywords": [
         "power pop",
         "blues rock",
         "genre"
       ],
-      "verificationStatus": "INSUFFICIENT",
+      "verificationStatus": "OPINION",
       "source": null,
       "sources": [
         {
@@ -572,10 +572,10 @@
         }
       ],
       "evidence": "",
-      "reason": "The White Stripes (official site): 해당 해석(파워팝과 어두운 블루스 록을 오갔다는 평가)은 출처에 제시된 내용과 취지가 같아야 VERIFIED이나, sourceText에는 장르적 평가나 밴드들의 음악 색채에 관한 언급이 없어 확인 불가하다. / Wikipedia: 주장(두 밴드에서 '파워팝과 어두운 블루스 록을 오갔다')은 articleContext에 있으나, 제공된 sourceText에는 The Raconteurs·The Dead Weather의 음악적 성격(파워팝·어두운 블루스 록)에 대한 설명이 없어 출처만으로는 확인 불가. / American Songwriter: sourceText는 '파워팝'이나 '어두운 블루스 록'이라는 장르 서술이나 The Raconteurs·The Dead Weather의 음악적 성향에 대한 언급이 없다. 해당 해석을 뒷받침할 정보가 부족하다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
-      "checkedAt": "2026-10-17T08:40:22.870Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "checkedAt": "2026-10-18T04:45:04.195Z",
+      "failureType": null
     },
     {
       "id": "F014",
@@ -700,14 +700,14 @@
       "claim": "Third Man Records는 바이닐 부활의 한 축을 맡아왔다.",
       "field": "body",
       "excerpt": "Third Man Records (2009~): 내슈빌에 세운 레이블이자 레코드숍. 바이닐 부활의 한 축을 맡아왔다.",
-      "type": "interpretation",
+      "type": "opinion",
       "group": "G3",
       "keywords": [
         "vinyl revival",
         "Third Man Records",
         "influence"
       ],
-      "verificationStatus": "VERIFIED",
+      "verificationStatus": "OPINION",
       "source": {
         "url": "https://thirdmanrecords.com/pages/nashville-store",
         "publisher": "Third Man Records (official)"
@@ -723,9 +723,9 @@
         }
       ],
       "evidence": "Third Man is an innovator in the world of vinyl records and a boundary pusher in the world of recorded music, aiming to bring tangibility and spontaneity back into the record business",
-      "reason": "출처는 Third Man을 ‘vinyl records의 혁신가’라고 직접 규정하고, 레코드 사업에 촉감과 즉흥성을 되살리려 한다고 밝혀 바이닐 부활에 기여해왔다는 해석을 뒷받침한다.",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
       "suggestion": "",
-      "checkedAt": "2026-10-17T08:40:57.485Z",
+      "checkedAt": "2026-10-18T04:45:04.195Z",
       "failureType": null
     },
     {
