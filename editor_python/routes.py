@@ -48,6 +48,11 @@ def valid(a):
 
 def normalize(a):return {'title':a['title'].strip(),'body':a['body'].strip()}
 
+# 띄어쓰기·문장부호 차이는 무시하고 글자만 비교합니다.
+def compact(text):return re.sub(r'[\W_]+','',str(text or ''))
+
+def article_text(a):return a['title'].strip()+'\n'+a['body'].strip()
+
 def fingerprint(a):
     # JS JSON.stringify와 키 순서·UTF-8·줄바꿈을 동일하게 유지한다.
     return hashlib.sha256(json.dumps(normalize(a),ensure_ascii=False,separators=(',',':')).encode('utf-8')).hexdigest()
@@ -92,14 +97,35 @@ async def action(name,data):
         if not sheet or sheet.get('articleHash')!=h or not isinstance(sheet.get('facts'),list):
             extracted=await ai.extract(normalize(article))
             if not extracted.get('claims'):raise ai.EditorError('검증할 사실 주장을 찾지 못했습니다.',422)
-            facts=[]
-            for i,c in enumerate(extracted['claims']):
-                f=ai.new_fact(c,f'F{i+1:03d}')
+            # 원고를 고쳐도 팩트시트를 처음부터 다시 만들지 않습니다.
+            # - 이전 팩트 중 근거 문장(excerpt)이 새 원고에 그대로 남아 있는 것은 검증 결과째 유지
+            # - 새로 쓰거나 고친 문장에서 나온 주장만 새 항목(PENDING)으로 추가
+            # - 지워진 문장의 팩트는 자연히 빠짐
+            old_facts=sheet.get('facts') if sheet and isinstance(sheet.get('facts'),list) else []
+            old_text=compact(sheet.get('articleText','')) if sheet else ''
+            new_text=compact(article_text(article))
+            kept=[f for f in old_facts if f.get('failureType')!='PENDING' and compact(f.get('excerpt',''))
+                  and compact(f['excerpt']) in new_text]
+            kept_excerpts=[compact(f['excerpt']) for f in kept]
+            def unchanged(c):
+                # 새 주장의 근거 문장이 이전 원고에도 있었고, 유지된 팩트가 그 문장을 다루고 있으면 이미 검증된 부분
+                e=compact(c.get('excerpt') or c['claim'])
+                if any(e in k for k in kept_excerpts):return True
+                return bool(old_text) and e in old_text and any(k in e for k in kept_excerpts)
+            fresh=[c for c in extracted['claims'] if not unchanged(c)]
+            next_no=max([int(f['id'][1:]) for f in old_facts if re.fullmatch(r'F\d+',str(f.get('id','')))]+[0])+1
+            facts=list(kept)
+            for i,c in enumerate(fresh):
+                f=ai.new_fact(c,f'F{next_no+i:03d}')
                 if f['type']=='opinion':ai.opinion(f)
                 else:f.update(failureType='PENDING',reason='아직 조사하지 않았습니다.')
                 facts.append(f)
-            sheet=dict(artist={'name':'기사 기반 자료'},articleHash=h,facts=facts,truncated=extracted['truncated'],generatedAt=ai.now(),note='같은 대상을 다루는 주장끼리 묶어 조사합니다.')
-            write('sheet',sheet);invalidate();return state()
+            sheet=dict(artist={'name':'기사 기반 자료'},articleHash=h,articleText=article_text(article),facts=facts,truncated=extracted['truncated'],generatedAt=ai.now(),
+                       note=f'같은 대상을 다루는 주장끼리 묶어 조사합니다. 이전 검증 {len(kept)}개 유지, 새 항목 {len(fresh)}개.')
+            write('sheet',sheet);invalidate()
+            # 바뀐 사실이 하나도 없으면 바로 사실 검수 보고서를 다시 만듭니다.
+            if not any(f.get('failureType')=='PENDING' for f in facts):save_review(article,sheet,await ai.review(article,sheet))
+            return state()
         first=next((f for f in sheet['facts'] if f.get('failureType')=='PENDING'),None)
         if first is None:
             # 의견만 있는 원고도 사실 검토를 완료할 수 있도록 한다.
