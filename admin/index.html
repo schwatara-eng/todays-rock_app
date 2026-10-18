@@ -22,6 +22,19 @@
       <p>에디터 원고 → AI 사실 추출 → 웹 출처 확인 → 독립 AI 검수 → 편집자 승인</p>
     </section>
 
+    <!-- 뮤지션 선택: 원고·팩트시트·검토 기록은 뮤지션별 파일에 따로 저장됩니다. -->
+    <section class="panel artist-bar" aria-label="뮤지션 선택">
+      <label for="artist-select">뮤지션</label>
+      <select id="artist-select"></select>
+      <button id="artist-new" type="button">새 뮤지션 추가</button>
+      <div id="artist-new-form" class="artist-new-form" hidden>
+        <input id="artist-new-name" placeholder="영문 이름 (예: Kim Yuna)">
+        <input id="artist-new-nameko" placeholder="한글 이름 (예: 김윤아)">
+        <input id="artist-new-id" placeholder="파일 ID (예: kim-yuna)">
+        <button id="artist-new-add" type="button" class="primary">추가</button>
+      </div>
+    </section>
+
     <!--
       작업 공간: 좌측 자료 패널 + 우측 기사 편집·검토 패널.
       기존 요소의 id를 그대로 유지하므로 app.js 수정은 필요하지 않습니다.

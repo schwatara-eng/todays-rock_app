@@ -1026,3 +1026,51 @@ body {
   min-height: 0;
   overflow: hidden;
 }
+
+/* 뮤지션 선택 막대 */
+.panel.artist-bar {
+  min-height: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+}
+
+.artist-bar label {
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: #c9b8ab;
+}
+
+.artist-bar select,
+.artist-bar input {
+  background: #111;
+  border: 1px solid #51443d;
+  border-radius: 4px;
+  color: #f3ede7;
+  padding: 10px 12px;
+  font: 14px Arial, "Malgun Gothic", sans-serif;
+  min-width: 0;
+}
+
+.artist-bar select { min-width: 220px; }
+
+.artist-bar select:focus,
+.artist-bar input:focus { outline: 1px solid #c55448; }
+
+.artist-new-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-basis: 100%;
+}
+
+.artist-new-form[hidden] { display: none; }
+
+.artist-new-form input { flex: 1 1 180px; }
+
+@media (max-width:750px) {
+  .artist-bar select { flex: 1 1 100%; min-width: 0; }
+}

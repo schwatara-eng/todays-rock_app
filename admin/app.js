@@ -51,6 +51,10 @@ function koreanLabel(value) {
 }
 let lastSaved = { title: '', body: '' };
 let lastState = null;
+// 지금 편집 중인 뮤지션. 서버의 articles/<종류>/<뮤지션ID>.json 파일과 짝을 이룹니다.
+let currentArtist = 'jack-white';
+// 아직 한 번도 저장하지 않은 새 뮤지션의 이름 정보 (첫 저장 때 서버로 보냅니다)
+let pendingArtistInfo = null;
 let reportExpanded = true;
 
 function message(text) {
@@ -387,7 +391,7 @@ async function post(endpoint, payload = {}) {
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify({ ...payload, artist: currentArtist })
   });
   const result = await response.json();
   if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
@@ -406,17 +410,102 @@ async function run(task) {
   }
 }
 
+async function getJson(url) {
+  const response = await fetch(url, { cache: 'no-store' });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || '불러오기 실패');
+  return data;
+}
+
+const artistQuery = () => `artist=${encodeURIComponent(currentArtist)}`;
+
+function rememberArtist(id) {
+  try { localStorage.setItem('editor-artist', id); } catch { /* 저장 불가 환경은 무시 */ }
+}
+
+function recalledArtist() {
+  try { return localStorage.getItem('editor-artist'); } catch { return null; }
+}
+
+// 저장된 뮤지션 목록으로 선택 상자를 채웁니다. extra는 아직 저장 전인 새 뮤지션입니다.
+async function loadArtists(extra = null) {
+  const { artists } = await getJson('/local/artists');
+  const list = [...artists];
+  if (extra && !list.some((a) => a.id === extra.id)) list.push(extra);
+  if (!list.some((a) => a.id === currentArtist)) list.push({ id: currentArtist, name: currentArtist, nameKo: '' });
+  const select = $('artist-select');
+  select.replaceChildren(...list.map((a) => {
+    const option = document.createElement('option');
+    option.value = a.id;
+    option.textContent = a.nameKo ? `${a.nameKo} (${a.name})` : a.name;
+    return option;
+  }));
+  select.value = currentArtist;
+  return list;
+}
+
+async function loadArtist(id) {
+  currentArtist = id;
+  rememberArtist(id);
+  const data = await getJson(`/local/data?${artistQuery()}`);
+  showState(data);
+  $('artist-select').value = id;
+}
+
 async function initialize() {
   try {
-    const response = await fetch('/local/data');
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || '불러오기 실패');
-    showState(data);
+    const artists = (await getJson('/local/artists')).artists;
+    const saved = recalledArtist();
+    if (saved && artists.some((a) => a.id === saved)) currentArtist = saved;
+    else if (artists.length && !artists.some((a) => a.id === currentArtist)) currentArtist = artists[0].id;
+    await loadArtists();
+    await loadArtist(currentArtist);
     message('로컬 기사와 검토 기록을 불러왔습니다.');
   } catch (error) {
     message(`불러오기 실패: ${error.message}`);
   }
 }
+
+$('artist-select').addEventListener('change', (event) => run(async () => {
+  const next = event.target.value;
+  if (hasUnsavedChanges() && !confirm('저장하지 않은 원고가 있습니다. 다른 뮤지션으로 이동할까요?')) {
+    event.target.value = currentArtist;
+    return;
+  }
+  pendingArtistInfo = null;
+  await loadArtist(next);
+  message('뮤지션을 바꿨습니다. 이 뮤지션의 원고와 검토 기록을 불러왔습니다.');
+}));
+
+$('artist-new').addEventListener('click', () => {
+  $('artist-new-form').hidden = !$('artist-new-form').hidden;
+});
+
+// 영문 이름에서 파일 ID 후보를 자동으로 만듭니다 (직접 고쳐도 됩니다).
+$('artist-new-name').addEventListener('input', () => {
+  const id = $('artist-new-id');
+  if (id.dataset.edited) return;
+  id.value = $('artist-new-name').value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+});
+$('artist-new-id').addEventListener('input', () => { $('artist-new-id').dataset.edited = '1'; });
+
+$('artist-new-add').addEventListener('click', () => run(async () => {
+  const name = $('artist-new-name').value.trim();
+  const nameKo = $('artist-new-nameko').value.trim();
+  const id = $('artist-new-id').value.trim().toLowerCase();
+  if (!name) throw new Error('영문 이름을 입력해 주세요.');
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id) || id.length > 50) throw new Error('파일 ID는 영문 소문자·숫자·하이픈만 쓸 수 있습니다. 예: kim-yuna');
+  if (hasUnsavedChanges() && !confirm('저장하지 않은 원고가 있습니다. 새 뮤지션으로 이동할까요?')) return;
+  const existing = (await getJson('/local/artists')).artists;
+  if (existing.some((a) => a.id === id)) throw new Error('이미 있는 파일 ID입니다. 목록에서 선택해 주세요.');
+  pendingArtistInfo = { name, nameKo };
+  await loadArtists({ id, name, nameKo });
+  await loadArtist(id);
+  $('artist-new-form').hidden = true;
+  for (const field of ['artist-new-name', 'artist-new-nameko', 'artist-new-id']) $(field).value = '';
+  delete $('artist-new-id').dataset.edited;
+  message(`새 뮤지션 '${nameKo || name}'을 추가했습니다. 원고를 쓰고 초안 저장을 누르면 파일이 만들어집니다.`);
+}));
 
 // ─────────────────────────────────────────────────────────────
 // 4. 초안 생성·저장·AI 검토
@@ -449,8 +538,10 @@ $('research').addEventListener('click', () => run(async () => {
 
 $('save').addEventListener('click', () => run(async () => {
   message('현재 원고를 로컬에 저장하고 있습니다…');
-  const data = await post('/local/save', { article: currentArticle() });
+  const data = await post('/local/save', { article: currentArticle(), artistInfo: pendingArtistInfo });
+  pendingArtistInfo = null;
   showState(data);
+  await loadArtists();
   message('초안 저장 완료. 수정한 원고는 사실 검수와 편집 검토를 다시 받아야 합니다.');
 }));
 
@@ -528,7 +619,7 @@ async function renderPreview() {
     else if (/^대표곡$/.test(line)) section = 'tracks';
     else sections[section].push(line);
   }
-  const name = lastState?.article?.artist || { name: 'Jack White', nameKo: '잭 화이트' };
+  const name = lastState?.article?.artist || pendingArtistInfo || { name: 'Jack White', nameKo: '잭 화이트' };
   const normalizeName = v => v.replace(/[^\p{L}\p{N}]/gu, '').toLowerCase();
   const first = normalizeName(sections.intro[0] || '');
   if ([name.name, name.nameKo, `${name.nameKo}${name.name}`, `${name.name}${name.nameKo}`].filter(Boolean).some(v => normalizeName(v) === first)) sections.intro.shift();
@@ -606,7 +697,7 @@ $('preview-close').addEventListener('click', () => {
 $('export-article').addEventListener('click', () => run(async () => {
   if (hasUnsavedChanges()) throw new Error('현재 수정한 원고를 먼저 저장하고 재검토하세요.');
 
-  const response = await fetch('/local/publication-export', { cache: 'no-store' });
+  const response = await fetch(`/local/publication-export?${artistQuery()}`, { cache: 'no-store' });
   const result = await response.json();
   if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
 
@@ -616,7 +707,7 @@ $('export-article').addEventListener('click', () => run(async () => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'jack-white-approved.json';
+  link.download = `${currentArtist}-approved.json`;
   link.click();
   URL.revokeObjectURL(url);
   message('승인된 기사 JSON을 내보냈습니다. 실제 게시는 별도 작업입니다.');

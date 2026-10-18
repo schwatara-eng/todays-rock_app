@@ -1,4 +1,5 @@
 import asyncio
+import contextvars
 import hashlib
 import json
 import logging
@@ -13,16 +14,27 @@ from . import ai
 ROOT=Path(__file__).resolve().parent.parent
 router=APIRouter()
 lock=asyncio.Lock()
-ARTIST={'name':'Jack White','nameKo':'잭 화이트'}
-PATHS={'draft':'articles/drafts/jack-white.json','sheet':'articles/research/jack-white.json','review':'articles/reviews/jack-white.json','editorial':'articles/reviews/jack-white-editorial.json','approval':'articles/approvals/jack-white.json'}
+# 뮤지션별로 파일을 나눠 저장한다. {id}는 요청마다 지정된 뮤지션 ID(예: jack-white).
+PATHS={'draft':'articles/drafts/{id}.json','sheet':'articles/research/{id}.json','review':'articles/reviews/{id}.json','editorial':'articles/reviews/{id}-editorial.json','approval':'articles/approvals/{id}.json'}
+DEFAULT_ARTIST='jack-white'
+ARTIST_ID=re.compile(r'[a-z0-9]+(?:-[a-z0-9]+)*')
+current=contextvars.ContextVar('artist',default=DEFAULT_ARTIST)
 CSP="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; connect-src 'self'; frame-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'"
 
+def artist_id(value):
+    if value is None or value=='':value=DEFAULT_ARTIST
+    value=value.strip().lower() if isinstance(value,str) else ''
+    if len(value)>50 or not ARTIST_ID.fullmatch(value):raise ai.EditorError('뮤지션 ID는 영문 소문자·숫자·하이픈만 쓸 수 있습니다. 예: jack-white',400)
+    return value
+
+def path_for(key):return ROOT/PATHS[key].format(id=current.get())
+
 def read(key, default=None):
-    try:return json.loads((ROOT/PATHS[key]).read_text(encoding='utf-8-sig'))
+    try:return json.loads(path_for(key).read_text(encoding='utf-8-sig'))
     except FileNotFoundError:return default
 
 def write(key, value):
-    path=ROOT/PATHS[key];path.parent.mkdir(parents=True,exist_ok=True)
+    path=path_for(key);path.parent.mkdir(parents=True,exist_ok=True)
     # 같은 폴더의 임시 파일을 교체해 불완전한 JSON이 남지 않게 한다.
     fd,tmp=tempfile.mkstemp(prefix=path.stem+'.',suffix='.tmp',dir=path.parent)
     try:
@@ -48,7 +60,7 @@ def state():
     fact=bool(verified and review and review.get('articleHash')==h and review.get('researchHash')==sheet['articleHash'])
     edit=bool(h and editorial and editorial.get('articleHash')==h)
     approved=bool(fact and edit and approval and approval.get('articleHash')==h and approval.get('status')=='approved' and not review.get('issues') and not editorial.get('issues'))
-    return dict(article=article,factSheet=sheet if research else None,review=review if research and review and review.get('articleHash')==h else None,editorialReview=editorial if edit else None,approval=approval if approved else None,state=dict(approved=approved,factCurrent=fact,researchCurrent=research,allVerified=verified,editorialCurrent=edit,status='approved' if approved else 'draft',published=False))
+    return dict(artistId=current.get(),article=article,factSheet=sheet if research else None,review=review if research and review and review.get('articleHash')==h else None,editorialReview=editorial if edit else None,approval=approval if approved else None,state=dict(approved=approved,factCurrent=fact,researchCurrent=research,allVerified=verified,editorialCurrent=edit,status='approved' if approved else 'draft',published=False))
 
 def invalidate():write('approval',dict(status='draft',approved=False,invalidatedAt=ai.now()))
 
@@ -68,7 +80,12 @@ async def action(name,data):
     if name=='save':
         if not valid(data.get('article')):raise ai.EditorError('기사 제목 또는 본문을 확인하세요.',400)
         old=read('draft',{}) or {}
-        write('draft',dict(old,id='jack-white',artist=ARTIST,**normalize(data['article']),factIds=[],status='draft',reviewed=False))
+        info=data.get('artistInfo')
+        if isinstance(info,dict) and isinstance(info.get('name'),str) and info['name'].strip():
+            artist={'name':info['name'].strip()[:100],'nameKo':str(info.get('nameKo') or '').strip()[:100]}
+        else:artist=old.get('artist')
+        if not artist:raise ai.EditorError('새 뮤지션은 이름을 입력해야 저장할 수 있습니다.',400)
+        write('draft',dict(old,id=current.get(),artist=artist,**normalize(data['article']),factIds=[],status='draft',reviewed=False))
         invalidate();return state()
     if name=='research':
         article=saved_article(data);h=fingerprint(article);sheet=read('sheet')
@@ -124,8 +141,17 @@ async def action(name,data):
         article=saved_article(data);s=state()
         if not all(s['state'][k] for k in ('factCurrent','allVerified','editorialCurrent')):raise ai.EditorError('저장된 기사 버전의 사실 검수와 편집 검토를 모두 완료해야 합니다.',409)
         if s['review'].get('issues') or s['editorialReview'].get('issues'):raise ai.EditorError('검토 지적 사항이 남아 있습니다. 수정 후 재검수하세요.',409)
-        write('approval',dict(articleId='jack-white',articleHash=fingerprint(article),status='approved',approved=True,confirmedSources=True,approvedAt=ai.now(),published=False));return state()
+        write('approval',dict(articleId=current.get(),articleHash=fingerprint(article),status='approved',approved=True,confirmedSources=True,approvedAt=ai.now(),published=False));return state()
     raise ai.EditorError('지원하지 않는 기능입니다.',404)
+
+def list_artists():
+    found=[]
+    for f in sorted((ROOT/'articles/drafts').glob('*.json')):
+        if not ARTIST_ID.fullmatch(f.stem):continue
+        try:artist=json.loads(f.read_text(encoding='utf-8-sig')).get('artist') or {}
+        except (ValueError,OSError):artist={}
+        found.append({'id':f.stem,'name':artist.get('name') or f.stem,'nameKo':artist.get('nameKo') or ''})
+    return found
 
 def local_host(request):
     return request.headers.get('host','').lower() in ('localhost:8000','127.0.0.1:8000')
@@ -141,6 +167,8 @@ async def endpoint(name:str,request:Request):
         # 요청별 변경을 직렬화: 조사 중 저장/승인 경합으로 잘못된 버전이 승인되는 것을 막는다.
         async with lock:
             if request.method=='GET':
+                if name=='artists':return reply({'artists':list_artists()})
+                current.set(artist_id(request.query_params.get('artist')))
                 if name=='data':return reply(state())
                 if name=='publication-export':
                     s=state()
@@ -154,6 +182,7 @@ async def endpoint(name:str,request:Request):
             try:data=json.loads(raw or b'{}')
             except (ValueError,UnicodeDecodeError):raise ai.EditorError('올바른 JSON 요청이 아닙니다.',400) from None
             if not isinstance(data,dict):raise ai.EditorError('JSON 객체가 필요합니다.',400)
+            current.set(artist_id(data.get('artist')))
             return reply(await action(name,data))
     except ai.EditorError as e:return reply({'error':str(e)},e.status)
     except Exception:
