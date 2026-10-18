@@ -1,3 +1,8 @@
+// TODAY'S ROCK — 홈페이지
+// 곡: FastAPI /api/songs → MySQL
+// 뉴스: FastAPI /api/news → NME RSS · 서버에서 선택적으로 한국어 번역
+
+// 1. 상태와 화면 요소
 let songs = [];
 let songsLoaded = false;
 
@@ -20,6 +25,7 @@ const recommendButton = document.querySelector("#recommend-button");
 const selectionMessage = document.querySelector("#selection-message");
 const resultSection = document.querySelector("#result-section");
 
+// 2. 곡 불러오기와 버튼 연결
 async function loadSongs() {
   try {
     const response = await fetch("/api/songs");
@@ -52,6 +58,7 @@ document.querySelectorAll(".mood-button").forEach((button) => {
 document.querySelector("#location-button").addEventListener("click", loadWeather);
 recommendButton.addEventListener("click", showRecommendations);
 
+// 3. 위치와 날씨
 function weatherGroup(code) {
   if (code === 0 || code === 1) return "clear";
   if (code === 2 || code === 3 || code === 45 || code === 48) return "cloudy";
@@ -161,7 +168,7 @@ function useSeoulWeather() {
     });
 }
 
-// 최근 추천한 30곡 기억하기
+// 4. 최근 추천 기록 — 같은 곡의 반복 추천 줄이기
 const HISTORY_KEY = "todayRockRecentSongs";
 const HISTORY_LIMIT = 30;
 
@@ -194,7 +201,7 @@ function saveRecentSongs(picked) {
   );
 }
 
-// 기분과 날씨를 모두 만족하는 곡을 우선 추천
+// 5. 추천 — 기분·날씨 일치 → 기분 일치 → 부족한 곡 보충
 function recommendSongs() {
   const recent = new Set(getRecentSongs());
 
@@ -286,6 +293,7 @@ function pickRandomSongs(songList, count) {
   return shuffled.slice(0, count);
 }
 
+// 6. 추천 결과 표시
 function showRecommendations() {
   if (!songsLoaded || songs.length === 0) return;
 
@@ -331,27 +339,17 @@ function showRecommendations() {
     </div>
   `;
   resultSection.hidden = false;
- // resultSection.scrollIntoView({ behavior: "smooth", block: "start" }); - 자동스크롤 제거
+  // 결과를 펼칠 때 현재 스크롤 위치를 유지한다.
 }
 
-// --------------------------------------------------
-// NME 최신 뉴스 불러오기
-// --------------------------------------------------
-// 브라우저가 NME RSS에 직접 접근하면 CORS 문제가 발생한다.
-// 그래서 브라우저는 우리가 만든 Node.js 서버에 요청하고,
-// Node.js 서버가 NME RSS를 대신 가져와 JSON으로 변환해준다.
-//
-// 데이터 흐름:
-// NME RSS(XML)
-// → Node.js server.js
-// → JSON
-// → fetch()
-// → TODAY'S ROCK 화면
+// 7. 최신 뉴스
+// FastAPI가 NME RSS를 수집해 JSON으로 제공한다.
+// 번역 키가 있으면 한국어로 번역하고, 번역에 실패하면 영문을 유지한다.
 async function loadNews() {
   const newsList = document.querySelector("#news-list");
 
   try {
-    // 우리가 만든 Node.js API에 GET 요청을 보낸다.
+    // 같은 FastAPI 서버의 뉴스 API를 호출한다.
     const response = await fetch("/api/news");
 
     // 서버에서 오류 응답이 왔다면 catch로 이동한다.
@@ -359,8 +357,7 @@ async function loadNews() {
       throw new Error("뉴스 데이터를 불러오지 못했습니다.");
     }
 
-    // server.js가 JSON으로 보내주기 때문에
-    // response.json()으로 JavaScript 데이터로 변환한다.
+    // 서버가 반환한 JSON을 기사 배열로 읽는다.
     const newsItems = await response.json();
 
     // '불러오는 중...' 문구를 제거한다.
@@ -424,7 +421,7 @@ async function loadNews() {
   } catch (error) {
     console.error(error);
 
-    // Node 서버가 꺼져 있거나 RSS 요청에 실패해도
+    // FastAPI 서버가 꺼져 있거나 RSS 요청에 실패해도
     // 화면 전체가 망가지지 않고 뉴스 영역에만 오류를 표시한다.
     newsList.innerHTML = `
       <p class="news-loading">
@@ -434,11 +431,7 @@ async function loadNews() {
   }
 }
 
-loadWeather();
-loadSongs();
-loadNews();
-
-// ARTIST ARCHIVE — 지난 기사는 별도 페이지에서 열람
+// 8. 뮤지션 아카이브 — 지난 기사는 별도 페이지에서 열람
 const archiveBar = document.querySelector("#artist-archive");
 const archiveList = document.querySelector("#artist-archive-list");
 const returnButton = document.querySelector("#artist-archive-return");
@@ -462,4 +455,10 @@ artistArchive.forEach((artist, index) => {
 });
 archiveBar.hidden = artistArchive.length === 0;
 returnButton.hidden = true;
+
+
+// 9. 초기 실행 — 날씨·곡·뉴스를 각각 불러온다.
+loadWeather();
+loadSongs();
+loadNews();
 
