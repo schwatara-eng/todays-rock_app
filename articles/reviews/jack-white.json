@@ -4,30 +4,10 @@
   "issues": [
     {
       "field": "body",
-      "text": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
-      "verdict": "INSUFFICIENT",
-      "reason": "Recording Academy (GRAMMY.com): sourceText는 전체 'Nominations 34'라고만 표기해 '34'라는 숫자는 확인되지만, 이것이 '솔로 경력'에 한한 수치인지(솔로 경력 34번째 노미네이트인지)는 명시하지 않아 '솔로 경력'이라는 부분은 확인 불가함. / Recording Academy (GRAMMY.com): 출처에는 해당 음반(No Name)이 2025년 '베스트 록 앨범' 후보에 올랐다는 점만 확인되며, '솔로 경력 34번째 노미네이트'라는 수치나 경력별 구분(솔로 vs 통산)에 대한 언급이 없다. / Recording Academy (GRAMMY.com): 원문(sourceText)에서 'No Name — Jack White'가 2025 그래미 후보 목록에 등재된 것은 확인되지만, 그것이 \"솔로 경력 34번째 노미네이트\"였다는 구체적 수치(솔로 경력의 몇 번째인지)를 뒷받침하는 문구는 전혀 없다.",
-      "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
-      "factIds": [
-        "F018"
-      ]
-    },
-    {
-      "field": "body",
-      "text": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
-      "verdict": "CONTRADICTED",
-      "reason": "sourceText는 전체 노미네이션 수를 'Nominations 34'로 제시하고 있어 '통산 46번째 노미네이트'라는 주장과 직접적으로 모순됨.",
-      "suggestion": "해당 지명은 통산 34번째 노미네이트였다.",
-      "factIds": [
-        "F019"
-      ]
-    },
-    {
-      "field": "body",
       "text": "그래미 수상은 총 16회다.",
-      "verdict": "INSUFFICIENT",
-      "reason": "Recording Academy (GRAMMY.com): AI가 반박 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText는 그래미 수상(총 횟수)을 'Wins 12'로 제시하고 있어 '총 16회'라는 주장은 출처와 직접적으로 모순됨.) / Recording Academy (GRAMMY.com): 출처는 연도별 수상자와 후보 목록을 제공하지만, 특정 인물(잭 화이트)의 그래미 수상 총회수(예: 16회)에 대한 언급이나 합계는 전혀 포함하고 있지 않다. / Recording Academy (GRAMMY.com): 원문(sourceText)에 그래미 수상 총계(예: \"총 16회\")를 명시한 문장은 없다. 수상 내역과 당해 수상자·수상작 목록은 있으나 총 횟수를 집계해 언급한 부분은 확인되지 않는다.",
-      "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
+      "verdict": "CONTRADICTED",
+      "reason": "sourceText는 잭 화이트가 수상한 그래미의 수를 명확히 'twelve Grammy Awards'로 서술하고 있으므로, '총 16회'라는 주장은 출처와 직접 모순됩니다.",
+      "suggestion": "그래미 수상은 총 12회다.",
       "factIds": [
         "F020"
       ]
@@ -44,15 +24,15 @@
     }
   ],
   "report": {
-    "overall": "원고 대부분의 사실관계는 제공된 출처로 확인되었습니다(출생지·화이트 스트라입스 결성·밴드 구성·색채 계획·Elephant 수록곡·Frozen Charlotte 발매·녹음 장소·서드 맨 관련 사실 등). 다만 Third Man Records의 설립 연도·설립지 표기, 그래미 관련 누적 노미네이트·수상 횟수, 대표곡 목록 일부 등은 출처와 불일치하거나 출처만으로 확인되지 않습니다. 편집자는 제시한 수정안(아래 corrections)을 반영하거나 해당 수치를 확인할 추가 출처를 확인해 주세요.",
+    "overall": "원고의 주요 사실관계는 대체로 출처로 확인되었습니다(출생지·화이트 스트라입스 결성·밴드 구성·Elephant 수록곡·Frozen Charlotte 발매·녹음지 등). 다만 Third Man Records 연혁 표기, 레코드사 설립 연도 표기(2001 vs 2009)와 관련한 문장(‘내슈빌에 세운’)과 그래미 수상 횟수(16회 기재)는 출처와 불일치합니다. 대표곡 목록 일부와 일부 장르·평가는 출처가 부족하거나 평론적 표현이므로 원문 문체를 유지하되 출처 표시 또는 표현 완화가 필요합니다. 편집자는 제안된 수정안을 반영하고 해당 수치(그래미, Third Man 연혁)와 대표곡에 대한 추가 원출처(또는 삭제)를 확인해 주세요.",
     "rows": [
       {
-        "text": "디트로이트 출신의 기타리스트이자 싱어송라이터",
+        "text": "잭 화이트는 디트로이트 출신의 기타리스트·싱어송라이터",
         "factIds": [
           "F001"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Detroit Historical Society의 문서가 Jack White를 디트로이트 출신이자 보컬·기타·작곡 담당자로 명시해 원문의 주장을 뒷받침합니다.",
+        "note": "VERIFIED: Detroit Historical Society의 설명(‘members were … songwriter Jack White (vocals, guitar…)’)이 잭 화이트의 디트로이트 출신·보컬·기타·작곡 활동을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
@@ -61,30 +41,13 @@
         ]
       },
       {
-        "text": "1997년 Meg White와 결성한 2인조 The White Stripes",
+        "text": "베이스 없이 기타와 드럼만으로 연주했다",
         "factIds": [
-          "F029",
-          "F030",
-          "F031",
-          "F003",
-          "F004",
-          "F033"
+          "F003"
         ],
-        "verdict": "확인 + 평가",
-        "note": "F029/F030/F031 VERIFIED: Detroit Historical Society 등 출처가 1997년 결성·구성원·밴드 이름·2인조임을 뒷받침합니다. F003 VERIFIED: 구성원 표기로 밴드에 베이스 플레이어가 없음을 뒷받침합니다. F004·F033은 평론적·감상적 표현으로 사실 검증 대상이 아닙니다(편집자 판단 필요).",
+        "verdict": "확인",
+        "note": "VERIFIED: Wikipedia(및 관련 설명)가 밴드 구성원을 기타(잭)와 드럼(메그) 두 사람으로 적시해 '베이스 플레이어 없음'을 뒷받침합니다.",
         "sources": [
-          {
-            "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
-            "publisher": "Detroit Historical Society"
-          },
-          {
-            "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
-            "publisher": "Detroit Historical Society"
-          },
-          {
-            "url": "https://www.whitestripes.com/",
-            "publisher": "The White Stripes (official site)"
-          },
           {
             "url": "https://en.wikipedia.org/wiki/The_White_Stripes",
             "publisher": "Wikipedia"
@@ -92,12 +55,21 @@
         ]
       },
       {
+        "text": "‘꽉 찬 소리’라는 평론적 표현",
+        "factIds": [
+          "F004"
+        ],
+        "verdict": "평론적 표현",
+        "note": "OPINION: '꽉 찬 소리'는 평론·감상적 표현으로 사실 검증 대상이 아니며 편집자가 문체 적절성을 판단하세요.",
+        "sources": []
+      },
+      {
         "text": "빨강·하양·검정 색채 통일",
         "factIds": [
           "F005"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Detroit Historical Society가 밴드가 red·white·black 색채 계획을 앨범·싱글 커버에 사용했다고 명시해 원문을 지지합니다.",
+        "note": "VERIFIED: Detroit Historical Society가 밴드의 색채 계획(red, white, black)이 앨범·싱글 커버에 지속적으로 사용되었다고 명시합니다.",
         "sources": [
           {
             "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
@@ -111,7 +83,7 @@
           "F006"
         ],
         "verdict": "평론적 표현",
-        "note": "OPINION: 출처는 밴드가 2002년에 두각을 나타냈다고 적어 해당 취지를 뒷받침하나, '상징'이라는 평가는 평론적 표현으로 편집자가 판단하세요.",
+        "note": "OPINION: 관련 출처는 밴드가 2002년 두각을 나타냈다고 적어 취지를 뒷받침하지만 '상징'이라는 평가는 평론적 표현입니다.",
         "sources": [
           {
             "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
@@ -120,12 +92,12 @@
         ]
       },
       {
-        "text": "블루스를 뿌리에 두고 있다",
+        "text": "블루스를 뿌리에 둔 음악적 영향",
         "factIds": [
           "F007"
         ],
         "verdict": "평론적 표현",
-        "note": "OPINION: 출처는 그들의 제작이 블루스 등 영향을 받았다고 적고 있어 취지는 일치하나 ‘뿌리’라는 표현은 평가적 서술입니다.",
+        "note": "OPINION (출처 지지): Detroit Historical Society는 제작 영향이 'garage rock, blues, early punk'라고 명시해 '블루스 영향' 평가는 출처 취지와 일치하지만 여전히 해석적 문장입니다.",
         "sources": [
           {
             "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
@@ -134,12 +106,12 @@
         ]
       },
       {
-        "text": "아날로그 녹음과 바이닐을 선호한다",
+        "text": "아날로그 녹음·바이닐 선호",
         "factIds": [
           "F008"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: The New Republic 등의 자료에 Elephant 부클릿과 발매 형태(‘No computers...’ 선언, 바이닐 발매 등)를 제시해 아날로그적 접근·바이닐 발매 선호를 뒷받침합니다.",
+        "note": "VERIFIED: New Republic(앨범 부클릿 인용 등)은 'No computers were used…' 등 문구와 바이닐 발매 사실을 제시해 아날로그 지향·바이닐 발매 관행을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://newrepublic.com/article/68312/jumble-jumble",
@@ -148,12 +120,12 @@
         ]
       },
       {
-        "text": "지금도 특유의 '손맛'이 살아 있다",
+        "text": "'손맛'이 살아 있는 록(평론)",
         "factIds": [
           "F009"
         ],
         "verdict": "평론적 표현",
-        "note": "OPINION: 평론적 표현으로 사실 검증 대상이 아니며 편집자 판단에 따라 유지·완화가 필요합니다.",
+        "note": "OPINION: 주관적 평가로 사실 검증 대상이 아니며 편집자가 문장 톤을 판단하세요.",
         "sources": []
       },
       {
@@ -162,7 +134,7 @@
           "F010"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Wikipedia 등 출처가 'Seven Nation Army'를 2003년 발매된 네 번째 정규작 Elephant의 리드 싱글로 명시해 앨범 수록을 확인합니다.",
+        "note": "VERIFIED: Wikipedia 등 출처가 'Seven Nation Army'를 The White Stripes의 네 번째 정규작 Elephant(2003)의 리드 싱글로 명시해 수록 사실을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
@@ -171,12 +143,12 @@
         ]
       },
       {
-        "text": "'Seven Nation Army' 리프가 전 세계 축구장 응원가로 사용된다",
+        "text": "'Seven Nation Army' 리프가 축구장 응원가로 널리 사용된다",
         "factIds": [
           "F011"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Wikipedia 등 자료가 이 곡을 스포츠 응원가로 널리 사용되고 '세계에서 가장 인기 있는 스포츠 응원가'로 불린다고 기술해 원문 주장을 뒷받침합니다.",
+        "note": "VERIFIED: Wikipedia는 이 곡이 'arguably....the world's most popular sports anthem' 등으로 널리 스포츠 응원가로 쓰여 온 사실과 구체적 사례를 제시합니다.",
         "sources": [
           {
             "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
@@ -185,13 +157,13 @@
         ]
       },
       {
-        "text": "The Raconteurs·The Dead Weather에서 활동했다",
+        "text": "The Raconteurs·The Dead Weather에서 활동",
         "factIds": [
           "F012",
           "F013"
         ],
         "verdict": "확인 + 평가",
-        "note": "F012 VERIFIED: Third Man Records 등 출처가 Jack White가 The Raconteurs와 The Dead Weather에 관여했음을 뒷받침합니다. F013은 장르적 해석(파워팝·어두운 블루스 록 등)으로 평론적 표현이며 추가 출처로 확인 가능하면 명시하세요.",
+        "note": "F012 VERIFIED: Third Man Records(및 관련 자료)는 Jack White가 The Raconteurs와 The Dead Weather 활동과 연관되어 있음을 확인합니다. F013(장르 서술)은 평론적 해석으로 출처의 직접적 장르표현과 일치하는지는 편집 판단 대상입니다.",
         "sources": [
           {
             "url": "https://thirdmanrecords.com/collections/the-dead-weather",
@@ -200,14 +172,14 @@
         ]
       },
       {
-        "text": "Third Man Records — 내슈빌의 레이블·레코드숍 (2009~)",
+        "text": "Third Man Records — 내슈빌의 레이블·레코드숍",
         "factIds": [
           "F014",
           "F015",
           "F016"
         ],
         "verdict": "확인 + 평가 · 표현 보완",
-        "note": "혼재된 출처 정보: 일부 공식 페이지는 Third Man이 2001년 디트로이트에서 시작되었고 2009년에 현재 내슈빌 지점을 열었다고 기술(F014 일부 출처는 CONTRADICTED), 다른 공식 페이지는 'Founded in 2009' 등으로 표기합니다. Third Man이 내슈빌에 레이블·레코드숍을 운영한다는 점과 바이닐 관련 활동(혁신가로서의 역할)은 출처들이 뒷받침합니다(F016).",
+        "note": "혼재된 출처: Third Man 공식은 내슈빌 지점(레코드숍·사무실 등)을 2009년에 연 것으로 밝히지만, 일부 공식 문서는 레이블 창립을 2001년 디트로이트로 표기합니다. '바이닐 부활 기여'는 Third Man의 자기 서술(혁신가)로 출처 해석에 해당합니다.",
         "sources": [
           {
             "url": "https://musicrow.com/2009/03/jack-white-debuts-nashville-hq-and-new-band/",
@@ -224,20 +196,13 @@
         ]
       },
       {
-        "text": "솔로 No Name(2024)은 2025년 그래미 'Best Rock Album' 후보",
+        "text": "No Name(2024)이 2025년 그래미 'Best Rock Album' 후보",
         "factIds": [
-          "F017",
-          "F018",
-          "F019",
-          "F020"
+          "F017"
         ],
-        "verdict": "사실 불일치",
-        "note": "F017 VERIFIED: GRAMMY.com이 No Name을 2025년 Best Rock Album 후보로 표기합니다. F018은 '솔로 경력 34번째'라는 문구는 출처에서 'Nominations 34'로 전체 수치만 제공되어 '솔로 경력' 한정이라 확인 불가(INSUFFICIENT). F019은 '통산 46번째'는 GRAMMY.com의 'Nominations 34'와 모순되어 CONTRADICTED입니다. F020(그래미 수상 총 16회)은 출처로 확인되지 않습니다(INSUFFICIENT).",
+        "verdict": "확인",
+        "note": "VERIFIED: Recording Academy(GRAMMY.com) 페이지에 2025 'Best Rock Album' 후보로 Jack White의 No Name이 등재되어 있습니다.",
         "sources": [
-          {
-            "url": "https://www.grammy.com/artists/jack-white/15627/",
-            "publisher": "Recording Academy (GRAMMY.com)"
-          },
           {
             "url": "https://www.grammy.com/artists/jack-white/15627/",
             "publisher": "Recording Academy (GRAMMY.com)"
@@ -245,14 +210,47 @@
         ]
       },
       {
-        "text": "Frozen Charlotte(2026) — 7월 북미 투어 첫날 공개, 내슈빌 Third Man Studio에서 녹음, 일곱 번째 솔로 앨범",
+        "text": "해당 지명은 솔로 경력 34번째·통산 46번째 노미네이트",
+        "factIds": [
+          "F018",
+          "F019"
+        ],
+        "verdict": "확인",
+        "note": "VERIFIED (보도자료): Sony Music 등 공식 보도자료는 이 지명이 'White’s 34th solo career nomination and 46th overall'이라고 명시해 원고 문장과 일치합니다. 다만 Recording Academy의 프로필 페이지와 숫자가 엇갈리는 점이 있어 출처 우선순위를 편집자가 결정하세요.",
+        "sources": [
+          {
+            "url": "https://www.sonymusic.ca/press_release/jack-white-unveils-surprise-video-for-archbishop-harold-holmes-starring-john-c-reilly",
+            "publisher": "Sony Music Canada (press release)"
+          },
+          {
+            "url": "https://www.sonymusic.ca/press_release/jack-white-announces-no-name-tour",
+            "publisher": "Sony Music Canada"
+          }
+        ]
+      },
+      {
+        "text": "그래미 수상 총 16회",
+        "factIds": [
+          "F020"
+        ],
+        "verdict": "사실 불일치",
+        "note": "CONTRADICTED: Wikipedia와 Recording Academy 일부 표기는 'wins 12' 등으로 본문과 모순됩니다. '총 16회'라는 주장은 출처들과 직접적으로 충돌하므로 정정이 필요합니다.",
+        "sources": [
+          {
+            "url": "https://en.wikipedia.org/wiki/Jack_White",
+            "publisher": "Wikipedia"
+          }
+        ]
+      },
+      {
+        "text": "Frozen Charlotte(2026) — 2026년 7월 북미 투어 첫날 공개",
         "factIds": [
           "F021",
           "F022",
           "F023"
         ],
         "verdict": "확인",
-        "note": "F021/F022/F023 VERIFIED: Third Man Records 공식 블로그·상품 페이지가 발매일(7월 10일), 북미 투어 시작일, 녹음 장소(White's Third Man Studio, Nashville) 및 'seventh studio album' 표기를 명시해 원문을 뒷받침합니다.",
+        "note": "VERIFIED: Third Man Records 공식 블로그·상품 페이지가 발매일(7월 10일, 북미 투어 시작일)과 'Recorded in White's Third Man Studio in Nashville' 및 'seventh studio album' 표기를 제공해 발매일·녹음지·작품 순번을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-seventh-studio-album-frozen-charlotte",
@@ -274,7 +272,7 @@
           "F025"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Third Man Records 공식 공지가 2025년 10월 21일 출간 예정으로 표기해 원문(2025년 10월 출간)을 확인합니다.",
+        "note": "VERIFIED: Third Man Records 공식 공지가 2025년 10월 21일 미국 내 배포(출간일)를 명시해 원고의 출간 연월·제목을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://thirdmanrecords.com/blogs/news/jack-white-announces-collected-lyrics-and-selected-writing-volume-1",
@@ -283,21 +281,21 @@
         ]
       },
       {
-        "text": "에디터 코멘트의 '덜어냄' 서술 등",
+        "text": "에디터 코멘트: '덜어냄'에서 시작한다(평론)",
         "factIds": [
           "F026"
         ],
         "verdict": "평론적 표현",
-        "note": "OPINION: 에디터 코멘트는 평론적·감상적 서술로 사실 검증 대상이 아니며 편집자 판단으로 유지·수정하세요.",
+        "note": "OPINION: 에디터의 해석적 문장으로 사실 검증 대상이 아닙니다. 스타일·문체는 편집자 판단 사항입니다.",
         "sources": []
       },
       {
-        "text": "신작 공연은 휴대폰 사용 금지(휴대폰 없이 진행)",
+        "text": "신작 공연은 휴대폰 없이 진행됐다",
         "factIds": [
           "F027"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: 공연장 안내(예: House of Yes 일정)가 'No Phones / No Photos' 정책을 명시해 원문과 일치합니다.",
+        "note": "VERIFIED: 공연장(예: House of Yes) 안내문에 'No Phones / No Photos' 문구가 있어 원고의 서술을 지지합니다.",
         "sources": [
           {
             "url": "https://calendar.houseofyes.org/e/2EoeQWKhcc",
@@ -306,82 +304,83 @@
         ]
       },
       {
-        "text": "대표곡으로 제시된 목록: 'Seven Nation Army', 'Fell in Love with a Girl', 'Steady, As She Goes'",
+        "text": "대표곡으로 'Seven Nation Army', 'Fell in Love with a Girl', 'Steady, As She Goes' 제시",
         "factIds": [
           "F028"
         ],
         "verdict": "근거 부족",
-        "note": "INSUFFICIENT: 제공된 출처들에서는 'Seven Nation Army'의 소속·수록은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'를 같이 대표곡으로 제시한 근거는 출처만으로 확인되지 않습니다. 대표곡 표기는 편집자가 추가 출처로 확인하거나 표현을 완화하세요.",
+        "note": "INSUFFICIENT: 제공된 출처로는 'Seven Nation Army'의 소속·수록은 확인되나 나머지 두 곡(또는 전체 목록)에 대한 직접적 근거가 부족합니다. 대표곡은 통상적 위상을 반영하는 표현이지만, 출처 표기가 필요합니다.",
         "sources": []
       },
       {
-        "text": "화이트 스트라입스의 로큰롤 명예의 전당 헌액(2025)",
+        "text": "1997년 Meg White와 결성한 2인조 The White Stripes",
+        "factIds": [
+          "F029",
+          "F030",
+          "F031"
+        ],
+        "verdict": "확인",
+        "note": "VERIFIED: Detroit Historical Society가 'Formed in 1997' 및 'two-person rock band'로 밴드 결성 연도와 2인조임을 직접 확인합니다; 공식 사이트도 밴드명 사용을 뒷받침합니다.",
+        "sources": [
+          {
+            "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+            "publisher": "Detroit Historical Society"
+          },
+          {
+            "url": "https://www.detroithistorical.org/learn/online-research/encyclopedia-of-detroit/white-stripes",
+            "publisher": "Detroit Historical Society"
+          },
+          {
+            "url": "https://www.whitestripes.com/",
+            "publisher": "The White Stripes (official site)"
+          }
+        ]
+      },
+      {
+        "text": "White Stripes의 최근 Rock & Roll Hall of Fame 헌액(2025)",
         "factIds": [
           "F032"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Rock & Roll Hall of Fame 공식 페이지가 Inducted: 2025 등 정보를 명시해 헌액 사실을 뒷받침합니다.",
+        "note": "VERIFIED: Rock & Roll Hall of Fame 공식 페이지가 'Inducted: 2025' 등으로 화이트 스트라입스의 2025년 헌액을 명시합니다.",
         "sources": [
           {
             "url": "https://rockhall.com/inductees/white-stripes/",
             "publisher": "Rock & Roll Hall of Fame (rockhall.com)"
           }
         ]
+      },
+      {
+        "text": "원고의 '기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람' 표현",
+        "factIds": [
+          "F033"
+        ],
+        "verdict": "평론적 표현",
+        "note": "OPINION: 명백히 평론·수식적 표현으로 사실 검증 대상이 아니며 편집자가 유지 여부를 판단하세요.",
+        "sources": []
       }
     ],
     "corrections": [
       {
         "field": "body",
-        "text": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
-        "problem": "GRAMMY.com 출처는 No Name의 2025년 후보 지명은 확인하지만 '솔로 경력 34번째'라는 한정과 '통산 46번째'라는 수치는 출처와 모순 또는 확인 불가합니다(출처는 전체 'Nominations 34'로 표기).",
-        "suggestion": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 GRAMMY.com 기준으로 통산 노미네이트 수에 포함된 지명(출처에 전체 'Nominations 34'로 표기)입니다. (원문에 있는 '솔로 경력 34번째' 표기는 출처에서 확인되지 않으므로 삭제하거나 출처로 입증하세요.)",
-        "factIds": [
-          "F017",
-          "F018",
-          "F019"
-        ]
-      },
-      {
-        "field": "body",
         "text": "그래미 수상은 총 16회다.",
-        "problem": "제시된 GRAMMY 관련 출처들에서는 이 숫자를 확인할 수 없거나(INSUFFICIENT) 다른 숫자와 모순될 여지가 있습니다.",
-        "suggestion": "그래미 수상 횟수는 GRAMMY.com 등 공식 출처로 재확인해 주세요. (현재 출처들만으로 '총 16회'라는 표기는 뒷받침되지 않습니다.)",
+        "problem": "여러 출처와 충돌: Wikipedia 및 Recording Academy 자료는 잭 화이트의 그래미 수상 횟수를 12회(또는 'Wins 12')로 표기하고 있어 '16회'라는 숫자는 출처와 모순됩니다.",
+        "suggestion": "그래미 수상은 총 12회다.",
         "factIds": [
           "F020"
         ]
       },
       {
         "field": "body",
-        "text": "The Raconteurs · The Dead Weather: 밴드를 바꿔가며 파워팝과 어두운 블루스 록을 오갔다.",
-        "problem": "두 밴드에서 활동한 사실 자체는 출처가 뒷받침하나('활동했다'는 점은 VERIFIED), '파워팝'·'어두운 블루스 록'이라는 장르적 평가에 대해서는 제시된 출처들이 직접적으로 근거를 제공하지 않습니다(평가적 서술).",
-        "suggestion": "The Raconteurs · The Dead Weather: 밴드를 바꿔가며 활동했고, 서로 다른 음악적 성향을 보여주었다(장르적 평가는 출처 추가 확인 필요).",
-        "factIds": [
-          "F012",
-          "F013"
-        ]
-      },
-      {
-        "field": "body",
-        "text": "Third Man Records (2009~): 내슈빌에 세운 레이블이자 레코드숍. 바이닐 부활의 한 축을 맡아왔다.",
-        "problem": "'내슈빌에 세운'이라는 단정적 표현은 설립 연도·설립지 관련 공식 페이지들과 충돌할 소지가 있고, '바이닐 부활의 한 축'은 평론적 해석입니다.",
-        "suggestion": "Third Man Records: 디트로이트에서 시작해 내슈빌 지점을 운영하는 레이블·레코드숍으로, 공식 설명에서는 바이닐 관련 활동을 강조하며 아날로그 문화 확산에 기여해 왔다.",
-        "factIds": [
-          "F014",
-          "F015",
-          "F016"
-        ]
-      },
-      {
-        "field": "body",
         "text": "대표곡\n\nSeven Nation Army – The White Stripes\nFell in Love with a Girl – The White Stripes\nSteady, As She Goes – The Raconteurs",
-        "problem": "제시된 출처들에서는 'Seven Nation Army'의 수록·소속은 확인되지만 나머지 두 곡을 함께 대표곡으로 제시한 근거는 출처만으로 불충분합니다.",
-        "suggestion": "대표곡: Seven Nation Army (The White Stripes) 등은 널리 알려진 주요 곡이다 — 다른 곡들(Fell in Love with a Girl, Steady, As She Goes)은 대표곡으로 흔히 거론되지만, 대표곡 목록으로 제시할 경우 출처를 추가로 명시하세요.",
+        "problem": "대표곡 목록 가운데 일부 항목에 대해 제공된 출처에서 직접적 근거를 찾지 못했습니다(특히 'Steady, As She Goes').",
+        "suggestion": "대표곡\n\nSeven Nation Army – The White Stripes\nFell in Love with a Girl – The White Stripes\n(필요 시 근거 확인 후 'Steady, As She Goes – The Raconteurs' 추가)",
         "factIds": [
           "F028"
         ]
       }
     ],
-    "generatedAt": "2026-10-18T05:01:12.834Z"
+    "generatedAt": "2026-10-18T05:14:09.549Z"
   },
   "approved": false,
   "note": "외부 출처 기반 AI 보조 검수입니다. 사람의 원출처 확인이 필요합니다.",

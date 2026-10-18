@@ -1093,3 +1093,18 @@ body {
 .photo-field .hint {
   margin: 0 0 6px;
 }
+
+/* 팩트시트 개별 추출 오류 수정 */
+.fact-edit-actions { display: flex; flex-wrap: wrap; gap: 7px; margin: 12px 0 8px; }
+.fact-edit-actions button, .fact-exclude button, .fact-excluded-item button { font-size: 11px; padding: 7px 10px; }
+.fact-edit-form { padding: 12px; margin-top: 10px; border: 1px solid #625248; border-radius: 4px; background: #171412; }
+.fact-edit-form[hidden] { display: none; }
+.fact-edit-form label { display: block; font-size: 12px; font-weight: normal; margin: 10px 0; }
+.fact-edit-form input, .fact-edit-form select, .fact-edit-form textarea, .fact-exclude input { display: block; box-sizing: border-box; width: 100%; min-width: 0; margin-top: 6px; padding: 8px; border: 1px solid #625248; border-radius: 3px; background: #211e1c; color: #eee7df; font: inherit; }
+.fact-edit-form textarea { resize: vertical; }
+.fact-edit-hint { font-size: 11px !important; font-weight: normal !important; color: #baafa3; line-height: 1.6; }
+.fact-sheet-tools, .fact-excluded-list { border: 1px solid #51413a; border-radius: 6px; padding: 12px 16px; background: #211e1c; }
+.fact-exclude { margin-top: 10px; font-size: 11px; }
+.fact-exclude summary, .fact-excluded-list summary { cursor: pointer; }
+.fact-exclude button { margin-top: 8px; }
+.fact-excluded-item { padding: 12px 0; border-bottom: 1px solid #51413a; font-size: 12px; overflow-wrap: anywhere; }

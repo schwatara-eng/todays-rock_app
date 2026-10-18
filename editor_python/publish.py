@@ -83,6 +83,7 @@ def verified_sources(sheet):
     """팩트시트에서 '검증 완료(VERIFIED)' 출처만, 매체별로 한 번씩 고릅니다."""
     picked = {}
     for fact in (sheet or {}).get('facts') or []:
+        if fact.get('type') in ('opinion','interpretation'): continue
         sources = fact.get('sources') or ([fact['source']] if fact.get('source') else [])
         for source in sources:
             if (source.get('verificationStatus') or fact.get('verificationStatus')) != 'VERIFIED': continue

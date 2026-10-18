@@ -4,40 +4,40 @@
     {
       "field": "title",
       "category": "title",
-      "text": "잭 화이트",
-      "reason": "제목에 영문 원어 표기가 없어 검색·식별에 불리하다.",
-      "suggestion": "제목을 '잭 화이트 (Jack White)'처럼 한글명과 영문 원어를 병기해 주세요."
+      "text": "잭 화이트 Jack White",
+      "reason": "제목과 첫 문장에 한·영명이 중복 표기돼 시각적으로 산만합니다.",
+      "suggestion": "제목은 '잭 화이트'로 하고 본문 첫 문장에 괄호로 영문 표기 '잭 화이트(Jack White)'만 남기세요."
     },
     {
       "field": "body",
       "category": "structure",
-      "text": "잭 화이트 Jack White",
-      "reason": "첫 줄에 한글명과 영문명이 중복 기재되어 시작이 어색하다.",
-      "suggestion": "본문 초반은 한 번만 표기하고, 제목이나 괄호 중 하나로 통일하세요."
+      "text": "The White Stripes – Elephant (2003): '세븐 네이션 아미(Seven Nation Army)'가 실린 앨범.",
+      "reason": "곡 제목과 번역을 섞어 표기해 일관성이 떨어집니다(한국어·원어 병기 방식이 들쭉날쭉).",
+      "suggestion": "곡·앨범은 원어 표기를 우선으로 하고 괄호로 한국어 번역을 병기하는 등 한 가지 방식으로 통일하세요."
     },
     {
       "field": "body",
       "category": "readability",
+      "text": "The Raconteurs · The Dead Weather: 밴드를 바꿔가며 파워팝과 어두운 블루스 록을 오갔다.",
+      "reason": "항목별 표기 방식(•, –, :, · 등)이 섞여 있어 목록이 산만합니다.",
+      "suggestion": "목록의 구분 기호와 문장 부호를 통일해(예: 모두 '–' 사용하고 설명은 문장형으로) 가독성을 높이세요."
+    },
+    {
+      "field": "body",
+      "category": "structure",
       "text": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
-      "reason": "시점과 수식이 뒤섞여 문장이 무겁고 읽기 어렵다.",
-      "suggestion": "연도와 결과를 분리해 간결히 정리하거나 문장을 두 줄로 나누세요."
+      "reason": "연도와 서술 시제가 혼재되어 시간 흐름이 불명확합니다.",
+      "suggestion": "연도와 사건을 시간순으로 정리하거나 문장 내 시제를 통일해 독자가 혼동하지 않게 정리하세요."
     },
     {
       "field": "body",
       "category": "repetition",
-      "text": "솔로 Frozen Charlotte (2026): 2026년 7월, 북미 투어 첫날에 맞춰 공개된 신작이다.",
-      "reason": "같은 연도 '2026'이 반복되어 불필요하게 중복된다.",
-      "suggestion": "연도 표기는 한 번만 남기고 '7월 북미 투어 첫날에 맞춰 공개된 신작'처럼 다듬으세요."
-    },
-    {
-      "field": "body",
-      "category": "style",
-      "text": "신작 공연은 휴대폰 없이 진행됐다.",
-      "reason": "어떤 공연인지 지시 대상이 불분명해 독자가 혼동할 수 있다.",
-      "suggestion": "대상(투어, 특정 공연 등)을 명시하거나 문장을 일반적 서술로 바꿔 명확히 하세요."
+      "text": "신작 공연은 휴대폰 없이 진행됐다. 지금 이 순간의 소리에 집중하라는 태도 역시 그의 음악과 닮았다.",
+      "reason": "두 문장이 의미상 중복되며 에디터 코멘트 후반부가 반복적으로 느껴집니다.",
+      "suggestion": "의미가 겹치는 부분을 축약해 한 문장으로 정리하거나 하나를 삭제해 간결하게 만드세요."
     }
   ],
   "approved": false,
   "note": "AI 편집 의견입니다. 사실 검수 및 편집자 승인을 대체하지 않습니다.",
-  "articleHash": "7511dda5c59f87800d28f253bb862ee2dec9dd79f1576bec2e34bfa5a0364e71"
+  "articleHash": "8710eabf47ea2d8b4e8764ce6b021b2d249aeb3a337fae803e23fa1de2c96b0b"
 }

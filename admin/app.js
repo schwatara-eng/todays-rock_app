@@ -80,6 +80,97 @@ function hasUnsavedChanges() {
 // ─────────────────────────────────────────────────────────────
 // 2. 검증 자료·검토 결과 표시 (HTML 문자열 삽입 방지)
 // ─────────────────────────────────────────────────────────────
+// 추출 오류 수정은 원고를 고치지 않습니다. 해당 팩트시트 버전에서만 적용합니다.
+async function saveFactChange(payload, expectedSheetHash) {
+  if (hasUnsavedChanges()) throw new Error('현재 원고를 먼저 저장하세요. 원고가 달라지면 팩트시트를 갱신한 뒤 수정해야 합니다.');
+  const data = await post('/local/fact-edit', { ...payload, expectedSheetHash, article: currentArticle() });
+  showState(data, false);
+  message(payload.operation === 'exclude'
+    ? '항목을 검증에서 제외했습니다. 다른 항목의 결과는 유지됩니다. 사실 검수를 갱신한 뒤 다시 승인하세요.'
+    : payload.type === 'opinion'
+      ? '평론으로 저장했습니다. 출처 검증에서 제외됩니다. 사실 검수를 갱신한 뒤 다시 승인하세요.'
+      : '항목을 저장했습니다. 해당 항목의 검증 버튼을 누르세요. 다른 항목은 다시 조사하지 않습니다.');
+}
+
+function factEditForm(fact, expectedSheetHash) {
+  const form = document.createElement('form'); form.className = 'fact-edit-form'; form.hidden = true;
+  const field = document.createElement('select');
+  for (const [value, text] of [['body', '본문'], ['title', '제목']]) {
+    const option = document.createElement('option'); option.value = value; option.textContent = text; field.append(option);
+  }
+  field.value = fact?.field || 'body';
+  const type = document.createElement('select');
+  for (const [value, text] of [['fact', '사실'], ['opinion', '평론 · 검증 제외']]) {
+    const option = document.createElement('option'); option.value = value; option.textContent = text; type.append(option);
+  }
+  type.value = fact?.type === 'opinion' ? 'opinion' : 'fact';
+  const claim = document.createElement('textarea'); claim.rows = 3; claim.maxLength = 1500; claim.required = true; claim.value = fact?.claim || '';
+  const excerpt = document.createElement('textarea'); excerpt.rows = 3; excerpt.maxLength = 6000; excerpt.required = true; excerpt.value = fact?.excerpt || '';
+  const keywords = document.createElement('input'); keywords.value = (fact?.keywords || []).join(', '); keywords.placeholder = '예: Jack White, Detroit, 1997';
+  const reason = document.createElement('input'); reason.maxLength = 600; reason.placeholder = '예: 주어를 잘못 연결함 / 평론을 사실로 추출함';
+  for (const [title, control] of [['분류', type], ['원고 위치', field], ['검증할 주장', claim], ['원고 근거 문장 (원고에서 그대로 복사)', excerpt], ['검색어 (쉼표로 구분, 최대 12개)', keywords], ['변경 사유 (선택)', reason]]) {
+    const label = document.createElement('label'); label.append(document.createTextNode(title), control); form.append(label);
+  }
+  form.append(element('p', '사실 항목을 수정하면 이 항목의 판정과 출처만 초기화됩니다. 원고 본문은 그대로입니다.', 'fact-edit-hint'));
+  const save = element('button', fact ? '항목 수정 저장' : '새 항목 저장'); save.type = 'submit';
+  const cancel = element('button', '취소'); cancel.type = 'button'; cancel.addEventListener('click', () => { form.hidden = true; });
+  const actions = element('div', '', 'fact-edit-actions'); actions.append(save, cancel); form.append(actions);
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const payload = { operation: fact ? 'edit' : 'add', factId: fact?.id, type: type.value, field: field.value, claim: claim.value, excerpt: excerpt.value, keywords: keywords.value.split(',').map(s => s.trim()).filter(Boolean), reason: reason.value };
+    run(() => saveFactChange(payload, expectedSheetHash));
+  });
+  return form;
+}
+
+function appendFactControls(card, fact, expectedSheetHash) {
+  const tools = element('div', '', 'fact-edit-actions');
+  const edit = element('button', '항목 수정 · 분류'); edit.type = 'button';
+  const form = factEditForm(fact, expectedSheetHash);
+  edit.addEventListener('click', () => { form.hidden = !form.hidden; if (!form.hidden) form.querySelector('textarea').focus(); });
+  tools.append(edit); card.append(tools, form);
+  const exclude = document.createElement('details'); exclude.className = 'fact-exclude';
+  const summary = document.createElement('summary'); summary.textContent = '검증 제외';
+  const reason = document.createElement('input'); reason.maxLength = 600; reason.placeholder = '제외 이유: 중복 / 원고에 없는 주장 / 편집자 선정 목록 등'; reason.setAttribute('aria-label', `${fact.id} 제외 이유`);
+  const button = element('button', '이유 기록 후 제외'); button.type = 'button';
+  button.addEventListener('click', () => run(() => saveFactChange({operation:'exclude', factId:fact.id, reason:reason.value}, expectedSheetHash)));
+  exclude.append(summary, reason, button); card.append(exclude);
+  if (fact.manuallyEdited) card.append(element('p', '에디터가 수정한 추출 항목', 'fact-edit-hint'));
+}
+
+function renderFactTools(rows, sheet) {
+  if (!sheet) return;
+  const token = lastState?.factSheetHash;
+  const panel = element('div', '', 'fact-sheet-tools');
+  const actions = element('div', '', 'fact-edit-actions');
+  const add = element('button', '항목 추가'); add.type = 'button';
+  const form = factEditForm(null, token);
+  add.addEventListener('click', () => { form.hidden = !form.hidden; if (!form.hidden) form.querySelector('textarea').focus(); });
+  const review = element('button', '사실 검수 갱신'); review.type = 'button';
+  review.addEventListener('click', () => run(async () => {
+    if (hasUnsavedChanges()) throw new Error('현재 원고를 먼저 저장하세요.');
+    if ((lastState?.factSheet?.facts || []).some(f => f.failureType === 'PENDING')) throw new Error('수정·추가한 사실 항목을 먼저 검증하세요.');
+    message('기존 항목 결과로 사실 검수 보고서를 갱신하고 있습니다…');
+    const data = await post('/local/review', { article: currentArticle() });
+    showState(data, false); message('사실 검수를 갱신했습니다. 남은 지적을 확인한 뒤 다시 승인하세요.');
+  }));
+  actions.append(add, review); panel.append(actions, form);
+  panel.append(element('p', '추출 오류만 수정할 수 있습니다. 검증 제외는 이유를 기록하며 아래 목록에서 복원할 수 있습니다.', 'fact-edit-hint'));
+  rows.append(panel);
+  if (sheet.excludedFacts?.length) {
+    const list = document.createElement('details'); list.className = 'fact-excluded-list';
+    const summary = document.createElement('summary'); summary.textContent = `제외한 항목 ${sheet.excludedFacts.length}개 · 보기/복원`; list.append(summary);
+    for (const record of sheet.excludedFacts) {
+      const item = element('div', '', 'fact-excluded-item');
+      item.append(element('strong', `${record.fact.id} · ${record.fact.claim}`), element('p', `제외 이유: ${record.reason}`));
+      const restore = element('button', '항목 복원'); restore.type = 'button';
+      restore.addEventListener('click', () => run(() => saveFactChange({operation:'restore', factId:record.fact.id, reason:'제외 항목 복원'}, token)));
+      item.append(restore); list.append(item);
+    }
+    rows.append(list);
+  }
+}
+
 function renderFacts(sheet) {
   const root = $('facts');
   const checks = $('fact-check-cards');
@@ -88,6 +179,7 @@ function renderFacts(sheet) {
   checks.replaceChildren();
   rows.replaceChildren();
   const facts = sheet?.facts || [];
+  renderFactTools(rows, sheet);
   const verified = facts.filter(f => f.verificationStatus === 'VERIFIED');
   const opinions = facts.filter(f => f.verificationStatus === 'OPINION');
   const pending = facts.filter(f => f.failureType === 'PENDING');
@@ -116,6 +208,7 @@ function renderFacts(sheet) {
     );
     if (fact.excerpt && fact.excerpt !== fact.claim) card.append(element('p', `원고: ${fact.excerpt}`, 'fact-reason'));
 
+    appendFactControls(card, fact, lastState?.factSheetHash);
     const result = element('div', '', 'fact fact-check');
     result.id = `check-${id}`;
     result.append(element('div', `${id} · ${koreanLabel(fact.verificationStatus || 'NOT_CHECKED')}`, 'fact-id'));
@@ -126,13 +219,13 @@ function renderFacts(sheet) {
     if (fact.verificationStatus !== 'VERIFIED' && !fact.reason && !fact.evidence) {
       result.append(element('p', fact.failureType === 'PENDING' ? '아직 검증을 진행하지 않았습니다.' : '직접 확인된 근거가 없어 검증을 완료하지 못했습니다.', 'fact-reason'));
     }
-    if (fact.failureType !== 'PENDING' && fact.verificationStatus !== 'VERIFIED' && fact.verificationStatus !== 'OPINION') {
+    if (fact.type !== 'opinion' && fact.verificationStatus !== 'OPINION') {
       const retry = document.createElement('button');
-      retry.type = 'button'; retry.textContent = '이 항목 출처 재검색'; retry.className = 'fact-retry';
+      retry.type = 'button'; retry.textContent = fact.failureType === 'PENDING' ? '이 항목만 검증' : '이 항목 출처 재검색'; retry.className = 'fact-retry';
       retry.addEventListener('click', () => run(async () => {
         if (hasUnsavedChanges()) throw new Error('현재 원고를 먼저 저장해 주세요.');
         message(`${id} 출처를 다시 검색하고 있습니다…`);
-        const data = await post('/local/research-one', { factId: id });
+        const data = await post('/local/research-one', { factId: id, article: currentArticle(), expectedSheetHash: lastState?.factSheetHash });
         showState(data, false); message(`${id} 재검색이 완료됐습니다.`);
       }));
       result.append(retry);
@@ -418,12 +511,14 @@ async function post(endpoint, payload = {}) {
 async function run(task) {
   const buttons = [...document.querySelectorAll('button')];
   buttons.forEach((button) => { button.disabled = true; });
+  $('artist-select').disabled = true;
   try {
     await task();
   } catch (error) {
     message(`오류: ${error.message}`);
   } finally {
-    buttons.forEach((button) => { button.disabled = ['export-article', 'publish'].includes(button.id) ? !lastState?.state?.approved : false; });
+    buttons.forEach((button) => { button.disabled = ['export-article', 'publish'].includes(button.id) ? (!lastState?.state?.approved || hasUnsavedChanges()) : false; });
+    $('artist-select').disabled = false;
   }
 }
 
@@ -694,6 +789,7 @@ async function renderPreview() {
   if (sourceBox) {
     const picked = new Map(); // 매체 이름 → 첫 번째 주소 (같은 매체는 한 번만)
     for (const fact of lastState?.factSheet?.facts || []) {
+      if (fact.type === 'opinion' || fact.type === 'interpretation') continue;
       const list = Array.isArray(fact.sources) && fact.sources.length ? fact.sources : (fact.source ? [fact.source] : []);
       for (const source of list) {
         if ((source.verificationStatus || fact.verificationStatus) !== 'VERIFIED') continue;
