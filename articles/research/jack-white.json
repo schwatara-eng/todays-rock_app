@@ -1,9 +1,300 @@
 {
+  "excludedFacts": [
+    {
+      "fact": {
+        "id": "F031",
+        "claim": "화이트 스트라입스(The White Stripes)는 '화이트 스트라입스'라는 이름을 사용했다.",
+        "field": "body",
+        "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
+        "type": "opinion",
+        "group": "manual-F031",
+        "keywords": [
+          "The White Stripes",
+          "밴드 이름"
+        ],
+        "verificationStatus": "OPINION",
+        "source": null,
+        "sources": [],
+        "evidence": "",
+        "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
+        "suggestion": "",
+        "checkedAt": "2026-10-18T05:29:50.164Z",
+        "failureType": null,
+        "manuallyEdited": true,
+        "editedAt": "2026-10-18T05:29:50.164Z"
+      },
+      "reason": "중복",
+      "excludedAt": "2026-10-18T05:31:27.438Z",
+      "position": 28
+    },
+    {
+      "fact": {
+        "id": "F028",
+        "claim": "대표곡으로 'Seven Nation Army', 'Fell in Love with a Girl', 'Steady, As She Goes'를 제시했다.",
+        "field": "body",
+        "excerpt": "대표곡\n\nSeven Nation Army – The White Stripes\nFell in Love with a Girl – The White Stripes\nSteady, As She Goes – The Raconteurs",
+        "type": "fact",
+        "group": "G2",
+        "keywords": [
+          "Seven Nation Army",
+          "Fell in Love with a Girl",
+          "Steady, As She Goes",
+          "representative songs"
+        ],
+        "verificationStatus": "INSUFFICIENT",
+        "source": null,
+        "sources": [
+          {
+            "url": "https://www.whitestripes.com/release/elephant/",
+            "publisher": "The White Stripes (official site)",
+            "verificationStatus": "INSUFFICIENT",
+            "evidence": "Disc 1\n1. Seven Nation Army\n03:51",
+            "reason": "sourceText는 'Seven Nation Army'의 수록을 명확히 보여주어 첫 곡은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'는 이 출처의 트랙리스트에 등장하지 않아 대표곡 목록 전체를 확인할 수 없다(확인된 항목: Seven Nation Army; 확인되지 않은 항목: Fell in Love with a Girl, Steady, As She Goes).",
+            "suggestion": ""
+          },
+          {
+            "url": "https://www.allmusic.com/album/elephant-mw0000022228",
+            "publisher": "AllMusic",
+            "verificationStatus": "NOT CHECKED",
+            "evidence": "",
+            "reason": "본문 접근 실패: 출처 페이지 HTTP 403",
+            "failureType": "SOURCE_ACCESS_FAILED"
+          },
+          {
+            "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
+            "publisher": "Wikipedia",
+            "verificationStatus": "INSUFFICIENT",
+            "evidence": "it was \"much more of a straightforward rock song\" than the band's 2002 single \"Fell in Love with a Girl\"",
+            "reason": "sourceText는 'Seven Nation Army'와 'Fell in Love with a Girl'을 분명히 언급하지만(후자는 2002년 싱글로 비교되며), 'Steady, As She Goes'에 대한 언급은 제공된 sourceText에서 찾을 수 없어 세 곡 전체를 대표곡으로 제시했다는 주장을 전부 확인할 수 없음.",
+            "suggestion": ""
+          },
+          {
+            "url": "https://americansongwriter.com/how-the-white-stripes-seven-nation-army-became-the-universal-sports-chant/",
+            "publisher": "American Songwriter",
+            "verificationStatus": "INSUFFICIENT",
+            "evidence": "The opening track on The White Stripes’ fourth album Elephant , “Seven Nation Army”",
+            "reason": "sourceText는 'Seven Nation Army'가 The White Stripes의 곡임을 분명히 언급하지만, 'Fell in Love with a Girl'과 'Steady, As She Goes'에 대해서는 언급이 없어 전체 목록을 확인할 수 없다. (확인된 요소: 'Seven Nation Army'가 The White Stripes의 곡이라는 점만 확인됨)",
+            "suggestion": ""
+          }
+        ],
+        "evidence": "",
+        "reason": "The White Stripes (official site): sourceText는 'Seven Nation Army'의 수록을 명확히 보여주어 첫 곡은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'는 이 출처의 트랙리스트에 등장하지 않아 대표곡 목록 전체를 확인할 수 없다(확인된 항목: Seven Nation Army; 확인되지 않은 항목: Fell in Love with a Girl, Steady, As She Goes). / Wikipedia: sourceText는 'Seven Nation Army'와 'Fell in Love with a Girl'을 분명히 언급하지만(후자는 2002년 싱글로 비교되며), 'Steady, As She Goes'에 대한 언급은 제공된 sourceText에서 찾을 수 없어 세 곡 전체를 대표곡으로 제시했다는 주장을 전부 확인할 수 없음. / American Songwriter: sourceText는 'Seven Nation Army'가 The White Stripes의 곡임을 분명히 언급하지만, 'Fell in Love with a Girl'과 'Steady, As She Goes'에 대해서는 언급이 없어 전체 목록을 확인할 수 없다. (확인된 요소: 'Seven Nation Army'가 The White Stripes의 곡이라는 점만 확인됨)",
+        "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
+        "checkedAt": "2026-10-17T08:40:22.870Z",
+        "failureType": "EVIDENCE_INSUFFICIENT"
+      },
+      "reason": "편집자 선정 목록",
+      "excludedAt": "2026-10-18T05:34:17.724Z",
+      "position": 25
+    },
+    {
+      "fact": {
+        "id": "F033",
+        "claim": "'기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람'이라는 표현은 평론적·감상적 진술이다.",
+        "field": "body",
+        "excerpt": "기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람",
+        "type": "opinion",
+        "group": "G0",
+        "keywords": [
+          "평론",
+          "opinion"
+        ],
+        "verificationStatus": "OPINION",
+        "source": null,
+        "sources": [],
+        "evidence": "",
+        "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
+        "suggestion": "",
+        "checkedAt": "2026-10-18T04:59:21.511Z",
+        "failureType": null
+      },
+      "reason": "원고에 없는 주장",
+      "excludedAt": "2026-10-18T05:34:34.364Z",
+      "position": 28
+    }
+  ],
+  "manualHistory": [
+    {
+      "operation": "edit",
+      "reason": "추출 항목 수정",
+      "at": "2026-10-18T05:29:50.164Z",
+      "before": {
+        "id": "F031",
+        "claim": "화이트 스트라입스(The White Stripes)는 '화이트 스트라입스'라는 이름을 사용했다.",
+        "field": "body",
+        "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
+        "type": "fact",
+        "group": "G2",
+        "keywords": [
+          "The White Stripes",
+          "밴드 이름"
+        ],
+        "verificationStatus": "VERIFIED",
+        "source": {
+          "url": "https://www.whitestripes.com/",
+          "publisher": "The White Stripes (official site)"
+        },
+        "sources": [
+          {
+            "url": "https://www.whitestripes.com/",
+            "publisher": "The White Stripes (official site)",
+            "verificationStatus": "VERIFIED",
+            "evidence": "The White Stripes Greatest Hits Out Now",
+            "reason": "출처 텍스트에서 밴드 이름으로 'The White Stripes'가 명백히 사용되고 있어, '화이트 스트라입스'라는 명칭 사용은 뒷받침된다.",
+            "suggestion": ""
+          }
+        ],
+        "evidence": "The White Stripes Greatest Hits Out Now",
+        "reason": "출처 텍스트에서 밴드 이름으로 'The White Stripes'가 명백히 사용되고 있어, '화이트 스트라입스'라는 명칭 사용은 뒷받침된다.",
+        "suggestion": "",
+        "checkedAt": "2026-10-18T05:00:04.778Z",
+        "failureType": null
+      },
+      "after": {
+        "id": "F031",
+        "claim": "화이트 스트라입스(The White Stripes)는 '화이트 스트라입스'라는 이름을 사용했다.",
+        "field": "body",
+        "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
+        "type": "opinion",
+        "group": "manual-F031",
+        "keywords": [
+          "The White Stripes",
+          "밴드 이름"
+        ],
+        "verificationStatus": "OPINION",
+        "source": null,
+        "sources": [],
+        "evidence": "",
+        "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
+        "suggestion": "",
+        "checkedAt": "2026-10-18T05:29:50.164Z",
+        "failureType": null,
+        "manuallyEdited": true,
+        "editedAt": "2026-10-18T05:29:50.164Z"
+      }
+    },
+    {
+      "operation": "exclude",
+      "reason": "중복",
+      "at": "2026-10-18T05:31:27.438Z",
+      "before": {
+        "id": "F031",
+        "claim": "화이트 스트라입스(The White Stripes)는 '화이트 스트라입스'라는 이름을 사용했다.",
+        "field": "body",
+        "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
+        "type": "opinion",
+        "group": "manual-F031",
+        "keywords": [
+          "The White Stripes",
+          "밴드 이름"
+        ],
+        "verificationStatus": "OPINION",
+        "source": null,
+        "sources": [],
+        "evidence": "",
+        "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
+        "suggestion": "",
+        "checkedAt": "2026-10-18T05:29:50.164Z",
+        "failureType": null,
+        "manuallyEdited": true,
+        "editedAt": "2026-10-18T05:29:50.164Z"
+      },
+      "after": null
+    },
+    {
+      "operation": "exclude",
+      "reason": "편집자 선정 목록",
+      "at": "2026-10-18T05:34:17.724Z",
+      "before": {
+        "id": "F028",
+        "claim": "대표곡으로 'Seven Nation Army', 'Fell in Love with a Girl', 'Steady, As She Goes'를 제시했다.",
+        "field": "body",
+        "excerpt": "대표곡\n\nSeven Nation Army – The White Stripes\nFell in Love with a Girl – The White Stripes\nSteady, As She Goes – The Raconteurs",
+        "type": "fact",
+        "group": "G2",
+        "keywords": [
+          "Seven Nation Army",
+          "Fell in Love with a Girl",
+          "Steady, As She Goes",
+          "representative songs"
+        ],
+        "verificationStatus": "INSUFFICIENT",
+        "source": null,
+        "sources": [
+          {
+            "url": "https://www.whitestripes.com/release/elephant/",
+            "publisher": "The White Stripes (official site)",
+            "verificationStatus": "INSUFFICIENT",
+            "evidence": "Disc 1\n1. Seven Nation Army\n03:51",
+            "reason": "sourceText는 'Seven Nation Army'의 수록을 명확히 보여주어 첫 곡은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'는 이 출처의 트랙리스트에 등장하지 않아 대표곡 목록 전체를 확인할 수 없다(확인된 항목: Seven Nation Army; 확인되지 않은 항목: Fell in Love with a Girl, Steady, As She Goes).",
+            "suggestion": ""
+          },
+          {
+            "url": "https://www.allmusic.com/album/elephant-mw0000022228",
+            "publisher": "AllMusic",
+            "verificationStatus": "NOT CHECKED",
+            "evidence": "",
+            "reason": "본문 접근 실패: 출처 페이지 HTTP 403",
+            "failureType": "SOURCE_ACCESS_FAILED"
+          },
+          {
+            "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
+            "publisher": "Wikipedia",
+            "verificationStatus": "INSUFFICIENT",
+            "evidence": "it was \"much more of a straightforward rock song\" than the band's 2002 single \"Fell in Love with a Girl\"",
+            "reason": "sourceText는 'Seven Nation Army'와 'Fell in Love with a Girl'을 분명히 언급하지만(후자는 2002년 싱글로 비교되며), 'Steady, As She Goes'에 대한 언급은 제공된 sourceText에서 찾을 수 없어 세 곡 전체를 대표곡으로 제시했다는 주장을 전부 확인할 수 없음.",
+            "suggestion": ""
+          },
+          {
+            "url": "https://americansongwriter.com/how-the-white-stripes-seven-nation-army-became-the-universal-sports-chant/",
+            "publisher": "American Songwriter",
+            "verificationStatus": "INSUFFICIENT",
+            "evidence": "The opening track on The White Stripes’ fourth album Elephant , “Seven Nation Army”",
+            "reason": "sourceText는 'Seven Nation Army'가 The White Stripes의 곡임을 분명히 언급하지만, 'Fell in Love with a Girl'과 'Steady, As She Goes'에 대해서는 언급이 없어 전체 목록을 확인할 수 없다. (확인된 요소: 'Seven Nation Army'가 The White Stripes의 곡이라는 점만 확인됨)",
+            "suggestion": ""
+          }
+        ],
+        "evidence": "",
+        "reason": "The White Stripes (official site): sourceText는 'Seven Nation Army'의 수록을 명확히 보여주어 첫 곡은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'는 이 출처의 트랙리스트에 등장하지 않아 대표곡 목록 전체를 확인할 수 없다(확인된 항목: Seven Nation Army; 확인되지 않은 항목: Fell in Love with a Girl, Steady, As She Goes). / Wikipedia: sourceText는 'Seven Nation Army'와 'Fell in Love with a Girl'을 분명히 언급하지만(후자는 2002년 싱글로 비교되며), 'Steady, As She Goes'에 대한 언급은 제공된 sourceText에서 찾을 수 없어 세 곡 전체를 대표곡으로 제시했다는 주장을 전부 확인할 수 없음. / American Songwriter: sourceText는 'Seven Nation Army'가 The White Stripes의 곡임을 분명히 언급하지만, 'Fell in Love with a Girl'과 'Steady, As She Goes'에 대해서는 언급이 없어 전체 목록을 확인할 수 없다. (확인된 요소: 'Seven Nation Army'가 The White Stripes의 곡이라는 점만 확인됨)",
+        "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
+        "checkedAt": "2026-10-17T08:40:22.870Z",
+        "failureType": "EVIDENCE_INSUFFICIENT"
+      },
+      "after": null
+    },
+    {
+      "operation": "exclude",
+      "reason": "원고에 없는 주장",
+      "at": "2026-10-18T05:34:34.365Z",
+      "before": {
+        "id": "F033",
+        "claim": "'기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람'이라는 표현은 평론적·감상적 진술이다.",
+        "field": "body",
+        "excerpt": "기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람",
+        "type": "opinion",
+        "group": "G0",
+        "keywords": [
+          "평론",
+          "opinion"
+        ],
+        "verificationStatus": "OPINION",
+        "source": null,
+        "sources": [],
+        "evidence": "",
+        "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
+        "suggestion": "",
+        "checkedAt": "2026-10-18T04:59:21.511Z",
+        "failureType": null
+      },
+      "after": null
+    }
+  ],
+  "manualRevision": 4,
   "artist": {
     "name": "기사 기반 자료"
   },
-  "articleHash": "8710eabf47ea2d8b4e8764ce6b021b2d249aeb3a337fae803e23fa1de2c96b0b",
-  "articleText": "잭 화이트\n잭 화이트 Jack White\n\n기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람\n\n디트로이트 출신의 기타리스트이자 싱어송라이터 잭 화이트(Jack White). 1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다. 베이스 없이 기타와 드럼만으로 꽉 찬 소리를 만들어냈고, 빨강·하양·검정 세 가지 색으로 무대와 앨범을 통일했다. 2000년대 초 개러지 록 리바이벌의 상징이 된 이유다. 블루스를 뿌리에 두고 아날로그 녹음과 바이닐을 선호하는 그는 지금도 특유의 '손맛'이 살아 있는 록을 들려준다.\n\n주요 앨범과 활동\n\nThe White Stripes – Elephant (2003): '세븐 네이션 아미(Seven Nation Army)'가 실린 앨범. 이 곡의 리프는 지금도 전 세계 축구장에서 응원가로 울려 퍼진다.\nThe Raconteurs · The Dead Weather: 밴드를 바꿔가며 파워팝과 어두운 블루스 록을 오갔다.\nThird Man Records (2009~): 내슈빌에 세운 레이블이자 레코드숍. 바이닐 부활의 한 축을 맡아왔다.\n솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다. 그래미 수상은 총 16회다. \n솔로 Frozen Charlotte (2026): 2026년 7월, 북미 투어 첫날에 맞춰 공개된 신작이다. 내슈빌의 서드 맨 스튜디오에서 녹음했다. 일곱 번째 솔로 앨범이다. \n그 밖의 활동: 최근 화이트 스트라입스로 로큰롤 명예의 전당에 헌액됐다. 2025년 10월에는 가사와 시, 희귀 사진을 묶은 책 『Jack White Collected Lyrics and Selected Writing Volume 1』도 냈다. \n\n에디터 코멘트\n\n잭 화이트의 음악은 '덜어냄'에서 시작한다. 악기를 줄이고, 색을 줄이고, 녹음 과정의 기술도 줄인다. 그렇게 남은 빈자리를 기타 톤과 목소리의 긴장감이 채운다. 매끈하게 다듬은 소리에 지쳤다면, 거칠게 긁히는 리프 한 줄이 오히려 숨통을 틔워줄 것이다. 신작 공연은 휴대폰 없이 진행됐다. 지금 이 순간의 소리에 집중하라는 태도 역시 그의 음악과 닮았다. 답답한 날, 볼륨을 올리고 들어보자. \n\n대표곡\n\nSeven Nation Army – The White Stripes\nFell in Love with a Girl – The White Stripes\nSteady, As She Goes – The Raconteurs",
+  "articleHash": "6256f972dd284b313c0dc3daf4637f4ba005cf20e2c9754f6e77e182394070cf",
+  "articleText": "잭 화이트 Jack White\n기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람\n\n디트로이트 출신의 기타리스트이자 싱어송라이터 잭 화이트(Jack White). 1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다. 베이스 없이 기타와 드럼만으로 꽉 찬 소리를 만들어냈고, 빨강·하양·검정 세 가지 색으로 무대와 앨범을 통일했다. 2000년대 초 개러지 록 리바이벌의 상징이 된 이유다. 블루스를 뿌리에 두고 아날로그 녹음과 바이닐을 선호하는 그는 지금도 특유의 '손맛'이 살아 있는 록을 들려준다.\n\n주요 앨범과 활동\n\nThe White Stripes – Elephant (2003): 'Seven Nation Army'가 실린 앨범. 이 곡의 리프는 지금도 전 세계 축구장에서 응원가로 울려 퍼진다.\nThe Raconteurs · The Dead Weather: 밴드를 바꿔가며 파워팝과 어두운 블루스 록을 오갔다.\nThird Man Records (2009~): 내슈빌에 세운 레이블이자 레코드숍. 바이닐 부활의 한 축을 맡아왔다.\n솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다. 그래미 수상은 총 12회다. \n솔로 Frozen Charlotte (2026): 2026년 7월, 북미 투어 첫날에 맞춰 공개된 신작이다. 내슈빌의 서드 맨 스튜디오에서 녹음했다. 일곱 번째 솔로 앨범이다. \n그 밖의 활동: 최근 화이트 스트라입스로 로큰롤 명예의 전당에 헌액됐다. 2025년 10월에는 가사와 시, 희귀 사진을 묶은 책 『Jack White Collected Lyrics and Selected Writing Volume 1』도 냈다. \n\n에디터 코멘트\n\n잭 화이트의 음악은 '덜어냄'에서 시작한다. 악기를 줄이고, 색을 줄이고, 녹음 과정의 기술도 줄인다. 그렇게 남은 빈자리를 기타 톤과 목소리의 긴장감이 채운다. 매끈하게 다듬은 소리에 지쳤다면, 거칠게 긁히는 리프 한 줄이 오히려 숨통을 틔워줄 것이다. 지금 이 순간의 소리에 집중하라는 태도 역시 그의 음악과 닮았다. 답답한 날, 볼륨을 올리고 들어보자. \n\n대표곡\n\nSeven Nation Army – The White Stripes\nFell in Love with a Girl – The White Stripes\nSteady, As She Goes – The Raconteurs",
   "facts": [
     {
       "id": "F001",
@@ -274,56 +565,6 @@
       "failureType": null,
       "checkedAt": "2026-10-17T08:35:01.384Z",
       "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다."
-    },
-    {
-      "id": "F010",
-      "claim": "The White Stripes – Elephant (2003)에 '세븐 네이션 아미(Seven Nation Army)'가 실렸다.",
-      "field": "body",
-      "excerpt": "The White Stripes – Elephant (2003): '세븐 네이션 아미(Seven Nation Army)'가 실린 앨범.",
-      "type": "fact",
-      "group": "G2",
-      "keywords": [
-        "Elephant",
-        "2003",
-        "Seven Nation Army",
-        "The White Stripes"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
-        "publisher": "Wikipedia"
-      },
-      "sources": [
-        {
-          "url": "https://www.whitestripes.com/release/elephant/",
-          "publisher": "The White Stripes (official site)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "",
-          "reason": "AI가 지지 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText의 앨범 정보가 'Elephant'가 2003년에 발매되었고 Disc 1 트랙 목록에 'Seven Nation Army'가 1번으로 명시되어 있어, 해당 곡이 2003년작 Elephant에 수록된 점을 모두 뒷받침한다.)",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.allmusic.com/album/elephant-mw0000022228",
-          "publisher": "AllMusic",
-          "verificationStatus": "NOT CHECKED",
-          "evidence": "",
-          "reason": "본문 접근 실패: 출처 페이지 HTTP 403",
-          "failureType": "SOURCE_ACCESS_FAILED"
-        },
-        {
-          "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
-          "publisher": "Wikipedia",
-          "verificationStatus": "VERIFIED",
-          "evidence": "The lead single from their fourth studio album, Elephant (2003), the song was written by Jack White",
-          "reason": "sourceText가 'Seven Nation Army'를 2003년 발매된 싱글이자 그들의 네 번째 정규 앨범 Elephant(2003)의 리드 싱글이라고 명시하고 있어 앨범에 수록된 사실을 분명히 뒷받침함.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "The lead single from their fourth studio album, Elephant (2003), the song was written by Jack White",
-      "reason": "sourceText가 'Seven Nation Army'를 2003년 발매된 싱글이자 그들의 네 번째 정규 앨범 Elephant(2003)의 리드 싱글이라고 명시하고 있어 앨범에 수록된 사실을 분명히 뒷받침함.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:40:22.870Z",
-      "failureType": null
     },
     {
       "id": "F011",
@@ -913,113 +1154,6 @@
       ]
     },
     {
-      "id": "F020",
-      "claim": "그래미 수상은 총 16회다.",
-      "field": "body",
-      "excerpt": "그래미 수상은 총 16회다.",
-      "type": "fact",
-      "group": "G4",
-      "keywords": [
-        "16 wins",
-        "Grammy Awards",
-        "Jack White"
-      ],
-      "verificationStatus": "CONTRADICTED",
-      "source": {
-        "url": "https://en.wikipedia.org/wiki/Jack_White",
-        "publisher": "Wikipedia"
-      },
-      "sources": [
-        {
-          "url": "https://www.grammy.com/artists/jack-white/15627/",
-          "publisher": "Recording Academy (GRAMMY.com)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "",
-          "reason": "AI가 반박 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText는 그래미 수상(총 횟수)을 'Wins 12'로 제시하고 있어 '총 16회'라는 주장은 출처와 직접적으로 모순됨.)",
-          "suggestion": "그래미 수상은 총 12회다."
-        },
-        {
-          "url": "https://www.grammy.com/awards/categories/best-rock-album/2025/",
-          "publisher": "Recording Academy (GRAMMY.com)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "The Rolling Stones won the 2025 Grammy Award for Best Rock Album with \"Hackney Diamonds\"",
-          "reason": "출처는 연도별 수상자와 후보 목록을 제공하지만, 특정 인물(잭 화이트)의 그래미 수상 총회수(예: 16회)에 대한 언급이나 합계는 전혀 포함하고 있지 않다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.grammy.com/news/2025-grammys-nominations-full-winners-nominees-list/",
-          "publisher": "Recording Academy (GRAMMY.com)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "",
-          "reason": "원문(sourceText)에 그래미 수상 총계(예: \"총 16회\")를 명시한 문장은 없다. 수상 내역과 당해 수상자·수상작 목록은 있으나 총 횟수를 집계해 언급한 부분은 확인되지 않는다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://en.wikipedia.org/wiki/Jack_White",
-          "publisher": "Wikipedia",
-          "verificationStatus": "CONTRADICTED",
-          "evidence": "Among several accolades, White has won twelve Grammy Awards",
-          "reason": "sourceText는 잭 화이트가 수상한 그래미의 수를 명확히 'twelve Grammy Awards'로 서술하고 있으므로, '총 16회'라는 주장은 출처와 직접 모순됩니다.",
-          "suggestion": "그래미 수상은 총 12회다."
-        },
-        {
-          "url": "https://en.wikipedia.org/wiki/List_of_awards_and_nominations_received_by_Jack_White",
-          "publisher": "Wikipedia (Awards list)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "With the White Stripes, he won a Brit Award, six Grammy Awards, one Meteor Music Award, five MTV Video Music Awards, one MTV Europe Music Award, one MuchMusic Video Award, and one NME Award",
-          "reason": "sourceText에는 화이트 스트라입스로서 획득한 그래미 수상 실적(‘six Grammy Awards’)만 명시되어 있고, 잭 화이트의 전체 그래미 수상 합계(총 16회)는 언급되어 있지 않습니다. 따라서 ‘총 16회’라는 수치는 출처에서 확인되지 않습니다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.pbs.org/kenburns/country-music/jack-white-biography",
-          "publisher": "PBS / Ken Burns Country Music",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "the single’s 2004 GRAMMY win for Best Rock Song – one of six GRAMMYs and 17 total awards won by The White Stripes before their dissolution in 2011",
-          "reason": "출처는 잭 화이트 또는 화이트 스트라입스의 '그래미 수상 총 16회'라는 구체적 총계치를 제시하지 않는다. 출처에는 ‘The White Stripes’가 해체 전까지 'six GRAMMYs'를 받았고 다른 레코드 작업에서 수상 기록이 있으나(예: Loretta Lynn의 앨범이 그래미 2개를 수상), 본 청구의 '총 16회'를 뒷받침하거나 명확히 합산한 문장은 없다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "Among several accolades, White has won twelve Grammy Awards",
-      "reason": "sourceText는 잭 화이트가 수상한 그래미의 수를 명확히 'twelve Grammy Awards'로 서술하고 있으므로, '총 16회'라는 주장은 출처와 직접 모순됩니다.",
-      "suggestion": "그래미 수상은 총 12회다.",
-      "checkedAt": "2026-10-18T05:13:28.106Z",
-      "failureType": "SOURCE_CONTRADICTS",
-      "attempts": [
-        {
-          "checkedAt": "2026-10-17T08:41:42.778Z",
-          "verificationStatus": "INSUFFICIENT",
-          "failureType": "EVIDENCE_INSUFFICIENT",
-          "reason": "Recording Academy (GRAMMY.com): AI가 반박 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText는 그래미 수상(총 횟수)을 'Wins 12'로 제시하고 있어 '총 16회'라는 주장은 출처와 직접적으로 모순됨.) / Recording Academy (GRAMMY.com): 출처는 연도별 수상자와 후보 목록을 제공하지만, 특정 인물(잭 화이트)의 그래미 수상 총회수(예: 16회)에 대한 언급이나 합계는 전혀 포함하고 있지 않다. / Recording Academy (GRAMMY.com): 원문(sourceText)에 그래미 수상 총계(예: \"총 16회\")를 명시한 문장은 없다. 수상 내역과 당해 수상자·수상작 목록은 있으나 총 횟수를 집계해 언급한 부분은 확인되지 않는다.",
-          "sources": [
-            {
-              "url": "https://www.grammy.com/artists/jack-white/15627/",
-              "publisher": "Recording Academy (GRAMMY.com)",
-              "verificationStatus": "INSUFFICIENT",
-              "evidence": "",
-              "reason": "AI가 반박 근거로 제시한 인용문을 실제 출처 본문에서 찾지 못해 근거 부족으로 처리했습니다. (AI 판단: sourceText는 그래미 수상(총 횟수)을 'Wins 12'로 제시하고 있어 '총 16회'라는 주장은 출처와 직접적으로 모순됨.)",
-              "suggestion": "그래미 수상은 총 12회다."
-            },
-            {
-              "url": "https://www.grammy.com/awards/categories/best-rock-album/2025/",
-              "publisher": "Recording Academy (GRAMMY.com)",
-              "verificationStatus": "INSUFFICIENT",
-              "evidence": "The Rolling Stones won the 2025 Grammy Award for Best Rock Album with \"Hackney Diamonds\"",
-              "reason": "출처는 연도별 수상자와 후보 목록을 제공하지만, 특정 인물(잭 화이트)의 그래미 수상 총회수(예: 16회)에 대한 언급이나 합계는 전혀 포함하고 있지 않다.",
-              "suggestion": ""
-            },
-            {
-              "url": "https://www.grammy.com/news/2025-grammys-nominations-full-winners-nominees-list/",
-              "publisher": "Recording Academy (GRAMMY.com)",
-              "verificationStatus": "INSUFFICIENT",
-              "evidence": "",
-              "reason": "원문(sourceText)에 그래미 수상 총계(예: \"총 16회\")를 명시한 문장은 없다. 수상 내역과 당해 수상자·수상작 목록은 있으나 총 횟수를 집계해 언급한 부분은 확인되지 않는다.",
-              "suggestion": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "F021",
       "claim": "솔로 Frozen Charlotte(2026)는 2026년 7월 북미 투어 첫날에 맞춰 공개되었다.",
       "field": "body",
@@ -1197,39 +1331,6 @@
       "failureType": null,
       "checkedAt": "2026-10-17T08:35:01.384Z",
       "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다."
-    },
-    {
-      "id": "F027",
-      "claim": "원고는 신작 공연이 휴대폰 없이 진행됐다고 전하고 있다.",
-      "field": "body",
-      "excerpt": "신작 공연은 휴대폰 없이 진행됐다.",
-      "type": "fact",
-      "group": "G7",
-      "keywords": [
-        "no phones",
-        "live show",
-        "policy"
-      ],
-      "verificationStatus": "VERIFIED",
-      "source": {
-        "url": "https://calendar.houseofyes.org/e/2EoeQWKhcc",
-        "publisher": "House of Yes (venue)"
-      },
-      "sources": [
-        {
-          "url": "https://calendar.houseofyes.org/e/2EoeQWKhcc",
-          "publisher": "House of Yes (venue)",
-          "verificationStatus": "VERIFIED",
-          "evidence": "No Phones / No Photos on the Dancefloor. Please mind the vibe and keep your phones tucked away while dancing.",
-          "reason": "sourceText에 ‘No Phones / No Photos on the Dancefloor. Please mind the vibe and keep your phones tucked away while dancing.’라고 명시되어 있어 공연장에서 휴대폰 사용을 금지했고, 원고의 표현과 내용이 일치한다.",
-          "suggestion": ""
-        }
-      ],
-      "evidence": "No Phones / No Photos on the Dancefloor. Please mind the vibe and keep your phones tucked away while dancing.",
-      "reason": "sourceText에 ‘No Phones / No Photos on the Dancefloor. Please mind the vibe and keep your phones tucked away while dancing.’라고 명시되어 있어 공연장에서 휴대폰 사용을 금지했고, 원고의 표현과 내용이 일치한다.",
-      "suggestion": "",
-      "checkedAt": "2026-10-17T08:43:06.692Z",
-      "failureType": null
     },
     {
       "id": "F029",
@@ -1428,300 +1529,129 @@
       "suggestion": "",
       "checkedAt": "2026-10-18T05:00:19.048Z",
       "failureType": null
+    },
+    {
+      "id": "F034",
+      "claim": "The White Stripes의 앨범 Elephant는 2003년에 발매되었다.",
+      "field": "body",
+      "excerpt": "The White Stripes – Elephant (2003): 'Seven Nation Army'가 실린 앨범.",
+      "type": "fact",
+      "group": "G5",
+      "keywords": [
+        "Elephant",
+        "2003",
+        "The White Stripes"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.whitestripes.com/release/elephant/",
+        "publisher": "The White Stripes (official site)"
+      },
+      "sources": [
+        {
+          "url": "https://www.whitestripes.com/release/elephant/",
+          "publisher": "The White Stripes (official site)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Elephant\nReleased April 1, 2003\nBuy / Listen Now\nArtist Store\nApple Music\nSpotify\nDeezer\niTunes\nTidal\nPandora\nYoutube Music\nAmazon Music",
+          "reason": "sourceText에 앨범 'Elephant'의 발매일이 'Released April 1, 2003'로 명시되어 있어 2003년 발매라는 주장을 뒷받침한다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "Elephant\nReleased April 1, 2003\nBuy / Listen Now\nArtist Store\nApple Music\nSpotify\nDeezer\niTunes\nTidal\nPandora\nYoutube Music\nAmazon Music",
+      "reason": "sourceText에 앨범 'Elephant'의 발매일이 'Released April 1, 2003'로 명시되어 있어 2003년 발매라는 주장을 뒷받침한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T05:45:28.389Z",
+      "failureType": null
+    },
+    {
+      "id": "F035",
+      "claim": "앨범 Elephant에는 'Seven Nation Army'가 실려 있다.",
+      "field": "body",
+      "excerpt": "'Seven Nation Army'가 실린 앨범.",
+      "type": "fact",
+      "group": "G5",
+      "keywords": [
+        "Seven Nation Army",
+        "Elephant"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.whitestripes.com/release/elephant/",
+        "publisher": "The White Stripes (official site)"
+      },
+      "sources": [
+        {
+          "url": "https://www.whitestripes.com/release/elephant/",
+          "publisher": "The White Stripes (official site)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Disc 1\n1. Seven Nation Army\n03:51\n2. Black Math\n03:03",
+          "reason": "sourceText의 트랙 목록 Disc 1에 1번 곡으로 'Seven Nation Army'가 명확히 등재되어 있어 해당 곡이 앨범에 수록된 것이 확인된다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "Disc 1\n1. Seven Nation Army\n03:51\n2. Black Math\n03:03",
+      "reason": "sourceText의 트랙 목록 Disc 1에 1번 곡으로 'Seven Nation Army'가 명확히 등재되어 있어 해당 곡이 앨범에 수록된 것이 확인된다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T05:45:28.389Z",
+      "failureType": null
+    },
+    {
+      "id": "F036",
+      "claim": "잭 화이트의 그래미 수상은 총 12회다.",
+      "field": "body",
+      "excerpt": "그래미 수상은 총 12회다.",
+      "type": "fact",
+      "group": "G8",
+      "keywords": [
+        "Grammy",
+        "awards",
+        "12"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.grammy.com/artists/jack-white/15627/",
+        "publisher": "The Recording Academy (Grammy.com)"
+      },
+      "sources": [
+        {
+          "url": "https://www.grammy.com/artists/jack-white/15627/",
+          "publisher": "The Recording Academy (Grammy.com)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Artist\nJack White\nWins\n12\nNominations\n34\nCategory\nRock",
+          "reason": "출처 상단의 요약 정보에서 'Wins 12'로 잭 화이트의 그래미 수상 횟수가 명확히 기재되어 있어 주장과 일치합니다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "Artist\nJack White\nWins\n12\nNominations\n34\nCategory\nRock",
+      "reason": "출처 상단의 요약 정보에서 'Wins 12'로 잭 화이트의 그래미 수상 횟수가 명확히 기재되어 있어 주장과 일치합니다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T05:45:44.407Z",
+      "failureType": null
+    },
+    {
+      "id": "F037",
+      "claim": "에디터는 악기를 줄이고 색을 줄이고 녹음 과정의 기술도 줄인 결과 빈자리를 기타 톤과 목소리의 긴장감이 채운다고 평가했다.",
+      "field": "body",
+      "excerpt": "악기를 줄이고, 색을 줄이고, 녹음 과정의 기술도 줄인다. 그렇게 남은 빈자리를 기타 톤과 목소리의 긴장감이 채운다.",
+      "type": "opinion",
+      "group": "G11",
+      "keywords": [
+        "에디터 코멘트",
+        "긴장감",
+        "기타 톤",
+        "목소리"
+      ],
+      "verificationStatus": "OPINION",
+      "source": null,
+      "sources": [],
+      "evidence": "",
+      "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T05:45:07.698Z",
+      "failureType": null
     }
   ],
   "truncated": false,
-  "generatedAt": "2026-10-18T05:34:34.365Z",
-  "note": "같은 대상을 다루는 주장끼리 묶어 조사합니다. 이전 검증 26개 유지, 새 항목 5개.",
-  "excludedFacts": [
-    {
-      "fact": {
-        "id": "F031",
-        "claim": "화이트 스트라입스(The White Stripes)는 '화이트 스트라입스'라는 이름을 사용했다.",
-        "field": "body",
-        "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
-        "type": "opinion",
-        "group": "manual-F031",
-        "keywords": [
-          "The White Stripes",
-          "밴드 이름"
-        ],
-        "verificationStatus": "OPINION",
-        "source": null,
-        "sources": [],
-        "evidence": "",
-        "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
-        "suggestion": "",
-        "checkedAt": "2026-10-18T05:29:50.164Z",
-        "failureType": null,
-        "manuallyEdited": true,
-        "editedAt": "2026-10-18T05:29:50.164Z"
-      },
-      "reason": "중복",
-      "excludedAt": "2026-10-18T05:31:27.438Z",
-      "position": 28
-    },
-    {
-      "fact": {
-        "id": "F028",
-        "claim": "대표곡으로 'Seven Nation Army', 'Fell in Love with a Girl', 'Steady, As She Goes'를 제시했다.",
-        "field": "body",
-        "excerpt": "대표곡\n\nSeven Nation Army – The White Stripes\nFell in Love with a Girl – The White Stripes\nSteady, As She Goes – The Raconteurs",
-        "type": "fact",
-        "group": "G2",
-        "keywords": [
-          "Seven Nation Army",
-          "Fell in Love with a Girl",
-          "Steady, As She Goes",
-          "representative songs"
-        ],
-        "verificationStatus": "INSUFFICIENT",
-        "source": null,
-        "sources": [
-          {
-            "url": "https://www.whitestripes.com/release/elephant/",
-            "publisher": "The White Stripes (official site)",
-            "verificationStatus": "INSUFFICIENT",
-            "evidence": "Disc 1\n1. Seven Nation Army\n03:51",
-            "reason": "sourceText는 'Seven Nation Army'의 수록을 명확히 보여주어 첫 곡은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'는 이 출처의 트랙리스트에 등장하지 않아 대표곡 목록 전체를 확인할 수 없다(확인된 항목: Seven Nation Army; 확인되지 않은 항목: Fell in Love with a Girl, Steady, As She Goes).",
-            "suggestion": ""
-          },
-          {
-            "url": "https://www.allmusic.com/album/elephant-mw0000022228",
-            "publisher": "AllMusic",
-            "verificationStatus": "NOT CHECKED",
-            "evidence": "",
-            "reason": "본문 접근 실패: 출처 페이지 HTTP 403",
-            "failureType": "SOURCE_ACCESS_FAILED"
-          },
-          {
-            "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
-            "publisher": "Wikipedia",
-            "verificationStatus": "INSUFFICIENT",
-            "evidence": "it was \"much more of a straightforward rock song\" than the band's 2002 single \"Fell in Love with a Girl\"",
-            "reason": "sourceText는 'Seven Nation Army'와 'Fell in Love with a Girl'을 분명히 언급하지만(후자는 2002년 싱글로 비교되며), 'Steady, As She Goes'에 대한 언급은 제공된 sourceText에서 찾을 수 없어 세 곡 전체를 대표곡으로 제시했다는 주장을 전부 확인할 수 없음.",
-            "suggestion": ""
-          },
-          {
-            "url": "https://americansongwriter.com/how-the-white-stripes-seven-nation-army-became-the-universal-sports-chant/",
-            "publisher": "American Songwriter",
-            "verificationStatus": "INSUFFICIENT",
-            "evidence": "The opening track on The White Stripes’ fourth album Elephant , “Seven Nation Army”",
-            "reason": "sourceText는 'Seven Nation Army'가 The White Stripes의 곡임을 분명히 언급하지만, 'Fell in Love with a Girl'과 'Steady, As She Goes'에 대해서는 언급이 없어 전체 목록을 확인할 수 없다. (확인된 요소: 'Seven Nation Army'가 The White Stripes의 곡이라는 점만 확인됨)",
-            "suggestion": ""
-          }
-        ],
-        "evidence": "",
-        "reason": "The White Stripes (official site): sourceText는 'Seven Nation Army'의 수록을 명확히 보여주어 첫 곡은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'는 이 출처의 트랙리스트에 등장하지 않아 대표곡 목록 전체를 확인할 수 없다(확인된 항목: Seven Nation Army; 확인되지 않은 항목: Fell in Love with a Girl, Steady, As She Goes). / Wikipedia: sourceText는 'Seven Nation Army'와 'Fell in Love with a Girl'을 분명히 언급하지만(후자는 2002년 싱글로 비교되며), 'Steady, As She Goes'에 대한 언급은 제공된 sourceText에서 찾을 수 없어 세 곡 전체를 대표곡으로 제시했다는 주장을 전부 확인할 수 없음. / American Songwriter: sourceText는 'Seven Nation Army'가 The White Stripes의 곡임을 분명히 언급하지만, 'Fell in Love with a Girl'과 'Steady, As She Goes'에 대해서는 언급이 없어 전체 목록을 확인할 수 없다. (확인된 요소: 'Seven Nation Army'가 The White Stripes의 곡이라는 점만 확인됨)",
-        "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
-        "checkedAt": "2026-10-17T08:40:22.870Z",
-        "failureType": "EVIDENCE_INSUFFICIENT"
-      },
-      "reason": "편집자 선정 목록",
-      "excludedAt": "2026-10-18T05:34:17.724Z",
-      "position": 25
-    },
-    {
-      "fact": {
-        "id": "F033",
-        "claim": "'기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람'이라는 표현은 평론적·감상적 진술이다.",
-        "field": "body",
-        "excerpt": "기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람",
-        "type": "opinion",
-        "group": "G0",
-        "keywords": [
-          "평론",
-          "opinion"
-        ],
-        "verificationStatus": "OPINION",
-        "source": null,
-        "sources": [],
-        "evidence": "",
-        "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
-        "suggestion": "",
-        "checkedAt": "2026-10-18T04:59:21.511Z",
-        "failureType": null
-      },
-      "reason": "원고에 없는 주장",
-      "excludedAt": "2026-10-18T05:34:34.364Z",
-      "position": 28
-    }
-  ],
-  "manualRevision": 4,
-  "manualHistory": [
-    {
-      "operation": "edit",
-      "reason": "추출 항목 수정",
-      "at": "2026-10-18T05:29:50.164Z",
-      "before": {
-        "id": "F031",
-        "claim": "화이트 스트라입스(The White Stripes)는 '화이트 스트라입스'라는 이름을 사용했다.",
-        "field": "body",
-        "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
-        "type": "fact",
-        "group": "G2",
-        "keywords": [
-          "The White Stripes",
-          "밴드 이름"
-        ],
-        "verificationStatus": "VERIFIED",
-        "source": {
-          "url": "https://www.whitestripes.com/",
-          "publisher": "The White Stripes (official site)"
-        },
-        "sources": [
-          {
-            "url": "https://www.whitestripes.com/",
-            "publisher": "The White Stripes (official site)",
-            "verificationStatus": "VERIFIED",
-            "evidence": "The White Stripes Greatest Hits Out Now",
-            "reason": "출처 텍스트에서 밴드 이름으로 'The White Stripes'가 명백히 사용되고 있어, '화이트 스트라입스'라는 명칭 사용은 뒷받침된다.",
-            "suggestion": ""
-          }
-        ],
-        "evidence": "The White Stripes Greatest Hits Out Now",
-        "reason": "출처 텍스트에서 밴드 이름으로 'The White Stripes'가 명백히 사용되고 있어, '화이트 스트라입스'라는 명칭 사용은 뒷받침된다.",
-        "suggestion": "",
-        "checkedAt": "2026-10-18T05:00:04.778Z",
-        "failureType": null
-      },
-      "after": {
-        "id": "F031",
-        "claim": "화이트 스트라입스(The White Stripes)는 '화이트 스트라입스'라는 이름을 사용했다.",
-        "field": "body",
-        "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
-        "type": "opinion",
-        "group": "manual-F031",
-        "keywords": [
-          "The White Stripes",
-          "밴드 이름"
-        ],
-        "verificationStatus": "OPINION",
-        "source": null,
-        "sources": [],
-        "evidence": "",
-        "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
-        "suggestion": "",
-        "checkedAt": "2026-10-18T05:29:50.164Z",
-        "failureType": null,
-        "manuallyEdited": true,
-        "editedAt": "2026-10-18T05:29:50.164Z"
-      }
-    },
-    {
-      "operation": "exclude",
-      "reason": "중복",
-      "at": "2026-10-18T05:31:27.438Z",
-      "before": {
-        "id": "F031",
-        "claim": "화이트 스트라입스(The White Stripes)는 '화이트 스트라입스'라는 이름을 사용했다.",
-        "field": "body",
-        "excerpt": "1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
-        "type": "opinion",
-        "group": "manual-F031",
-        "keywords": [
-          "The White Stripes",
-          "밴드 이름"
-        ],
-        "verificationStatus": "OPINION",
-        "source": null,
-        "sources": [],
-        "evidence": "",
-        "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
-        "suggestion": "",
-        "checkedAt": "2026-10-18T05:29:50.164Z",
-        "failureType": null,
-        "manuallyEdited": true,
-        "editedAt": "2026-10-18T05:29:50.164Z"
-      },
-      "after": null
-    },
-    {
-      "operation": "exclude",
-      "reason": "편집자 선정 목록",
-      "at": "2026-10-18T05:34:17.724Z",
-      "before": {
-        "id": "F028",
-        "claim": "대표곡으로 'Seven Nation Army', 'Fell in Love with a Girl', 'Steady, As She Goes'를 제시했다.",
-        "field": "body",
-        "excerpt": "대표곡\n\nSeven Nation Army – The White Stripes\nFell in Love with a Girl – The White Stripes\nSteady, As She Goes – The Raconteurs",
-        "type": "fact",
-        "group": "G2",
-        "keywords": [
-          "Seven Nation Army",
-          "Fell in Love with a Girl",
-          "Steady, As She Goes",
-          "representative songs"
-        ],
-        "verificationStatus": "INSUFFICIENT",
-        "source": null,
-        "sources": [
-          {
-            "url": "https://www.whitestripes.com/release/elephant/",
-            "publisher": "The White Stripes (official site)",
-            "verificationStatus": "INSUFFICIENT",
-            "evidence": "Disc 1\n1. Seven Nation Army\n03:51",
-            "reason": "sourceText는 'Seven Nation Army'의 수록을 명확히 보여주어 첫 곡은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'는 이 출처의 트랙리스트에 등장하지 않아 대표곡 목록 전체를 확인할 수 없다(확인된 항목: Seven Nation Army; 확인되지 않은 항목: Fell in Love with a Girl, Steady, As She Goes).",
-            "suggestion": ""
-          },
-          {
-            "url": "https://www.allmusic.com/album/elephant-mw0000022228",
-            "publisher": "AllMusic",
-            "verificationStatus": "NOT CHECKED",
-            "evidence": "",
-            "reason": "본문 접근 실패: 출처 페이지 HTTP 403",
-            "failureType": "SOURCE_ACCESS_FAILED"
-          },
-          {
-            "url": "https://en.wikipedia.org/wiki/Seven_Nation_Army",
-            "publisher": "Wikipedia",
-            "verificationStatus": "INSUFFICIENT",
-            "evidence": "it was \"much more of a straightforward rock song\" than the band's 2002 single \"Fell in Love with a Girl\"",
-            "reason": "sourceText는 'Seven Nation Army'와 'Fell in Love with a Girl'을 분명히 언급하지만(후자는 2002년 싱글로 비교되며), 'Steady, As She Goes'에 대한 언급은 제공된 sourceText에서 찾을 수 없어 세 곡 전체를 대표곡으로 제시했다는 주장을 전부 확인할 수 없음.",
-            "suggestion": ""
-          },
-          {
-            "url": "https://americansongwriter.com/how-the-white-stripes-seven-nation-army-became-the-universal-sports-chant/",
-            "publisher": "American Songwriter",
-            "verificationStatus": "INSUFFICIENT",
-            "evidence": "The opening track on The White Stripes’ fourth album Elephant , “Seven Nation Army”",
-            "reason": "sourceText는 'Seven Nation Army'가 The White Stripes의 곡임을 분명히 언급하지만, 'Fell in Love with a Girl'과 'Steady, As She Goes'에 대해서는 언급이 없어 전체 목록을 확인할 수 없다. (확인된 요소: 'Seven Nation Army'가 The White Stripes의 곡이라는 점만 확인됨)",
-            "suggestion": ""
-          }
-        ],
-        "evidence": "",
-        "reason": "The White Stripes (official site): sourceText는 'Seven Nation Army'의 수록을 명확히 보여주어 첫 곡은 확인되나, 'Fell in Love with a Girl'과 'Steady, As She Goes'는 이 출처의 트랙리스트에 등장하지 않아 대표곡 목록 전체를 확인할 수 없다(확인된 항목: Seven Nation Army; 확인되지 않은 항목: Fell in Love with a Girl, Steady, As She Goes). / Wikipedia: sourceText는 'Seven Nation Army'와 'Fell in Love with a Girl'을 분명히 언급하지만(후자는 2002년 싱글로 비교되며), 'Steady, As She Goes'에 대한 언급은 제공된 sourceText에서 찾을 수 없어 세 곡 전체를 대표곡으로 제시했다는 주장을 전부 확인할 수 없음. / American Songwriter: sourceText는 'Seven Nation Army'가 The White Stripes의 곡임을 분명히 언급하지만, 'Fell in Love with a Girl'과 'Steady, As She Goes'에 대해서는 언급이 없어 전체 목록을 확인할 수 없다. (확인된 요소: 'Seven Nation Army'가 The White Stripes의 곡이라는 점만 확인됨)",
-        "suggestion": "이 출처들에는 직접 근거가 없습니다. 출처 재검색을 하거나 원출처를 직접 확인해 주세요.",
-        "checkedAt": "2026-10-17T08:40:22.870Z",
-        "failureType": "EVIDENCE_INSUFFICIENT"
-      },
-      "after": null
-    },
-    {
-      "operation": "exclude",
-      "reason": "원고에 없는 주장",
-      "at": "2026-10-18T05:34:34.365Z",
-      "before": {
-        "id": "F033",
-        "claim": "'기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람'이라는 표현은 평론적·감상적 진술이다.",
-        "field": "body",
-        "excerpt": "기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람",
-        "type": "opinion",
-        "group": "G0",
-        "keywords": [
-          "평론",
-          "opinion"
-        ],
-        "verificationStatus": "OPINION",
-        "source": null,
-        "sources": [],
-        "evidence": "",
-        "reason": "평론적 표현입니다. 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단합니다.",
-        "suggestion": "",
-        "checkedAt": "2026-10-18T04:59:21.511Z",
-        "failureType": null
-      },
-      "after": null
-    }
-  ]
+  "generatedAt": "2026-10-18T05:45:44.407Z",
+  "note": "같은 대상을 다루는 주장끼리 묶어 조사합니다. 이전 검증 25개 유지, 새 항목 4개."
 }
