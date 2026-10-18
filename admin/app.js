@@ -139,13 +139,19 @@ function appendFactControls(card, fact, expectedSheetHash) {
 }
 
 function renderFactTools(rows, sheet) {
-  if (!sheet) return;
+  const header = $('fact-header-actions');
+  header?.querySelector('.fact-header-extra')?.remove();
+  document.querySelector('.fact-panel-hint')?.remove();
+  if (!sheet || !header) return;
   const token = lastState?.factSheetHash;
-  const panel = element('div', '', 'fact-sheet-tools');
-  const actions = element('div', '', 'fact-edit-actions');
+  const actions = element('div', '', 'fact-header-extra');
   const add = element('button', '항목 추가'); add.type = 'button';
   const form = factEditForm(null, token);
-  add.addEventListener('click', () => { form.hidden = !form.hidden; if (!form.hidden) form.querySelector('textarea').focus(); });
+  add.addEventListener('click', () => {
+    if (rows.hidden) header.querySelector('.section-toggle').click();
+    form.hidden = !form.hidden;
+    if (!form.hidden) form.querySelector('textarea').focus();
+  });
   const review = element('button', '사실 검수 갱신'); review.type = 'button';
   review.addEventListener('click', () => run(async () => {
     if (hasUnsavedChanges()) throw new Error('현재 원고를 먼저 저장하세요.');
@@ -154,9 +160,8 @@ function renderFactTools(rows, sheet) {
     const data = await post('/local/review', { article: currentArticle() });
     showState(data, false); message('사실 검수를 갱신했습니다. 남은 지적을 확인한 뒤 다시 승인하세요.');
   }));
-  actions.append(add, review); panel.append(actions, form);
-  panel.append(element('p', '추출 오류만 수정할 수 있습니다. 검증 제외는 이유를 기록하며 아래 목록에서 복원할 수 있습니다.', 'fact-edit-hint'));
-  rows.append(panel);
+  actions.append(add, review); header.append(actions);
+  rows.append(form);
   if (sheet.excludedFacts?.length) {
     const list = document.createElement('details'); list.className = 'fact-excluded-list';
     const summary = document.createElement('summary'); summary.textContent = `제외한 항목 ${sheet.excludedFacts.length}개 · 보기/복원`; list.append(summary);
@@ -289,23 +294,12 @@ function renderReport(root, report, facts) {
   if (root.id === 'fact-report') root.replaceChildren();
   root.hidden = !facts.length;
   if (!facts.length) return;
-  const box = element('div', '', 'fact-report');
-  const reportHead = element('div', '', 'report-toggle-head');
-  const heading = element('h3', '검수 보고서');
-  const toggle = element('button', reportExpanded ? '접기' : '펼치기', 'section-toggle');
-  toggle.type = 'button';
-  toggle.setAttribute('aria-expanded', String(reportExpanded));
-  toggle.setAttribute('aria-controls', 'report-content');
-  const content = element('div', '', 'report-content');
-  content.id = 'report-content'; content.hidden = !reportExpanded;
-  toggle.addEventListener('click', () => {
-    reportExpanded = !reportExpanded;
-    content.hidden = !reportExpanded;
-    toggle.textContent = reportExpanded ? '접기' : '펼치기';
-    toggle.setAttribute('aria-expanded', String(reportExpanded));
-  });
-  reportHead.append(heading, toggle);
-  box.append(reportHead, content);
+  const box = document.createElement('details'); box.className = 'fact-report';
+  box.open = reportExpanded;
+  const summary = document.createElement('summary'); summary.textContent = '검수 보고서';
+  const content = element('div', '', 'report-content'); content.id = 'report-content';
+  box.addEventListener('toggle', () => { if (box.isConnected) reportExpanded = box.open; });
+  box.append(summary, content);
   if (!report) {
     const pending = facts.some(f => f.failureType === 'PENDING');
     content.append(element('p', pending ? '모든 항목을 조사하면 검수 보고서가 만들어집니다.' : '검수 보고서가 아직 없습니다. 재검수를 실행하면 만들어집니다.', 'fact-reason'));
@@ -963,7 +957,12 @@ function setupEditorialWorkflow() {
       }
     });
     sectionButtons.push(button);
-    panel.querySelector('.panel-head').append(button);
+    if (panel === facts) {
+      const controls = element('div', '', 'fact-header-actions'); controls.id = 'fact-header-actions';
+      controls.append(button); panel.querySelector('.panel-head').append(controls);
+    } else {
+      panel.querySelector('.panel-head').append(button);
+    }
   }
   editing.append(editorialPanel);
   // 기존 사실 검수 결과 DOM은 renderIssues 호환용으로만 유지한다.
