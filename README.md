@@ -42,7 +42,6 @@ todays-rock_app/
 ├── requirements.txt                # Python 의존 패키지
 ├── admin/                          # 편집실 HTML·CSS·JavaScript
 ├── articles/                       # 초안·조사·검수·승인 JSON
-├── facts/                          # 수동 팩트시트
 ├── db/
 │   └── todays_rock.sql             # MySQL 구조와 초기 500곡
 ├── index.html

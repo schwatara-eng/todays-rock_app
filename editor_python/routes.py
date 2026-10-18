@@ -13,7 +13,8 @@ from . import ai
 ROOT=Path(__file__).resolve().parent.parent
 router=APIRouter()
 lock=asyncio.Lock()
-PATHS={'draft':'articles/drafts/jack-white.json','facts':'facts/jack-white.json','sheet':'articles/research/jack-white.json','review':'articles/reviews/jack-white.json','editorial':'articles/reviews/jack-white-editorial.json','approval':'articles/approvals/jack-white.json'}
+ARTIST={'name':'Jack White','nameKo':'잭 화이트'}
+PATHS={'draft':'articles/drafts/jack-white.json','sheet':'articles/research/jack-white.json','review':'articles/reviews/jack-white.json','editorial':'articles/reviews/jack-white-editorial.json','approval':'articles/approvals/jack-white.json'}
 CSP="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; connect-src 'self'; frame-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'"
 
 def read(key, default=None):
@@ -66,8 +67,8 @@ async def action(name,data):
     if name=='generate':raise ai.EditorError('AI 기사 자동 생성은 사용하지 않습니다. 에디터가 초안을 직접 작성하세요.',410)
     if name=='save':
         if not valid(data.get('article')):raise ai.EditorError('기사 제목 또는 본문을 확인하세요.',400)
-        facts=read('facts',{'artist':{'name':'기사 작성자'}});old=read('draft',{}) or {}
-        write('draft',dict(old,id='jack-white',artist=facts.get('artist'),**normalize(data['article']),factIds=[],status='draft',reviewed=False))
+        old=read('draft',{}) or {}
+        write('draft',dict(old,id='jack-white',artist=ARTIST,**normalize(data['article']),factIds=[],status='draft',reviewed=False))
         invalidate();return state()
     if name=='research':
         article=saved_article(data);h=fingerprint(article);sheet=read('sheet')
