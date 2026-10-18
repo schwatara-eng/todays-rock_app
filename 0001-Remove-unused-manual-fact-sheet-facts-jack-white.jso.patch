@@ -1,0 +1,233 @@
+From 99d4809825d96e760c584e9d7899f36185c389a4 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 10:43:04 +0900
+Subject: [PATCH] Remove unused manual fact sheet (facts/jack-white.json)
+
+The Python editor only read this file for the artist name; the 16 fact
+entries were left over from the old Node.js workflow and never used.
+Artist info now lives in routes.py as ARTIST.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_013NV1nQYJbSMSCUjuKpKjv6
+---
+ README.md               |   1 -
+ editor_python/routes.py |   7 +-
+ facts/jack-white.json   | 169 ----------------------------------------
+ 3 files changed, 4 insertions(+), 173 deletions(-)
+ delete mode 100644 facts/jack-white.json
+
+diff --git a/README.md b/README.md
+index 4762dfe..6e4ba84 100644
+--- a/README.md
++++ b/README.md
+@@ -42,7 +42,6 @@ todays-rock_app/
+ ├── requirements.txt                # Python 의존 패키지
+ ├── admin/                          # 편집실 HTML·CSS·JavaScript
+ ├── articles/                       # 초안·조사·검수·승인 JSON
+-├── facts/                          # 수동 팩트시트
+ ├── db/
+ │   └── todays_rock.sql             # MySQL 구조와 초기 500곡
+ ├── index.html
+diff --git a/editor_python/routes.py b/editor_python/routes.py
+index d95461a..e749e92 100644
+--- a/editor_python/routes.py
++++ b/editor_python/routes.py
+@@ -13,7 +13,8 @@ from . import ai
+ ROOT=Path(__file__).resolve().parent.parent
+ router=APIRouter()
+ lock=asyncio.Lock()
+-PATHS={'draft':'articles/drafts/jack-white.json','facts':'facts/jack-white.json','sheet':'articles/research/jack-white.json','review':'articles/reviews/jack-white.json','editorial':'articles/reviews/jack-white-editorial.json','approval':'articles/approvals/jack-white.json'}
++ARTIST={'name':'Jack White','nameKo':'잭 화이트'}
++PATHS={'draft':'articles/drafts/jack-white.json','sheet':'articles/research/jack-white.json','review':'articles/reviews/jack-white.json','editorial':'articles/reviews/jack-white-editorial.json','approval':'articles/approvals/jack-white.json'}
+ CSP="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; connect-src 'self'; frame-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'"
+ 
+ def read(key, default=None):
+@@ -66,8 +67,8 @@ async def action(name,data):
+     if name=='generate':raise ai.EditorError('AI 기사 자동 생성은 사용하지 않습니다. 에디터가 초안을 직접 작성하세요.',410)
+     if name=='save':
+         if not valid(data.get('article')):raise ai.EditorError('기사 제목 또는 본문을 확인하세요.',400)
+-        facts=read('facts',{'artist':{'name':'기사 작성자'}});old=read('draft',{}) or {}
+-        write('draft',dict(old,id='jack-white',artist=facts.get('artist'),**normalize(data['article']),factIds=[],status='draft',reviewed=False))
++        old=read('draft',{}) or {}
++        write('draft',dict(old,id='jack-white',artist=ARTIST,**normalize(data['article']),factIds=[],status='draft',reviewed=False))
+         invalidate();return state()
+     if name=='research':
+         article=saved_article(data);h=fingerprint(article);sheet=read('sheet')
+diff --git a/facts/jack-white.json b/facts/jack-white.json
+deleted file mode 100644
+index c95a428..0000000
+--- a/facts/jack-white.json
++++ /dev/null
+@@ -1,169 +0,0 @@
+-{
+-  "artist": {
+-    "name": "Jack White",
+-    "nameKo": "잭 화이트"
+-  },
+-  "facts": [
+-    {
+-      "id": "JW-001",
+-      "claim": "잭 화이트는 The White Stripes의 멤버로 활동했다.",
+-      "source": {
+-        "publisher": "Rock & Roll Hall of Fame",
+-        "url": "https://rockhall.com/inductees/white-stripes/",
+-        "evidence": "Jack White와 Meg White가 The White Stripes를 구성한 두 뮤지션으로 소개되어 있다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-002",
+-      "claim": "잭 화이트는 The Raconteurs의 멤버로 활동했다.",
+-      "source": {
+-        "publisher": "The Raconteurs (Official Website)",
+-        "url": "https://theraconteurs.com/posts/the-raconteurs-return-with-new-album-help-us-stranger",
+-        "evidence": "2019년 공식 앨범 발표 자료에서 Jack White를 The Raconteurs의 멤버 4명 중 한 명으로 명시하고 있다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-003",
+-      "claim": "잭 화이트는 Alison Mosshart, Dean Fertita, Jack Lawrence와 함께 The Dead Weather의 멤버로 활동했다.",
+-      "source": {
+-        "publisher": "Third Man Records",
+-        "url": "https://thirdmanrecords.com/collections/the-dead-weather",
+-        "evidence": "레이블 공식 소개에서 네 명의 구성원을 명시한다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-004",
+-      "claim": "The White Stripes는 잭 화이트와 멕 화이트로 구성된 2인조 밴드였다.",
+-      "source": {
+-        "publisher": "Rock & Roll Hall of Fame",
+-        "url": "https://rockhall.com/inductees/white-stripes/",
+-        "evidence": "공식 헌액 소개에서 두 뮤지션의 역할을 설명한다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-005",
+-      "claim": "The White Stripes는 1997년에 시작했다.",
+-      "source": {
+-        "publisher": "Third Man Records",
+-        "url": "https://thirdmanrecords.com/collections/jack-white",
+-        "evidence": "잭 화이트 공식 레이블 소개에 밴드의 시작 연도가 1997년으로 기재돼 있다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-006",
+-      "claim": "The White Stripes의 앨범 Elephant는 2003년에 발표됐다.",
+-      "source": {
+-        "publisher": "Recording Academy (GRAMMY)",
+-        "url": "https://www.grammy.com/artists/jack-white/15627/",
+-        "evidence": "잭 화이트 아티스트 소개에 2003년 앨범 Elephant가 언급된다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-007",
+-      "claim": "Seven Nation Army는 The White Stripes의 2003년 앨범 Elephant에 수록된 곡이다.",
+-      "source": {
+-        "publisher": "Rock & Roll Hall of Fame",
+-        "url": "https://rockhall.com/inductees/white-stripes/",
+-        "evidence": "공식 헌액 페이지의 대표곡 항목에서 Seven Nation Army와 Elephant(2003)를 함께 표기한다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-008",
+-      "claim": "The White Stripes는 2025년 로큰롤 명예의 전당에 공연자 부문으로 헌액됐다.",
+-      "source": {
+-        "publisher": "Rock & Roll Hall of Fame",
+-        "url": "https://rockhall.com/inductees/white-stripes/",
+-        "evidence": "공식 헌액 페이지에 Inducted: 2025, Category: Performer라고 명시돼 있다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-009",
+-      "claim": "The Raconteurs의 멤버는 잭 화이트, 브렌던 벤슨, 잭 로런스, 패트릭 킬러다.",
+-      "source": {
+-        "publisher": "Third Man Records",
+-        "url": "https://thirdmanrecords.com/collections/the-raconteurs",
+-        "evidence": "레이블 공식 밴드 소개에서 네 멤버를 명시한다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-010",
+-      "claim": "The Raconteurs는 2006년 데뷔 앨범 Broken Boy Soldiers를 발표했다.",
+-      "source": {
+-        "publisher": "Third Man Records",
+-        "url": "https://thirdmanrecords.com/collections/the-raconteurs",
+-        "evidence": "공식 소개에서 2006년 데뷔 LP Broken Boy Soldiers를 명시한다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-011",
+-      "claim": "The Raconteurs는 2019년에 세 번째 정규 앨범 Help Us Stranger를 발표했다.",
+-      "source": {
+-        "publisher": "Third Man Records",
+-        "url": "https://thirdmanrecords.com/collections/the-raconteurs",
+-        "evidence": "공식 소개에서 2019년 앨범을 세 번째 스튜디오 LP로 설명한다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-012",
+-      "claim": "The Dead Weather는 2009년 7월 데뷔 앨범 Horehound를 발표했다.",
+-      "source": {
+-        "publisher": "Third Man Records",
+-        "url": "https://thirdmanrecords.com/collections/the-dead-weather",
+-        "evidence": "공식 소개에 데뷔 앨범 Horehound의 발매 시점이 2009년 7월로 명시돼 있다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-013",
+-      "claim": "잭 화이트는 2012년 4월 24일 첫 솔로 앨범 Blunderbuss를 발표했다.",
+-      "source": {
+-        "publisher": "Third Man Records",
+-        "url": "https://thirdmanrecords.com/collections/jack-white",
+-        "evidence": "잭 화이트 레이블 공식 소개에 솔로 데뷔 앨범과 발매일이 명시돼 있다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-014",
+-      "claim": "잭 화이트는 2014년 6월 10일 두 번째 솔로 스튜디오 앨범 Lazaretto를 발표했다.",
+-      "source": {
+-        "publisher": "Third Man Records",
+-        "url": "https://thirdmanrecords.com/collections/jack-white",
+-        "evidence": "레이블 공식 소개에서 두 번째 스튜디오 앨범과 발매일을 명시한다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-015",
+-      "claim": "잭 화이트는 2024년 앨범 No Name을 자신의 Third Man Studio에서 녹음·프로듀싱·믹싱했다.",
+-      "source": {
+-        "publisher": "Third Man Records",
+-        "url": "https://thirdmanrecords.com/blogs/news/jack-white-officially-announces-no-name",
+-        "evidence": "2024년 8월 공식 앨범 발표문에 제작 과정과 스튜디오가 명시돼 있다."
+-      },
+-      "verificationStatus": "verified"
+-    },
+-    {
+-      "id": "JW-016",
+-      "claim": "잭 화이트의 앨범 No Name은 2024년 8월 2일 디지털 플랫폼에 정식 공개됐다.",
+-      "source": {
+-        "publisher": "Third Man Records",
+-        "url": "https://thirdmanrecords.com/blogs/news/jack-white-officially-announces-no-name",
+-        "evidence": "공식 발표문에 디지털 공개일을 2024년 8월 2일로 명시한다."
+-      },
+-      "verificationStatus": "verified"
+-    }
+-  ],
+-  "editorialStatus": "draft"
+-}
+-- 
+2.43.0
+
