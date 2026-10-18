@@ -176,9 +176,17 @@ def homepage_js():
     return public_file("script.js")
 
 
-@app.get("/artist-jack-white.html", include_in_schema=False)
-def musician_article():
-    return public_file("artist-jack-white.html")
+# 지난 뮤지션 아카이브 페이지(artist-<뮤지션ID>.html)와 아카이브 목록
+@app.get("/artist-{slug}.html", include_in_schema=False)
+def musician_article(slug: str):
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+        raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
+    return public_file(f"artist-{slug}.html")
+
+
+@app.get("/artist-archive.json", include_in_schema=False)
+def musician_archive():
+    return public_file("artist-archive.json")
 
 
 @app.get("/images/{asset:path}", include_in_schema=False)

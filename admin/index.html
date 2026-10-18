@@ -68,6 +68,16 @@
           <label for="body">기사 본문</label>
           <textarea id="body" rows="16" placeholder="에디터가 직접 작성한 기사 원고를 입력하세요."></textarea>
 
+          <!-- 뮤지션 사진: 원고를 저장한 뒤 등록합니다. images/artist-<뮤지션ID> 파일로 저장됩니다. -->
+          <label for="photo-file">뮤지션 사진</label>
+          <div class="photo-field">
+            <img id="photo-thumb" alt="등록된 뮤지션 사진" hidden>
+            <div>
+              <p id="photo-status" class="hint">등록된 사진이 없습니다.</p>
+              <input id="photo-file" type="file" accept="image/png,image/jpeg,image/webp">
+            </div>
+          </div>
+
           <div class="actions">
             <button id="save" class="primary">초안 저장</button>
             <button id="research">팩트시트 생성 + 웹 출처 검증</button>
@@ -111,8 +121,9 @@
         <button id="approve" class="primary">편집자 승인</button>
         <button id="preview-open" type="button">기사 미리보기</button>
         <button id="export-article" type="button" disabled>승인 기사 JSON 내보내기</button>
+        <button id="publish" type="button" disabled>홈에 게시</button>
       </div>
-      <p class="notice">승인은 로컬 JSON에만 기록됩니다. 공개 사이트 게시 기능은 연결되지 않았습니다.</p>
+      <p class="notice">'홈에 게시'는 승인된 원고로 홈의 오늘의 뮤지션을 바꾸고, 홈에 있던 기사는 지난 뮤지션 아카이브로 옮깁니다. 바뀌기 전 파일은 articles/backups에 보관됩니다.</p>
     </section>
 
     <!-- 미리보기는 실제 사이트를 변경하지 않는 로컬 전용 화면입니다. -->

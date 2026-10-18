@@ -1,0 +1,15 @@
+{
+  "current": {
+    "id": "kim-yuna",
+    "name": "Kim Yuna",
+    "nameKo": "김윤아"
+  },
+  "archive": [
+    {
+      "id": "jack-white",
+      "name": "Jack White",
+      "nameKo": "잭 화이트",
+      "url": "artist-jack-white.html"
+    }
+  ]
+}

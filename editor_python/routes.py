@@ -10,6 +10,7 @@ import tempfile
 from fastapi import APIRouter, Request
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from . import ai
+from . import publish as publisher
 
 ROOT=Path(__file__).resolve().parent.parent
 router=APIRouter()
@@ -43,6 +44,18 @@ def write(key, value):
     finally:
         if os.path.exists(tmp):os.unlink(tmp)
 
+def read_sheet():
+    # 예전 팩트시트의 '해석·평가(interpretation)' 항목을 '평론(opinion)'으로 바꿔 저장합니다.
+    # 평론은 사실 검증 대상이 아니므로 검증 상태도 '평론적 표현'이 됩니다.
+    sheet=read('sheet')
+    if not sheet or not isinstance(sheet.get('facts'),list):return sheet
+    changed=False
+    for f in sheet['facts']:
+        if f.get('type')=='interpretation':
+            f['type']='opinion';ai.opinion(f);changed=True
+    if changed:write('sheet',sheet)
+    return sheet
+
 def valid(a):
     return isinstance(a,dict) and all(isinstance(a.get(k),str) and a[k].strip() and len(a[k])<=limit for k,limit in [('title',300),('body',15000)])
 
@@ -58,7 +71,7 @@ def fingerprint(a):
     return hashlib.sha256(json.dumps(normalize(a),ensure_ascii=False,separators=(',',':')).encode('utf-8')).hexdigest()
 
 def state():
-    article=read('draft');sheet=read('sheet');review=read('review');editorial=read('editorial');approval=read('approval')
+    article=read('draft');sheet=read_sheet();review=read('review');editorial=read('editorial');approval=read('approval')
     h=fingerprint(article) if valid(article) else None
     research=bool(h and sheet and sheet.get('articleHash')==h and isinstance(sheet.get('facts'),list))
     verified=bool(research and not sheet.get('truncated') and sheet['facts'] and all(f.get('verificationStatus') in ('VERIFIED','OPINION') for f in sheet['facts']))
@@ -93,7 +106,7 @@ async def action(name,data):
         write('draft',dict(old,id=current.get(),artist=artist,**normalize(data['article']),factIds=[],status='draft',reviewed=False))
         invalidate();return state()
     if name=='research':
-        article=saved_article(data);h=fingerprint(article);sheet=read('sheet')
+        article=saved_article(data);h=fingerprint(article);sheet=read_sheet()
         if not sheet or sheet.get('articleHash')!=h or not isinstance(sheet.get('facts'),list):
             extracted=await ai.extract(normalize(article))
             if not extracted.get('claims'):raise ai.EditorError('검증할 사실 주장을 찾지 못했습니다.',422)
@@ -140,7 +153,7 @@ async def action(name,data):
         if not any(f.get('failureType')=='PENDING' for f in sheet['facts']):save_review(article,sheet,await ai.review(article,sheet))
         return state()
     if name=='research-one':
-        article=read('draft');sheet=read('sheet')
+        article=read('draft');sheet=read_sheet()
         if not valid(article) or not sheet or sheet.get('articleHash')!=fingerprint(article):raise ai.EditorError('현재 저장된 원고의 팩트시트가 필요합니다.',409)
         old=next((f for f in sheet['facts'] if f['id']==data.get('factId')),None)
         if not old:raise ai.EditorError('검증 항목을 찾지 못했습니다.',404)
@@ -157,7 +170,7 @@ async def action(name,data):
     if name in ('review','editorial','recheck'):
         article=saved_article(data);h=fingerprint(article)
         if name in ('review','recheck'):
-            sheet=read('sheet')
+            sheet=read_sheet()
             if not sheet or sheet.get('articleHash')!=h:raise ai.EditorError('먼저 현재 원고로 팩트시트 생성 및 웹 검증을 진행하세요.',409)
             save_review(article,sheet,await ai.review(article,sheet))
         if name in ('editorial','recheck'):write('editorial',dict(await ai.editorial(normalize(article)),articleHash=h))
@@ -168,6 +181,13 @@ async def action(name,data):
         if not all(s['state'][k] for k in ('factCurrent','allVerified','editorialCurrent')):raise ai.EditorError('저장된 기사 버전의 사실 검수와 편집 검토를 모두 완료해야 합니다.',409)
         if s['review'].get('issues') or s['editorialReview'].get('issues'):raise ai.EditorError('검토 지적 사항이 남아 있습니다. 수정 후 재검수하세요.',409)
         write('approval',dict(articleId=current.get(),articleHash=fingerprint(article),status='approved',approved=True,confirmedSources=True,approvedAt=ai.now(),published=False));return state()
+    if name=='publish':
+        # 서버에 저장된 승인 상태를 다시 확인한 뒤에만 홈에 게시합니다.
+        s=state()
+        if not s['state']['approved']:raise ai.EditorError('승인된 원고만 홈에 게시할 수 있습니다.',409)
+        result=publisher.publish(current.get(),s['article'],s['factSheet'],ai.now())
+        write('approval',dict(read('approval'),published=True,publishedAt=ai.now()))
+        return dict(state(),publishResult=result)
     raise ai.EditorError('지원하지 않는 기능입니다.',404)
 
 def list_artists():
@@ -201,6 +221,18 @@ async def endpoint(name:str,request:Request):
                     if not s['state']['approved']:raise ai.EditorError('현재 저장된 원고의 승인과 두 검토가 필요합니다.',409)
                     article=s['article'];return reply(dict({k:article.get(k) for k in ('id','artist','title','body','factIds')},editorialStatus='approved',published=False,approvedAt=s['approval']['approvedAt']))
                 raise ai.EditorError('경로를 찾지 못했습니다.',404)
+            if name=='photo':
+                # 사진은 JSON이 아니라 파일 내용 그대로 받습니다. 뮤지션 ID는 주소의 ?artist= 로 받습니다.
+                current.set(artist_id(request.query_params.get('artist')))
+                draft=read('draft')
+                if not valid(draft):raise ai.EditorError('원고를 먼저 저장한 뒤 사진을 등록하세요.',409)
+                raw=bytearray()
+                async for chunk in request.stream():
+                    raw.extend(chunk)
+                    if len(raw)>publisher.MAX_PHOTO:raise ai.EditorError('사진은 8MB 이하로 올려 주세요.',413)
+                path=publisher.save_photo(current.get(),bytes(raw))
+                write('draft',dict(draft,photo=path,photoUpdatedAt=ai.now()))
+                return reply(state())
             raw=bytearray()
             async for chunk in request.stream():
                 raw.extend(chunk)
@@ -211,6 +243,7 @@ async def endpoint(name:str,request:Request):
             current.set(artist_id(data.get('artist')))
             return reply(await action(name,data))
     except ai.EditorError as e:return reply({'error':str(e)},e.status)
+    except publisher.PublishError as e:return reply({'error':str(e)},e.status)
     except Exception:
         logging.exception('편집실 처리 실패')
         return reply({'error':'편집실 처리에 실패했습니다. 서버 터미널을 확인하세요.'},500)

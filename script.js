@@ -435,30 +435,38 @@ async function loadNews() {
 const archiveBar = document.querySelector("#artist-archive");
 const archiveList = document.querySelector("#artist-archive-list");
 const returnButton = document.querySelector("#artist-archive-return");
-const artistArchive = [
-  { nameOriginal: "Jack White", nameKo: "잭 화이트", url: "artist-jack-white.html" }
-];
-archiveList.replaceChildren();
-artistArchive.forEach((artist, index) => {
-  if (index) {
-    const separator = document.createElement("span");
-    separator.className = "artist-archive-separator";
-    separator.textContent = "/";
-    archiveList.appendChild(separator);
+// 아카이브 목록은 편집실의 '홈에 게시'가 artist-archive.json에 기록합니다.
+async function loadArtistArchive() {
+  let artistArchive = [];
+  try {
+    const response = await fetch("artist-archive.json", { cache: "no-store" });
+    if (response.ok) artistArchive = (await response.json()).archive || [];
+  } catch {
+    artistArchive = [];
   }
-  const link = document.createElement("a");
-  link.className = "artist-archive-item";
-  link.href = artist.url;
-  link.textContent = artist.nameKo
-    ? `${artist.nameOriginal} (${artist.nameKo})` : artist.nameOriginal;
-  archiveList.appendChild(link);
-});
-archiveBar.hidden = artistArchive.length === 0;
-returnButton.hidden = true;
+  archiveList.replaceChildren();
+  artistArchive.forEach((artist, index) => {
+    if (index) {
+      const separator = document.createElement("span");
+      separator.className = "artist-archive-separator";
+      separator.textContent = "/";
+      archiveList.appendChild(separator);
+    }
+    const link = document.createElement("a");
+    link.className = "artist-archive-item";
+    link.href = artist.url;
+    link.textContent = artist.nameKo
+      ? `${artist.name} (${artist.nameKo})` : artist.name;
+    archiveList.appendChild(link);
+  });
+  archiveBar.hidden = artistArchive.length === 0;
+  returnButton.hidden = true;
+}
 
 
 // 9. 초기 실행 — 날씨·곡·뉴스를 각각 불러온다.
 loadWeather();
 loadSongs();
 loadNews();
+loadArtistArchive();
 

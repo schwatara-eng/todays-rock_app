@@ -14,49 +14,9 @@
     },
     {
       "field": "body",
-      "text": "최근 한 인터뷰 기획은 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가하기도 했다.",
-      "verdict": "INSUFFICIENT",
-      "reason": "Kyunghyang Shinmun (English): sourceText에는 ‘2026 Frontperson Chronicle’라는 인터뷰 기획이 한국 록 신과 여성 프런트퍼슨을 기록한다고 언급되어 있어 인터뷰 기획의 존재는 확인되나, 그 인터뷰가 ‘김윤아 데뷔 이전과 이후로 역사가 나뉜다’고 평가했다는 구체적 진술이나 김윤아에 대한 언급은 전혀 없다. 따라서 주장 전체를 뒷받침할 근거가 부족하다.",
-      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "factIds": [
-        "F006"
-      ]
-    },
-    {
-      "field": "body",
-      "text": "'헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.",
-      "verdict": "INSUFFICIENT",
-      "reason": "Wikipedia (English): 출처에는 인디 신에서 활동했다는 사실(1993년)과 첫 싱글로 메이저가 되었다는 사실(1997년)이 각각 적혀 있으나, '홍대 인디 신에서 대중 무대로 단숨에 올라섰다'는 문구처럼 두 사실을 직접 연결해 '단숨에' 올랐다고 서술하는 표현은 없다. / Korean Film Archive (Koreafilm): sourceText는 영화 '봄날은 간다'의 자료 페이지로, 자우림이 '헤이 헤이 헤이'로 홍대 인디 신에서 대중 무대로 단숨에 올라섰다는 내용이나 관련 서술이 전혀 없다. / www.donga.com: sourceText는 '헤이 헤이 헤이'나 홍대 인디 신에서 대중 무대로 단숨에 올라섰다는 서술을 포함하지 않는다. 홍대 인디 신 관련 내용이 없다.",
-      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "factIds": [
-        "F010"
-      ]
-    },
-    {
-      "field": "body",
-      "text": "자우림 3집 The Wonderland (2000)",
-      "verdict": "INSUFFICIENT",
-      "reason": "Wikipedia (English): 출처는 전체 앨범 수 등은 적고 'The Wonderland'와 2000년 발매 연도에 대한 직접적 언급이 없다. 따라서 3집 The Wonderland가 2000년에 나왔다는 연도 정보는 확인되지 않는다. / Korean Film Archive (Koreafilm): sourceText에는 자우림의 앨범 목록이나 3집 The Wonderland 발매 연도에 관한 언급이 없어 2000년 발매라는 주장을 확인할 수 없다. / www.donga.com: sourceText에는 자우림 3집 The Wonderland나 그 발매 연도(2000)에 대한 언급이 없다. 앨범 제목·연도 모두 확인 불가하다.",
-      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "factIds": [
-        "F011"
-      ]
-    },
-    {
-      "field": "body",
-      "text": "'매직 카펫 라이드'를 담은 앨범.",
-      "verdict": "INSUFFICIENT",
-      "reason": "Wikipedia (English): 출처에는 '매직 카펫 라이드' 또는 'The Wonderland' 수록곡 목록에 대한 언급이 전혀 없어 해당 곡이 그 앨범에 수록되었는지를 확인할 수 없다. / Korean Film Archive (Koreafilm): sourceText는 영화 관련 정보만 담고 있어 앨범 수록곡 목록(예: '매직 카펫 라이드')에 대한 언급이 없어 확인 불가하다. / www.donga.com: sourceText에는 '매직 카펫 라이드' 곡명이나 해당 곡이 수록된 앨범에 대한 언급이 없다.",
-      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "factIds": [
-        "F012"
-      ]
-    },
-    {
-      "field": "body",
       "text": "'매직 카펫 라이드'를 담은 앨범. 지금도 축제와 응원 현장에서 울려 퍼지는 곡이다.",
       "verdict": "INSUFFICIENT",
-      "reason": "Wikipedia (English): 출처에는 '매직 카펫 라이드'라는 곡이나 그 곡이 '지금도 축제와 응원 현장에서 울려 퍼지는 곡'이라는 서술이 전혀 없다. / Korean Film Archive (Koreafilm): sourceText에는 '매직 카펫 라이드' 또는 그 곡이 현재 축제·응원 현장에서 울려 퍼진다는 관련 서술이 전혀 없어 확인할 수 없다. / www.donga.com: sourceText는 '매직 카펫 라이드'가 지금도 축제와 응원 현장에서 울려 퍼진다는 내용이나 그와 유사한 평가를 전혀 담고 있지 않다.",
+      "reason": "New York State Department of Agriculture & Markets (official fair announcement): 출처에는 ‘매직 카펫 라이드’가 2014년 그레이트 뉴욕 스테이트 페어(Chevy Court) 공연에 오른다는 문구 등 축제(페어) 무대와 관련된 언급이 있지만, ‘응원 현장’(cheering venues)에서 울려 퍼진다는 표현이나 그에 해당하는 근거는 없다. 따라서 ‘축제’ 측면은 출처로 확인되나 ‘응원 현장’이라는 부분은 확인되지 않는다. / The Concert Database: 제공된 sourceText는 'Magic Carpet Ride'의 아티스트·녹음연도·앨범 등 곡의 기본 정보와 공연 연혁 일부만 담고 있으며, “지금도 축제와 응원 현장에서 울려 퍼진다”는 현재의 활용이나 빈도에 관해 아무런 언급이 없다. 따라서 원문의 서술을 출처로 확인할 수 없다. / Melon (Korean music platform): sourceText에는 '매직 카펫 라이드'가 대히트하여 자우림을 국민 밴드 반열에 올린 곡이었다고 서술되어 있으나, '지금도 축제와 응원 현장에서 울려 퍼지는 곡'이라는 현재의 이용 사례나 표현은 찾아볼 수 없다. 확인된 부분: 히트 여부와 영향력. 확인되지 않은 부분: 현재 축제·응원에서 여전히 울려 퍼진다는 진술.",
       "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
       "factIds": [
         "F013"
@@ -101,19 +61,50 @@
       "factIds": [
         "F025"
       ]
+    },
+    {
+      "field": "body",
+      "text": "자우림 데뷔 (1997): '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.",
+      "verdict": "INSUFFICIENT",
+      "reason": "Spotify Newsroom: 출처는 밴드의 영향력과 대중화 기여를 언급하지만 '홍대 인디 신에서'나 '단숨에/빠르게 올라섰다'는 장소적·속도적 서술은 전혀 언급하지 않는다. 확인된 부분: 밴드가 대중화에 기여했다는 점은 출처에서 확인된다. 확인되지 않은 부분: '홍대 인디 신에서'라는 특정 출신지와 '단숨에/빠르게'라는 속도 표현은 출처에 없음. / Apple Music (Shadow Of Your Smile album page): sourceText에 자우림의 데뷔 연도, 홍대 인디 신 활동, 또는 ‘대중 무대로 단숨에 올라섰다’는 서술이 전혀 없다. 따라서 해당 주장을 판단할 근거가 부족하다. / en.wikipedia.org: 출처에는 자우림이 '인디 신'에서 활동했다는 언급과 1997년 'Hey Hey Hey'로 메이저가 되었다는 언급은 있으나, '홍대 인디 신'이라는 특정 지역(Hongdae) 표기와 '빠르게(단숨에)' 올라섰다는 속도에 대한 정보는 없다. 따라서 일부(인디 신에서 대중 무대로 올라섰다는 점)는 확인되지만, 홍대·빠르게라는 요소는 출처에서 확인되지 않는다.",
+      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
+      "factIds": [
+        "F030"
+      ]
+    },
+    {
+      "field": "body",
+      "text": "자우림 3집 The Wonderland (2000): '매직 카펫 라이드'를 담은 앨범.",
+      "verdict": "INSUFFICIENT",
+      "reason": "Spotify Newsroom: sourceText에는 'The Wonderland'라는 앨범명이나 '2000'년도를 밝히는 문구가 없다. 출처는 'Magic Carpet Ride' 등 곡명을 언급하지만 3집 앨범명과 발매연도에 대한 명확한 기술은 없다. / Apple Music (Shadow Of Your Smile album page): sourceText에 'The Wonderland'나 자우림 3집, 또는 2000년 발매에 대한 언급이 없다. 따라서 앨범명과 연도를 확인할 수 없다. / en.wikipedia.org: 출처는 자우림의 전반적 음반 수와 일부 발매 연도(예: 2013년 앨범)는 언급하지만, 3집 'The Wonderland'나 그 발매연도(2000)에 대한 언급이 없다. 따라서 해당 앨범명이 3집인지, 2000년에 나왔는지는 출처로 확인할 수 없다.",
+      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
+      "factIds": [
+        "F031"
+      ]
+    },
+    {
+      "field": "body",
+      "text": "자우림 3집 The Wonderland (2000): '매직 카펫 라이드'를 담은 앨범.",
+      "verdict": "INSUFFICIENT",
+      "reason": "Spotify Newsroom: 출처는 'Magic Carpet Ride'라는 곡명을 언급하지만, 그 곡이 특정 앨범 'The Wonderland'에 수록되었다고 명시하지는 않는다. 확인된 부분: 'Magic Carpet Ride'가 밴드의 대표곡으로 언급된다는 점. 확인되지 않은 부분: 그 곡이 'The Wonderland' 3집에 수록되었다는 연결고리. / Apple Music (Shadow Of Your Smile album page): sourceText에 '매직 카펫 라이드' 또는 'The Wonderland' 수록곡 목록에 대한 언급이 전혀 없다. 곡 수록 여부를 확인할 근거가 없다. / en.wikipedia.org: 출처에 'The Wonderland'나 그 앨범 수록곡 '매직 카펫 라이드'에 대한 언급이 없다. 앨범에 해당 곡이 수록되어 있다는 사실은 출처만으로는 확인할 수 없다.",
+      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
+      "factIds": [
+        "F032"
+      ]
     }
   ],
   "report": {
-    "overall": "제공된 팩트체크 결과를 바탕으로 원고의 사실관계를 검토했습니다. 인물·연도·공식 활동(데뷔 연도, 솔로 1집, 2001년 발매, 경향신문 인터뷰 참여, 2026년 9월 콘서트 일정, 일부 대표곡 등)은 출처로 확인된 항목이 있습니다. 다만 음악적 서술(음색·편성), 일부 연결·평가 표현(‘단숨에’, ‘지금도 축제와 응원 현장에서 울려 퍼지는’)과 기획 인터뷰의 특정 평가는 현재 근거가 불충분하므로 출처 확인 또는 문장 완화가 필요합니다. 편집자는 표기(평가형 표현 표기·출처 보강 필요 항목)를 중심으로 문장 수정을 검토해 주세요.",
+    "overall": "원고에 적힌 대부분의 사실관계(데뷔 연도·자우림의 주요 곡·솔로 음반 연도·최근 인터뷰·콘서트 일정 등)는 제공된 출처로 확인됩니다. 다만 악기 편성·음색·활용 빈도 등 해석·평가적 진술 몇 건은 출처로 충분히 뒷받침되지 않아 문구 완화를 권합니다. 편집자는 평론적 문장(EDITOR'S COMMENT)과 출처가 불충분한 서술의 어조를 판단해 그대로 둘지 완화할지 결정하세요.",
     "rows": [
       {
-        "text": "1997년 자우림 보컬로 데뷔",
+        "text": "1997년 자우림의 보컬로 데뷔",
         "factIds": [
           "F001",
-          "F008"
+          "F008",
+          "F028"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Yonhap 기사에서 Jaurim이 'officially debuted in 1997'이며 김윤아를 'the band's songwriter and vocalist'로 지칭해 '1997년 자우림의 보컬로 데뷔'라는 진술을 뒷받침합니다.",
+        "note": "사실: 자우림이 1997년에 공식 데뷔했고 김윤아를 밴드의 보컬이자 송라이터로 지칭하는 출처(Yonhap, Spotify 등)가 있어 '1997년 자우림의 보컬로 데뷔했다'는 서술을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://en.yna.co.kr/view/AEN20180622003500315",
@@ -122,16 +113,20 @@
           {
             "url": "https://en.yna.co.kr/view/AEN20180622003500315",
             "publisher": "Yonhap News Agency (English)"
+          },
+          {
+            "url": "https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/",
+            "publisher": "Spotify Newsroom"
           }
         ]
       },
       {
-        "text": "싱어송라이터",
+        "text": "싱어송라이터로 활동해왔다",
         "factIds": [
           "F002"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Yonhap 기사에서 김윤아를 'the band's songwriter and vocalist'로 지칭해 보컬이자 작곡·작사 활동을 하는 싱어송라이터임을 지지합니다.",
+        "note": "사실: Yonhap 기사에서 김윤아를 'the band's songwriter and vocalist'로 지칭해 보컬 겸 작곡·작사 활동을 하는 점을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://en.yna.co.kr/view/AEN20180622003500315",
@@ -140,12 +135,12 @@
         ]
       },
       {
-        "text": "30년 가까이 활동",
+        "text": "30년 가까이 활동해왔다",
         "factIds": [
           "F003"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: 출처(또는 번역문맥)의 기술과 연도근거(1997년 데뷔 및 관련 기사에서 '다음 해가 데뷔 30주년' 기재)를 근거로 '30년 가까이 활동해왔다'는 표현을 뒷받침합니다.",
+        "note": "사실: MK(영문) 등 출처에서 데뷔 1997을 근거로 '다음 해가 30주년' 등 표현이 있어 '30년 가까이'라는 기간 진술을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://www.mk.co.kr/en/society/12158959",
@@ -154,12 +149,12 @@
         ]
       },
       {
-        "text": "자우림 음악성: 몽환적·날 선 모던 록",
+        "text": "자우림의 음악적 성격(몽환적·날선 모던 록)",
         "factIds": [
           "F004"
         ],
         "verdict": "해석 (출처 확인)",
-        "note": "VERIFIED (interpretation): ELLE 기사에서 Jaurim의 음악을 'unique, striking, complex, and mysterious' 및 'alternative rock ballads and bangers'로 묘사해 원고의 '몽환적이면서도 날 선 모던 록'이라는 해석과 취지가 일치합니다. 다만 이는 해석적 표현입니다.",
+        "note": "평가·해석이지만 ELLE 등 출처에서 자우림 음악을 'unique, striking, complex, and mysterious' 및 'alternative rock'으로 묘사해 원고의 음악적 해석과 취지가 일치합니다. 사실 부분(모던 록)은 출처로 확인되고, '몽환적·날 선' 같은 평가 표현은 해석임을 분리해 둡니다.",
         "sources": [
           {
             "url": "https://www.elle.com/culture/music/g42815124/korean-indie-artists/",
@@ -168,89 +163,103 @@
         ]
       },
       {
-        "text": "솔로: 피아노·현악의 서늘한 서정",
+        "text": "솔로에서는 피아노·현악이 어우러진 서정",
         "factIds": [
           "F005"
         ],
         "verdict": "근거 부족",
-        "note": "INSUFFICIENT: 제공된 출처들에서는 솔로 활동에 피아노·현악 편성이나 '서늘한 서정'이라는 구체적 평가를 확인할 수 없습니다. 출처 재검색 또는 문구 완화가 필요합니다.",
+        "note": "해석·서술: 제공된 출처들에서는 솔로에서의 '피아노와 현악이 어우러진 서늘한 서정'이라는 구체적 묘사가 확인되지 않습니다. 피아노·어쿠스틱 요소는 일부 리뷰에서 보이나, 원문의 단정적 표현은 출처보다 강합니다(출처 재확인 권고).",
         "sources": []
       },
       {
-        "text": "최근 인터뷰 기획이 김윤아 전후로 역사가 나뉜다고 평가했다",
-        "factIds": [
-          "F006"
-        ],
-        "verdict": "근거 부족",
-        "note": "INSUFFICIENT: 관련 인터뷰 기획(예: '2026 Frontperson Chronicle')의 존재는 확인되나, '김윤아 데뷔 이전과 이후로 역사가 나뉜다'는 특정 평가를 해당 출처에서 확인할 근거는 없습니다. 문구 보완 또는 출처 제시가 필요합니다.",
-        "sources": []
-      },
-      {
-        "text": "헤드카피: '한국 록 무대의 한가운데에 선 목소리' (평론적 표현)",
+        "text": "한국 록 무대의 한가운데에 선 목소리 (평가)",
         "factIds": [
           "F007"
         ],
         "verdict": "평론적 표현",
-        "note": "OPINION: 평론적·수사적 표현으로 사실 검증 대상이 아니며, 표현의 적절성은 편집자가 판단하세요.",
+        "note": "평론적 표현입니다. 사실 검증 대상이 아니며(출처 없음), 문체상 그대로 유지해도 무방하지만 편집자가 톤을 점검하세요.",
         "sources": []
       },
       {
-        "text": "'헤이 헤이 헤이'로 등장",
+        "text": "자우림 데뷔 (1997) — '헤이 헤이 헤이'로 등장",
         "factIds": [
-          "F009"
+          "F009",
+          "F029"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Wikipedia(해당 문단 인용)를 포함한 출처에서 첫 발표 싱글이 'Hey Hey Hey'였고 이를 통해 메이저로 진입했다는 서술이 있어 '헤이 헤이 헤이'로 등장했다는 진술을 뒷받침합니다.",
+        "note": "사실: Wikipedia/Spotify/Yonhap 등 출처에서 'Hey Hey Hey'를 통해 1997년에 데뷔했다는 기술이 확인되어 해당 서술을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://en.wikipedia.org/wiki/Jaurim",
             "publisher": "Wikipedia (English)"
+          },
+          {
+            "url": "https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/",
+            "publisher": "Spotify Newsroom"
           }
         ]
       },
       {
-        "text": "홍대 인디 신에서 대중 무대로 단숨에 올라섰다",
+        "text": "홍대 인디 신에서 대중 무대로 단숨에 올라섰다(서술)",
         "factIds": [
-          "F010"
+          "F010",
+          "F030"
         ],
-        "verdict": "근거 부족",
-        "note": "INSUFFICIENT: 개별 출처들은 인디 활동(초기)과 이후 메이저 진입 사실을 별도로 확인하지만, '홍대 인디 신에서 대중 무대로 단숨에 올라섰다'처럼 두 사실을 '단숨에'로 연결하는 근거 문구는 제공된 출처에서 확인되지 않습니다.",
-        "sources": []
+        "verdict": "일부 확인",
+        "note": "해석·평가: 일부 출처(The K Meal, Khan 등)는 홍대 출신·빠른 주목을 언급하나, '홍대 인디 신에서 대중 무대로 단숨에 올라섰다'라는 장소적·속도 표현의 일부 요소(특히 '단숨에'의 강한 단정)는 출처별로 명확히 일치하지 않습니다. 사실성(인디→대중 전환)은 확인되지만 문구 완화 검토 권고.",
+        "sources": [
+          {
+            "url": "https://thekmeal.com/indie-pick-jaurim/",
+            "publisher": "The K Meal"
+          }
+        ]
       },
       {
         "text": "자우림 3집 The Wonderland (2000)",
         "factIds": [
-          "F011"
+          "F011",
+          "F031"
         ],
-        "verdict": "근거 부족",
-        "note": "INSUFFICIENT: 제공된 출처들에서는 'The Wonderland'의 2000년 발매 또는 '3집' 표기를 확인할 수 없습니다. 발매연도·순번 확인을 위한 추가 출처가 필요합니다.",
-        "sources": []
+        "verdict": "일부 확인",
+        "note": "사실: IZM 등 출처에서 The Wonderland의 2000년 발매가 확인됩니다. 일부 다른 출처는 관련 정보가 없으므로 IZM 근거를 명시하면 안전합니다.",
+        "sources": [
+          {
+            "url": "https://izm.co.kr/posts?id=3635",
+            "publisher": "IZM (Korean music magazine)"
+          }
+        ]
       },
       {
-        "text": "'매직 카펫 라이드' 수록",
+        "text": "The Wonderland에 '매직 카펫 라이드' 수록",
         "factIds": [
-          "F012"
+          "F012",
+          "F032"
         ],
-        "verdict": "근거 부족",
-        "note": "INSUFFICIENT: '매직 카펫 라이드'가 The Wonderland에 수록되었다는 근거는 제공된 출처에서 확인되지 않습니다. 트랙리스트 출처가 필요합니다.",
-        "sources": []
+        "verdict": "일부 확인",
+        "note": "사실: KpopAlbums(리테일러) 등의 트랙리스트에서 '매직 카펫 라이드'가 수록된 것으로 확인되어 수록 사실은 뒷받침됩니다. 다만 일부 출처는 해당 연결을 생략하고 있어 출처 표기가 필요합니다.",
+        "sources": [
+          {
+            "url": "https://www.kpopalbums.com/collections/lastest-release/products/jaurim-the-wonder-land-3rd-album-lp",
+            "publisher": "KpopAlbums (retailer)"
+          }
+        ]
       },
       {
-        "text": "'매직 카펫 라이드'가 축제·응원 현장에서 울려 퍼진다",
+        "text": "'매직 카펫 라이드'가 축제·응원 현장에서 울려 퍼진다(서술)",
         "factIds": [
           "F013"
         ],
         "verdict": "근거 부족",
-        "note": "INSUFFICIENT: 해당 곡이 '지금도 축제와 응원 현장에서 울려 퍼진다'는 평가를 뒷받침할 출처는 제시되지 않았습니다. 근거 보강 또는 문장 완화가 필요합니다.",
+        "note": "해석·진술: 이 곡이 히트·영향력이 있었다는 근거(Melon 등)는 있으나 '지금도 축제와 응원 현장에서 울려 퍼진다'는 현재 활용 빈도에 대한 출처 근거는 불충분합니다. 문구 완화를 권합니다.",
         "sources": []
       },
       {
-        "text": "'봄날은 간다' (2001) — 같은 이름의 영화 OST",
+        "text": "'봄날은 간다' (2001) — 같은 이름 영화 OST",
         "factIds": [
           "F014"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: 동아일보 기사와 영화 DB(제작연도 표기)를 근거로 2001년 작품이며 동명 영화의 OST라는 진술을 뒷받침합니다.",
+        "note": "사실: 동아일보 기사 등에서 2001년 작품이며 영화 OST임을 명시하고 있어 해당 서술을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://www.donga.com/news/amp/all/20011005/7744358/1",
@@ -259,68 +268,91 @@
         ]
       },
       {
-        "text": "'봄날은 간다'에서 담담하게 무너지는 목소리 각인",
+        "text": "'봄날은 간다'에서의 보컬 묘사(록 보컬 아닌 담담하게 무너지는 목소리)",
         "factIds": [
           "F015"
         ],
         "verdict": "근거 부족",
-        "note": "INSUFFICIENT: 제공된 출처들은 곡·OST 존재와 '김윤아의 보컬이 돋보인다'는 언급은 있으나, '록 보컬이 아닌, 담담하게 무너지는 목소리'라는 구체적 보컬 묘사는 출처에서 확인되지 않습니다.",
+        "note": "해석·평가: 동아·KMDb 등 출처는 OST 참여·보컬이 돋보였다고 설명하지만 '록 보컬이 아닌, 담담하게 무너지는'이라는 구체적 음성 묘사는 출처로 확인되지 않습니다. 문구 완화 또는 출처 추가가 필요합니다.",
         "sources": []
       },
       {
         "text": "솔로 1집 Shadow of Your Smile (2001)",
         "factIds": [
-          "F016"
+          "F016",
+          "F033"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Apple Music의 메타데이터에 앨범명과 2001년 발매(2001-11-20)로 기재되어 있어 '솔로 1집 Shadow of Your Smile (2001)'은 확인됩니다.",
+        "note": "사실: Apple Music 메타데이터에서 앨범명과 2001년 발매를 확인할 수 있어 '솔로 1집 Shadow of Your Smile (2001)' 표기는 검증됩니다.",
         "sources": [
           {
             "url": "https://music.apple.com/us/album/shadow-of-your-smile/1486291052",
             "publisher": "Apple Music"
+          },
+          {
+            "url": "https://music.apple.com/us/album/shadow-of-your-smile/1486291052",
+            "publisher": "Apple Music (Shadow Of Your Smile album page)"
           }
         ]
       },
       {
-        "text": "솔로 음반이 재즈·샹송풍 세계를 열었다",
+        "text": "솔로 세계는 재즈·샹송풍이었다(서술)",
         "factIds": [
           "F017"
         ],
         "verdict": "근거 부족",
-        "note": "INSUFFICIENT: Apple Music 등에선 앨범 메타데이터만 확인되며 '재즈·샹송풍'이라는 음악적 성격을 직접 확인할 근거는 제공되지 않았습니다. 출처 보강이 필요합니다.",
+        "note": "해석·평가: 앨범 메타정보는 확인되지만 '재즈·샹송풍'이라는 음악적 성격은 제공된 출처들에서 직접 확인되지 않습니다. 문구가 출처보다 강하므로 완화나 출처 보강을 권합니다.",
         "sources": []
       },
       {
-        "text": "이후 '야상곡' 등으로 활동 이어짐",
+        "text": "이후 활동으로 '야상곡' 등이 이어졌다",
         "factIds": [
           "F018"
         ],
         "verdict": "근거 부족",
-        "note": "INSUFFICIENT: 제공된 출처들에서 '야상곡'이라는 곡명이나 그에 따른 연속적 활동 서술은 확인되지 않습니다. 출처 보강이 필요합니다.",
+        "note": "사실 여부: 제공된 출처들에서는 '야상곡'이라는 곡명이 솔로 이후 활동의 연속으로 언급되는 근거가 부족합니다. 출처 보강이 필요합니다.",
         "sources": []
       },
       {
-        "text": "에디터 코멘트: 음악성에 대한 평가들 (밝음·어둠·추천 등)",
+        "text": "한 사람이 다른 얼굴을 오가며 자기 목소리로 들리게 만드는 힘 (평가)",
         "factIds": [
-          "F019",
+          "F019"
+        ],
+        "verdict": "평론적 표현",
+        "note": "편집자의 평가·문체적 표현으로 사실 검증 대상이 아니며 출처가 필요하지 않습니다. 평가임을 명확히 유지하면 좋습니다.",
+        "sources": []
+      },
+      {
+        "text": "EDITOR'S COMMENT(평론 전체)",
+        "factIds": [
           "F020",
           "F021"
         ],
         "verdict": "평론적 표현",
-        "note": "OPINION: 에디터의 주관적 해석·추천문으로 사실검증 대상이 아닙니다. 다만 독자 혼동을 줄이려면 평가임을 드러내는 표현(예: '…로 꼽힌다')으로 처리하는 것이 좋습니다.",
+        "note": "모두 평론·추천 문장들입니다. 사실 검증 범위 밖이며 편집자가 톤·문장 유지 여부를 판단하세요.",
         "sources": []
       },
       {
-        "text": "2026년 4월 경향신문 기획 인터뷰 참여",
+        "text": "인터뷰 평가: 여성 프런트퍼슨 역사 전후 구분",
         "factIds": [
-          "F022"
+          "F027",
+          "F022",
+          "F034"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: 경향신문(Khan) 기사에서 '2026 프론트퍼슨 연대기' 기획과 2026년 4월(4월 16일) 인터뷰 참여 사실을 확인할 수 있습니다.",
+        "note": "사실: Kyunghyang Shinmun(경향신문) 인터뷰에서 'female frontpersons history divided before and after Kim Yuna's debut'라는 직접적 평가가 있어 원문 진술을 뒷받침합니다. 인터뷰 시점(2026년 4월)도 확인됩니다.",
         "sources": [
+          {
+            "url": "https://www.khan.co.kr/en/article/202604210838037",
+            "publisher": "Kyunghyang Shinmun (English)"
+          },
           {
             "url": "https://www.khan.co.kr/article/202604210600071",
             "publisher": "경향신문 (Khan)"
+          },
+          {
+            "url": "https://www.khan.co.kr/en/article/202604210838037",
+            "publisher": "Kyunghyang Shinmun (English site - Khan)"
           }
         ]
       },
@@ -330,7 +362,7 @@
           "F023"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: Newsis 보도에서 9월 5~6일, 12~13일 성신여대 운정그린캠퍼스 대강당에서 총 4회 'Coffee and Cigarette' 단독 콘서트를 연다고 명시되어 있습니다.",
+        "note": "사실: Newsis 보도에서 9월 5~6일, 12~13일 총 4회 공연을 성신여대 운정그린캠퍼스 대강당에서 연다고 명시되어 있어 해당 진술을 뒷받침합니다.",
         "sources": [
           {
             "url": "https://nwww.newsis.com/view/NISX20260804_0003736037",
@@ -339,12 +371,12 @@
         ]
       },
       {
-        "text": "대표곡: '하하하쏭' (자우림)",
+        "text": "대표곡: '하하하쏭'(자우림)",
         "factIds": [
           "F024"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: 연합뉴스 기사에서 '하하하쏭'을 '자우림의 히트곡'으로 명시하고 있어 자우림 명의의 대표곡으로 소개된다는 진술을 뒷받침합니다.",
+        "note": "사실: Yonhap(연합뉴스) 기사에서 '하하하쏭'을 자우림의 히트곡으로 지칭하고 있어 '자우림 명의의 대표곡' 표기는 출처로 뒷받침됩니다.",
         "sources": [
           {
             "url": "https://www.yna.co.kr/view/AKR20081217035600005",
@@ -353,21 +385,21 @@
         ]
       },
       {
-        "text": "대표곡: '스물다섯, 스물하나' (자우림)",
+        "text": "대표곡: '스물다섯, 스물하나'(자우림)",
         "factIds": [
           "F025"
         ],
         "verdict": "근거 부족",
-        "note": "INSUFFICIENT: 제공된 출처들에서는 해당 곡명·'대표곡' 표기를 확인할 수 없습니다. 곡명 존재 여부·대표곡 표기를 확인하려면 추가 출처가 필요합니다.",
+        "note": "사실 여부: 제공된 출처들에서는 이 곡 제목이 자우림의 대표곡 목록으로 확인되지 않습니다. 출처 보강이 필요합니다.",
         "sources": []
       },
       {
-        "text": "대표곡: '샤이닝' (자우림)",
+        "text": "대표곡: '샤이닝'(자우림)",
         "factIds": [
           "F026"
         ],
         "verdict": "확인",
-        "note": "VERIFIED: 자우림 공식 채널(유튜브) 제목에 '자우림 - 샤이닝'으로 명시되어 곡명과 아티스트 관계는 확인됩니다(대표곡 지위는 에디터 판단에 해당).",
+        "note": "사실: Jaurim 공식 유튜브 등에서 '자우림 - 샤이닝'으로 표기된 뮤직비디오가 있어 해당 곡과 아티스트의 관계는 확인됩니다. '대표곡' 지위는 편집 판단 영역입니다.",
         "sources": [
           {
             "url": "https://www.youtube.com/watch?v=y6tMA7mjFiA",
@@ -380,47 +412,28 @@
       {
         "field": "body",
         "text": "솔로에서는 피아노와 현악이 어우러진 서늘한 서정을 들려준다.",
-        "problem": "출처 근거 불충분: 제공된 출처들에서 '솔로 활동' 전체를 '피아노와 현악이 어우러진 서늘한 서정'이라고 단정할 근거가 없습니다.",
-        "suggestion": "솔로에서는 피아노와 현악이 어우러진 곡도 선보였다.",
+        "problem": "제시된 출처들에서는 '솔로에서 피아노와 현악이 어우러진 서늘한 서정'이라는 구체적·단정적 묘사가 직접 확인되지 않습니다.",
+        "suggestion": "솔로에서는 피아노·현악을 중심으로 한 서정적 곡도 선보인다.",
         "factIds": [
-          "F005"
+          "F005",
+          "F017"
         ]
       },
       {
         "field": "body",
-        "text": "최근 한 인터뷰 기획은 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가하기도 했다.",
-        "problem": "출처 근거 불충분: 제시된 기획·인터뷰의 텍스트에서 '김윤아 데뷔 이전과 이후로 역사가 나뉜다'는 특정 평가 문구를 확인할 수 없습니다.",
-        "suggestion": "최근 한 인터뷰 기획에 참여해 한국 록밴드, 특히 여성 프런트퍼슨을 조명했다.",
+        "text": "'매직 카펫 라이드'를 담은 앨범. 지금도 축제와 응원 현장에서 울려 퍼지는 곡이다.",
+        "problem": "'지금도 축제와 응원 현장에서 울려 퍼진다'는 현재 활용 빈도에 대한 출처 근거가 불충분합니다.",
+        "suggestion": "'매직 카펫 라이드'를 담은 앨범. 이후 여러 행사에서 널리 불린 곡이다.",
         "factIds": [
-          "F006"
-        ]
-      },
-      {
-        "field": "body",
-        "text": "'헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.",
-        "problem": "출처 근거 불충분: 인디 활동과 메이저 진입 사실은 확인되나, 이를 '단숨에' 연결한 근거 문구는 제공된 출처에서 확인되지 않습니다.",
-        "suggestion": "'헤이 헤이 헤이'로 등장해 홍대 인디 신을 거쳐 대중 무대로 진입했다.",
-        "factIds": [
-          "F009",
-          "F010"
-        ]
-      },
-      {
-        "field": "body",
-        "text": "자우림 3집 The Wonderland (2000)\n'매직 카펫 라이드'를 담은 앨범. 지금도 축제와 응원 현장에서 울려 퍼지는 곡이다.",
-        "problem": "여러 근거 불충분: 'The Wonderland'의 2000년 발매·트랙 수록 여부와 '매직 카펫 라이드'의 현재적 활용(축제·응원 현장)에 대한 출처 근거가 부족합니다.",
-        "suggestion": "자우림 3집 The Wonderland (발매연도 확인 필요)\n(해당 앨범의 수록곡 및 현재 활용 사례는 출처 확인 후 표기하세요.)",
-        "factIds": [
-          "F011",
           "F012",
           "F013"
         ]
       },
       {
         "field": "body",
-        "text": "'봄날은 간다' (2001)\n같은 이름의 영화 OST. 록 보컬이 아닌, 담담하게 무너지는 김윤아의 목소리를 처음 각인시켰다.",
-        "problem": "보컬 묘사 근거 부족: '담담하게 무너지는' 등 보컬의 특정한 인상은 제공된 출처에서 확인되지 않습니다.",
-        "suggestion": "'봄날은 간다' (2001)\n같은 이름의 영화 OST. 이 곡에서 김윤아의 보컬이 돋보였다.",
+        "text": "'봄날은 간다': 록 보컬이 아닌, 담담하게 무너지는 김윤아의 목소리를 처음 각인시켰다.",
+        "problem": "해당 보컬 묘사('록 보컬이 아닌, 담담하게 무너지는')는 제공된 출처에서 직접 확인되지 않습니다.",
+        "suggestion": "'봄날은 간다'에서는 기존 록 이미지와 다른 담담한 보컬을 들려주었다고 평가받았다.",
         "factIds": [
           "F014",
           "F015"
@@ -428,29 +441,39 @@
       },
       {
         "field": "body",
-        "text": "솔로 1집 Shadow of Your Smile (2001)\n밴드와는 결이 다른 재즈·샹송풍의 솔로 세계를 열었다. 이후 '야상곡' 등으로 이어졌다.",
-        "problem": "음악적 성격·후속곡 근거 불충분: '재즈·샹송풍'이라는 장르 규정과 '야상곡'의 후속 여부를 뒷받침할 출처가 제공되지 않았습니다.",
-        "suggestion": "솔로 1집 Shadow of Your Smile (2001)\n밴드와 결이 다른 솔로 활동을 선보였다. 이후 솔로곡들이 이어졌다(구체적 곡명·성격은 출처 확인 후 명시).",
+        "text": "솔로 1집 Shadow of Your Smile (2001): 밴드와는 결이 다른 재즈·샹송풍의 솔로 세계를 열었다.",
+        "problem": "'재즈·샹송풍'이라는 음악적 성격 표시는 출처에 따른 직접 근거가 부족합니다.",
+        "suggestion": "솔로 1집 Shadow of Your Smile (2001): 밴드와는 결이 다른 분위기의 솔로 세계를 선보였다.",
         "factIds": [
           "F016",
-          "F017",
-          "F018"
+          "F017"
         ]
       },
       {
         "field": "body",
-        "text": "스물다섯, 스물하나 - 자우림",
-        "problem": "대표곡 표기 근거 불충분: 해당 곡이 대표곡으로 표기되었는지 확인할 출처가 제시되지 않았습니다.",
-        "suggestion": "스물다섯, 스물하나 - 자우림 (대표곡 여부는 출처 확인 필요)",
+        "text": "대표곡\n스물다섯, 스물하나 - 자우림",
+        "problem": "'스물다섯, 스물하나'를 자우림의 대표곡으로 표기한 근거가 제공된 출처에서 확인되지 않습니다.",
+        "suggestion": "대표곡\n(검증 필요) 스물다섯, 스물하나 - 자우림",
         "factIds": [
           "F025"
         ]
+      },
+      {
+        "field": "body",
+        "text": "자우림 데뷔 (1997): '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.",
+        "problem": "'홍대 인디 신에서' 출발 또는 '단숨에'라는 속도 표시는 일부 출처에서 확인되나, 모든 출처가 이를 일치해 뒷받침하지는 않습니다.",
+        "suggestion": "자우림 데뷔 (1997): '헤이 헤이 헤이'로 등장해 인디 신에서 출발해 빠르게 대중의 주목을 받았다.",
+        "factIds": [
+          "F009",
+          "F010",
+          "F030"
+        ]
       }
     ],
-    "generatedAt": "2026-10-18T03:51:47.815Z"
+    "generatedAt": "2026-10-18T04:28:54.888Z"
   },
   "approved": false,
   "note": "외부 출처 기반 AI 보조 검수입니다. 사람의 원출처 확인이 필요합니다.",
-  "articleHash": "0612a07d312add69bd25d7fbd8e49eb8b9184f126a857a824a49c156f9337373",
-  "researchHash": "0612a07d312add69bd25d7fbd8e49eb8b9184f126a857a824a49c156f9337373"
+  "articleHash": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e",
+  "researchHash": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e"
 }

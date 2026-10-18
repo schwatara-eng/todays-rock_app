@@ -2,7 +2,8 @@
   "artist": {
     "name": "기사 기반 자료"
   },
-  "articleHash": "0612a07d312add69bd25d7fbd8e49eb8b9184f126a857a824a49c156f9337373",
+  "articleHash": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e",
+  "articleText": "김윤아 Kim Yuna\n한국 록 무대의 한가운데에 선 목소리\n\n1997년 밴드 자우림의 보컬로 데뷔해 30년 가까이 활동해온 싱어송라이터. 자우림에서는 몽환적이면서도 날 선 모던 록을, 솔로에서는 피아노와 현악이 어우러진 서늘한 서정을 들려준다. 한 사람이 이토록 다른 얼굴을 오가면서도 늘 자기 목소리로 들리게 만드는 것, 그것이 김윤아의 힘이다. 최근 한 인터뷰에서는 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가하기도 했다.\n\nEDITOR'S COMMENT\n김윤아의 노래는 밝을 때도 어딘가 그늘이 있고, 어두울 때도 끝내 단단하다. '하하하쏭'으로 후회를 날리다가 '샤이닝'로 조용히 내려앉는 진폭. 그 넓은 폭 덕분에 그의 음악은 어떤 날씨에도 들을 곡이 있다. 다시 밴드 붐이 왔다는 지금, 그 붐의 앞자리에 선 여성 보컬들이 누구의 길을 걸어왔는지 떠올려보자. 울적한 저녁이라면 '샤이닝'부터 들어보길 권한다.\n\n주요 앨범과 활동\n자우림 데뷔 (1997): '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.\n자우림 3집 The Wonderland (2000): '매직 카펫 라이드'를 담은 앨범. 지금도 축제와 응원 현장에서 울려 퍼지는 곡이다.\n'봄날은 간다' (2001): 같은 이름의 영화 OST. 록 보컬이 아닌, 담담하게 무너지는 김윤아의 목소리를 처음 각인시켰다.\n솔로 1집 Shadow of Your Smile (2001): 밴드와는 결이 다른 재즈·샹송풍의 솔로 세계를 열었다. 이후 '야상곡' 등으로 이어졌다.\n최근 활동: 2026년 4월, 밴드 붐 속 여성 프런트퍼슨을 조명한 경향신문 기획 인터뷰에 참여했다. 9월에는 단독 콘서트 'Coffee and Cigarette'를 성신여대 운정캠퍼스 대강당에서 4회 열었다.\n\n대표곡\n하하하쏭 - 자우림\n스물다섯, 스물하나 - 자우림\n샤이닝 - 자우림",
   "facts": [
     {
       "id": "F001",
@@ -380,143 +381,6 @@
       "failureType": "EVIDENCE_INSUFFICIENT"
     },
     {
-      "id": "F006",
-      "claim": "한 인터뷰 기획은 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가했다.",
-      "field": "body",
-      "excerpt": "최근 한 인터뷰 기획은 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가하기도 했다.",
-      "type": "interpretation",
-      "group": "G2",
-      "keywords": [
-        "인터뷰 기획",
-        "여성 프런트퍼슨",
-        "김윤아",
-        "역사"
-      ],
-      "verificationStatus": "INSUFFICIENT",
-      "source": null,
-      "sources": [
-        {
-          "url": "https://en.yna.co.kr/view/AEN20180622003500315",
-          "publisher": "Yonhap News Agency (English)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "Yonhap Interview) After 21 yrs at barren rock band market, Jaurim is oriented toward music mastery",
-          "reason": "sourceText는 해당 인터뷰(연합뉴스 인터뷰) 자체를 싣고 있으나 ‘한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다’고 평가했다는 문장은 찾을 수 없다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
-          "publisher": "AllMusic",
-          "verificationStatus": "NOT CHECKED",
-          "evidence": "",
-          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
-          "failureType": "SOURCE_ACCESS_FAILED"
-        },
-        {
-          "url": "https://www.koreajoongangdaily.com/lifestyle/for-the-band-jaurim-road-has-been-longwinding-and-loud/11715808",
-          "publisher": "Korea JoongAng Daily (English)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "In an interview with the JoongAng Ilbo English Edition in a cafe in Abgujeong-dong, the band's members were asked about the new name and other matters",
-          "reason": "원문에는 ‘한 인터뷰 기획이 한국 록밴드, 특히 여성 프런트퍼슨의 역사를 김윤아 데뷔 이전과 이후로 나뉜다고 평가했다’는 평가를 담은 최근 기획 관련 기술이 없다. 기사에는 1996~2003년 상황과 한 인터뷰(조선일보 영어판)를 언급하는 대목은 있지만, 주어진 주장과 같은 평가를 하는 ‘최근 인터뷰 기획’에 대한 언급은 없다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.hellokpop.com/review/album-review-jaurim-%E9%99%B0%E8%AC%80%E8%AB%96-%EC%9D%8C%EB%AA%A8%EB%A1%A0-conspiracy-theory/",
-          "publisher": "HelloKPop",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "In terms of that mood spectrum, Conspiracy Theory is much closer to that happy-go-lucky end",
-          "reason": "출처(제공된 sourceText)에는 '인터뷰 기획'이 김윤아 데뷔 이전·이후로 역사가 나뉜다고 평가했다는 언급이 전혀 없음. 출처는 앨범 리뷰로서 자우림과 곡 분위기를 분석할 뿐, 해당 인터뷰 기획에 대한 평가는 포함되어 있지 않다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://www.khan.co.kr/en/article/202607141713027",
-          "publisher": "Kyunghyang Shinmun (English)",
-          "verificationStatus": "INSUFFICIENT",
-          "evidence": "2026 Frontperson Chronicle’ records the Korean rock scene through interviews with today’s women musicians",
-          "reason": "sourceText에는 ‘2026 Frontperson Chronicle’라는 인터뷰 기획이 한국 록 신과 여성 프런트퍼슨을 기록한다고 언급되어 있어 인터뷰 기획의 존재는 확인되나, 그 인터뷰가 ‘김윤아 데뷔 이전과 이후로 역사가 나뉜다’고 평가했다는 구체적 진술이나 김윤아에 대한 언급은 전혀 없다. 따라서 주장 전체를 뒷받침할 근거가 부족하다.",
-          "suggestion": ""
-        },
-        {
-          "url": "https://thegrandnarrative.com/page/17/",
-          "publisher": "The Grand Narrative (music/culture blog)",
-          "verificationStatus": "NOT CHECKED",
-          "evidence": "",
-          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
-          "failureType": "SOURCE_ACCESS_FAILED"
-        },
-        {
-          "url": "https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=case1522941303946503&disposition=inline",
-          "publisher": "etd.ohiolink.edu",
-          "verificationStatus": "NOT CHECKED",
-          "evidence": "",
-          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
-          "failureType": "SOURCE_ACCESS_FAILED"
-        },
-        {
-          "url": "https://filmot.com/sidebyside/WIy6A5RTzCE/auto.en/en/English%2B%28auto-generated%29/English/K-Pop%2C%2BM-Pop%2C%2BHip-Hop%3A%2BKorea-Mongolia%2BMixtape--Youth%2C%2BExpression%2C%2B%26%2BNationalism",
-          "publisher": "filmot.com",
-          "verificationStatus": "NOT CHECKED",
-          "evidence": "",
-          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
-          "failureType": "SOURCE_ACCESS_FAILED"
-        },
-        {
-          "url": "https://filmot.com/sidebyside/WIy6A5RTzCE/en/auto.en/English/English%2B%28auto-generated%29/K-Pop%2C%2BM-Pop%2C%2BHip-Hop%3A%2BKorea-Mongolia%2BMixtape--Youth%2C%2BExpression%2C%2B%26%2BNationalism",
-          "publisher": "filmot.com",
-          "verificationStatus": "NOT CHECKED",
-          "evidence": "",
-          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
-          "failureType": "SOURCE_ACCESS_FAILED"
-        }
-      ],
-      "evidence": "",
-      "reason": "Kyunghyang Shinmun (English): sourceText에는 ‘2026 Frontperson Chronicle’라는 인터뷰 기획이 한국 록 신과 여성 프런트퍼슨을 기록한다고 언급되어 있어 인터뷰 기획의 존재는 확인되나, 그 인터뷰가 ‘김윤아 데뷔 이전과 이후로 역사가 나뉜다’고 평가했다는 구체적 진술이나 김윤아에 대한 언급은 전혀 없다. 따라서 주장 전체를 뒷받침할 근거가 부족하다.",
-      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T03:22:05.619Z",
-      "failureType": "EVIDENCE_INSUFFICIENT",
-      "attempts": [
-        {
-          "checkedAt": "2026-10-18T02:33:24.882Z",
-          "verificationStatus": "INSUFFICIENT",
-          "failureType": "EVIDENCE_INSUFFICIENT",
-          "reason": "Yonhap News Agency (English): sourceText는 해당 인터뷰(연합뉴스 인터뷰) 자체를 싣고 있으나 ‘한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다’고 평가했다는 문장은 찾을 수 없다. / Korea JoongAng Daily (English): 원문에는 ‘한 인터뷰 기획이 한국 록밴드, 특히 여성 프런트퍼슨의 역사를 김윤아 데뷔 이전과 이후로 나뉜다고 평가했다’는 평가를 담은 최근 기획 관련 기술이 없다. 기사에는 1996~2003년 상황과 한 인터뷰(조선일보 영어판)를 언급하는 대목은 있지만, 주어진 주장과 같은 평가를 하는 ‘최근 인터뷰 기획’에 대한 언급은 없다. / HelloKPop: 출처(제공된 sourceText)에는 '인터뷰 기획'이 김윤아 데뷔 이전·이후로 역사가 나뉜다고 평가했다는 언급이 전혀 없음. 출처는 앨범 리뷰로서 자우림과 곡 분위기를 분석할 뿐, 해당 인터뷰 기획에 대한 평가는 포함되어 있지 않다.",
-          "sources": [
-            {
-              "url": "https://en.yna.co.kr/view/AEN20180622003500315",
-              "publisher": "Yonhap News Agency (English)",
-              "verificationStatus": "INSUFFICIENT",
-              "evidence": "Yonhap Interview) After 21 yrs at barren rock band market, Jaurim is oriented toward music mastery",
-              "reason": "sourceText는 해당 인터뷰(연합뉴스 인터뷰) 자체를 싣고 있으나 ‘한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다’고 평가했다는 문장은 찾을 수 없다.",
-              "suggestion": ""
-            },
-            {
-              "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
-              "publisher": "AllMusic",
-              "verificationStatus": "NOT CHECKED",
-              "evidence": "",
-              "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
-              "failureType": "SOURCE_ACCESS_FAILED"
-            },
-            {
-              "url": "https://www.koreajoongangdaily.com/lifestyle/for-the-band-jaurim-road-has-been-longwinding-and-loud/11715808",
-              "publisher": "Korea JoongAng Daily (English)",
-              "verificationStatus": "INSUFFICIENT",
-              "evidence": "In an interview with the JoongAng Ilbo English Edition in a cafe in Abgujeong-dong, the band's members were asked about the new name and other matters",
-              "reason": "원문에는 ‘한 인터뷰 기획이 한국 록밴드, 특히 여성 프런트퍼슨의 역사를 김윤아 데뷔 이전과 이후로 나뉜다고 평가했다’는 평가를 담은 최근 기획 관련 기술이 없다. 기사에는 1996~2003년 상황과 한 인터뷰(조선일보 영어판)를 언급하는 대목은 있지만, 주어진 주장과 같은 평가를 하는 ‘최근 인터뷰 기획’에 대한 언급은 없다.",
-              "suggestion": ""
-            },
-            {
-              "url": "https://www.hellokpop.com/review/album-review-jaurim-%E9%99%B0%E8%AC%80%E8%AB%96-%EC%9D%8C%EB%AA%A8%EB%A1%A0-conspiracy-theory/",
-              "publisher": "HelloKPop",
-              "verificationStatus": "INSUFFICIENT",
-              "evidence": "In terms of that mood spectrum, Conspiracy Theory is much closer to that happy-go-lucky end",
-              "reason": "출처(제공된 sourceText)에는 '인터뷰 기획'이 김윤아 데뷔 이전·이후로 역사가 나뉜다고 평가했다는 언급이 전혀 없음. 출처는 앨범 리뷰로서 자우림과 곡 분위기를 분석할 뿐, 해당 인터뷰 기획에 대한 평가는 포함되어 있지 않다.",
-              "suggestion": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "F007",
       "claim": "(문장) 한국 록 무대의 한가운데에 선 목소리라고 표현되었다.",
       "field": "body",
@@ -713,8 +577,11 @@
         "대중 무대",
         "성공"
       ],
-      "verificationStatus": "INSUFFICIENT",
-      "source": null,
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://thekmeal.com/indie-pick-jaurim/",
+        "publisher": "The K Meal"
+      },
       "sources": [
         {
           "url": "https://en.wikipedia.org/wiki/Jaurim",
@@ -755,13 +622,79 @@
           "evidence": "새음반]흐르는 사랑의 소리 '봄날은 간다' OST\n입력\n|\n2001-10-05 15:48:00",
           "reason": "sourceText는 '헤이 헤이 헤이'나 홍대 인디 신에서 대중 무대로 단숨에 올라섰다는 서술을 포함하지 않는다. 홍대 인디 신 관련 내용이 없다.",
           "suggestion": ""
+        },
+        {
+          "url": "https://www.khan.co.kr/en/article/202604210838037",
+          "publisher": "Kyunghyang Shinmun (English page / Khan)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "The rock band Jaurim instantly captivated the public with their debut song ‘Hey Hey Hey’, and at the center of it was Kim Yuna",
+          "reason": "출처는 자우림이 데뷔곡 'Hey Hey Hey'로 대중의 주목을 '단번에'(instantly) 받았다고 적어 '단숨에 올라섰다'라는 부분은 뒷받침한다. 그러나 출처 본문에는 ‘홍대 인디 신’이라는 출발 배경이나 장소에 대한 언급이 없어, '홍대 인디 신에서'라는 부분은 확인할 수 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://thekmeal.com/indie-pick-jaurim/",
+          "publisher": "The K Meal",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Even before their huge success with ‘Hey, Hey, Hey’ they already had a massive following. Hongdae, where they had their start, was the place to be for indie artists",
+          "reason": "출처는 자우림이 홍대에서 시작했음을 밝히고(‘Hongdae, where they had their start’) 동시에 ‘Hey, Hey, Hey’로 큰 성공을 거두기 전에도 이미 많은 팬을 확보했다며 빠르게 주목을 받았음을 서술하고 있어, ‘홍대 인디 신에서 대중 무대로 단숨에 올라섰다’는 평가와 같은 취지로 뒷받침된다.",
+          "suggestion": ""
         }
       ],
-      "evidence": "",
-      "reason": "Wikipedia (English): 출처에는 인디 신에서 활동했다는 사실(1993년)과 첫 싱글로 메이저가 되었다는 사실(1997년)이 각각 적혀 있으나, '홍대 인디 신에서 대중 무대로 단숨에 올라섰다'는 문구처럼 두 사실을 직접 연결해 '단숨에' 올랐다고 서술하는 표현은 없다. / Korean Film Archive (Koreafilm): sourceText는 영화 '봄날은 간다'의 자료 페이지로, 자우림이 '헤이 헤이 헤이'로 홍대 인디 신에서 대중 무대로 단숨에 올라섰다는 내용이나 관련 서술이 전혀 없다. / www.donga.com: sourceText는 '헤이 헤이 헤이'나 홍대 인디 신에서 대중 무대로 단숨에 올라섰다는 서술을 포함하지 않는다. 홍대 인디 신 관련 내용이 없다.",
-      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T02:35:17.665Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "evidence": "Even before their huge success with ‘Hey, Hey, Hey’ they already had a massive following. Hongdae, where they had their start, was the place to be for indie artists",
+      "reason": "출처는 자우림이 홍대에서 시작했음을 밝히고(‘Hongdae, where they had their start’) 동시에 ‘Hey, Hey, Hey’로 큰 성공을 거두기 전에도 이미 많은 팬을 확보했다며 빠르게 주목을 받았음을 서술하고 있어, ‘홍대 인디 신에서 대중 무대로 단숨에 올라섰다’는 평가와 같은 취지로 뒷받침된다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T04:18:11.681Z",
+      "failureType": null,
+      "attempts": [
+        {
+          "checkedAt": "2026-10-18T02:35:17.665Z",
+          "verificationStatus": "INSUFFICIENT",
+          "failureType": "EVIDENCE_INSUFFICIENT",
+          "reason": "Wikipedia (English): 출처에는 인디 신에서 활동했다는 사실(1993년)과 첫 싱글로 메이저가 되었다는 사실(1997년)이 각각 적혀 있으나, '홍대 인디 신에서 대중 무대로 단숨에 올라섰다'는 문구처럼 두 사실을 직접 연결해 '단숨에' 올랐다고 서술하는 표현은 없다. / Korean Film Archive (Koreafilm): sourceText는 영화 '봄날은 간다'의 자료 페이지로, 자우림이 '헤이 헤이 헤이'로 홍대 인디 신에서 대중 무대로 단숨에 올라섰다는 내용이나 관련 서술이 전혀 없다. / www.donga.com: sourceText는 '헤이 헤이 헤이'나 홍대 인디 신에서 대중 무대로 단숨에 올라섰다는 서술을 포함하지 않는다. 홍대 인디 신 관련 내용이 없다.",
+          "sources": [
+            {
+              "url": "https://en.wikipedia.org/wiki/Jaurim",
+              "publisher": "Wikipedia (English)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "They had performed in the indie scene in 1993",
+              "reason": "출처에는 인디 신에서 활동했다는 사실(1993년)과 첫 싱글로 메이저가 되었다는 사실(1997년)이 각각 적혀 있으나, '홍대 인디 신에서 대중 무대로 단숨에 올라섰다'는 문구처럼 두 사실을 직접 연결해 '단숨에' 올랐다고 서술하는 표현은 없다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
+              "publisher": "AllMusic",
+              "verificationStatus": "NOT CHECKED",
+              "evidence": "",
+              "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+              "failureType": "SOURCE_ACCESS_FAILED"
+            },
+            {
+              "url": "https://www.koreafilm.or.kr/library/search/video/7649",
+              "publisher": "Korean Film Archive (Koreafilm)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "영상도서관\n자료검색\n자료검색\n봄날은 간다\n목록\n비디오 소장사항\n대표 이미지\n비디오 기본정보",
+              "reason": "sourceText는 영화 '봄날은 간다'의 자료 페이지로, 자우림이 '헤이 헤이 헤이'로 홍대 인디 신에서 대중 무대로 단숨에 올라섰다는 내용이나 관련 서술이 전혀 없다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://www.maniadb.com/album/131203",
+              "publisher": "Maniadb",
+              "verificationStatus": "NOT CHECKED",
+              "evidence": "",
+              "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+              "failureType": "SOURCE_ACCESS_FAILED"
+            },
+            {
+              "url": "https://www.donga.com/news/amp/all/20011005/7744358/1",
+              "publisher": "www.donga.com",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "새음반]흐르는 사랑의 소리 '봄날은 간다' OST\n입력\n|\n2001-10-05 15:48:00",
+              "reason": "sourceText는 '헤이 헤이 헤이'나 홍대 인디 신에서 대중 무대로 단숨에 올라섰다는 서술을 포함하지 않는다. 홍대 인디 신 관련 내용이 없다.",
+              "suggestion": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "F011",
@@ -776,8 +709,11 @@
         "2000",
         "3집"
       ],
-      "verificationStatus": "INSUFFICIENT",
-      "source": null,
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://izm.co.kr/posts?id=3635",
+        "publisher": "IZM (Korean music magazine)"
+      },
       "sources": [
         {
           "url": "https://en.wikipedia.org/wiki/Jaurim",
@@ -818,13 +754,79 @@
           "evidence": "새음반]흐르는 사랑의 소리 '봄날은 간다' OST\n입력\n|\n2001-10-05 15:48:00",
           "reason": "sourceText에는 자우림 3집 The Wonderland나 그 발매 연도(2000)에 대한 언급이 없다. 앨범 제목·연도 모두 확인 불가하다.",
           "suggestion": ""
+        },
+        {
+          "url": "https://www.maniadb.com/album/127811",
+          "publisher": "ManiaDB",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://izm.co.kr/posts?id=3635",
+          "publisher": "IZM (Korean music magazine)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "자우림\n2000\nby 지운\n2000.10.01",
+          "reason": "sourceText에 해당 앨범 표제와 함께 발행 연도(및 발행일)가 명시되어 있어 2000년에 나왔다는 주장을 분명히 뒷받침한다.",
+          "suggestion": ""
         }
       ],
-      "evidence": "",
-      "reason": "Wikipedia (English): 출처는 전체 앨범 수 등은 적고 'The Wonderland'와 2000년 발매 연도에 대한 직접적 언급이 없다. 따라서 3집 The Wonderland가 2000년에 나왔다는 연도 정보는 확인되지 않는다. / Korean Film Archive (Koreafilm): sourceText에는 자우림의 앨범 목록이나 3집 The Wonderland 발매 연도에 관한 언급이 없어 2000년 발매라는 주장을 확인할 수 없다. / www.donga.com: sourceText에는 자우림 3집 The Wonderland나 그 발매 연도(2000)에 대한 언급이 없다. 앨범 제목·연도 모두 확인 불가하다.",
-      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T02:35:17.665Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "evidence": "자우림\n2000\nby 지운\n2000.10.01",
+      "reason": "sourceText에 해당 앨범 표제와 함께 발행 연도(및 발행일)가 명시되어 있어 2000년에 나왔다는 주장을 분명히 뒷받침한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T04:19:37.979Z",
+      "failureType": null,
+      "attempts": [
+        {
+          "checkedAt": "2026-10-18T02:35:17.665Z",
+          "verificationStatus": "INSUFFICIENT",
+          "failureType": "EVIDENCE_INSUFFICIENT",
+          "reason": "Wikipedia (English): 출처는 전체 앨범 수 등은 적고 'The Wonderland'와 2000년 발매 연도에 대한 직접적 언급이 없다. 따라서 3집 The Wonderland가 2000년에 나왔다는 연도 정보는 확인되지 않는다. / Korean Film Archive (Koreafilm): sourceText에는 자우림의 앨범 목록이나 3집 The Wonderland 발매 연도에 관한 언급이 없어 2000년 발매라는 주장을 확인할 수 없다. / www.donga.com: sourceText에는 자우림 3집 The Wonderland나 그 발매 연도(2000)에 대한 언급이 없다. 앨범 제목·연도 모두 확인 불가하다.",
+          "sources": [
+            {
+              "url": "https://en.wikipedia.org/wiki/Jaurim",
+              "publisher": "Wikipedia (English)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "They have released ten full-length albums, three unofficial albums, two original soundtrack singles, one original soundtrack EP (which was released as a digital single), and one concert album",
+              "reason": "출처는 전체 앨범 수 등은 적고 'The Wonderland'와 2000년 발매 연도에 대한 직접적 언급이 없다. 따라서 3집 The Wonderland가 2000년에 나왔다는 연도 정보는 확인되지 않는다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
+              "publisher": "AllMusic",
+              "verificationStatus": "NOT CHECKED",
+              "evidence": "",
+              "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+              "failureType": "SOURCE_ACCESS_FAILED"
+            },
+            {
+              "url": "https://www.koreafilm.or.kr/library/search/video/7649",
+              "publisher": "Korean Film Archive (Koreafilm)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "비디오제조사 영성미디어(주)\n비디오 판매원 스타맥스\n비디오 제조년도 2001\n비디오 규격 VHS\n상영시간 113분",
+              "reason": "sourceText에는 자우림의 앨범 목록이나 3집 The Wonderland 발매 연도에 관한 언급이 없어 2000년 발매라는 주장을 확인할 수 없다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://www.maniadb.com/album/131203",
+              "publisher": "Maniadb",
+              "verificationStatus": "NOT CHECKED",
+              "evidence": "",
+              "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+              "failureType": "SOURCE_ACCESS_FAILED"
+            },
+            {
+              "url": "https://www.donga.com/news/amp/all/20011005/7744358/1",
+              "publisher": "www.donga.com",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "새음반]흐르는 사랑의 소리 '봄날은 간다' OST\n입력\n|\n2001-10-05 15:48:00",
+              "reason": "sourceText에는 자우림 3집 The Wonderland나 그 발매 연도(2000)에 대한 언급이 없다. 앨범 제목·연도 모두 확인 불가하다.",
+              "suggestion": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "F012",
@@ -838,8 +840,11 @@
         "Magic Carpet Ride",
         "The Wonderland"
       ],
-      "verificationStatus": "INSUFFICIENT",
-      "source": null,
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.kpopalbums.com/collections/lastest-release/products/jaurim-the-wonder-land-3rd-album-lp",
+        "publisher": "KpopAlbums (retailer)"
+      },
       "sources": [
         {
           "url": "https://en.wikipedia.org/wiki/Jaurim",
@@ -880,13 +885,95 @@
           "evidence": "봄날은 간다’는 자우림 김윤아의 보컬이 돋보이는 곡으로 일본의 정상급 뮤지션 마츠토야 유미(Matsutoya Yumi)의 곡에 김윤아가 작사한 곡이다",
           "reason": "sourceText에는 '매직 카펫 라이드' 곡명이나 해당 곡이 수록된 앨범에 대한 언급이 없다.",
           "suggestion": ""
+        },
+        {
+          "url": "https://music.apple.com/us/album/jaurim-the-wonder-land/1486551892",
+          "publisher": "Apple Music",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Jaurim, The Wonder Land\nJaurim\nK-Pop · 2000\nPreview\nJuly 4, 2000\n12 songs, 46 minutes",
+          "reason": "sourceText에는 앨범 제목(The Wonder Land), 발매연도(2000), 수록곡 수(12곡) 등 앨범 메타정보만 있으며 개별 트랙 목록이나 '매직 카펫 라이드'라는 곡명이 명시되어 있지 않습니다. 따라서 해당 곡의 수록 여부는 출처에서 확인되지 않습니다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://world.kbs.co.kr/service/contents_view.htm?board_seq=387423&id=&lang=j&menu_cate=music&page=1",
+          "publisher": "KBS WORLD",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "アジュンマの井戸端会議～韓国の温故知新ばなし\n韓国の『国民食』サムギョプサル、その意外な歴史\n2026-10-12\nカルチャーラボＫ",
+          "reason": "sourceText에 'The Wonderland' 또는 '매직 카펫 라이드'에 대한 언급이 전혀 없다. 따라서 해당 앨범에 그 곡이 수록되었다고 출처로 확인할 수 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.setlist.fm/setlist/jaurim/2026/nanji-hangang-park-seoul-south-korea-53481b1d.html",
+          "publisher": "Setlist.fm",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://www.kpopalbums.com/collections/lastest-release/products/jaurim-the-wonder-land-3rd-album-lp",
+          "publisher": "KpopAlbums (retailer)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "01. 미쓰코리아\n02. 매직 카펫 라이드\n03. 뱀",
+          "reason": "sourceText의 트랙리스트에서 자우림 3집 The Wonderland(또는 THE WONDER LAND) 수록곡으로 '02. 매직 카펫 라이드'가 명시되어 있어 주장(앨범에 수록되어 있다)을 직접 뒷받침한다.",
+          "suggestion": ""
         }
       ],
-      "evidence": "",
-      "reason": "Wikipedia (English): 출처에는 '매직 카펫 라이드' 또는 'The Wonderland' 수록곡 목록에 대한 언급이 전혀 없어 해당 곡이 그 앨범에 수록되었는지를 확인할 수 없다. / Korean Film Archive (Koreafilm): sourceText는 영화 관련 정보만 담고 있어 앨범 수록곡 목록(예: '매직 카펫 라이드')에 대한 언급이 없어 확인 불가하다. / www.donga.com: sourceText에는 '매직 카펫 라이드' 곡명이나 해당 곡이 수록된 앨범에 대한 언급이 없다.",
-      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T02:35:17.665Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "evidence": "01. 미쓰코리아\n02. 매직 카펫 라이드\n03. 뱀",
+      "reason": "sourceText의 트랙리스트에서 자우림 3집 The Wonderland(또는 THE WONDER LAND) 수록곡으로 '02. 매직 카펫 라이드'가 명시되어 있어 주장(앨범에 수록되어 있다)을 직접 뒷받침한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T04:23:44.109Z",
+      "failureType": null,
+      "attempts": [
+        {
+          "checkedAt": "2026-10-18T02:35:17.665Z",
+          "verificationStatus": "INSUFFICIENT",
+          "failureType": "EVIDENCE_INSUFFICIENT",
+          "reason": "Wikipedia (English): 출처에는 '매직 카펫 라이드' 또는 'The Wonderland' 수록곡 목록에 대한 언급이 전혀 없어 해당 곡이 그 앨범에 수록되었는지를 확인할 수 없다. / Korean Film Archive (Koreafilm): sourceText는 영화 관련 정보만 담고 있어 앨범 수록곡 목록(예: '매직 카펫 라이드')에 대한 언급이 없어 확인 불가하다. / www.donga.com: sourceText에는 '매직 카펫 라이드' 곡명이나 해당 곡이 수록된 앨범에 대한 언급이 없다.",
+          "sources": [
+            {
+              "url": "https://en.wikipedia.org/wiki/Jaurim",
+              "publisher": "Wikipedia (English)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "They have released ten full-length albums, three unofficial albums, two original soundtrack singles, one original soundtrack EP (which was released as a digital single), and one concert album",
+              "reason": "출처에는 '매직 카펫 라이드' 또는 'The Wonderland' 수록곡 목록에 대한 언급이 전혀 없어 해당 곡이 그 앨범에 수록되었는지를 확인할 수 없다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
+              "publisher": "AllMusic",
+              "verificationStatus": "NOT CHECKED",
+              "evidence": "",
+              "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+              "failureType": "SOURCE_ACCESS_FAILED"
+            },
+            {
+              "url": "https://www.koreafilm.or.kr/library/search/video/7649",
+              "publisher": "Korean Film Archive (Koreafilm)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "",
+              "reason": "sourceText는 영화 관련 정보만 담고 있어 앨범 수록곡 목록(예: '매직 카펫 라이드')에 대한 언급이 없어 확인 불가하다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://www.maniadb.com/album/131203",
+              "publisher": "Maniadb",
+              "verificationStatus": "NOT CHECKED",
+              "evidence": "",
+              "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+              "failureType": "SOURCE_ACCESS_FAILED"
+            },
+            {
+              "url": "https://www.donga.com/news/amp/all/20011005/7744358/1",
+              "publisher": "www.donga.com",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "봄날은 간다’는 자우림 김윤아의 보컬이 돋보이는 곡으로 일본의 정상급 뮤지션 마츠토야 유미(Matsutoya Yumi)의 곡에 김윤아가 작사한 곡이다",
+              "reason": "sourceText에는 '매직 카펫 라이드' 곡명이나 해당 곡이 수록된 앨범에 대한 언급이 없다.",
+              "suggestion": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "F013",
@@ -942,13 +1029,95 @@
           "evidence": "봄날은 간다’는 자우림 김윤아의 보컬이 돋보이는 곡으로 일본의 정상급 뮤지션 마츠토야 유미(Matsutoya Yumi)의 곡에 김윤아가 작사한 곡이다",
           "reason": "sourceText는 '매직 카펫 라이드'가 지금도 축제와 응원 현장에서 울려 퍼진다는 내용이나 그와 유사한 평가를 전혀 담고 있지 않다.",
           "suggestion": ""
+        },
+        {
+          "url": "https://guestpectacular.com/artists/steppenwolf/events/169569/song/magic-carpet-ride",
+          "publisher": "Guestpectacular (concert listings)",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://agriculture.ny.gov/news/john-kay-steppenwolf-will-take-chevy-court-magic-carpet-ride-2014-great-new-york-state-fair",
+          "publisher": "New York State Department of Agriculture & Markets (official fair announcement)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "John Kay & Steppenwolf Will Take Chevy Court on a ‘Magic Carpet Ride’ at the 2014 Great New York State Fair",
+          "reason": "출처에는 ‘매직 카펫 라이드’가 2014년 그레이트 뉴욕 스테이트 페어(Chevy Court) 공연에 오른다는 문구 등 축제(페어) 무대와 관련된 언급이 있지만, ‘응원 현장’(cheering venues)에서 울려 퍼진다는 표현이나 그에 해당하는 근거는 없다. 따라서 ‘축제’ 측면은 출처로 확인되나 ‘응원 현장’이라는 부분은 확인되지 않는다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://theconcertdatabase.com/tracks/magic-carpet-ride",
+          "publisher": "The Concert Database",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Magic Carpet Ride\nArtist:\nSteppenwolf\nDate Recorded:\n1968\nAlbum:\nThe Second",
+          "reason": "제공된 sourceText는 'Magic Carpet Ride'의 아티스트·녹음연도·앨범 등 곡의 기본 정보와 공연 연혁 일부만 담고 있으며, “지금도 축제와 응원 현장에서 울려 퍼진다”는 현재의 활용이나 빈도에 관해 아무런 언급이 없다. 따라서 원문의 서술을 출처로 확인할 수 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://www.melon.com/musicstory/detail.htm?mstorySeq=16551",
+          "publisher": "Melon (Korean music platform)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "특히나 '매직 카펫 라이드'의 공이 컸는데요. 이 곡이 대히트를 하면서 자우림은 국민 밴드의 반열에 들 수 있었습니다",
+          "reason": "sourceText에는 '매직 카펫 라이드'가 대히트하여 자우림을 국민 밴드 반열에 올린 곡이었다고 서술되어 있으나, '지금도 축제와 응원 현장에서 울려 퍼지는 곡'이라는 현재의 이용 사례나 표현은 찾아볼 수 없다. 확인된 부분: 히트 여부와 영향력. 확인되지 않은 부분: 현재 축제·응원에서 여전히 울려 퍼진다는 진술.",
+          "suggestion": ""
         }
       ],
       "evidence": "",
-      "reason": "Wikipedia (English): 출처에는 '매직 카펫 라이드'라는 곡이나 그 곡이 '지금도 축제와 응원 현장에서 울려 퍼지는 곡'이라는 서술이 전혀 없다. / Korean Film Archive (Koreafilm): sourceText에는 '매직 카펫 라이드' 또는 그 곡이 현재 축제·응원 현장에서 울려 퍼진다는 관련 서술이 전혀 없어 확인할 수 없다. / www.donga.com: sourceText는 '매직 카펫 라이드'가 지금도 축제와 응원 현장에서 울려 퍼진다는 내용이나 그와 유사한 평가를 전혀 담고 있지 않다.",
+      "reason": "New York State Department of Agriculture & Markets (official fair announcement): 출처에는 ‘매직 카펫 라이드’가 2014년 그레이트 뉴욕 스테이트 페어(Chevy Court) 공연에 오른다는 문구 등 축제(페어) 무대와 관련된 언급이 있지만, ‘응원 현장’(cheering venues)에서 울려 퍼진다는 표현이나 그에 해당하는 근거는 없다. 따라서 ‘축제’ 측면은 출처로 확인되나 ‘응원 현장’이라는 부분은 확인되지 않는다. / The Concert Database: 제공된 sourceText는 'Magic Carpet Ride'의 아티스트·녹음연도·앨범 등 곡의 기본 정보와 공연 연혁 일부만 담고 있으며, “지금도 축제와 응원 현장에서 울려 퍼진다”는 현재의 활용이나 빈도에 관해 아무런 언급이 없다. 따라서 원문의 서술을 출처로 확인할 수 없다. / Melon (Korean music platform): sourceText에는 '매직 카펫 라이드'가 대히트하여 자우림을 국민 밴드 반열에 올린 곡이었다고 서술되어 있으나, '지금도 축제와 응원 현장에서 울려 퍼지는 곡'이라는 현재의 이용 사례나 표현은 찾아볼 수 없다. 확인된 부분: 히트 여부와 영향력. 확인되지 않은 부분: 현재 축제·응원에서 여전히 울려 퍼진다는 진술.",
       "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
-      "checkedAt": "2026-10-18T02:35:17.665Z",
-      "failureType": "EVIDENCE_INSUFFICIENT"
+      "checkedAt": "2026-10-18T04:27:57.620Z",
+      "failureType": "EVIDENCE_INSUFFICIENT",
+      "attempts": [
+        {
+          "checkedAt": "2026-10-18T02:35:17.665Z",
+          "verificationStatus": "INSUFFICIENT",
+          "failureType": "EVIDENCE_INSUFFICIENT",
+          "reason": "Wikipedia (English): 출처에는 '매직 카펫 라이드'라는 곡이나 그 곡이 '지금도 축제와 응원 현장에서 울려 퍼지는 곡'이라는 서술이 전혀 없다. / Korean Film Archive (Koreafilm): sourceText에는 '매직 카펫 라이드' 또는 그 곡이 현재 축제·응원 현장에서 울려 퍼진다는 관련 서술이 전혀 없어 확인할 수 없다. / www.donga.com: sourceText는 '매직 카펫 라이드'가 지금도 축제와 응원 현장에서 울려 퍼진다는 내용이나 그와 유사한 평가를 전혀 담고 있지 않다.",
+          "sources": [
+            {
+              "url": "https://en.wikipedia.org/wiki/Jaurim",
+              "publisher": "Wikipedia (English)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "They have released ten full-length albums, three unofficial albums, two original soundtrack singles, one original soundtrack EP (which was released as a digital single), and one concert album",
+              "reason": "출처에는 '매직 카펫 라이드'라는 곡이나 그 곡이 '지금도 축제와 응원 현장에서 울려 퍼지는 곡'이라는 서술이 전혀 없다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
+              "publisher": "AllMusic",
+              "verificationStatus": "NOT CHECKED",
+              "evidence": "",
+              "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+              "failureType": "SOURCE_ACCESS_FAILED"
+            },
+            {
+              "url": "https://www.koreafilm.or.kr/library/search/video/7649",
+              "publisher": "Korean Film Archive (Koreafilm)",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "수록영화정보 표\n제목\n봄날은 간다\nKMDb\n출연\n유지태(상우),이영애(은수),백성희(할머니",
+              "reason": "sourceText에는 '매직 카펫 라이드' 또는 그 곡이 현재 축제·응원 현장에서 울려 퍼진다는 관련 서술이 전혀 없어 확인할 수 없다.",
+              "suggestion": ""
+            },
+            {
+              "url": "https://www.maniadb.com/album/131203",
+              "publisher": "Maniadb",
+              "verificationStatus": "NOT CHECKED",
+              "evidence": "",
+              "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+              "failureType": "SOURCE_ACCESS_FAILED"
+            },
+            {
+              "url": "https://www.donga.com/news/amp/all/20011005/7744358/1",
+              "publisher": "www.donga.com",
+              "verificationStatus": "INSUFFICIENT",
+              "evidence": "봄날은 간다’는 자우림 김윤아의 보컬이 돋보이는 곡으로 일본의 정상급 뮤지션 마츠토야 유미(Matsutoya Yumi)의 곡에 김윤아가 작사한 곡이다",
+              "reason": "sourceText는 '매직 카펫 라이드'가 지금도 축제와 응원 현장에서 울려 퍼진다는 내용이나 그와 유사한 평가를 전혀 담고 있지 않다.",
+              "suggestion": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "F014",
@@ -1547,9 +1716,374 @@
       "suggestion": "",
       "checkedAt": "2026-10-18T02:36:45.905Z",
       "failureType": null
+    },
+    {
+      "id": "F027",
+      "claim": "한 인터뷰에서 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가했다.",
+      "field": "body",
+      "excerpt": "최근 한 인터뷰에서는 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가하기도 했다.",
+      "type": "interpretation",
+      "group": "G1",
+      "keywords": [
+        "인터뷰",
+        "한국 록밴드",
+        "여성 프런트퍼슨",
+        "데뷔 이전 이후",
+        "김윤아"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.khan.co.kr/en/article/202604210838037",
+        "publisher": "Kyunghyang Shinmun (English)"
+      },
+      "sources": [
+        {
+          "url": "https://www.khan.co.kr/en/article/202604210838037",
+          "publisher": "Kyunghyang Shinmun (English)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "The history of South Korean rock bandsespecially that of female ‘frontpersons’is divided into before and after the debut of Kim Yuna (52",
+          "reason": "sourceText에 'The history of South Korean rock bands especially that of female ‘frontpersons’ is divided into before and after the debut of Kim Yuna'라는 문장이 있어, 인터뷰에서 한국 록밴드 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 명확히 평가하고 있다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "The history of South Korean rock bandsespecially that of female ‘frontpersons’is divided into before and after the debut of Kim Yuna (52",
+      "reason": "sourceText에 'The history of South Korean rock bands especially that of female ‘frontpersons’ is divided into before and after the debut of Kim Yuna'라는 문장이 있어, 인터뷰에서 한국 록밴드 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 명확히 평가하고 있다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T04:13:14.030Z",
+      "failureType": null
+    },
+    {
+      "id": "F028",
+      "claim": "자우림은 1997년에 데뷔했다.",
+      "field": "body",
+      "excerpt": "자우림 데뷔 (1997): '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "자우림",
+        "1997",
+        "debut"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/",
+        "publisher": "Spotify Newsroom"
+      },
+      "sources": [
+        {
+          "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/",
+          "publisher": "Spotify Newsroom",
+          "verificationStatus": "VERIFIED",
+          "evidence": "The band debuted in 1997 with the song “ Hey, Hey, Hey",
+          "reason": "sourceText가 'The band debuted in 1997 with the song “ Hey, Hey, Hey ”'라며 1997년에 데뷔했다고 명확히 적고 있으므로 전부 뒷받침된다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "The band debuted in 1997 with the song “ Hey, Hey, Hey",
+      "reason": "sourceText가 'The band debuted in 1997 with the song “ Hey, Hey, Hey ”'라며 1997년에 데뷔했다고 명확히 적고 있으므로 전부 뒷받침된다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T04:14:28.876Z",
+      "failureType": null
+    },
+    {
+      "id": "F029",
+      "claim": "자우림은 '헤이 헤이 헤이'로 등장했다.",
+      "field": "body",
+      "excerpt": "자우림 데뷔 (1997): '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "자우림",
+        "헤이 헤이 헤이",
+        "Hey Hey Hey"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/",
+        "publisher": "Spotify Newsroom"
+      },
+      "sources": [
+        {
+          "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/",
+          "publisher": "Spotify Newsroom",
+          "verificationStatus": "VERIFIED",
+          "evidence": "The band debuted in 1997 with the song “ Hey, Hey, Hey",
+          "reason": "sourceText가 데뷔곡을 직접적으로 'the song “ Hey, Hey, Hey ”'로 명시하고 있으므로 해당 표현과 의미가 일치한다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "The band debuted in 1997 with the song “ Hey, Hey, Hey",
+      "reason": "sourceText가 데뷔곡을 직접적으로 'the song “ Hey, Hey, Hey ”'로 명시하고 있으므로 해당 표현과 의미가 일치한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T04:14:28.876Z",
+      "failureType": null
+    },
+    {
+      "id": "F030",
+      "claim": "자우림은 홍대 인디 신에서 대중 무대로 빠르게 올라섰다.",
+      "field": "body",
+      "excerpt": "자우림 데뷔 (1997): '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.",
+      "type": "interpretation",
+      "group": "G2",
+      "keywords": [
+        "자우림",
+        "홍대 인디 신",
+        "대중 무대",
+        "인디에서 메이저"
+      ],
+      "verificationStatus": "INSUFFICIENT",
+      "source": null,
+      "sources": [
+        {
+          "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/",
+          "publisher": "Spotify Newsroom",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "which led the popularization of band music in the nation",
+          "reason": "출처는 밴드의 영향력과 대중화 기여를 언급하지만 '홍대 인디 신에서'나 '단숨에/빠르게 올라섰다'는 장소적·속도적 서술은 전혀 언급하지 않는다. 확인된 부분: 밴드가 대중화에 기여했다는 점은 출처에서 확인된다. 확인되지 않은 부분: '홍대 인디 신에서'라는 특정 출신지와 '단숨에/빠르게'라는 속도 표현은 출처에 없음.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://music.apple.com/us/album/shadow-of-your-smile/1486291052",
+          "publisher": "Apple Music (Shadow Of Your Smile album page)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Shadow Of Your Smile\nKim Yuna\nK-Pop · 2001",
+          "reason": "sourceText에 자우림의 데뷔 연도, 홍대 인디 신 활동, 또는 ‘대중 무대로 단숨에 올라섰다’는 서술이 전혀 없다. 따라서 해당 주장을 판단할 근거가 부족하다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Jaurim",
+          "publisher": "en.wikipedia.org",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "They had performed in the indie scene in 1993",
+          "reason": "출처에는 자우림이 '인디 신'에서 활동했다는 언급과 1997년 'Hey Hey Hey'로 메이저가 되었다는 언급은 있으나, '홍대 인디 신'이라는 특정 지역(Hongdae) 표기와 '빠르게(단숨에)' 올라섰다는 속도에 대한 정보는 없다. 따라서 일부(인디 신에서 대중 무대로 올라섰다는 점)는 확인되지만, 홍대·빠르게라는 요소는 출처에서 확인되지 않는다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "",
+      "reason": "Spotify Newsroom: 출처는 밴드의 영향력과 대중화 기여를 언급하지만 '홍대 인디 신에서'나 '단숨에/빠르게 올라섰다'는 장소적·속도적 서술은 전혀 언급하지 않는다. 확인된 부분: 밴드가 대중화에 기여했다는 점은 출처에서 확인된다. 확인되지 않은 부분: '홍대 인디 신에서'라는 특정 출신지와 '단숨에/빠르게'라는 속도 표현은 출처에 없음. / Apple Music (Shadow Of Your Smile album page): sourceText에 자우림의 데뷔 연도, 홍대 인디 신 활동, 또는 ‘대중 무대로 단숨에 올라섰다’는 서술이 전혀 없다. 따라서 해당 주장을 판단할 근거가 부족하다. / en.wikipedia.org: 출처에는 자우림이 '인디 신'에서 활동했다는 언급과 1997년 'Hey Hey Hey'로 메이저가 되었다는 언급은 있으나, '홍대 인디 신'이라는 특정 지역(Hongdae) 표기와 '빠르게(단숨에)' 올라섰다는 속도에 대한 정보는 없다. 따라서 일부(인디 신에서 대중 무대로 올라섰다는 점)는 확인되지만, 홍대·빠르게라는 요소는 출처에서 확인되지 않는다.",
+      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
+      "checkedAt": "2026-10-18T04:14:28.876Z",
+      "failureType": "EVIDENCE_INSUFFICIENT"
+    },
+    {
+      "id": "F031",
+      "claim": "자우림의 3집 The Wonderland는 2000년에 나왔다.",
+      "field": "body",
+      "excerpt": "자우림 3집 The Wonderland (2000): '매직 카펫 라이드'를 담은 앨범.",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "The Wonderland",
+        "2000",
+        "자우림",
+        "3집"
+      ],
+      "verificationStatus": "INSUFFICIENT",
+      "source": null,
+      "sources": [
+        {
+          "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/",
+          "publisher": "Spotify Newsroom",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Not to forget “ Magic Carpet Ride ” and “ Twenty-Five, Twenty-One",
+          "reason": "sourceText에는 'The Wonderland'라는 앨범명이나 '2000'년도를 밝히는 문구가 없다. 출처는 'Magic Carpet Ride' 등 곡명을 언급하지만 3집 앨범명과 발매연도에 대한 명확한 기술은 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://music.apple.com/us/album/shadow-of-your-smile/1486291052",
+          "publisher": "Apple Music (Shadow Of Your Smile album page)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Shadow Of Your Smile\nKim Yuna\nK-Pop · 2001",
+          "reason": "sourceText에 'The Wonderland'나 자우림 3집, 또는 2000년 발매에 대한 언급이 없다. 따라서 앨범명과 연도를 확인할 수 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Jaurim",
+          "publisher": "en.wikipedia.org",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "They have released ten full-length albums, three unofficial albums, two original soundtrack singles, one original soundtrack EP (which was released as a digital single), and one concert album",
+          "reason": "출처는 자우림의 전반적 음반 수와 일부 발매 연도(예: 2013년 앨범)는 언급하지만, 3집 'The Wonderland'나 그 발매연도(2000)에 대한 언급이 없다. 따라서 해당 앨범명이 3집인지, 2000년에 나왔는지는 출처로 확인할 수 없다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "",
+      "reason": "Spotify Newsroom: sourceText에는 'The Wonderland'라는 앨범명이나 '2000'년도를 밝히는 문구가 없다. 출처는 'Magic Carpet Ride' 등 곡명을 언급하지만 3집 앨범명과 발매연도에 대한 명확한 기술은 없다. / Apple Music (Shadow Of Your Smile album page): sourceText에 'The Wonderland'나 자우림 3집, 또는 2000년 발매에 대한 언급이 없다. 따라서 앨범명과 연도를 확인할 수 없다. / en.wikipedia.org: 출처는 자우림의 전반적 음반 수와 일부 발매 연도(예: 2013년 앨범)는 언급하지만, 3집 'The Wonderland'나 그 발매연도(2000)에 대한 언급이 없다. 따라서 해당 앨범명이 3집인지, 2000년에 나왔는지는 출처로 확인할 수 없다.",
+      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
+      "checkedAt": "2026-10-18T04:14:28.876Z",
+      "failureType": "EVIDENCE_INSUFFICIENT"
+    },
+    {
+      "id": "F032",
+      "claim": "The Wonderland에는 '매직 카펫 라이드'가 수록되어 있다.",
+      "field": "body",
+      "excerpt": "자우림 3집 The Wonderland (2000): '매직 카펫 라이드'를 담은 앨범.",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "매직 카펫 라이드",
+        "Magic Carpet Ride",
+        "The Wonderland"
+      ],
+      "verificationStatus": "INSUFFICIENT",
+      "source": null,
+      "sources": [
+        {
+          "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/",
+          "publisher": "Spotify Newsroom",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Not to forget “ Magic Carpet Ride ” and “ Twenty-Five, Twenty-One",
+          "reason": "출처는 'Magic Carpet Ride'라는 곡명을 언급하지만, 그 곡이 특정 앨범 'The Wonderland'에 수록되었다고 명시하지는 않는다. 확인된 부분: 'Magic Carpet Ride'가 밴드의 대표곡으로 언급된다는 점. 확인되지 않은 부분: 그 곡이 'The Wonderland' 3집에 수록되었다는 연결고리.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://music.apple.com/us/album/shadow-of-your-smile/1486291052",
+          "publisher": "Apple Music (Shadow Of Your Smile album page)",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Shadow Of Your Smile\nKim Yuna\nK-Pop · 2001",
+          "reason": "sourceText에 '매직 카펫 라이드' 또는 'The Wonderland' 수록곡 목록에 대한 언급이 전혀 없다. 곡 수록 여부를 확인할 근거가 없다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Jaurim",
+          "publisher": "en.wikipedia.org",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "They have released ten full-length albums, three unofficial albums, two original soundtrack singles, one original soundtrack EP (which was released as a digital single), and one concert album",
+          "reason": "출처에 'The Wonderland'나 그 앨범 수록곡 '매직 카펫 라이드'에 대한 언급이 없다. 앨범에 해당 곡이 수록되어 있다는 사실은 출처만으로는 확인할 수 없다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "",
+      "reason": "Spotify Newsroom: 출처는 'Magic Carpet Ride'라는 곡명을 언급하지만, 그 곡이 특정 앨범 'The Wonderland'에 수록되었다고 명시하지는 않는다. 확인된 부분: 'Magic Carpet Ride'가 밴드의 대표곡으로 언급된다는 점. 확인되지 않은 부분: 그 곡이 'The Wonderland' 3집에 수록되었다는 연결고리. / Apple Music (Shadow Of Your Smile album page): sourceText에 '매직 카펫 라이드' 또는 'The Wonderland' 수록곡 목록에 대한 언급이 전혀 없다. 곡 수록 여부를 확인할 근거가 없다. / en.wikipedia.org: 출처에 'The Wonderland'나 그 앨범 수록곡 '매직 카펫 라이드'에 대한 언급이 없다. 앨범에 해당 곡이 수록되어 있다는 사실은 출처만으로는 확인할 수 없다.",
+      "suggestion": "출처 재검색 또는 원문 확인이 필요합니다.",
+      "checkedAt": "2026-10-18T04:14:28.876Z",
+      "failureType": "EVIDENCE_INSUFFICIENT"
+    },
+    {
+      "id": "F033",
+      "claim": "김윤아의 솔로 1집은 Shadow of Your Smile이고 2001년에 발표되었다.",
+      "field": "body",
+      "excerpt": "솔로 1집 Shadow of Your Smile (2001): 밴드와는 결이 다른 재즈·샹송풍의 솔로 세계를 열었다.",
+      "type": "fact",
+      "group": "G2",
+      "keywords": [
+        "Shadow of Your Smile",
+        "2001",
+        "솔로 1집",
+        "김윤아"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://music.apple.com/us/album/shadow-of-your-smile/1486291052",
+        "publisher": "Apple Music (Shadow Of Your Smile album page)"
+      },
+      "sources": [
+        {
+          "url": "https://www.allmusic.com/artist/jaurim-mn0001946441",
+          "publisher": "AllMusic",
+          "verificationStatus": "NOT CHECKED",
+          "evidence": "",
+          "reason": "출처 본문 접근 실패. 링크를 직접 확인하세요.",
+          "failureType": "SOURCE_ACCESS_FAILED"
+        },
+        {
+          "url": "https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/",
+          "publisher": "Spotify Newsroom",
+          "verificationStatus": "INSUFFICIENT",
+          "evidence": "Consisting of three members (vocalist Yuna Kim , guitarist Sun-Kyu Lee , and bassist JinMan Kim",
+          "reason": "sourceText는 김윤아(=vocalist Yuna Kim)를 밴드 멤버로 언급하지만, 그녀의 솔로 1집 제목 'Shadow of Your Smile'이나 '2001' 발매 연도에 대해서는 전혀 언급하지 않는다.",
+          "suggestion": ""
+        },
+        {
+          "url": "https://music.apple.com/us/album/shadow-of-your-smile/1486291052",
+          "publisher": "Apple Music (Shadow Of Your Smile album page)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "Shadow Of Your Smile\nKim Yuna\nK-Pop · 2001",
+          "reason": "sourceText는 앨범 제목과 아티스트, 연도를 명확히 제시하고 있다. 'Shadow Of Your Smile'이 김윤아의 앨범으로 표기되며 연도도 2001년으로 나타난다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "Shadow Of Your Smile\nKim Yuna\nK-Pop · 2001",
+      "reason": "sourceText는 앨범 제목과 아티스트, 연도를 명확히 제시하고 있다. 'Shadow Of Your Smile'이 김윤아의 앨범으로 표기되며 연도도 2001년으로 나타난다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T04:14:28.876Z",
+      "failureType": null
+    },
+    {
+      "id": "F034",
+      "claim": "2026년 4월에 김윤아는 경향신문 기획 인터뷰에 참여했다.",
+      "field": "body",
+      "excerpt": "최근 활동: 2026년 4월, 밴드 붐 속 여성 프런트퍼슨을 조명한 경향신문 기획 인터뷰에 참여했다.",
+      "type": "fact",
+      "group": "G3",
+      "keywords": [
+        "2026년 4월",
+        "경향신문",
+        "인터뷰",
+        "여성 프런트퍼슨"
+      ],
+      "verificationStatus": "VERIFIED",
+      "source": {
+        "url": "https://www.khan.co.kr/en/article/202604210838037",
+        "publisher": "Kyunghyang Shinmun (English site - Khan)"
+      },
+      "sources": [
+        {
+          "url": "https://www.khan.co.kr/en/article/202604210838037",
+          "publisher": "Kyunghyang Shinmun (English site - Khan)",
+          "verificationStatus": "VERIFIED",
+          "evidence": "2026 Frontperson Chronicle: Women Standing Amid the Band Boom] Kim Yuna, vocalist of Jaurim, is being interviewed by the Kyunghyang Shinmun at a rehearsal studio in Seocho-gu, Seoul, on the 16th. 2026.04.16 /Senior Reporter Seo Seong-il",
+          "reason": "출처의 사진 캡션과 본문에서 김윤아가 2026년 4월 16일 경향신문(영문표기 Kyunghyang Shinmun)에 의해 리허설 스튜디오에서 인터뷰를 받고 있다고 명시하고 있으므로 주장과 일치한다.",
+          "suggestion": ""
+        }
+      ],
+      "evidence": "2026 Frontperson Chronicle: Women Standing Amid the Band Boom] Kim Yuna, vocalist of Jaurim, is being interviewed by the Kyunghyang Shinmun at a rehearsal studio in Seocho-gu, Seoul, on the 16th. 2026.04.16 /Senior Reporter Seo Seong-il",
+      "reason": "출처의 사진 캡션과 본문에서 김윤아가 2026년 4월 16일 경향신문(영문표기 Kyunghyang Shinmun)에 의해 리허설 스튜디오에서 인터뷰를 받고 있다고 명시하고 있으므로 주장과 일치한다.",
+      "suggestion": "",
+      "checkedAt": "2026-10-18T04:14:49.230Z",
+      "failureType": null
     }
   ],
   "truncated": false,
-  "generatedAt": "2026-10-18T03:50:52.209Z",
-  "note": "같은 대상을 다루는 주장끼리 묶어 조사합니다."
+  "generatedAt": "2026-10-18T04:27:57.620Z",
+  "note": "같은 대상을 다루는 주장끼리 묶어 조사합니다. 이전 검증 25개 유지, 새 항목 8개."
 }

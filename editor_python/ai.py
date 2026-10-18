@@ -160,6 +160,11 @@ def evidence(text, quote):
     at=''.join(chars).find(q)
     return text[positions[at]:positions[at+len(q)-1]+1].strip() if at>=0 else ''
 
+# 분류는 '사실(fact)'과 '평론(opinion)' 두 가지만 씁니다.
+# 예전 '해석·평가(interpretation)'는 평론으로 봅니다.
+def claim_type(value):
+    return 'opinion' if value in ('opinion','interpretation') else 'fact'
+
 async def extract(article):
     result=await structured('extract',{'article':article},'claimSchema',14000)
     claims=[];seen=set()
@@ -167,7 +172,7 @@ async def extract(article):
         key=re.sub(r'\s+','',c.get('claim','')).lower()
         if not key or key in seen: continue
         seen.add(key)
-        claims.append(dict(claim=c['claim'].strip(),field='title' if c.get('field')=='title' else 'body',excerpt=c.get('excerpt') or c['claim'],type=c.get('type') if c.get('type') in ('fact','interpretation','opinion') else 'fact',group=str(c.get('group') or 'G1')[:20],keywords=[str(k).strip() for k in c.get('keywords',[]) if str(k).strip()][:12]))
+        claims.append(dict(claim=c['claim'].strip(),field='title' if c.get('field')=='title' else 'body',excerpt=c.get('excerpt') or c['claim'],type=claim_type(c.get('type')),group=str(c.get('group') or 'G1')[:20],keywords=[str(k).strip() for k in c.get('keywords',[]) if str(k).strip()][:12]))
     return {'claims':claims[:40],'truncated':len(claims)>40}
 
 async def search_sources(claims, excluded):
@@ -261,7 +266,7 @@ def label(facts):
     if any(f.get('verificationStatus')=='NOT CHECKED' for f in check):return '미검증'
     if any(f.get('verificationStatus')!='VERIFIED' for f in check):return '일부 확인' if 'VERIFIED' in states else '근거 부족'
     if len(check)<len(facts):return '확인 + 평가'
-    return '해석 (출처 확인)' if all(f.get('type')=='interpretation' for f in check) else '확인'
+    return '확인'
 
 async def review(article,sheet):
     facts=sheet['facts']
@@ -275,7 +280,7 @@ async def review(article,sheet):
                 ids=list(dict.fromkeys(i for i in row.get('factIds',[]) if i in by_id and i not in used))
                 if not ids:continue
                 used.update(ids);refs=[by_id[i] for i in ids];verdict=label(refs)
-                if row.get('needsWording') and verdict in ('확인','확인 + 평가','해석 (출처 확인)'):verdict+=' · 표현 보완'
+                if row.get('needsWording') and verdict in ('확인','확인 + 평가'):verdict+=' · 표현 보완'
                 rows.append(dict(text=row['text'],factIds=ids,verdict=verdict,note=row['note'],sources=[f['source'] for f in refs if f.get('source')]))
             for f in facts:
                 if f['id'] not in used:rows.append(dict(text=f.get('excerpt') or f['claim'],factIds=[f['id']],verdict=label([f]),note=f.get('reason',''),sources=[f['source']] if f.get('source') else []))

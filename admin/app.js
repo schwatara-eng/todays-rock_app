@@ -29,7 +29,7 @@ const reviewLabels = {
   VERIFY_FAILED: '판정 오류',
 
   fact: '사실',
-  interpretation: '해석·평가',
+  interpretation: '평론', // 예전 '해석·평가' 항목은 평론으로 표시
   opinion: '평론',
 
   readability: '가독성',
@@ -378,10 +378,27 @@ function showState(data, replaceArticle = true) {
   renderIssues('editorial-result', 'editorial-count', data.editorialReview, 'editorial');
 
   const approved = data.state?.approved === true;
+  const published = approved && data.approval?.published === true;
   $('draft-status').textContent = approved ? '승인 완료' : '초안';
-  $('approval-status').textContent = approved ? '승인 완료 · 미게시' : '초안 · 미게시';
+  $('approval-status').textContent = published ? '승인 완료 · 홈 게시됨' : approved ? '승인 완료 · 미게시' : '초안 · 미게시';
   $('confirm-sources').checked = false;
   $('export-article').disabled = !approved;
+  $('publish').disabled = !approved;
+  showPhoto(data.article);
+}
+
+// 등록된 뮤지션 사진을 작은 미리보기로 보여 줍니다.
+function showPhoto(article) {
+  const thumb = $('photo-thumb');
+  if (article?.photo) {
+    thumb.src = `/site/${article.photo}?v=${encodeURIComponent(article.photoUpdatedAt || '')}`;
+    thumb.hidden = false;
+    $('photo-status').textContent = `등록됨: ${article.photo}`;
+  } else {
+    thumb.removeAttribute('src');
+    thumb.hidden = true;
+    $('photo-status').textContent = '등록된 사진이 없습니다. (PNG·JPG·WEBP, 8MB 이하)';
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -406,7 +423,7 @@ async function run(task) {
   } catch (error) {
     message(`오류: ${error.message}`);
   } finally {
-    buttons.forEach((button) => { button.disabled = button.id === 'export-article' ? !lastState?.state?.approved : false; });
+    buttons.forEach((button) => { button.disabled = ['export-article', 'publish'].includes(button.id) ? !lastState?.state?.approved : false; });
   }
 }
 
@@ -585,9 +602,9 @@ for (const id of ['title', 'body']) {
       $('draft-status').textContent = '저장되지 않음';
       $('approval-status').textContent = '저장되지 않음 · 재검토 필요';
       $('export-article').disabled = true;
+      $('publish').disabled = true;
     } else if (lastState) {
-      $('draft-status').textContent = lastState.state?.approved ? '승인 완료' : '초안';
-      $('approval-status').textContent = lastState.state?.approved ? '승인 완료 · 미게시' : '초안 · 미게시';
+      showState(lastState, false); // 저장된 내용으로 되돌리면 원래 상태 표시로 돌아갑니다.
     }
   });
 }
@@ -620,6 +637,13 @@ async function renderPreview() {
     else sections[section].push(line);
   }
   const name = lastState?.article?.artist || pendingArtistInfo || { name: 'Jack White', nameKo: '잭 화이트' };
+  // 등록된 뮤지션 사진으로 바꿉니다. (사진이 없으면 템플릿 사진이 그대로 보입니다)
+  const photoImg = doc.querySelector('.artist-feature-photo img');
+  const photo = lastState?.article?.photo;
+  if (photoImg && photo) {
+    photoImg.src = `/site/${photo}?v=${encodeURIComponent(lastState.article.photoUpdatedAt || '')}`;
+    photoImg.alt = name.nameKo || name.name || article.title;
+  }
   const normalizeName = v => v.replace(/[^\p{L}\p{N}]/gu, '').toLowerCase();
   const first = normalizeName(sections.intro[0] || '');
   if ([name.name, name.nameKo, `${name.nameKo}${name.name}`, `${name.name}${name.nameKo}`].filter(Boolean).some(v => normalizeName(v) === first)) sections.intro.shift();
@@ -735,6 +759,39 @@ $('export-article').addEventListener('click', () => run(async () => {
   link.click();
   URL.revokeObjectURL(url);
   message('승인된 기사 JSON을 내보냈습니다. 실제 게시는 별도 작업입니다.');
+}));
+
+// 뮤지션 사진 등록: 고른 파일을 그대로 서버에 보냅니다.
+$('photo-file').addEventListener('change', () => run(async () => {
+  const input = $('photo-file');
+  const file = input.files?.[0];
+  if (!file) return;
+  try {
+    if (file.size > 8 * 1024 * 1024) throw new Error('사진은 8MB 이하로 올려 주세요.');
+    message('뮤지션 사진을 저장하고 있습니다…');
+    const response = await fetch(`/local/photo?${artistQuery()}`, {
+      method: 'POST',
+      headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      body: file
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
+    showState(result, false);
+    message('뮤지션 사진을 등록했습니다. 미리보기와 홈 게시에 이 사진이 쓰입니다.');
+  } finally {
+    input.value = '';
+  }
+}));
+
+// 홈에 게시: 서버가 승인 상태를 다시 확인한 뒤 index.html과 아카이브를 바꿉니다.
+$('publish').addEventListener('click', () => run(async () => {
+  if (hasUnsavedChanges()) throw new Error('현재 수정한 원고를 먼저 저장하고 재검토하세요.');
+  if (!lastState?.article?.photo) throw new Error('게시하려면 먼저 뮤지션 사진을 등록하세요.');
+  if (!confirm('이 기사를 홈의 오늘의 뮤지션으로 게시할까요?\n지금 홈에 있는 기사는 지난 뮤지션 아카이브로 옮겨집니다.')) return;
+  const data = await post('/local/publish');
+  showState(data, false);
+  const r = data.publishResult || {};
+  message(`홈에 게시했습니다.${r.archived ? ` 이전 기사는 ${r.archived}로 옮겼습니다.` : ''} 홈 화면을 새로고침해 확인하세요.`);
 }));
 
 
