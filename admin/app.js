@@ -654,8 +654,32 @@ async function renderPreview() {
     const arrow = doc.createElement('span'); arrow.textContent = '↗'; arrow.setAttribute('aria-hidden', 'true');
     link.append(label, arrow); li.append(link); tracks.append(li);
   });
-  // 기존 기사 출처를 편집 원고의 검증된 출처로 재사용하지 않습니다.
-  doc.querySelector('.artist-feature-sources')?.remove();
+  // 출처: 템플릿(잭 화이트)의 출처는 비우고, 이 원고의 팩트시트에서
+  // '검증됨(VERIFIED)'인 출처만 모아 "SOURCES · 매체 ↗ · 매체 ↗" 형식으로 채웁니다.
+  const sourceBox = doc.querySelector('.artist-feature-sources');
+  if (sourceBox) {
+    const picked = new Map(); // 매체 이름 → 첫 번째 주소 (같은 매체는 한 번만)
+    for (const fact of lastState?.factSheet?.facts || []) {
+      const list = Array.isArray(fact.sources) && fact.sources.length ? fact.sources : (fact.source ? [fact.source] : []);
+      for (const source of list) {
+        if ((source.verificationStatus || fact.verificationStatus) !== 'VERIFIED') continue;
+        let url;
+        try { url = new URL(source.url); } catch { continue; }
+        if (url.protocol !== 'https:') continue;
+        // "경향신문 (Khan)" → "경향신문"처럼 괄호 설명은 떼고 표시합니다.
+        const label = (source.publisher || url.hostname.replace(/^www\./, '')).split(/\s+[(\-–]/)[0].trim();
+        if (!picked.has(label)) picked.set(label, url.href);
+      }
+    }
+    sourceBox.replaceChildren('SOURCES');
+    for (const [label, href] of picked) {
+      const a = doc.createElement('a');
+      a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      a.textContent = `${label} ↗`;
+      sourceBox.append(' · ', a);
+    }
+    sourceBox.hidden = picked.size === 0; // 검증된 출처가 없으면 줄 자체를 숨깁니다.
+  }
   doc.querySelector('.archive-back-link')?.closest('p')?.remove();
   doc.querySelector('.artist-feature > h2').textContent = '오늘의 뮤지션';
   doc.querySelector('.artist-feature > .section-label').textContent = "TODAY'S MUSICIAN";
