@@ -71,10 +71,10 @@ todays-rock_app/
 1. [supabase.com](https://supabase.com)에 가입하고 **New project**를 만듭니다.
    - Region: 한국과 가까운 **Northeast Asia (Seoul)** 권장
    - Database Password: 직접 정하고 따로 적어 둡니다. 나중에 다시 볼 수 없습니다.
-2. 프로젝트가 만들어지면 위쪽 **Connect** 버튼 → **Connection String** 탭에서 **Session pooler** 주소를 복사합니다.
-   - 모양: `postgresql://postgres.[프로젝트ID]:[YOUR-PASSWORD]@aws-0-[지역].pooler.supabase.com:5432/postgres`
+2. 프로젝트가 만들어지면 위쪽 **Connect** 버튼 → **Connection String** 탭에서 **Transaction pooler** 주소를 복사합니다.
+   - 모양: `postgresql://postgres.[프로젝트ID]:[YOUR-PASSWORD]@aws-0-[지역].pooler.supabase.com:6543/postgres` (포트 **6543**)
    - `[YOUR-PASSWORD]` 자리에 1번에서 정한 비밀번호를 넣습니다.
-   - Session pooler를 쓰는 이유: 일반 가정·학교 인터넷(IPv4)에서도 접속되고, 서버처럼 계속 켜져 있는 앱에 맞는 방식입니다. Direct connection은 IPv6 전용이라 접속이 안 될 수 있습니다.
+   - Transaction pooler를 쓰는 이유: Vercel처럼 요청마다 잠깐 켜졌다 꺼지는 서버에 맞는 방식이고, 일반 가정·학교 인터넷(IPv4)에서도 접속됩니다. 내 PC와 Vercel에서 같은 주소를 씁니다. Direct connection은 IPv6 전용이라 접속이 안 될 수 있습니다.
 
 ### 2. 곡 데이터 넣기
 
@@ -100,7 +100,7 @@ python -m venv .venv
 프로젝트 최상위 `.env`를 아래처럼 바꿉니다. 예전 `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` 줄은 지워도 됩니다.
 
 ```dotenv
-DATABASE_URL=postgresql://postgres.[프로젝트ID]:[비밀번호]@aws-0-[지역].pooler.supabase.com:5432/postgres
+DATABASE_URL=postgresql://postgres.[프로젝트ID]:[비밀번호]@aws-0-[지역].pooler.supabase.com:6543/postgres
 GOOGLE_TRANSLATE_API_KEY=실제_번역_API_키
 OPENAI_API_KEY=실제_OpenAI_API_키
 # OPENAI_MODEL=사용할_모델명
@@ -232,12 +232,14 @@ AI가 찾은 링크와 검수 결과만으로 사실을 확정하지 않습니�
 | --- | --- |
 | 홈에 "곡 데이터를 불러오지 못했어요" | Supabase SQL Editor에서 `SELECT * FROM v_songs LIMIT 3;` 실행. `relation "v_songs" does not exist`면 `db/todays_rock.sql`을 다시 실행 |
 | 서버 터미널에 `password authentication failed` | `DATABASE_URL`의 비밀번호 확인. `[YOUR-PASSWORD]` 괄호까지 지우고 넣었는지 확인 |
-| 서버 터미널에 `could not translate host name` 또는 `timeout` | Direct connection 주소(`db.….supabase.co`)를 쓰고 있다면 **Session pooler** 주소로 바꿈 |
+| 서버 터미널에 `could not translate host name` 또는 `timeout` | Direct connection 주소(`db.….supabase.co`)를 쓰고 있다면 **Transaction pooler** 주소(포트 6543)로 바꿈 |
 | 서버 터미널에 `Tenant or user not found` | pooler 주소의 사용자 이름이 `postgres.[프로젝트ID]` 형태인지 확인 |
 | Supabase 프로젝트가 'Paused' | 무료 프로젝트는 오래 쓰지 않으면 일시정지됩니다. 대시보드에서 **Restore** |
 | 뉴스가 영어로 나옴 | `.env`의 `GOOGLE_TRANSLATE_API_KEY` 확인 후 서버 재시작 |
 | 로그인했는데 로그아웃 상태로 보임 | `localhost`와 `127.0.0.1`을 섞어 쓰지 않았는지 확인 |
 | 편집실 접근 거절 | 마이페이지에서 역할이 기자 또는 관리자인지 확인. 배포한 사이트에서는 편집실이 열리지 않습니다(내 PC 전용) |
+| 배포 사이트에서 `Invalid host header` | Vercel 환경변수 `APP_ORIGIN`이 접속한 주소와 정확히 같은지 확인 후 Redeploy. 미리보기(Preview) 주소는 막히는 것이 정상 |
+| 배포 사이트에서 곡·로그인 오류 | Vercel 대시보드 → 프로젝트 → **Logs**에서 빨간 오류 확인. 대부분 `DATABASE_URL` 누락·오타 |
 
 ## 자동 테스트
 
@@ -267,46 +269,42 @@ $env:DB_NAME="todays_rock_accounts_test"
 
 실제 원고에 대한 외부 검색·유료 AI 호출·승인·게시 전체 흐름은 사용자 환경에서 따로 확인합니다.
 
-## 배포하기 — Supabase(DB) + Render(웹 서버)
+## 배포하기 — Supabase(DB) + Vercel(웹 서버)
 
-**Supabase는 데이터베이스(와 로그인·파일 저장 같은 부가 기능)를 맡는 서비스이고, 이 앱 같은 Python(FastAPI) 서버를 실행하지는 않습니다.** 그래서 역할을 나눕니다.
+**Supabase는 데이터베이스만 맡고, Python(FastAPI) 서버는 Vercel이 실행합니다.** Vercel은 저장소 최상위 `main.py`의 `app`을 자동으로 찾아 하나의 서버리스 함수로 실행하므로 `vercel.json` 같은 설정 파일은 필요 없습니다.
 
 | 맡는 곳 | 하는 일 |
 | --- | --- |
 | Supabase | PostgreSQL DB — 곡, 회원, 세션, 좋아요 (위 설치 1~2단계에서 이미 준비됨) |
-| Render (무료 웹 서비스) | 홈페이지·회원·곡·뉴스 API를 실행하는 FastAPI 서버 |
+| Vercel | 홈페이지·회원·곡·뉴스 API를 실행하는 FastAPI 서버 |
 | 내 PC | 편집실 — 원고·검수 JSON과 `index.html`을 파일로 고치므로 내 PC에서만 씁니다 |
 
-### Render에 올리기
+### Vercel에 올리기
 
 1. GitHub에 최신 코드를 올립니다(`git push`).
-2. [render.com](https://render.com)에 GitHub 계정으로 가입 → **New** → **Web Service** → `today-rock_app` 저장소 선택.
-3. 설정값:
+2. [vercel.com](https://vercel.com) → **Add New… → Project** → `today-rock_app` 저장소 **Import**.
+   - **예전에 만든 Vercel 프로젝트(today-rockapp)를 다시 쓰는 경우:** Project Settings → **Build and Deployment**에서 Framework Preset을 **FastAPI**로 바꾸고, Build Command·Output Directory·Install Command의 **Override를 모두 끕니다.** 예전 정적 사이트용 설정이 남아 있으면 Python 서버가 실행되지 않습니다.
+3. Framework Preset이 **FastAPI**로 잡혔는지 확인합니다. Root Directory는 비워 둡니다(저장소 최상위).
+4. **Environment Variables**에 아래 값을 넣습니다. `.env` 파일은 GitHub에 올라가지 않으므로 여기에 직접 적어야 합니다.
 
-| 항목 | 값 |
+| 이름 | 값 |
 | --- | --- |
-| Language | Python 3 |
-| Branch | `main` |
-| Build Command | `pip install -r requirements.txt` |
-| Start Command | `uvicorn main:app --host 0.0.0.0 --port $PORT` |
-| Instance Type | Free |
+| `DATABASE_URL` | 로컬 `.env`와 같은 Supabase **Transaction pooler** 주소 (포트 6543) |
+| `GOOGLE_TRANSLATE_API_KEY` | 번역 API 키 |
+| `APP_ORIGIN` | `https://today-rockapp.vercel.app`처럼 실제 접속 주소. 끝에 `/` 없이 |
 
-4. **Environment** 칸에 환경변수를 넣습니다. `.env` 파일은 GitHub에 올라가지 않으므로 여기에 직접 적어야 합니다.
-   - `DATABASE_URL` — 로컬 `.env`와 같은 Supabase Session pooler 주소
-   - `GOOGLE_TRANSLATE_API_KEY`
-   - `APP_ORIGIN` — 배포 주소. 처음엔 비워 두고 배포가 끝나면 Render가 알려준 `https://….onrender.com`을 넣고 **Save, rebuild, and deploy**
-   - `OPENAI_API_KEY`는 넣지 않습니다. 편집실은 배포 서버에서 열리지 않으므로 필요 없고, 키 유출 위험만 늘어납니다.
-5. **Deploy Web Service**를 누르고 로그에 `Uvicorn running on`이 보이면 완료입니다. 알려준 주소로 접속해 추천곡이 나오는지 확인합니다.
-
-`APP_ORIGIN`이 실제 주소와 다르면 접속 시 `Invalid host header`가 나거나 로그인 요청이 거절됩니다. 끝에 `/` 없이 `https://`부터 정확히 넣습니다.
+   - 주소를 아직 모르면 `APP_ORIGIN` 없이 먼저 배포하고, 나온 주소를 넣은 뒤 **Deployments → … → Redeploy** 합니다. `APP_ORIGIN`이 없으면 사이트가 `Invalid host header`로 열리지 않습니다.
+   - `OPENAI_API_KEY`는 넣지 않습니다. 편집실은 배포 사이트에서 열리지 않으므로 필요 없고, 키 유출 위험만 늘어납니다.
+5. **Deploy**를 누르고 끝나면 주소로 접속해 추천곡·뉴스·회원가입이 되는지 확인합니다.
 
 ### 배포 후 알아둘 점
 
-- **무료 Render는 15분 동안 접속이 없으면 잠들고**, 다음 접속 때 깨어나는 데 1분 정도 걸립니다. 발표·시연 직전에 한 번 열어 두세요.
-- Render 서버의 파일은 재배포·재시작 때 초기화됩니다. 회원·좋아요는 Supabase에 저장되므로 안전합니다.
-- **기사를 새로 게시하는 순서:** 내 PC 편집실에서 승인 → **홈에 게시** → 바뀐 파일(`index.html`, `artist-*.html`, `artist-archive.json`, 사진)을 `git push` → Render가 자동으로 다시 배포합니다.
+- **기사를 새로 게시하는 순서:** 내 PC 편집실에서 승인 → **홈에 게시** → 바뀐 파일(`index.html`, `artist-*.html`, `artist-archive.json`, 사진)을 `git push` → Vercel이 자동으로 다시 배포합니다. 배포 서버의 파일은 읽기 전용이라 거기서 직접 게시할 수는 없습니다.
 - 내 PC와 배포 사이트가 같은 Supabase DB를 쓰므로, 로컬에서 만든 관리자 계정으로 배포 사이트에도 로그인할 수 있습니다.
+- **미리보기(Preview) 배포 주소는 접속이 막힙니다.** 로그인 보안을 위해 `APP_ORIGIN`에 적은 한 주소만 허용하기 때문입니다. 확인은 Production 주소로 합니다.
+- 오래 접속이 없다가 처음 열면 서버가 깨어나느라 몇 초 더 걸릴 수 있습니다.
 - Supabase 무료 프로젝트는 일정 기간 쓰지 않으면 일시정지됩니다. 사이트가 DB 오류를 내면 Supabase 대시보드에서 상태를 확인합니다.
+- `.env.local`(`vercel env pull`이 만드는 파일)은 이 서버가 읽지 않습니다. 로컬 설정은 `.env`에 적습니다.
 
 ## GitHub에 올릴 때
 

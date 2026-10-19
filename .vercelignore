@@ -1,0 +1,5 @@
+# Vercel 배포에 필요 없는 파일 (서버 실행과 무관)
+tests/
+articles/backups/
+*.patch
+.venv/

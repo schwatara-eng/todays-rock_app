@@ -1,6 +1,7 @@
 """가입/로그인, 본인 프로필/좋아요, 관리자 회원 운영 API."""
 from datetime import datetime, timezone
 import hashlib
+import os
 import re
 from typing import Literal
 
@@ -86,9 +87,19 @@ class MemberUpdate(StrictModel):
     is_active: bool
 
 
+def client_ip(request):
+    """방문자 IP. Vercel에서는 모든 요청이 Vercel 프록시를 거치므로 Vercel이 넣어 주는 헤더를 씁니다.
+    (Vercel은 이 헤더를 직접 덮어써서 방문자가 위조할 수 없습니다. 다른 곳에서는 헤더를 믿지 않습니다.)"""
+    if os.getenv("VERCEL"):
+        forwarded = request.headers.get("x-vercel-forwarded-for") or request.headers.get("x-forwarded-for", "")
+        if forwarded.strip():
+            return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
 def rate_limit(request, action, email=""):
     """DB에 횟수를 저장해 서버 재시작/여러 작업자에서도 로그인 제한을 유지합니다."""
-    client = request.client.host if request.client else "unknown"
+    client = client_ip(request)
     buckets = [(f"{action}:ip:{client}", 10 if action == "signup" else 40)]
     if email:
         buckets.append((f"{action}:email:{email}", 15))
