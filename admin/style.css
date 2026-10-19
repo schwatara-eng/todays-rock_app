@@ -975,3 +975,7 @@ button:disabled {
     min-height: 0;
   }
 }
+
+/* 계정 화면으로 돌아가기 */
+.account-return { color: #bbb; font: 12px/1.5 sans-serif; text-decoration: none; white-space: nowrap; }
+.topbar .local { margin-left: auto; }

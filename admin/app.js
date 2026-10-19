@@ -2,7 +2,7 @@
  * TODAY'S ROCK - 관리자 편집기 화면 제어
  *
  * 서버와의 통신은 /local/* 경로만 사용한다.
- * OPENAI_API_KEY 및 ADMIN_SECRET은 이 파일에 절대 넣지 않는다.
+ * 회원 세션과 CSRF 토큰을 사용합니다. API 비밀키는 이 파일에 넣지 않습니다.
  */
 
 // ─────────────────────────────────────────────────────────────
@@ -56,6 +56,7 @@ let currentArtist = 'jack-white';
 // 아직 한 번도 저장하지 않은 새 뮤지션의 이름 정보 (첫 저장 때 서버로 보냅니다)
 let pendingArtistInfo = null;
 let reportExpanded = true;
+let editorCsrf = '';
 
 function message(text) {
   $('status').textContent = text;
@@ -401,14 +402,15 @@ function showPhoto(article) {
 async function readJson(response) {
   let data;
   try { data = await response.json(); } catch { data = {}; }
-  if (!response.ok) throw new Error(data.error || `서버 응답 오류 (HTTP ${response.status})`);
+  if (response.status === 401) location.assign('/login?next=%2Feditor%2F');
+  if (!response.ok) throw new Error(data.error || data.detail || `서버 응답 오류 (HTTP ${response.status})`);
   return data;
 }
 
 async function post(endpoint, payload = {}) {
   const response = await fetch(endpoint, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': editorCsrf },
     body: JSON.stringify({ ...payload, artist: currentArtist })
   });
   return readJson(response);
@@ -469,6 +471,16 @@ async function loadArtist(id) {
 
 async function initialize() {
   try {
+    const account = await getJson('/api/auth/me');
+    if (!account.user) { location.assign('/login?next=%2Feditor%2F'); return; }
+    if (!account.user.canEdit) { location.assign('/mypage'); return; }
+    editorCsrf = account.csrfToken;
+    document.querySelector('.local').textContent = `${account.user.displayName} · ${account.user.roleLabel}`;
+    const accountLink = document.createElement('a');
+    accountLink.href = account.user.isAdmin ? '/admin/' : '/mypage';
+    accountLink.textContent = account.user.isAdmin ? '관리자 페이지 ↗' : '마이페이지 ↗';
+    accountLink.className = 'account-return';
+    document.querySelector('.topbar').append(accountLink);
     const artists = (await getJson('/local/artists')).artists;
     const saved = recalledArtist();
     if (saved && artists.some((a) => a.id === saved)) currentArtist = saved;
@@ -787,7 +799,7 @@ $('photo-file').addEventListener('change', () => run(async () => {
     message('뮤지션 사진을 저장하고 있습니다…');
     const response = await fetch(`/local/photo?${artistQuery()}`, {
       method: 'POST',
-      headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      headers: { 'Content-Type': file.type || 'application/octet-stream', 'X-CSRF-Token': editorCsrf },
       body: file
     });
     showState(await readJson(response), false);
@@ -917,4 +929,5 @@ function matchFactBoxHeight(draft, box) {
 setupEditorialWorkflow();
 
 initialize();
+
 

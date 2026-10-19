@@ -321,6 +321,9 @@ function showRecommendations() {
         </div>
       </article>
     `);
+    // 로그인 상태와 계정별 좋아요 목록은 공통 회원 모듈이 관리합니다.
+    const card = list.lastElementChild;
+    window.TRAccount?.addLikeButton(card.querySelector('.song-links'), song);
   });
 
   const top = picked[0];
@@ -469,4 +472,5 @@ loadWeather();
 loadSongs();
 loadNews();
 loadArtistArchive();
+
 

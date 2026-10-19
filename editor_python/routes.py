@@ -11,6 +11,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from . import ai, fact_edit
 from . import publish as publisher
+from account_system.security import check_csrf, current_user, require_role
 
 ROOT=Path(__file__).resolve().parent.parent
 router=APIRouter()
@@ -212,16 +213,12 @@ def list_artists():
         found.append({'id':f.stem,'name':artist.get('name') or f.stem,'nameKo':artist.get('nameKo') or ''})
     return found
 
-def local_host(request):
-    return request.headers.get('host','').lower() in ('localhost:8000','127.0.0.1:8000')
-
 def reply(data,status=200):return JSONResponse(data,status_code=status,headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'})
 
 @router.api_route('/local/{name}',methods=['GET','POST'])
 async def endpoint(name:str,request:Request):
-    if not local_host(request):return reply({'error':'로컬 접근만 허용합니다.'},403)
-    if not os.getenv('ADMIN_SECRET'):return reply({'error':'.env에 ADMIN_SECRET을 설정하고 서버를 다시 실행하세요.'},503)
-    if request.method=='POST' and request.headers.get('origin') not in ('http://localhost:8000','http://127.0.0.1:8000'):return reply({'error':'허용되지 않은 요청 출처입니다.'},403)
+    user=require_role(request,'admin','reporter')
+    if request.method=='POST':check_csrf(request,user)
     try:
         # 요청별 변경을 직렬화: 조사 중 저장/승인 경합으로 잘못된 버전이 승인되는 것을 막는다.
         async with lock:
@@ -262,7 +259,7 @@ async def endpoint(name:str,request:Request):
         return reply({'error':'편집실 처리에 실패했습니다. 서버 터미널을 확인하세요.'},500)
 
 async def static(request,path,csp=False):
-    if not local_host(request):return reply({'error':'로컬 접근만 허용합니다.'},403)
+    require_role(request,'admin','reporter')
     if not path.is_file():return reply({'error':'파일 없음'},404)
     headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}
     if csp:headers['Content-Security-Policy']=CSP
@@ -272,7 +269,12 @@ async def static(request,path,csp=False):
 async def redirect():return RedirectResponse('/editor/')
 
 @router.get('/editor/')
-async def home(request:Request):return await static(request,ROOT/'admin/index.html',True)
+async def home(request:Request):
+    user=current_user(request)
+    if not user:return RedirectResponse('/login?next=%2Feditor%2F',status_code=303)
+    if user['role'] not in ('admin','reporter'):
+        return FileResponse(ROOT/'accounts/forbidden.html',status_code=403,headers={'Cache-Control':'no-store'})
+    return await static(request,ROOT/'admin/index.html',True)
 
 @router.get('/editor/{asset:path}')
 async def editor_asset(asset:str,request:Request):
@@ -286,4 +288,5 @@ async def preview(asset:str,request:Request):
     path=(ROOT/asset).resolve()
     if not path.is_relative_to(ROOT.resolve()):return reply({'error':'파일 없음'},404)
     return await static(request,path)
+
 

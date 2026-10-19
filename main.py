@@ -9,12 +9,17 @@ from pathlib import Path
 
 import pymysql
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, RedirectResponse
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 load_dotenv(Path(__file__).parent / ".env")
 
 app = FastAPI(title="TODAY'S ROCK API")
+from account_system.routes import router as account_router
+from account_system.security import allowed_hosts, current_user
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=allowed_hosts())
+app.include_router(account_router)
 from editor_bridge import router as editor_router
 app.include_router(editor_router)
 
@@ -209,7 +214,39 @@ def font_asset(asset: str):
     return public_file("fonts/" + asset)
 
 
+def account_page(request, filename, role=None):
+    user = current_user(request)
+    if not user:
+        from urllib.parse import quote
+        return RedirectResponse("/login?next=" + quote(request.url.path, safe=""), status_code=303)
+    if role and user["role"] != role:
+        return FileResponse(ROOT / "accounts/forbidden.html", status_code=403,
+                            headers={"Cache-Control": "no-store"})
+    return FileResponse(ROOT / "accounts" / filename, headers={"Cache-Control": "no-store"})
+
+
+@app.get("/login", include_in_schema=False)
+@app.get("/signup", include_in_schema=False)
+def account_login():
+    return FileResponse(ROOT / "accounts/auth.html", headers={"Cache-Control": "no-store"})
+
+
+@app.get("/mypage", include_in_schema=False)
+@app.get("/mypage/", include_in_schema=False)
+def mypage(request: Request):
+    return account_page(request, "mypage.html")
+
+
+@app.get("/admin", include_in_schema=False)
 @app.get("/admin/", include_in_schema=False)
 @app.get("/admin/index.html", include_in_schema=False)
-def legacy_editor():
-    return RedirectResponse("/editor/")
+def admin_page(request: Request):
+    return account_page(request, "manage.html", "admin")
+
+
+@app.get("/account-assets/{asset}", include_in_schema=False)
+def account_asset(asset: str):
+    if asset not in {"common.js", "page.js", "style.css"}:
+        raise HTTPException(404, "파일을 찾지 못했습니다.")
+    return public_file("accounts/" + asset)
+

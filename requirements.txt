@@ -1,6 +1,8 @@
 fastapi
+pydantic>=2.12,<3
 uvicorn
 pymysql
 cryptography
 python-dotenv
 httpx
+

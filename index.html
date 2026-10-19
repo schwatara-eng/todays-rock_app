@@ -11,6 +11,7 @@
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
   <link href="style.css" rel="stylesheet"/>
+  <link href="/account-assets/style.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Maru+Buri:wght@700&display=swap" rel="stylesheet"/>
  </head>
@@ -22,9 +23,12 @@
    <a aria-label="오늘의 록 처음으로" class="logo" href="#">
     TODAY'S ROCK
    </a>
-   <p>
-    WEATHER · MOOD · MUSIC
-   </p>
+   <div class="header-end">
+    <p>WEATHER · MOOD · MUSIC</p>
+    <nav class="account-nav" id="account-nav" aria-label="회원 메뉴">
+     <a href="/signup">회원가입</a><a href="/login">로그인</a>
+    </nav>
+   </div>
   </header>
   <main>
    <section class="hero">
@@ -153,7 +157,6 @@
     </p>
     <h2 id="artist-title">
      <span>오늘의 뮤지션</span>
-     <a class="artist-editor-link" href="/editor/" aria-label="오늘의 뮤지션 편집실 열기">편집실 ↗</a>
     </h2>
     <div id="artist-current-content">
      <div class="artist-editorial-grid">
@@ -287,8 +290,10 @@
     © 2026 TODAY'S ROCK
    </p>
   </footer>
+  <script src="/account-assets/common.js"></script>
   <script src="script.js">
   </script>
  </body>
 </html>
+
 

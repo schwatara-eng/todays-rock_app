@@ -1354,16 +1354,3 @@ main > .artist-feature .artist-feature-sources {
   justify-content: space-between;
   gap: 12px;
 }
-
-#artist-title .artist-editor-link {
-  flex: 0 0 auto;
-  padding: 4px 7px;
-  border: 1px solid #666;
-  border-radius: 3px;
-  background: #333;
-  color: #aaa;
-  font: 400 10px/1.2 Arial, sans-serif;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
-}
