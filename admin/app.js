@@ -263,9 +263,9 @@ function renderFacts(sheet) {
     const pair = element('div', '', 'fact-pair');
     const combined = element('div', '', 'fact-combined');
     // 검증 완료 항목은 초록 도장으로 한눈에 구분합니다.
-    if (fact.verificationStatus === 'VERIFIED') stamp(combined, '검증 완료');
+    if (fact.verificationStatus === 'VERIFIED') stamp(combined);
     // 평론(의견) 항목은 검증 대상이 아니므로 회색 '평론' 도장으로 구분합니다.
-    else if (fact.verificationStatus === 'OPINION' || fact.type === 'opinion') stamp(combined, '평론', 'gray');
+    else if (fact.verificationStatus === 'OPINION' || fact.type === 'opinion') stamp(combined, 'gray');
     combined.append(card, result);
     pair.append(combined, sourceCard);
     rows.append(pair);
@@ -409,12 +409,12 @@ function editorialForm(issue, operation, token, close) {
   return form;
 }
 
-// 칸 바탕에 도장 무늬를 찍습니다. 기본은 초록, tone이 'gray'면 회색입니다.
-// 모양은 style.css의 .stamped 규칙에서 그립니다.
-function stamp(node, label, tone = 'green') {
+// 통과한 칸에는 초록 APPROVED 도장, 평론 항목에는 회색 CRITIQUE 도장을 찍습니다.
+// 그림은 style.css의 .stamped / .stamped-gray 규칙에 있습니다.
+function stamp(node, tone = 'approved') {
   node.classList.add('stamped');
   node.classList.toggle('stamped-gray', tone === 'gray');
-  node.dataset.stamp = label;
+  node.dataset.stamp = tone === 'gray' ? 'CRITIQUE' : 'APPROVED';
 }
 
 function editorialActor(decision) {
@@ -439,7 +439,7 @@ function editorialCard(issue, event = null) {
   const token = lastState?.editorialReviewHash;
   if (issue.decision) {
     const decision = issue.decision;
-    stamp(card, decision.status === 'edited' ? '수정 반영' : '패스 승인');
+    stamp(card);
     card.append(element('p', decision.status === 'edited' ? '수정 반영 완료' : '에디터 패스', 'editorial-decision'));
     card.append(element('p', `처리 사유: ${decision.reason}`), element('p', editorialActor(decision), 'editorial-form-note'));
     if (event?.operation === 'edit') card.append(editorialChange(event));
@@ -534,7 +534,7 @@ function showState(data, replaceArticle = true) {
   $('draft-status').textContent = approved ? '승인 완료' : '초안';
   $('approval-status').textContent = published ? '승인 완료 · 홈 게시됨' : approved ? '승인 완료 · 미게시' : '초안 · 미게시';
   const approvalPanel = document.querySelector('.approval-panel');
-  if (approved) stamp(approvalPanel, published ? '게시 완료' : '승인 완료');
+  if (approved) stamp(approvalPanel);
   else { approvalPanel.classList.remove('stamped'); delete approvalPanel.dataset.stamp; }
   $('confirm-sources').checked = false;
   $('export-article').disabled = !approved;

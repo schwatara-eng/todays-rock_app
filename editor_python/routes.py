@@ -287,7 +287,7 @@ async def home(request:Request):
 
 @router.get('/editor/{asset:path}')
 async def editor_asset(asset:str,request:Request):
-    if asset not in ('app.js','style.css','fonts/Galmuri9.woff2'):return reply({'error':'파일 없음'},404)
+    if asset not in ('app.js','style.css','fonts/Galmuri9.woff2','stamp-approved.svg','stamp-critique.svg'):return reply({'error':'파일 없음'},404)
     return await static(request,ROOT/'fonts/Galmuri9.woff2' if asset.startswith('fonts/') else ROOT/'admin'/asset)
 
 @router.get('/site/{asset:path}')

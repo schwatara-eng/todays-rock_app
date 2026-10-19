@@ -1108,9 +1108,16 @@ button:disabled {
   font-size: 12px;
 }
 
-/* ── 검증 완료 · 처리 · 승인 도장 ─────────────────────────────
- * app.js의 stamp()가 .stamped 클래스와 data-stamp 글자를 붙입니다.
- * 도장은 글자 뒤 바탕에 깔리고 클릭을 가로막지 않습니다. */
+/* ── 통과·평론 도장 ─────────────────────────────────────────
+ * app.js의 stamp()가 .stamped(초록 APPROVED) 또는
+ * .stamped.stamped-gray(회색 CRITIQUE) 클래스를 붙입니다.
+ * 도장 그림은 admin/stamp-approved.svg, admin/stamp-critique.svg 파일이며,
+ * 글자 뒤 바탕에 깔리고 클릭을 가로막지 않습니다. */
+:root {
+  --stamp-approved: url("/editor/stamp-approved.svg");
+  --stamp-critique: url("/editor/stamp-critique.svg");
+}
+
 .stamped {
   position: relative;
   isolation: isolate;
@@ -1118,47 +1125,34 @@ button:disabled {
 }
 
 .stamped::before {
-  content: attr(data-stamp);
+  content: "";
   position: absolute;
   z-index: -1;
-  box-sizing: border-box;
-  right: 18px;
-  bottom: 14px;
-  width: 100px;
-  height: 100px;
-  display: grid;
-  place-items: center;
-  padding: 0 14px;
-  border: 3px double rgba(126, 186, 122, .5);
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 5px transparent, inset 0 0 0 6px rgba(126, 186, 122, .32);
-  color: rgba(140, 198, 134, .62);
-  font: 400 17px/1.15 "Gungsuh", "궁서", "GungSeo", "궁서체", serif;
-  letter-spacing: 1px;
-  text-align: center;
-  word-break: keep-all;
-  transform: rotate(-14deg);
+  right: 10px;
+  bottom: 6px;
+  width: 128px;
+  height: 128px;
+  background: var(--stamp-approved) center / contain no-repeat;
+  opacity: .7;
   pointer-events: none;
 }
 
-/* 승인 칸은 넓으니 도장을 조금 크게 */
+/* 승인 칸은 넓으니 도장을 크게, 세로 가운데에 */
 .approval-panel.stamped::before {
-  width: 124px;
-  height: 124px;
-  right: 32px;
+  width: 160px;
+  height: 160px;
+  right: 28px;
   top: 50%;
   bottom: auto;
-  margin-top: -62px;
-  font-size: 21px;
+  margin-top: -80px;
 }
 
-/* 평론 항목: 검증 대상이 아니므로 회색 도장 */
+/* 평론 항목: 검증 대상이 아니므로 회색 CRITIQUE 도장 */
 .stamped-gray {
   border-color: #5a5551 !important;
 }
 
 .stamped-gray::before {
-  border-color: rgba(176, 170, 164, .45);
-  box-shadow: inset 0 0 0 5px transparent, inset 0 0 0 6px rgba(176, 170, 164, .28);
-  color: rgba(190, 184, 178, .55);
+  background-image: var(--stamp-critique);
+  opacity: .6;
 }
