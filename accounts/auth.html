@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>회원 로그인 — TODAY'S ROCK</title>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/account-assets/style.css">
+  <script src="/account-assets/common.js" defer></script><script src="/account-assets/page.js" defer></script>
+</head>
+<body class="account-page" data-page="auth">
+  <header class="site-header"><a class="logo" href="/">TODAY'S ROCK</a><div class="header-end"><p>WEATHER · MOOD · MUSIC</p><nav class="account-nav" id="account-nav" aria-label="회원 메뉴"><a href="/signup">회원가입</a><a href="/login">로그인</a></nav></div></header>
+  <main class="account-main auth-main">
+    <section class="account-box auth-box">
+      <p class="section-label">YOUR DAILY SOUNDTRACK</p>
+      <h1 id="auth-title">로그인</h1>
+      <p class="account-intro" id="auth-intro">좋아하는 곡을 모아 나만의 기록을 만들어보세요.</p>
+      <form id="auth-form" method="post" class="account-form">
+        <div id="name-field" hidden><label for="display-name">닉네임</label><input id="display-name" name="display_name" autocomplete="nickname" minlength="2" maxlength="40" placeholder="사용할 이름을 입력하세요"></div>
+        <div><label for="email">이메일</label><input id="email" name="email" type="email" autocomplete="username" maxlength="254" required placeholder="you@example.com"></div>
+        <div><label for="password">비밀번호</label><input id="password" name="password" type="password" autocomplete="current-password" maxlength="128" required><p class="field-note" id="password-note" hidden>10~128자로 입력해주세요.</p></div>
+        <div id="confirm-field" hidden><label for="password-confirm">비밀번호 확인</label><input id="password-confirm" type="password" autocomplete="new-password" maxlength="128"></div>
+        <p id="page-message" class="page-message" role="status" aria-live="polite"></p>
+        <button class="account-primary" id="auth-submit" type="submit">로그인</button>
+      </form>
+      <p class="auth-switch" id="auth-switch">아직 계정이 없나요? <a href="/signup">회원가입</a></p>
+      <a class="account-back" href="/">← 홈으로 돌아가기</a>
+    </section>
+  </main>
+</body>
+</html>

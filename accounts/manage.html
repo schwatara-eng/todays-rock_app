@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>오늘의 록 관리실 — TODAY'S ROCK</title>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/account-assets/style.css">
+  <script src="/account-assets/common.js" defer></script><script src="/account-assets/page.js" defer></script>
+</head>
+<body class="account-page" data-page="admin">
+  <header class="site-header"><a class="logo" href="/">TODAY'S ROCK</a><div class="header-end"><p>WEATHER · MOOD · MUSIC</p><nav class="account-nav" id="account-nav" aria-label="회원 메뉴"></nav></div></header>
+  <main class="account-main">
+    <section class="account-hero" aria-labelledby="admin-title">
+      <p class="account-hero-label">ADMINISTRATION</p>
+      <h1 class="account-hero-title" id="admin-title">오늘의 록 <em>관리실</em></h1>
+      <p class="account-hero-description">회원 계정과 편집실 권한을 관리해요.</p>
+      <div class="account-hero-actions"><a class="account-primary" href="/editor/">편집실 열기 ↗</a><a class="account-secondary" href="/mypage">마이페이지</a></div>
+    </section>
+    <p id="page-message" class="page-message" role="status" aria-live="polite"></p>
+    <section class="member-stats" aria-label="회원 현황"><div><span>전체 회원</span><strong id="stat-total">—</strong></div><div><span>기자</span><strong id="stat-reporters">—</strong></div><div><span>관리자</span><strong id="stat-admins">—</strong></div><div><span>정지 계정</span><strong id="stat-suspended">—</strong></div></section>
+    <section class="account-box" aria-labelledby="members-title">
+      <div class="box-heading"><h2 id="members-title">회원 관리</h2><form class="member-search" id="member-search"><label class="sr-only" for="member-query">이메일 또는 닉네임 검색</label><input id="member-query" placeholder="이메일 또는 닉네임" maxlength="100"><button class="account-secondary" type="submit">검색</button></form></div>
+      <p class="account-muted">권한과 상태를 선택한 뒤 저장하세요. 기자는 편집실을 사용할 수 있어요.</p>
+      <div class="member-table-wrap"><table class="member-table"><thead><tr><th scope="col">회원</th><th scope="col">가입일</th><th scope="col">권한</th><th scope="col">계정 상태</th><th scope="col">변경</th></tr></thead><tbody id="members-list"></tbody></table></div>
+      <p class="empty-state" id="members-empty" hidden>검색 결과가 없어요.</p>
+      <div class="pagination"><button id="members-prev" type="button" disabled>이전</button><span id="members-page">1</span><button id="members-next" type="button" disabled>다음</button></div>
+    </section>
+    <section class="account-box audit-section"><h2>최근 권한·상태 변경</h2><ol class="audit-list" id="audit-list"><li>기록을 불러오는 중이에요.</li></ol></section>
+  </main>
+</body>
+</html>

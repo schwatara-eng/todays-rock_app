@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>마이페이지 — TODAY'S ROCK</title>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/account-assets/style.css">
+  <script src="/account-assets/common.js" defer></script><script src="/account-assets/page.js" defer></script>
+</head>
+<body class="account-page" data-page="mypage">
+  <header class="site-header"><a class="logo" href="/">TODAY'S ROCK</a><div class="header-end"><p>WEATHER · MOOD · MUSIC</p><nav class="account-nav" id="account-nav" aria-label="회원 메뉴"></nav></div></header>
+  <main class="account-main">
+    <section class="account-hero" aria-labelledby="mypage-title">
+      <p class="account-hero-label">MY SOUNDTRACK</p>
+      <h1 class="account-hero-title" id="mypage-title">마이페이지</h1>
+      <p class="account-hero-description" id="welcome">내 음악 기록을 불러오는 중이에요.</p>
+      <div class="account-hero-actions" id="role-links"></div>
+    </section>
+    <p class="page-message" id="page-message" role="status" aria-live="polite"></p>
+    <section class="account-box likes-section" aria-labelledby="likes-title">
+      <div class="box-heading"><h2 id="likes-title">좋아요한 곡 <span id="likes-count" class="count-tag">0</span></h2><a class="small-link" href="/">오늘의 음악 찾기 ↗</a></div>
+      <p class="account-muted">최근에 좋아요한 순서로 모여요. 하트를 다시 누르면 목록에서 빠져요.</p>
+      <div class="likes-table-wrap" role="region" aria-label="좋아요한 곡 목록" tabindex="0">
+        <table class="likes-table" aria-labelledby="likes-title">
+          <thead><tr><th scope="col">번호</th><th scope="col">곡명</th><th scope="col">뮤지션</th><th scope="col">연도 · 장르</th><th scope="col">저장일</th><th scope="col">듣기</th><th scope="col">좋아요</th></tr></thead>
+          <tbody id="likes-list"><tr><td colspan="7" class="empty-state">곡을 불러오고 있어요.</td></tr></tbody>
+        </table>
+      </div>
+      <p class="account-muted likes-scroll-hint">표를 좌우로 움직여 나머지 정보를 확인할 수 있어요.</p>
+      <div class="pagination"><button id="likes-prev" type="button" disabled>이전</button><span id="likes-page">1</span><button id="likes-next" type="button" disabled>다음</button></div>
+    </section>
+    <div class="profile-grid">
+      <section class="account-box"><h2>내 프로필</h2><p class="account-muted" id="profile-email"></p><p class="role-chip" id="profile-role"></p>
+        <form class="account-form" id="profile-form" method="post"><div><label for="profile-name">닉네임</label><input id="profile-name" minlength="2" maxlength="40" autocomplete="nickname" required></div><button class="account-secondary" type="submit">닉네임 저장</button></form>
+      </section>
+      <section class="account-box"><h2>비밀번호 변경</h2><form class="account-form" id="password-form" method="post">
+        <div><label for="current-password">현재 비밀번호</label><input id="current-password" type="password" autocomplete="current-password" maxlength="128" required></div>
+        <div><label for="new-password">새 비밀번호</label><input id="new-password" type="password" autocomplete="new-password" minlength="10" maxlength="128" required><p class="field-note">10~128자로 입력해주세요.</p></div>
+        <div><label for="new-password-confirm">새 비밀번호 확인</label><input id="new-password-confirm" type="password" autocomplete="new-password" minlength="10" maxlength="128" required></div>
+        <button class="account-secondary" type="submit">비밀번호 변경</button></form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

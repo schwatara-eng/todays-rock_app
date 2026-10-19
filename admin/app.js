@@ -2,7 +2,7 @@
  * TODAY'S ROCK - 관리자 편집기 화면 제어
  *
  * 서버와의 통신은 /local/* 경로만 사용한다.
- * OPENAI_API_KEY 및 ADMIN_SECRET은 이 파일에 절대 넣지 않는다.
+ * 회원 세션과 CSRF 토큰을 사용합니다. API 비밀키는 이 파일에 넣지 않습니다.
  */
 
 // ─────────────────────────────────────────────────────────────
@@ -56,6 +56,7 @@ let currentArtist = 'jack-white';
 // 아직 한 번도 저장하지 않은 새 뮤지션의 이름 정보 (첫 저장 때 서버로 보냅니다)
 let pendingArtistInfo = null;
 let reportExpanded = true;
+let editorCsrf = '';
 
 function message(text) {
   $('status').textContent = text;
@@ -331,30 +332,161 @@ function renderReport(root, report, facts) {
   root.append(box);
 }
 
-function renderIssues(targetId, countId, review, kind) {
-  const root = $(targetId);
-  root.replaceChildren();
+async function saveEditorialChange(payload, expectedReviewHash) {
+  if (hasUnsavedChanges()) throw new Error('현재 원고를 먼저 저장하고 AI 편집 검토를 갱신하세요.');
+  const fields = [$('title'), $('body')];
+  const previous = fields.map(field => field.readOnly);
+  fields.forEach(field => { field.readOnly = true; });
+  try {
+    const data = await post('/local/editorial-edit', { ...payload, expectedReviewHash, article: currentArticle() });
+    showState(data, payload.operation === 'edit');
+    message(payload.operation === 'edit'
+      ? '수정문을 원고에 반영하고 처리 기록을 저장했습니다. 바뀐 원고의 사실 검수를 갱신한 뒤 승인하세요.'
+      : payload.operation === 'pass'
+        ? '에디터의 사유와 함께 패스했습니다. 남은 편집 의견을 확인하세요.'
+        : '다시 검토할 항목으로 돌렸습니다. 현재 원고를 확인하고 수정 또는 패스하세요.');
+  } finally {
+    fields.forEach((field, index) => { field.readOnly = previous[index]; });
+  }
+}
 
+function editorialForm(issue, operation, token, close) {
+  const form = document.createElement('form'); form.className = 'editorial-human-form'; form.hidden = true;
+  form.id = `editorial-${operation}-${issue.id}`;
+  function label(text, control) {
+    const wrapper = document.createElement('label');
+    control.setAttribute('aria-label', `${issue.id} ${text}`);
+    wrapper.append(document.createTextNode(text), control); form.append(wrapper);
+  }
+  let original, replacement, occurrence;
+  if (operation === 'edit') {
+    original = document.createElement('textarea'); original.rows = 3; original.maxLength = 6000; original.required = true; original.value = issue.currentText || issue.text || '';
+    replacement = document.createElement('textarea'); replacement.rows = 3; replacement.maxLength = 15000; replacement.value = original.value;
+    label('바꿀 부분 · 현재 원고에서 그대로 복사', original);
+    label('수정문 · 비우면 해당 부분 삭제', replacement);
+    occurrence = document.createElement('select');
+    label('같은 문구 중 수정할 위치', occurrence);
+    const note = element('p', '', 'editorial-form-note'); form.append(note);
+    function findOccurrences() {
+      const text = currentArticle()[issue.field] || '', excerpt = original.value;
+      const positions = []; let start = 0;
+      while (excerpt) {
+        const index = text.indexOf(excerpt, start); if (index < 0) break;
+        positions.push(index); start = index + excerpt.length;
+      }
+      occurrence.replaceChildren();
+      if (positions.length > 1) {
+        const placeholder = element('option', '수정할 위치를 선택하세요.'); placeholder.value = ''; placeholder.disabled = true; placeholder.selected = true; occurrence.append(placeholder);
+      }
+      positions.forEach((position, index) => {
+        const option = element('option', `${index + 1}번째 · ${text.slice(Math.max(0, position - 20), position + excerpt.length + 20).replace(/\s+/g, ' ')}`);
+        option.value = String(index); occurrence.append(option);
+      });
+      occurrence.required = positions.length > 1;
+      occurrence.parentElement.hidden = positions.length <= 1;
+      note.textContent = !positions.length ? '일치하는 부분이 없습니다. 현재 원고에서 바꿀 부분을 그대로 복사하세요.'
+        : positions.length > 1 ? `${positions.length}곳 중 선택한 한 곳만 수정합니다.` : '이 부분만 원고에 반영해 저장합니다. 변경된 원고의 사실 검수는 갱신해야 합니다.';
+    }
+    original.addEventListener('input', findOccurrences); findOccurrences();
+  }
+  const reason = document.createElement('textarea'); reason.rows = 2; reason.maxLength = 600; reason.required = true;
+  reason.placeholder = operation === 'pass' ? '예: 에디터 코멘트의 의도된 구어체이므로 유지합니다.' : '예: 같은 내용의 반복을 줄이고 문장을 연결했습니다.';
+  label(operation === 'pass' ? '패스 사유' : '수정 사유', reason);
+  const actions = element('div', '', 'editorial-form-actions');
+  const save = element('button', operation === 'pass' ? '사유 기록 후 패스' : '원고에 반영 · 수정 처리', 'primary'); save.type = 'submit';
+  const cancel = element('button', '취소'); cancel.type = 'button'; cancel.addEventListener('click', close);
+  actions.append(save, cancel); form.append(actions);
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const payload = { operation, issueId: issue.id, reason: reason.value };
+    if (operation === 'edit') Object.assign(payload, { text: original.value, replacement: replacement.value, occurrence: Number(occurrence.value || 0) });
+    run(() => saveEditorialChange(payload, token));
+  });
+  return form;
+}
+
+function editorialActor(decision) {
+  const actor = decision.actor || {};
+  const role = actor.role === 'admin' ? '관리자' : '기자';
+  const time = decision.at ? new Date(decision.at).toLocaleString('ko-KR') : '';
+  return `${actor.displayName || '편집자'} · ${role}${time ? ' · ' + time : ''}`;
+}
+
+function editorialCard(issue) {
+  const card = element('div', '', 'issue editorial-issue'); card.dataset.editorialIssue = issue.id;
+  card.append(element('strong', `${issue.id} · ${koreanLabel(issue.field)} · ${koreanLabel(issue.category || 'editorial')}`));
+  if (issue.text) card.append(element('p', `AI 검토 원문: ${issue.text}`, 'editorial-quote'));
+  card.append(element('p', `AI 검토 사유: ${issue.reason}`), element('p', `AI 수정 제안: ${issue.suggestion}`));
+  const token = lastState?.editorialReviewHash;
+  if (issue.decision) {
+    const decision = issue.decision;
+    card.append(element('p', decision.status === 'edited' ? '수정 반영 완료' : '에디터 패스', 'editorial-decision'));
+    card.append(element('p', `처리 사유: ${decision.reason}`), element('p', editorialActor(decision), 'editorial-form-note'));
+    const reopen = element('button', '다시 검토'); reopen.type = 'button';
+    reopen.addEventListener('click', () => run(() => saveEditorialChange({ operation: 'reopen', issueId: issue.id }, token)));
+    card.append(reopen);
+  } else {
+    const tools = element('div', '', 'editorial-tools');
+    const controls = [];
+    for (const [operation, title] of [['edit', '원고 수정'], ['pass', '패스']]) {
+      const button = element('button', title); button.type = 'button'; button.setAttribute('aria-expanded', 'false');
+      const close = () => { form.hidden = true; button.setAttribute('aria-expanded', 'false'); button.focus(); };
+      const form = editorialForm(issue, operation, token, close);
+      button.setAttribute('aria-controls', form.id);
+      controls.push({ button, form }); tools.append(button);
+      button.addEventListener('click', () => {
+        const open = form.hidden;
+        for (const control of controls) { control.form.hidden = true; control.button.setAttribute('aria-expanded', 'false'); }
+        if (open) { form.hidden = false; button.setAttribute('aria-expanded', 'true'); form.querySelector('textarea').focus(); }
+      });
+    }
+    card.append(tools, ...controls.map(control => control.form));
+  }
+  return card;
+}
+
+function renderEditorialReview(review) {
+  const root = $('editorial-result');
+  root.replaceChildren();
   if (!review) {
-    $(countId).textContent = '미검토';
+    $('editorial-count').textContent = '미검토';
     root.append(element('p', '현재 저장된 기사에 대한 검토 결과가 없습니다.'));
     return;
   }
-
   const issues = Array.isArray(review.issues) ? review.issues : [];
-  $(countId).textContent = `문제 ${issues.length}건`;
-
-  if (issues.length === 0) {
-    root.append(element('p', 'AI가 지적한 문제가 없습니다. 편집자 확인은 별도로 필요합니다.', 'ok'));
+  const waiting = issues.filter(issue => !issue.decision), resolved = issues.filter(issue => issue.decision);
+  const edited = resolved.filter(issue => issue.decision.status === 'edited').length;
+  $('editorial-count').textContent = `대기 ${waiting.length} · 수정 ${edited} · 패스 ${resolved.length - edited}`;
+  root.append(element('p', !issues.length ? 'AI가 지적한 문제가 없습니다. 편집자의 최종 확인을 마치세요.'
+    : waiting.length ? 'AI 편집 의견을 확인하고 원고 수정 또는 사유를 남겨 패스하세요.'
+      : '에디터가 편집 의견을 모두 처리했습니다. 사실 검수와 최종 출처 확인을 마치면 승인할 수 있습니다.', waiting.length ? 'editorial-summary' : 'ok'));
+  if (review.aiArticleHash && review.aiArticleHash !== review.articleHash && !lastState?.state?.factCurrent) {
+    root.append(element('p', '원고를 수정했습니다. 바뀐 원고의 팩트시트와 사실 검수를 갱신하세요.', 'editorial-summary'));
   }
-
-  for (const issue of issues) {
-    const card = element('div', '', 'issue');
-    card.append(element('strong', `${koreanLabel(issue.field)} · ${koreanLabel(issue.verdict || issue.category || kind)}`));
-    if (issue.text) card.append(element('p', issue.text));
-    card.append(element('p', `사유: ${issue.reason}`));
-    card.append(element('p', `수정 제안: ${issue.suggestion}`));
-    root.append(card);
+  for (const issue of waiting) root.append(editorialCard(issue));
+  if (resolved.length) {
+    const done = document.createElement('details'); done.className = 'editorial-resolved';
+    done.append(element('summary', `처리한 편집 의견 ${resolved.length}건 · 보기/다시 검토`));
+    for (const issue of resolved) done.append(editorialCard(issue));
+    root.append(done);
+  }
+  const history = review.manualHistory || [];
+  if (history.length) {
+    const log = document.createElement('details'); log.className = 'editorial-history';
+    log.append(element('summary', `처리 이력 ${history.length}건${history.length > 20 ? ' · 최근 20건' : ''}`));
+    const list = document.createElement('ol');
+    for (const event of history.slice(-20).reverse()) {
+      const item = document.createElement('li');
+      const operation = { edit: '원고 수정', pass: '패스', reopen: '다시 검토' }[event.operation] || '처리';
+      item.append(element('strong', `${event.issueId} · ${operation}`), element('p', editorialActor(event), 'editorial-form-note'), element('p', `사유: ${event.reason}`));
+      if (event.issue?.text) item.append(element('p', `AI 검토 대상: ${event.issue.text}`, 'editorial-quote'));
+      if (event.operation === 'edit') {
+        const change = document.createElement('details'); change.append(element('summary', '수정 전후 보기'));
+        change.append(element('p', `수정 전: ${event.original}`, 'editorial-quote'), element('p', `수정 후: ${event.replacement || '(삭제)'}`, 'editorial-quote')); item.append(change);
+      }
+      list.append(item);
+    }
+    log.append(list); root.append(log);
   }
 }
 
@@ -368,7 +500,7 @@ function showState(data, replaceArticle = true) {
   lastState = data;
   if (replaceArticle) showArticle(data.article);
   renderFacts(data.factSheet);
-  renderIssues('editorial-result', 'editorial-count', data.editorialReview, 'editorial');
+  renderEditorialReview(data.editorialReview);
 
   const approved = data.state?.approved === true;
   const published = approved && data.approval?.published === true;
@@ -401,14 +533,15 @@ function showPhoto(article) {
 async function readJson(response) {
   let data;
   try { data = await response.json(); } catch { data = {}; }
-  if (!response.ok) throw new Error(data.error || `서버 응답 오류 (HTTP ${response.status})`);
+  if (response.status === 401) location.assign('/login?next=%2Feditor%2F');
+  if (!response.ok) throw new Error(data.error || data.detail || `서버 응답 오류 (HTTP ${response.status})`);
   return data;
 }
 
 async function post(endpoint, payload = {}) {
   const response = await fetch(endpoint, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': editorCsrf },
     body: JSON.stringify({ ...payload, artist: currentArtist })
   });
   return readJson(response);
@@ -469,6 +602,16 @@ async function loadArtist(id) {
 
 async function initialize() {
   try {
+    const account = await getJson('/api/auth/me');
+    if (!account.user) { location.assign('/login?next=%2Feditor%2F'); return; }
+    if (!account.user.canEdit) { location.assign('/mypage'); return; }
+    editorCsrf = account.csrfToken;
+    document.querySelector('.local').textContent = `${account.user.displayName} · ${account.user.roleLabel}`;
+    const accountLink = document.createElement('a');
+    accountLink.href = account.user.isAdmin ? '/admin/' : '/mypage';
+    accountLink.textContent = account.user.isAdmin ? '관리자 페이지 ↗' : '마이페이지 ↗';
+    accountLink.className = 'account-return';
+    document.querySelector('.topbar').append(accountLink);
     const artists = (await getJson('/local/artists')).artists;
     const saved = recalledArtist();
     if (saved && artists.some((a) => a.id === saved)) currentArtist = saved;
@@ -562,6 +705,7 @@ $('save').addEventListener('click', () => run(async () => {
 
 $('recheck').addEventListener('click', () => run(async () => {
   if (hasUnsavedChanges()) throw new Error('먼저 초안 저장을 눌러 주세요.');
+  if ((lastState?.editorialReview?.manualRevision || 0) > 0 && !confirm('AI 편집 검토를 새로 실행할까요? 처리 이력은 남고, 새 검토의 의견은 다시 확인해야 합니다.')) return;
   message('사실 검수와 편집 검토를 순서대로 실행하고 있습니다…');
   const data = await post('/local/recheck', { article: currentArticle() });
   showState(data, false);
@@ -570,6 +714,7 @@ $('recheck').addEventListener('click', () => run(async () => {
 
 $('editorial').addEventListener('click', () => run(async () => {
   if (hasUnsavedChanges()) throw new Error('먼저 초안 저장을 눌러 주세요.');
+  if ((lastState?.editorialReview?.manualRevision || 0) > 0 && !confirm('AI 편집 검토를 새로 실행할까요? 처리 이력은 남고, 새 검토의 의견은 다시 확인해야 합니다.')) return;
   message('AI 편집 검토를 진행하고 있습니다…');
   const data = await post('/local/editorial', { article: currentArticle() });
   showState(data, false);
@@ -787,7 +932,7 @@ $('photo-file').addEventListener('change', () => run(async () => {
     message('뮤지션 사진을 저장하고 있습니다…');
     const response = await fetch(`/local/photo?${artistQuery()}`, {
       method: 'POST',
-      headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      headers: { 'Content-Type': file.type || 'application/octet-stream', 'X-CSRF-Token': editorCsrf },
       body: file
     });
     showState(await readJson(response), false);
@@ -884,7 +1029,7 @@ function setupEditorialWorkflow() {
     }
   }
   editing.append(editorialPanel);
-  // 기존 사실 검수 결과 DOM은 renderIssues 호환용으로만 유지한다.
+  // 기존 사실 검수 결과 DOM은 예전 화면 배치와의 호환을 위해 유지한다.
   sourcePanel.hidden = true;
   sourcePanel.classList.add('legacy-review-hidden');
   editing.append(sourcePanel);
@@ -917,4 +1062,5 @@ function matchFactBoxHeight(draft, box) {
 setupEditorialWorkflow();
 
 initialize();
+
 

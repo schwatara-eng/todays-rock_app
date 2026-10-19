@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="오늘의 날씨와 기분에 어울리는 록 음악을 추천합니다." name="description"/>
+  <title>
+   오늘의 록
+  </title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+  <link href="/account-assets/style.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Maru+Buri:wght@700&display=swap" rel="stylesheet"/>
+ </head>
+ <body>
+  <video class="bg-video" autoplay muted loop playsinline>
+  <source src="images/gemini_generated_video_5b740273.mp4" type="video/mp4">
+</video>
+  <header class="site-header">
+   <a aria-label="오늘의 록 처음으로" class="logo" href="#">
+    TODAY'S ROCK
+   </a>
+   <div class="header-end">
+    <p>WEATHER · MOOD · MUSIC</p>
+    <nav class="account-nav" id="account-nav" aria-label="회원 메뉴">
+     <a href="/signup">회원가입</a><a href="/login">로그인</a>
+    </nav>
+   </div>
+  </header>
+  <main>
+   <section class="hero">
+    <p class="eyebrow">
+     VOLUME 1 — DAILY SOUNDTRACK
+    </p>
+    <h1>
+     오늘은 어떤
+     <br/>
+     <span>
+      록이 필요해?
+     </span>
+    </h1>
+    <p class="intro">
+     지금의 날씨와 마음을 골라주세요.
+     <br/>
+     오늘을 통과할 세 곡을 찾아드릴게요.
+    </p>
+    <!-- 기존 얼굴 이미지를 대신하는 원형 날씨 패널.
+           기존 weather 관련 id를 그대로 사용해 JavaScript 수정 없이 데이터를 표시한다. -->
+    <article aria-label="현재 날씨" class="hero-weather">
+     <p class="section-label">
+      WEATHER
+     </p>
+     <div aria-hidden="true" class="hero-weather-icon" id="weather-icon">
+      ◌
+     </div>
+     <h3 id="weather-status">
+      날씨를 불러오는 중
+     </h3>
+     <p id="weather-detail">
+      잠시만 기다려주세요.
+     </p>
+     <button class="text-button hero-weather-button" id="location-button" type="button">
+      내 위치로 다시 찾기
+     </button>
+    </article>
+   </section>
+   <section class="content-layout">
+    <aside aria-label="오늘의 록 콘텐츠" class="side-column">
+     <section class="news-panel">
+      <p class="section-label">
+       ROCK NEWS
+      </p>
+      <h2>
+       오늘의 뉴스
+      </h2>
+      <!--
+  NME 뉴스가 JavaScript를 통해 이 영역에 들어온다.
+  HTML에 기사를 직접 적어두지 않고, script.js가 서버에서 받은
+  최신 기사 데이터를 이용해 article 요소를 만들어준다.
+-->
+      <div class="news-list" id="news-list">
+       <p class="news-loading">
+        NME 최신 뉴스를 불러오는 중...
+       </p>
+      </div>
+     </section>
+    </aside>
+    <div class="main-column">
+     <section aria-labelledby="selection-title" class="control-panel">
+      <h2 class="sr-only" id="selection-title">
+       기분 선택
+      </h2>
+      <div class="mood-section">
+       <p class="section-label">
+        MOOD
+       </p>
+       <h3 class="mood-title">
+        지금 기분은 어떤가요?
+       </h3>
+       <div aria-label="현재 기분" class="mood-grid" role="group">
+        <button class="mood-button" data-mood="tired" type="button">
+         지침
+        </button>
+        <button class="mood-button" data-mood="calm" type="button">
+         평온
+        </button>
+        <button class="mood-button" data-mood="blue" type="button">
+         울적함
+        </button>
+        <button class="mood-button" data-mood="excited" type="button">
+         신남
+        </button>
+        <button class="mood-button" data-mood="frustrated" type="button">
+         답답함
+        </button>
+        <button class="mood-button" data-mood="focused" type="button">
+         집중
+        </button>
+       </div>
+       <button class="recommend-button" disabled="" id="recommend-button" type="button">
+        오늘의 음악 찾기
+        <span aria-hidden="true">
+         ↗
+        </span>
+       </button>
+       <p aria-live="polite" class="selection-message" id="selection-message">
+        기분을 하나 골라주세요.
+       </p>
+      </div>
+     </section>
+     <section aria-labelledby="result-title" class="results" hidden="" id="result-section">
+      <div class="result-heading">
+       <div>
+        <p class="section-label">
+         TODAY'S SELECTION
+        </p>
+        <h2 id="result-title">
+         당신을 위한 세 곡
+        </h2>
+       </div>
+       <p id="result-summary">
+       </p>
+      </div>
+      <div class="song-list" id="song-list">
+      </div>
+      <article class="pick-card" id="pick-card">
+      </article>
+     </section>
+    </div>
+   </section>
+   <section aria-labelledby="artist-title" class="artist-panel artist-feature">
+    <p class="section-label">
+     ARTIST OF TODAY
+    </p>
+    <h2 id="artist-title">
+     <span>오늘의 뮤지션</span>
+    </h2>
+    <div id="artist-current-content">
+     <div class="artist-editorial-grid">
+      <div class="artist-editorial-left">
+       <figure class="artist-feature-photo">
+       <img src="images/김윤아.png" alt="김윤아" loading="lazy" />
+       </figure>
+      </div>
+      <div class="artist-editorial-right">
+       <div class="artist-feature-header">
+       <h3>
+       <span lang="ko" class="artist-name-main">김윤아</span>
+       <span lang="en" class="artist-name-sub">Kim Yuna</span>
+       </h3>
+        <p class="artist-feature-lead">
+         한국 록 무대의 한가운데에 선 목소리
+        </p>
+       </div>
+       <p class="artist-copy">
+        1997년 밴드 자우림의 보컬로 데뷔해 30년 가까이 활동해온 싱어송라이터. 자우림에서는 몽환적이면서도 날 선 모던 록을, 솔로에서는 피아노와 현악이 어우러진 서늘한 서정을 들려준다. 한 사람이 이토록 다른 얼굴을 오가면서도 늘 자기 목소리로 들리게 만드는 것, 그것이 김윤아의 힘이다. 최근 한 인터뷰 기획은 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가하기도 했다.
+       </p>
+       <div class="artist-feature-editor">
+        <p class="section-label">
+         EDITOR'S COMMENT
+        </p>
+        <p>
+         김윤아의 노래는 밝을 때도 어딘가 그늘이 있고, 어두울 때도 끝내 단단하다. '하하하쏭'으로 후회를 날리다가 '샤이닝'로 조용히 내려앉는 진폭. 그 넓은 폭 덕분에 그의 음악은 어떤 날씨에도 들을 곡이 있다. 다시 밴드 붐이 왔다는 지금, 그 붐의 앞자리에 선 여성 보컬들이 누구의 길을 걸어왔는지 떠올려 보자. 울적한 저녁이라면 '샤이닝'부터 들어보길 권한다.
+        </p>
+       </div>
+       <h4 class="artist-feature-subtitle">
+        주요 앨범과 활동
+       </h4>
+       <ul class="artist-feature-history">
+        <li>
+         <strong>
+          자우림 데뷔 (1997)
+         </strong>
+         <p>
+          '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.
+         </p>
+        </li>
+        <li>
+         <strong>
+          자우림 3집 <em>The Wonderland</em> (2000)
+         </strong>
+         <p>
+          '매직 카펫 라이드'를 담은 앨범. 지금도 축제와 응원 현장에서 울려 퍼지는 곡이다.
+         </p>
+        </li>
+        <li>
+         <strong>
+          '봄날은 간다' (2001)
+         </strong>
+         <p>
+          같은 이름의 영화 OST. 록 보컬이 아닌, 담담하게 무너지는 김윤아의 목소리를 처음 각인시켰다.
+         </p>
+        </li>
+        <li>
+         <strong>
+          솔로 1집 <em>Shadow of Your Smile</em> (2001)
+         </strong>
+         <p>
+          밴드와는 결이 다른 재즈·샹송풍의 솔로 세계를 열었다. 이후 '야상곡' 등으로 이어졌다.
+         </p>
+        </li>
+        <li>
+         <strong>
+          최근 활동
+         </strong>
+         <p>
+          2026년 4월, 밴드 붐 속 여성 프런트퍼슨을 조명한 경향신문 기획 인터뷰에 참여했다. 9월에는 단독 콘서트 'Coffee and Cigarette'를 성신여대 운정캠퍼스 대강당에서 4회 열었다.
+         </p>
+        </li>
+       </ul>
+       <div class="artist-feature-track-group">
+        <h4 class="artist-feature-subtitle">
+         대표곡
+        </h4>
+<ol class="artist-feature-tracks">
+  <li>
+    <a href="https://www.youtube.com/results?search_query=자우림+하하하쏭" target="_blank" rel="noopener noreferrer">
+      <span>
+        <strong>하하하쏭</strong>
+        <small>자우림</small>
+      </span>
+      <span aria-hidden="true">↗</span>
+    </a>
+  </li>
+
+  <li>
+    <a href="https://www.youtube.com/results?search_query=자우림+스물다섯+스물하나" target="_blank" rel="noopener noreferrer">
+      <span>
+        <strong>스물다섯, 스물하나</strong>
+        <small>자우림</small>
+      </span>
+      <span aria-hidden="true">↗</span>
+    </a>
+  </li>
+
+  <li>
+    <a href="https://www.youtube.com/results?search_query=자우림+샤이닝" target="_blank" rel="noopener noreferrer">
+      <span>
+        <strong>샤이닝</strong>
+        <small>자우림</small>
+      </span>
+      <span aria-hidden="true">↗</span>
+    </a>
+  </li>
+</ol>       </div>
+      </div>
+     </div>
+    </div>
+    <!-- artist-current-content -->
+    <div class="artist-archive" hidden="" id="artist-archive">
+     <span class="artist-archive-label">
+      ARCHIVE
+     </span>
+     <div class="artist-archive-list" id="artist-archive-list">
+     </div>
+     <button class="artist-archive-return" hidden="" id="artist-archive-return" type="button">
+      이번 주 뮤지션으로 돌아가기 ↩
+     </button>
+    </div>
+   </section>
+  </main>
+  <footer>
+   <p>
+    실제 발매된 곡으로 구성한 취향 기반 추천입니다.
+   </p>
+   <p>
+    © 2026 TODAY'S ROCK
+   </p>
+  </footer>
+  <script src="/account-assets/common.js"></script>
+  <script src="script.js">
+  </script>
+ </body>
+</html>
+
+

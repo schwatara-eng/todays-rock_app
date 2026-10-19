@@ -1,0 +1,287 @@
+{
+  "type": "editorial",
+  "issues": [
+    {
+      "field": "title",
+      "category": "title",
+      "text": "김윤아 Kim Yuna",
+      "reason": "한국어 기사 제목에 한글·영문을 그대로 붙여 쓰면 시각적으로 산만하고 통일감이 떨어집니다.",
+      "suggestion": "뮤지션명은 원어 표기 유지하되 형식을 통일하세요(예: 김윤아 (Kim Yuna) 또는 김윤아)."
+    },
+    {
+      "field": "body",
+      "category": "style",
+      "text": "그 넓은 폭 덕분에 그의 음악은 어떤 날씨에도 들을 곡이 있다.",
+      "reason": "김윤아는 여성인데 '그의 음악'으로 표기해 성별 지칭이 부적절합니다.",
+      "suggestion": "성별에 맞게 표현을 수정하세요(예: '그녀의 음악')."
+    },
+    {
+      "field": "body",
+      "category": "structure",
+      "text": "EDITOR'S COMMENT",
+      "reason": "본문 한가운데에 영문 섹션 제목이 섞여 있어 기사 전체의 언어 톤이 일관되지 않습니다.",
+      "suggestion": "한국어 독자용 기사이므로 'EDITOR'S COMMENT'를 '편집자 코멘트' 등 한국어로 통일하세요."
+    },
+    {
+      "field": "body",
+      "category": "readability",
+      "text": "주요 앨범과 활동\n자우림 데뷔 (1997): '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.\n자우림 3집 The Wonderland (2000): '매직 카펫 라이드'를 담은 앨범.",
+      "reason": "앨범·활동 목록의 형식(괄호·영문·인용부호)이 섞여 있어 가독성이 떨어집니다.",
+      "suggestion": "항목을 동일한 형식으로 통일하세요(예: 앨범명은 원어 표기, 연도는 괄호, 곡명은 ''로 통일)."
+    },
+    {
+      "field": "body",
+      "category": "repetition",
+      "text": "몽환적이면서도 날 선 모던 록을, 솔로에서는 피아노와 현악이 어우러진 서늘한 서정",
+      "reason": "도입부와 편집자 코멘트가 유사한 해석(음색의 대비)을 반복해 중복 느낌을 줍니다.",
+      "suggestion": "중복되는 표현은 한 곳에 모아 간결히 다듬어 문장 밀도를 높이세요."
+    }
+  ],
+  "approved": false,
+  "note": "AI 편집 의견입니다. 사실 검수 및 편집자 승인을 대체하지 않습니다.",
+  "reviewId": "3bed24d64b464a9c843c07df121ca323",
+  "articleHash": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e",
+  "aiArticleHash": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e",
+  "generatedAt": "2026-10-19T04:12:21.624Z",
+  "decisions": {
+    "E001": {
+      "status": "passed",
+      "reviewId": "3bed24d64b464a9c843c07df121ca323",
+      "issueHash": "d1072a1be32fbcaf46144833974a6b3644a2822e4f03b139c201cd97c5c5215b",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "reason": "제목 양식",
+      "at": "2026-10-19T04:12:35.149Z"
+    },
+    "E002": {
+      "status": "passed",
+      "reviewId": "3bed24d64b464a9c843c07df121ca323",
+      "issueHash": "80d4d5426aece5a07485ffdae529ed2eead5a248398a4645f63e02fae1aca699",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "reason": "'그'는 남녀 모두를 지칭함",
+      "at": "2026-10-19T04:12:51.982Z"
+    },
+    "E003": {
+      "status": "passed",
+      "reviewId": "3bed24d64b464a9c843c07df121ca323",
+      "issueHash": "1a610ca5118bd837e73de713b38db518b544ad77e48c96b647ae5f6207ae762a",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "reason": "코너명임",
+      "at": "2026-10-19T04:12:59.903Z"
+    },
+    "E004": {
+      "status": "passed",
+      "reviewId": "3bed24d64b464a9c843c07df121ca323",
+      "issueHash": "ea31a3dd88825d4c69b5ec3e62d57e5ddd64bf60c3aefdadfbd5304910968e09",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "reason": "코너 양식임",
+      "at": "2026-10-19T04:13:20.869Z"
+    },
+    "E005": {
+      "status": "passed",
+      "reviewId": "3bed24d64b464a9c843c07df121ca323",
+      "issueHash": "81e9a19838a93ebdf5674092fc024f939ee7bbab80bf3dde71aaf73feb8aff37",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "reason": "중복되지 않음",
+      "at": "2026-10-19T04:14:12.604Z"
+    }
+  },
+  "anchors": {},
+  "manualRevision": 5,
+  "manualHistory": [
+    {
+      "operation": "pass",
+      "issueId": "E001",
+      "issue": {
+        "field": "title",
+        "category": "title",
+        "text": "김윤아 Kim Yuna",
+        "reason": "한국어 기사 제목에 한글·영문을 그대로 붙여 쓰면 시각적으로 산만하고 통일감이 떨어집니다.",
+        "suggestion": "뮤지션명은 원어 표기 유지하되 형식을 통일하세요(예: 김윤아 (Kim Yuna) 또는 김윤아).",
+        "id": "E001"
+      },
+      "reviewId": "3bed24d64b464a9c843c07df121ca323",
+      "reason": "제목 양식",
+      "at": "2026-10-19T04:12:35.149Z",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "before": null,
+      "articleHashBefore": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e",
+      "after": {
+        "status": "passed",
+        "reviewId": "3bed24d64b464a9c843c07df121ca323",
+        "issueHash": "d1072a1be32fbcaf46144833974a6b3644a2822e4f03b139c201cd97c5c5215b",
+        "actor": {
+          "id": 1,
+          "displayName": "당최",
+          "role": "admin"
+        },
+        "reason": "제목 양식",
+        "at": "2026-10-19T04:12:35.149Z"
+      },
+      "articleHashAfter": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e"
+    },
+    {
+      "operation": "pass",
+      "issueId": "E002",
+      "issue": {
+        "field": "body",
+        "category": "style",
+        "text": "그 넓은 폭 덕분에 그의 음악은 어떤 날씨에도 들을 곡이 있다.",
+        "reason": "김윤아는 여성인데 '그의 음악'으로 표기해 성별 지칭이 부적절합니다.",
+        "suggestion": "성별에 맞게 표현을 수정하세요(예: '그녀의 음악').",
+        "id": "E002"
+      },
+      "reviewId": "3bed24d64b464a9c843c07df121ca323",
+      "reason": "'그'는 남녀 모두를 지칭함",
+      "at": "2026-10-19T04:12:51.982Z",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "before": null,
+      "articleHashBefore": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e",
+      "after": {
+        "status": "passed",
+        "reviewId": "3bed24d64b464a9c843c07df121ca323",
+        "issueHash": "80d4d5426aece5a07485ffdae529ed2eead5a248398a4645f63e02fae1aca699",
+        "actor": {
+          "id": 1,
+          "displayName": "당최",
+          "role": "admin"
+        },
+        "reason": "'그'는 남녀 모두를 지칭함",
+        "at": "2026-10-19T04:12:51.982Z"
+      },
+      "articleHashAfter": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e"
+    },
+    {
+      "operation": "pass",
+      "issueId": "E003",
+      "issue": {
+        "field": "body",
+        "category": "structure",
+        "text": "EDITOR'S COMMENT",
+        "reason": "본문 한가운데에 영문 섹션 제목이 섞여 있어 기사 전체의 언어 톤이 일관되지 않습니다.",
+        "suggestion": "한국어 독자용 기사이므로 'EDITOR'S COMMENT'를 '편집자 코멘트' 등 한국어로 통일하세요.",
+        "id": "E003"
+      },
+      "reviewId": "3bed24d64b464a9c843c07df121ca323",
+      "reason": "코너명임",
+      "at": "2026-10-19T04:12:59.903Z",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "before": null,
+      "articleHashBefore": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e",
+      "after": {
+        "status": "passed",
+        "reviewId": "3bed24d64b464a9c843c07df121ca323",
+        "issueHash": "1a610ca5118bd837e73de713b38db518b544ad77e48c96b647ae5f6207ae762a",
+        "actor": {
+          "id": 1,
+          "displayName": "당최",
+          "role": "admin"
+        },
+        "reason": "코너명임",
+        "at": "2026-10-19T04:12:59.903Z"
+      },
+      "articleHashAfter": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e"
+    },
+    {
+      "operation": "pass",
+      "issueId": "E004",
+      "issue": {
+        "field": "body",
+        "category": "readability",
+        "text": "주요 앨범과 활동\n자우림 데뷔 (1997): '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.\n자우림 3집 The Wonderland (2000): '매직 카펫 라이드'를 담은 앨범.",
+        "reason": "앨범·활동 목록의 형식(괄호·영문·인용부호)이 섞여 있어 가독성이 떨어집니다.",
+        "suggestion": "항목을 동일한 형식으로 통일하세요(예: 앨범명은 원어 표기, 연도는 괄호, 곡명은 ''로 통일).",
+        "id": "E004"
+      },
+      "reviewId": "3bed24d64b464a9c843c07df121ca323",
+      "reason": "코너 양식임",
+      "at": "2026-10-19T04:13:20.869Z",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "before": null,
+      "articleHashBefore": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e",
+      "after": {
+        "status": "passed",
+        "reviewId": "3bed24d64b464a9c843c07df121ca323",
+        "issueHash": "ea31a3dd88825d4c69b5ec3e62d57e5ddd64bf60c3aefdadfbd5304910968e09",
+        "actor": {
+          "id": 1,
+          "displayName": "당최",
+          "role": "admin"
+        },
+        "reason": "코너 양식임",
+        "at": "2026-10-19T04:13:20.869Z"
+      },
+      "articleHashAfter": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e"
+    },
+    {
+      "operation": "pass",
+      "issueId": "E005",
+      "issue": {
+        "field": "body",
+        "category": "repetition",
+        "text": "몽환적이면서도 날 선 모던 록을, 솔로에서는 피아노와 현악이 어우러진 서늘한 서정",
+        "reason": "도입부와 편집자 코멘트가 유사한 해석(음색의 대비)을 반복해 중복 느낌을 줍니다.",
+        "suggestion": "중복되는 표현은 한 곳에 모아 간결히 다듬어 문장 밀도를 높이세요.",
+        "id": "E005"
+      },
+      "reviewId": "3bed24d64b464a9c843c07df121ca323",
+      "reason": "중복되지 않음",
+      "at": "2026-10-19T04:14:12.604Z",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "before": null,
+      "articleHashBefore": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e",
+      "after": {
+        "status": "passed",
+        "reviewId": "3bed24d64b464a9c843c07df121ca323",
+        "issueHash": "81e9a19838a93ebdf5674092fc024f939ee7bbab80bf3dde71aaf73feb8aff37",
+        "actor": {
+          "id": 1,
+          "displayName": "당최",
+          "role": "admin"
+        },
+        "reason": "중복되지 않음",
+        "at": "2026-10-19T04:14:12.604Z"
+      },
+      "articleHashAfter": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e"
+    }
+  ]
+}

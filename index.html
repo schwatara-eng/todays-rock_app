@@ -11,6 +11,7 @@
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
   <link href="style.css" rel="stylesheet"/>
+  <link href="/account-assets/style.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Maru+Buri:wght@700&display=swap" rel="stylesheet"/>
  </head>
@@ -22,14 +23,17 @@
    <a aria-label="오늘의 록 처음으로" class="logo" href="#">
     TODAY'S ROCK
    </a>
-   <p>
-    WEATHER · MOOD · MUSIC
-   </p>
+   <div class="header-end">
+    <p>WEATHER · MOOD · MUSIC</p>
+    <nav class="account-nav" id="account-nav" aria-label="회원 메뉴">
+     <a href="/signup">회원가입</a><a href="/login">로그인</a>
+    </nav>
+   </div>
   </header>
   <main>
    <section class="hero">
     <p class="eyebrow">
-     VOLUME 01 — DAILY SOUNDTRACK
+     VOLUME 1 — DAILY SOUNDTRACK
     </p>
     <h1>
      오늘은 어떤
@@ -47,7 +51,7 @@
            기존 weather 관련 id를 그대로 사용해 JavaScript 수정 없이 데이터를 표시한다. -->
     <article aria-label="현재 날씨" class="hero-weather">
      <p class="section-label">
-      01 / WEATHER
+      WEATHER
      </p>
      <div aria-hidden="true" class="hero-weather-icon" id="weather-icon">
       ◌
@@ -67,7 +71,7 @@
     <aside aria-label="오늘의 록 콘텐츠" class="side-column">
      <section class="news-panel">
       <p class="section-label">
-       04 / ROCK NEWS
+       ROCK NEWS
       </p>
       <h2>
        오늘의 뉴스
@@ -91,7 +95,7 @@
       </h2>
       <div class="mood-section">
        <p class="section-label">
-        02 / MOOD
+        MOOD
        </p>
        <h3 class="mood-title">
         지금 기분은 어떤가요?
@@ -131,7 +135,7 @@
       <div class="result-heading">
        <div>
         <p class="section-label">
-         03 / TODAY'S SELECTION
+         TODAY'S SELECTION
         </p>
         <h2 id="result-title">
          당신을 위한 세 곡
@@ -149,122 +153,65 @@
    </section>
    <section aria-labelledby="artist-title" class="artist-panel artist-feature">
     <p class="section-label">
-     05 / ARTIST OF THE DAY
+     ARTIST OF TODAY
     </p>
     <h2 id="artist-title">
      <span>오늘의 뮤지션</span>
-     <a class="artist-editor-link" href="/editor/" aria-label="오늘의 뮤지션 편집실 열기">편집실 ↗</a>
     </h2>
     <div id="artist-current-content">
      <div class="artist-editorial-grid">
       <div class="artist-editorial-left">
        <figure class="artist-feature-photo">
-       <img src="images/김윤아.png" alt="김윤아" loading="lazy" />
+        <img src="images/artist-kim-yuna.png" alt="김윤아" loading="lazy" />
        </figure>
       </div>
       <div class="artist-editorial-right">
        <div class="artist-feature-header">
-       <h3>
-       <span lang="ko" class="artist-name-main">김윤아</span>
-       <span lang="en" class="artist-name-sub">Kim Yuna</span>
-       </h3>
-        <p class="artist-feature-lead">
-         한국 록 무대의 한가운데에 선 목소리
-        </p>
+        <h3>
+         <span lang="en" class="artist-name-main">Kim Yuna</span>
+         <span lang="ko" class="artist-name-sub">김윤아</span>
+        </h3>
+        <p class="artist-feature-lead">한국 록 무대의 한가운데에 선 목소리</p>
        </div>
-       <p class="artist-copy">
-        1997년 밴드 자우림의 보컬로 데뷔해 30년 가까이 활동해온 싱어송라이터. 자우림에서는 몽환적이면서도 날 선 모던 록을, 솔로에서는 피아노와 현악이 어우러진 서늘한 서정을 들려준다. 한 사람이 이토록 다른 얼굴을 오가면서도 늘 자기 목소리로 들리게 만드는 것, 그것이 김윤아의 힘이다. 최근 한 인터뷰 기획은 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가하기도 했다.
-       </p>
+       <p class="artist-copy">1997년 밴드 자우림의 보컬로 데뷔해 30년 가까이 활동해온 싱어송라이터. 자우림에서는 몽환적이면서도 날 선 모던 록을, 솔로에서는 피아노와 현악이 어우러진 서늘한 서정을 들려준다. 한 사람이 이토록 다른 얼굴을 오가면서도 늘 자기 목소리로 들리게 만드는 것, 그것이 김윤아의 힘이다. 최근 한 인터뷰에서는 한국 록밴드, 특히 여성 프런트퍼슨의 역사가 김윤아 데뷔 이전과 이후로 나뉜다고 평가하기도 했다.</p>
        <div class="artist-feature-editor">
-        <p class="section-label">
-         EDITOR'S COMMENT
-        </p>
-        <p>
-         김윤아의 노래는 밝을 때도 어딘가 그늘이 있고, 어두울 때도 끝내 단단하다. '하하하쏭'으로 후회를 날리다가 '샤이닝'로 조용히 내려앉는 진폭. 그 넓은 폭 덕분에 그의 음악은 어떤 날씨에도 들을 곡이 있다. 다시 밴드 붐이 왔다는 지금, 그 붐의 앞자리에 선 여성 보컬들이 누구의 길을 걸어왔는지 떠올려 보자. 울적한 저녁이라면 '샤이닝'부터 들어보길 권한다.
-        </p>
+        <p class="section-label">EDITOR'S COMMENT</p>
+        <p>김윤아의 노래는 밝을 때도 어딘가 그늘이 있고, 어두울 때도 끝내 단단하다. '하하하쏭'으로 후회를 날리다가 '샤이닝'로 조용히 내려앉는 진폭. 그 넓은 폭 덕분에 그의 음악은 어떤 날씨에도 들을 곡이 있다. 다시 밴드 붐이 왔다는 지금, 그 붐의 앞자리에 선 여성 보컬들이 누구의 길을 걸어왔는지 떠올려보자. 울적한 저녁이라면 '샤이닝'부터 들어보길 권한다.</p>
        </div>
-       <h4 class="artist-feature-subtitle">
-        주요 앨범과 활동
-       </h4>
+       <h4 class="artist-feature-subtitle">주요 앨범과 활동</h4>
        <ul class="artist-feature-history">
-        <li>
-         <strong>
-          자우림 데뷔 (1997)
-         </strong>
-         <p>
-          '헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.
-         </p>
-        </li>
-        <li>
-         <strong>
-          자우림 3집 <em>The Wonderland</em> (2000)
-         </strong>
-         <p>
-          '매직 카펫 라이드'를 담은 앨범. 지금도 축제와 응원 현장에서 울려 퍼지는 곡이다.
-         </p>
-        </li>
-        <li>
-         <strong>
-          '봄날은 간다' (2001)
-         </strong>
-         <p>
-          같은 이름의 영화 OST. 록 보컬이 아닌, 담담하게 무너지는 김윤아의 목소리를 처음 각인시켰다.
-         </p>
-        </li>
-        <li>
-         <strong>
-          솔로 1집 <em>Shadow of Your Smile</em> (2001)
-         </strong>
-         <p>
-          밴드와는 결이 다른 재즈·샹송풍의 솔로 세계를 열었다. 이후 '야상곡' 등으로 이어졌다.
-         </p>
-        </li>
-        <li>
-         <strong>
-          최근 활동
-         </strong>
-         <p>
-          2026년 4월, 밴드 붐 속 여성 프런트퍼슨을 조명한 경향신문 기획 인터뷰에 참여했다. 9월에는 단독 콘서트 'Coffee and Cigarette'를 성신여대 운정캠퍼스 대강당에서 4회 열었다.
-         </p>
-        </li>
+        <li><strong>자우림 데뷔 (1997)</strong><p>'헤이 헤이 헤이'로 등장해 홍대 인디 신에서 대중 무대로 단숨에 올라섰다.</p></li>
+        <li><strong>자우림 3집 <em>The Wonderland</em> (2000)</strong><p>'매직 카펫 라이드'를 담은 앨범. 지금도 축제와 응원 현장에서 울려 퍼지는 곡이다.</p></li>
+        <li><strong>'봄날은 간다' (2001)</strong><p>같은 이름의 영화 OST. 록 보컬이 아닌, 담담하게 무너지는 김윤아의 목소리를 처음 각인시켰다.</p></li>
+        <li><strong>솔로 1집 <em>Shadow of Your Smile</em> (2001)</strong><p>밴드와는 결이 다른 재즈·샹송풍의 솔로 세계를 열었다. 이후 '야상곡' 등으로 이어졌다.</p></li>
+        <li><strong>최근 활동</strong><p>2026년 4월, 밴드 붐 속 여성 프런트퍼슨을 조명한 경향신문 기획 인터뷰에 참여했다. 9월에는 단독 콘서트 'Coffee and Cigarette'를 성신여대 운정캠퍼스 대강당에서 4회 열었다.</p></li>
        </ul>
        <div class="artist-feature-track-group">
-        <h4 class="artist-feature-subtitle">
-         대표곡
-        </h4>
-<ol class="artist-feature-tracks">
-  <li>
-    <a href="https://www.youtube.com/results?search_query=자우림+하하하쏭" target="_blank" rel="noopener noreferrer">
-      <span>
-        <strong>하하하쏭</strong>
-        <small>자우림</small>
-      </span>
-      <span aria-hidden="true">↗</span>
-    </a>
-  </li>
-
-  <li>
-    <a href="https://www.youtube.com/results?search_query=자우림+스물다섯+스물하나" target="_blank" rel="noopener noreferrer">
-      <span>
-        <strong>스물다섯, 스물하나</strong>
-        <small>자우림</small>
-      </span>
-      <span aria-hidden="true">↗</span>
-    </a>
-  </li>
-
-  <li>
-    <a href="https://www.youtube.com/results?search_query=자우림+샤이닝" target="_blank" rel="noopener noreferrer">
-      <span>
-        <strong>샤이닝</strong>
-        <small>자우림</small>
-      </span>
-      <span aria-hidden="true">↗</span>
-    </a>
-  </li>
-</ol>       </div>
+        <h4 class="artist-feature-subtitle">대표곡</h4>
+        <ol class="artist-feature-tracks">
+         <li>
+          <a href="https://www.youtube.com/results?search_query=%ED%95%98%ED%95%98%ED%95%98%EC%8F%AD%20-%20%EC%9E%90%EC%9A%B0%EB%A6%BC" target="_blank" rel="noopener noreferrer">
+           <span><strong>하하하쏭</strong><small>자우림</small></span>
+           <span aria-hidden="true">↗</span>
+          </a>
+         </li>
+         <li>
+          <a href="https://www.youtube.com/results?search_query=%EC%8A%A4%EB%AC%BC%EB%8B%A4%EC%84%AF%2C%20%EC%8A%A4%EB%AC%BC%ED%95%98%EB%82%98%20-%20%EC%9E%90%EC%9A%B0%EB%A6%BC" target="_blank" rel="noopener noreferrer">
+           <span><strong>스물다섯, 스물하나</strong><small>자우림</small></span>
+           <span aria-hidden="true">↗</span>
+          </a>
+         </li>
+         <li>
+          <a href="https://www.youtube.com/results?search_query=%EC%83%A4%EC%9D%B4%EB%8B%9D%20-%20%EC%9E%90%EC%9A%B0%EB%A6%BC" target="_blank" rel="noopener noreferrer">
+           <span><strong>샤이닝</strong><small>자우림</small></span>
+           <span aria-hidden="true">↗</span>
+          </a>
+         </li>
+        </ol>
+       </div>
       </div>
      </div>
+     <div class="artist-feature-sources">SOURCES · <a href="https://en.yna.co.kr/view/AEN20180622003500315" target="_blank" rel="noopener noreferrer">Yonhap News Agency ↗</a> · <a href="https://www.mk.co.kr/en/society/12158959" target="_blank" rel="noopener noreferrer">Maeil Business Newspaper ↗</a> · <a href="https://en.wikipedia.org/wiki/Jaurim" target="_blank" rel="noopener noreferrer">Wikipedia ↗</a> · <a href="https://izm.co.kr/posts?id=3635" target="_blank" rel="noopener noreferrer">IZM ↗</a> · <a href="https://www.kpopalbums.com/collections/lastest-release/products/jaurim-the-wonder-land-3rd-album-lp" target="_blank" rel="noopener noreferrer">KpopAlbums ↗</a> · <a href="https://www.donga.com/news/amp/all/20011005/7744358/1" target="_blank" rel="noopener noreferrer">www.donga.com ↗</a> · <a href="https://music.apple.com/us/album/shadow-of-your-smile/1486291052" target="_blank" rel="noopener noreferrer">Apple Music ↗</a> · <a href="https://www.khan.co.kr/article/202604210600071" target="_blank" rel="noopener noreferrer">경향신문 ↗</a> · <a href="https://nwww.newsis.com/view/NISX20260804_0003736037" target="_blank" rel="noopener noreferrer">뉴시스 ↗</a> · <a href="https://www.yna.co.kr/view/AKR20081217035600005" target="_blank" rel="noopener noreferrer">연합뉴스 ↗</a> · <a href="https://www.youtube.com/watch?v=y6tMA7mjFiA" target="_blank" rel="noopener noreferrer">YouTube ↗</a> · <a href="https://newsroom.spotify.com/2022-08-07/south-koreas-legendary-band-jaurim-curates-25-years-of-inspiration/" target="_blank" rel="noopener noreferrer">Spotify Newsroom ↗</a> · <a href="https://www.herbmusic.net/album/%EC%9E%90%EC%9A%B0%EB%A6%BC-%28jaurim%29-jaurim%2C-the-wonderland-5396" target="_blank" rel="noopener noreferrer">Herb Music ↗</a> · <a href="https://music.bugs.co.kr/album/887" target="_blank" rel="noopener noreferrer">Bugs ↗</a> · <a href="https://www.khan.co.kr/en/article/202604210838037" target="_blank" rel="noopener noreferrer">Kyunghyang Shinmun ↗</a></div>
     </div>
     <!-- artist-current-content -->
     <div class="artist-archive" hidden="" id="artist-archive">
@@ -287,8 +234,10 @@
     © 2026 TODAY'S ROCK
    </p>
   </footer>
+  <script src="/account-assets/common.js"></script>
   <script src="script.js">
   </script>
  </body>
 </html>
+
 

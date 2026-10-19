@@ -119,6 +119,15 @@ main {
 
 .eyebrow,
 
+.account-hero-label {
+  font: 400 11px/1.5 Arial, "Malgun Gothic", sans-serif;
+  letter-spacing: 2.5px;
+}
+
+.eyebrow {
+  color: var(--red);
+}
+
 .section-label {
   color: var(--red);
   font-size: .72rem;
@@ -1353,17 +1362,4 @@ main > .artist-feature .artist-feature-sources {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-}
-
-#artist-title .artist-editor-link {
-  flex: 0 0 auto;
-  padding: 4px 7px;
-  border: 1px solid #666;
-  border-radius: 3px;
-  background: #333;
-  color: #aaa;
-  font: 400 10px/1.2 Arial, sans-serif;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
 }

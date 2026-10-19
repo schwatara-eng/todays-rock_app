@@ -241,6 +241,29 @@ button:disabled {
   color: #b3c7b4;
 }
 
+/* 사람이 처리하는 편집 의견 */
+.editorial-summary { color: #d5b89d; font-size: 13px; line-height: 1.8; }
+.editorial-issue { padding: 15px; }
+.editorial-issue > p { font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
+.editorial-quote { white-space: pre-wrap; overflow-wrap: anywhere; }
+.editorial-tools, .editorial-form-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.editorial-human-form { margin-top: 15px; padding: 15px; border: 1px solid #625248; border-radius: 4px; background: #191615; }
+.editorial-human-form[hidden] { display: none; }
+.editorial-human-form label { display: grid; gap: 8px; margin-bottom: 15px; font-size: 12px; color: #d1b6a0; }
+.editorial-human-form label[hidden] { display: none; }
+.editorial-human-form textarea, .editorial-human-form select { width: 100%; min-width: 0; padding: 10px; border: 1px solid #625248; border-radius: 3px; color: #eee7df; background: #111; font: 13px/1.8 Arial, "Malgun Gothic", sans-serif; }
+.editorial-human-form textarea { resize: vertical; }
+.editorial-human-form textarea:focus, .editorial-human-form select:focus { outline: 2px solid #c55448; outline-offset: 2px; }
+.editorial-form-note { color: #a99c93; font-size: 11px; line-height: 1.8; }
+.editorial-decision { color: #b3c7b4; font-weight: 700; }
+.editorial-resolved, .editorial-history { margin-top: 16px; border: 1px solid #51413a; border-radius: 5px; padding: 14px; }
+.editorial-resolved > summary, .editorial-history > summary { cursor: pointer; font-size: 12px; font-weight: 700; line-height: 1.7; }
+.editorial-resolved .issue { border-left-color: #78896b; background: #20241f; margin-top: 14px; }
+.editorial-history ol { padding-left: 18px; }
+.editorial-history li { padding: 12px 0; border-bottom: 1px solid #403731; font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; }
+.editorial-history li p { margin: 7px 0; }
+.editorial-history li summary { cursor: pointer; }
+
 .section-toggle {
   font-size: 11px;
   padding: 5px 10px;
@@ -975,3 +998,7 @@ button:disabled {
     min-height: 0;
   }
 }
+
+/* 계정 화면으로 돌아가기 */
+.account-return { color: #bbb; font: 12px/1.5 sans-serif; text-decoration: none; white-space: nowrap; }
+.topbar .local { margin-left: auto; }
