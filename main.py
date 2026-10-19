@@ -7,7 +7,6 @@ import logging
 import os
 from pathlib import Path
 
-import pymysql
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, RedirectResponse
@@ -18,6 +17,7 @@ load_dotenv(Path(__file__).parent / ".env")
 app = FastAPI(title="TODAY'S ROCK API")
 from account_system.routes import router as account_router
 from account_system.security import allowed_hosts, current_user
+from account_system.database import DatabaseError, connect as connect_db
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=allowed_hosts())
 app.include_router(account_router)
 from editor_bridge import router as editor_router
@@ -25,19 +25,11 @@ app.include_router(editor_router)
 
 @app.get("/api/songs")
 def get_songs():
+    # 접속 정보(.env의 DATABASE_URL 또는 DB_*)는 회원 기능과 같은 설정을 씁니다.
     connection = None
 
     try:
-        connection = pymysql.connect(
-            host=os.getenv("DB_HOST", "127.0.0.1"),
-            port=int(os.getenv("DB_PORT", "3306")),
-            user=os.getenv("DB_USER", "root"),
-            password=os.getenv("DB_PASSWORD", ""),
-            database=os.getenv("DB_NAME", "todays_rock"),
-            charset="utf8mb4",
-            cursorclass=pymysql.cursors.DictCursor,
-            connect_timeout=5,
-        )
+        connection = connect_db()
 
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM v_songs ORDER BY id")
@@ -54,16 +46,18 @@ def get_songs():
 
         return songs
 
-    except pymysql.MySQLError:
-        logging.exception("MySQL 곡 조회 실패")
+    except DatabaseError:
+        logging.exception("PostgreSQL 곡 조회 실패")
         raise HTTPException(
             status_code=500,
-            detail="MySQL에서 곡을 가져오지 못했습니다.",
+            detail="DB에서 곡을 가져오지 못했습니다.",
         ) from None
 
     finally:
         if connection is not None:
             connection.close()
+
+
 def clean_news_text(text):
     text = re.sub(r"<[^>]*>", " ", text or "")
     return " ".join(html.unescape(text).split())

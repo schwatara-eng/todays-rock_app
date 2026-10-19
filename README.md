@@ -7,7 +7,7 @@
 ## 주요 기능
 
 **홈페이지**
-- MySQL에 저장한 500곡 가운데 날씨·기분에 맞는 3곡 추천, YouTube·가사 링크 제공
+- PostgreSQL(Supabase)에 저장한 500곡 가운데 날씨·기분에 맞는 3곡 추천, YouTube·가사 링크 제공
 - Open-Meteo 날씨와 BigDataCloud 지역명 조회
 - NME 음악 뉴스 RSS 수집과 Google Cloud Translation API 한국어 번역
 - 오늘의 뮤지션 기사와 지난 뮤지션 아카이브
@@ -28,7 +28,7 @@
 | --- | --- |
 | HTML / CSS / JavaScript | 홈페이지, 회원 화면, 편집실 화면 |
 | FastAPI / Uvicorn | 곡·뉴스·회원·편집실 API와 모든 화면을 제공하는 단일 서버, 포트 8000 |
-| MySQL / PyMySQL | 500곡과 기분·날씨 태그, 회원·세션·좋아요·권한 변경 기록 |
+| PostgreSQL (Supabase) / psycopg | 500곡과 기분·날씨 태그, 회원·세션·좋아요·권한 변경 기록 |
 | Python / httpx | OpenAI Responses API 호출과 출처 본문 대조 |
 | JSON 파일 | 기사 원고·팩트시트·검수·승인 기록 |
 
@@ -53,7 +53,7 @@ todays-rock_app/
 ├── articles/               # 뮤지션별 원고·조사·검수·승인 JSON, 게시 전 백업
 ├── db/
 │   ├── todays_rock.sql     # 곡 테이블과 초기 500곡
-│   └── accounts.sql        # 회원 테이블 (기존 데이터 유지)
+│   └── accounts.sql        # 회원 테이블 (기존 데이터 유지, 서버가 자동 실행)
 ├── tests/                  # 회원·편집 검토 자동 테스트
 ├── index.html · script.js · style.css
 ├── artist-*.html           # 지난 뮤지션 아카이브 페이지
@@ -64,70 +64,73 @@ todays-rock_app/
 
 ## 처음 설치할 때
 
-프로젝트 폴더를 VS Code로 열고 PowerShell 터미널에서 진행합니다. Python과 MySQL Server가 필요합니다. 이미 설치했다면 해당 단계는 건너뜁니다.
+프로젝트 폴더를 VS Code로 열고 PowerShell 터미널에서 진행합니다. 데이터베이스는 **Supabase의 PostgreSQL**을 씁니다. 내 PC에 DB를 설치할 필요가 없고, 로컬 서버와 배포된 사이트가 같은 DB를 함께 씁니다.
 
-### 1. 곡 데이터 준비
+### 1. Supabase 프로젝트 만들기
 
-MySQL Workbench에서 로컬 서버에 접속하고 `db/todays_rock.sql`을 열어 ⚡(Execute)로 전체 실행합니다.
+1. [supabase.com](https://supabase.com)에 가입하고 **New project**를 만듭니다.
+   - Region: 한국과 가까운 **Northeast Asia (Seoul)** 권장
+   - Database Password: 직접 정하고 따로 적어 둡니다. 나중에 다시 볼 수 없습니다.
+2. 프로젝트가 만들어지면 위쪽 **Connect** 버튼 → **Connection String** 탭에서 **Session pooler** 주소를 복사합니다.
+   - 모양: `postgresql://postgres.[프로젝트ID]:[YOUR-PASSWORD]@aws-0-[지역].pooler.supabase.com:5432/postgres`
+   - `[YOUR-PASSWORD]` 자리에 1번에서 정한 비밀번호를 넣습니다.
+   - Session pooler를 쓰는 이유: 일반 가정·학교 인터넷(IPv4)에서도 접속되고, 서버처럼 계속 켜져 있는 앱에 맞는 방식입니다. Direct connection은 IPv6 전용이라 접속이 안 될 수 있습니다.
 
-**주의:** 이 SQL은 곡 관련 뷰·테이블을 지운 뒤 다시 만듭니다. 곡 데이터를 직접 수정했다면 백업 없이 다시 실행하지 마세요. 회원 테이블(`account_`로 시작)은 건드리지 않습니다.
+### 2. 곡 데이터 넣기
 
-정상 확인 수치: `songs` 500 / `song_moods` 1082 / `song_weathers` 1094
+Supabase 대시보드 왼쪽 **SQL Editor** → **New query**에 `db/todays_rock.sql` 내용을 전체 붙여넣고 **Run**을 누릅니다.
 
-### 2. Python 패키지 설치
+**정상 결과:** 마지막 표에 `songs` 500 / `moods` 1082 / `weathers` 1094
+
+**주의:** 이 SQL은 곡 관련 뷰·테이블을 지운 뒤 다시 만듭니다. 회원 테이블(`account_`로 시작)과 좋아요 기록은 건드리지 않습니다.
+
+모든 테이블에는 행 수준 보안(RLS)이 켜져 있습니다. Supabase가 제공하는 브라우저용 공개 API로는 곡·회원 정보를 읽거나 쓸 수 없고, DB 비밀번호로 접속하는 이 앱 서버만 사용할 수 있습니다. Table Editor에 'RLS enabled'로 보이는 것이 정상입니다.
+
+### 3. Python 패키지 설치
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-이미 정상 실행되는 `.venv`가 있으면 두 번째 줄만 실행합니다. **정상 결과:** 설치 완료 또는 `Requirement already satisfied`. 이후 명령은 가상환경의 Python을 직접 지정하므로 활성화하지 않아도 됩니다.
+이미 `.venv`가 있으면 두 번째 줄만 실행합니다. MySQL용 `pymysql` 대신 PostgreSQL용 `psycopg`가 설치됩니다. **정상 결과:** 설치 완료 또는 `Requirement already satisfied`.
 
-### 3. 환경변수 설정
+### 4. 환경변수 설정
 
-프로젝트 최상위 `.env`에 아래 항목을 넣습니다. 값은 예시이며, 실제 비밀값은 GitHub에 올리지 않습니다.
+프로젝트 최상위 `.env`를 아래처럼 바꿉니다. 예전 `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` 줄은 지워도 됩니다.
 
 ```dotenv
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=실제_MySQL_비밀번호
-DB_NAME=todays_rock
+DATABASE_URL=postgresql://postgres.[프로젝트ID]:[비밀번호]@aws-0-[지역].pooler.supabase.com:5432/postgres
 GOOGLE_TRANSLATE_API_KEY=실제_번역_API_키
 OPENAI_API_KEY=실제_OpenAI_API_키
 # OPENAI_MODEL=사용할_모델명
-# APP_ORIGIN=https://실제_운영_도메인
+# APP_ORIGIN=https://실제_운영_주소     ← 배포한 사이트에서만 설정
 ```
 
-- 서버는 `.env`만 읽습니다. `.env.local`(Vercel CLI가 만든 파일)은 사용하지 않습니다.
-- 번역 키에 문제가 있으면 뉴스가 영어 원문으로 표시됩니다.
-- 로컬에서는 `APP_ORIGIN` 없이 사용합니다. 다른 도메인으로 운영할 때만 실제 주소를 지정하며, HTTPS 주소면 로그인 쿠키에 Secure 옵션이 적용됩니다.
-- 편집실은 회원 권한으로 보호하므로 `ADMIN_SECRET`은 더 이상 사용하지 않습니다.
+- 서버는 `.env`만 읽습니다. `.env.local`은 사용하지 않습니다.
+- 비밀번호에 `@`, `#`, `/`, `:` 같은 기호가 있으면 주소가 깨집니다. Supabase에서 영문·숫자로만 된 비밀번호로 다시 설정(Project Settings → Database → Reset database password)하는 것이 가장 간단합니다.
+- `DATABASE_URL` 대신 `DB_HOST`, `DB_PORT`(기본 5432), `DB_USER`(기본 postgres), `DB_PASSWORD`, `DB_NAME`, `DB_SSLMODE`로 나눠 적어도 됩니다. 내 PC에 PostgreSQL을 직접 설치해 쓸 때 편합니다.
+- 편집실은 회원 권한으로 보호하므로 `ADMIN_SECRET`은 사용하지 않습니다.
 
-### 4. 첫 관리자 만들기 — 한 번만
-
-MySQL이 실행 중인지 확인하고 아래 명령을 실행합니다. 회원 테이블이 없으면 함께 만들며, 기존 곡·기사는 지우지 않습니다.
+### 5. 첫 관리자 만들기 — 한 번만
 
 ```powershell
 .\.venv\Scripts\python.exe -m account_system.manage create-admin
 ```
 
-이메일 → 관리자 닉네임 → 비밀번호 → 비밀번호 확인 순서로 입력합니다. 비밀번호는 10~128자이며 입력 중 화면에 보이지 않습니다. 기본 관리자 계정은 없고, 일반 회원가입으로는 관리자가 될 수 없습니다.
+회원 테이블이 없으면 함께 만듭니다. 이메일 → 관리자 닉네임 → 비밀번호 → 비밀번호 확인 순서로 입력합니다. 비밀번호는 10~128자이며 입력 중 화면에 보이지 않습니다. 기본 관리자 계정은 없고, 일반 회원가입으로는 관리자가 될 수 없습니다.
 
 **정상 결과:** `관리자 계정 생성 완료. 홈페이지에서 로그인하세요.`
 
-## 실행
+**MySQL에서 옮겨 오는 경우:** 곡 데이터는 2번으로 그대로 옮겨집니다. 예전 MySQL에 있던 회원·좋아요 기록은 자동으로 옮기지 않으므로, 관리자 계정을 이 단계에서 새로 만들고 회원은 다시 가입합니다. (수업용 테스트 계정이라면 이 방법이 가장 단순합니다.)
 
-1. 로컬 MySQL 서비스가 실행 중인지 확인합니다. (Windows `서비스`에서 `MySQL80`이 '실행 중')
-2. 서버를 실행합니다.
+## 실행
 
 ```powershell
 .\.venv\Scripts\python.exe -m uvicorn main:app --reload --port 8000
 ```
 
-3. `http://localhost:8000/`에 접속해 우측 상단 **로그인**으로 들어갑니다.
-
-종료는 서버 터미널에서 `Ctrl+C`입니다. `.env`를 고쳤다면 서버를 껐다 켜야 반영됩니다(`--reload`로는 반영되지 않음).
+`http://localhost:8000/`에 접속해 우측 상단 **로그인**으로 들어갑니다. 종료는 서버 터미널에서 `Ctrl+C`입니다. `.env`를 고쳤다면 서버를 껐다 켜야 반영됩니다(`--reload`로는 반영되지 않음). DB는 Supabase에 있으므로 내 PC에서 DB 서비스를 켤 필요가 없습니다.
 
 | 주소 | 내용 |
 | --- | --- |
@@ -135,7 +138,7 @@ MySQL이 실행 중인지 확인하고 아래 명령을 실행합니다. 회원 
 | `/signup` · `/login` | 회원가입 · 로그인 |
 | `/mypage` | 마이페이지 — 프로필, 좋아요 목록, 닉네임·비밀번호 변경 |
 | `/admin/` | 관리자 페이지 — 회원 검색·권한·정지/복구, 편집실 링크 |
-| `/editor/` | 편집실 (기자·관리자) |
+| `/editor/` | 편집실 (기자·관리자, 내 PC에서만) |
 | `/api/songs` · `/api/news` | 곡 · 뉴스 JSON |
 | `/docs` | API 문서 |
 
@@ -175,7 +178,7 @@ MySQL이 실행 중인지 확인하고 아래 명령을 실행합니다. 회원 
 | `.\.venv\Scripts\python.exe -m account_system.manage reset-password` | 비밀번호를 잊은 회원의 비밀번호 재설정 (기존 로그인 모두 해제) |
 | `.\.venv\Scripts\python.exe -m account_system.manage init` | 회원 테이블만 준비 (기존 데이터 유지) |
 
-`이미 가입한 이메일` 오류가 나면 다른 이메일을 쓰거나 기존 관리자에게 권한 변경을 요청합니다. DB 연결 오류가 나면 `.env`의 `DB_` 값들이 실제 MySQL과 같은지 확인합니다.
+`이미 가입한 이메일` 오류가 나면 다른 이메일을 쓰거나 기존 관리자에게 권한 변경을 요청합니다. DB 연결 오류가 나면 `.env`의 `DATABASE_URL`(또는 `DB_` 값들)이 Supabase의 접속 정보와 같은지 확인합니다.
 
 ## 편집실 사용 흐름
 
@@ -227,12 +230,14 @@ AI가 찾은 링크와 검수 결과만으로 사실을 확정하지 않습니�
 
 | 증상 | 확인할 것 |
 | --- | --- |
-| 홈에 "곡 데이터를 불러오지 못했어요" | Workbench에서 `SELECT * FROM todays_rock.v_songs LIMIT 3;` 실행. `Unknown database` 오류면 `db/todays_rock.sql`을 다시 실행 |
-| 서버 터미널에 `Access denied` | `.env`의 `DB_PASSWORD`가 MySQL 비밀번호와 같은지 확인 |
-| 서버 터미널에 `Can't connect to MySQL server` | Windows `서비스`에서 `MySQL80` 시작 |
+| 홈에 "곡 데이터를 불러오지 못했어요" | Supabase SQL Editor에서 `SELECT * FROM v_songs LIMIT 3;` 실행. `relation "v_songs" does not exist`면 `db/todays_rock.sql`을 다시 실행 |
+| 서버 터미널에 `password authentication failed` | `DATABASE_URL`의 비밀번호 확인. `[YOUR-PASSWORD]` 괄호까지 지우고 넣었는지 확인 |
+| 서버 터미널에 `could not translate host name` 또는 `timeout` | Direct connection 주소(`db.….supabase.co`)를 쓰고 있다면 **Session pooler** 주소로 바꿈 |
+| 서버 터미널에 `Tenant or user not found` | pooler 주소의 사용자 이름이 `postgres.[프로젝트ID]` 형태인지 확인 |
+| Supabase 프로젝트가 'Paused' | 무료 프로젝트는 오래 쓰지 않으면 일시정지됩니다. 대시보드에서 **Restore** |
 | 뉴스가 영어로 나옴 | `.env`의 `GOOGLE_TRANSLATE_API_KEY` 확인 후 서버 재시작 |
 | 로그인했는데 로그아웃 상태로 보임 | `localhost`와 `127.0.0.1`을 섞어 쓰지 않았는지 확인 |
-| 편집실 접근 거절 | 마이페이지에서 역할이 기자 또는 관리자인지 확인 |
+| 편집실 접근 거절 | 마이페이지에서 역할이 기자 또는 관리자인지 확인. 배포한 사이트에서는 편집실이 열리지 않습니다(내 PC 전용) |
 
 ## 자동 테스트
 
@@ -243,9 +248,10 @@ AI가 찾은 링크와 검수 결과만으로 사실을 확정하지 않습니�
 .\.venv\Scripts\python.exe -m pytest tests/test_editorial_human.py -q
 ```
 
-회원·권한 통합 테스트는 실제 DB를 건드리지 않도록 **이름이 `_test`로 끝나는 별도 DB**에서만 실행됩니다.
+회원·권한 통합 테스트는 실제 DB를 건드리지 않도록 **이름이 `_test`로 끝나는 별도 PostgreSQL DB**에서만 실행됩니다. 테스트 중에는 `DATABASE_URL`을 무시하므로 Supabase 운영 DB에 접속하지 않습니다. 내 PC에 PostgreSQL을 설치하고 빈 DB `todays_rock_accounts_test`를 만든 뒤 실행합니다.
 
 ```powershell
+$env:DB_HOST="127.0.0.1"; $env:DB_USER="postgres"; $env:DB_PASSWORD="로컬_비밀번호"
 $env:DB_NAME="todays_rock_accounts_test"
 .\.venv\Scripts\python.exe -m pytest tests/test_accounts.py -q
 ```
@@ -261,11 +267,52 @@ $env:DB_NAME="todays_rock_accounts_test"
 
 실제 원고에 대한 외부 검색·유료 AI 호출·승인·게시 전체 흐름은 사용자 환경에서 따로 확인합니다.
 
+## 배포하기 — Supabase(DB) + Render(웹 서버)
+
+**Supabase는 데이터베이스(와 로그인·파일 저장 같은 부가 기능)를 맡는 서비스이고, 이 앱 같은 Python(FastAPI) 서버를 실행하지는 않습니다.** 그래서 역할을 나눕니다.
+
+| 맡는 곳 | 하는 일 |
+| --- | --- |
+| Supabase | PostgreSQL DB — 곡, 회원, 세션, 좋아요 (위 설치 1~2단계에서 이미 준비됨) |
+| Render (무료 웹 서비스) | 홈페이지·회원·곡·뉴스 API를 실행하는 FastAPI 서버 |
+| 내 PC | 편집실 — 원고·검수 JSON과 `index.html`을 파일로 고치므로 내 PC에서만 씁니다 |
+
+### Render에 올리기
+
+1. GitHub에 최신 코드를 올립니다(`git push`).
+2. [render.com](https://render.com)에 GitHub 계정으로 가입 → **New** → **Web Service** → `today-rock_app` 저장소 선택.
+3. 설정값:
+
+| 항목 | 값 |
+| --- | --- |
+| Language | Python 3 |
+| Branch | `main` |
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `uvicorn main:app --host 0.0.0.0 --port $PORT` |
+| Instance Type | Free |
+
+4. **Environment** 칸에 환경변수를 넣습니다. `.env` 파일은 GitHub에 올라가지 않으므로 여기에 직접 적어야 합니다.
+   - `DATABASE_URL` — 로컬 `.env`와 같은 Supabase Session pooler 주소
+   - `GOOGLE_TRANSLATE_API_KEY`
+   - `APP_ORIGIN` — 배포 주소. 처음엔 비워 두고 배포가 끝나면 Render가 알려준 `https://….onrender.com`을 넣고 **Save, rebuild, and deploy**
+   - `OPENAI_API_KEY`는 넣지 않습니다. 편집실은 배포 서버에서 열리지 않으므로 필요 없고, 키 유출 위험만 늘어납니다.
+5. **Deploy Web Service**를 누르고 로그에 `Uvicorn running on`이 보이면 완료입니다. 알려준 주소로 접속해 추천곡이 나오는지 확인합니다.
+
+`APP_ORIGIN`이 실제 주소와 다르면 접속 시 `Invalid host header`가 나거나 로그인 요청이 거절됩니다. 끝에 `/` 없이 `https://`부터 정확히 넣습니다.
+
+### 배포 후 알아둘 점
+
+- **무료 Render는 15분 동안 접속이 없으면 잠들고**, 다음 접속 때 깨어나는 데 1분 정도 걸립니다. 발표·시연 직전에 한 번 열어 두세요.
+- Render 서버의 파일은 재배포·재시작 때 초기화됩니다. 회원·좋아요는 Supabase에 저장되므로 안전합니다.
+- **기사를 새로 게시하는 순서:** 내 PC 편집실에서 승인 → **홈에 게시** → 바뀐 파일(`index.html`, `artist-*.html`, `artist-archive.json`, 사진)을 `git push` → Render가 자동으로 다시 배포합니다.
+- 내 PC와 배포 사이트가 같은 Supabase DB를 쓰므로, 로컬에서 만든 관리자 계정으로 배포 사이트에도 로그인할 수 있습니다.
+- Supabase 무료 프로젝트는 일정 기간 쓰지 않으면 일시정지됩니다. 사이트가 DB 오류를 내면 Supabase 대시보드에서 상태를 확인합니다.
+
 ## GitHub에 올릴 때
 
-소스코드, SQL, 기사 자료, `requirements.txt`를 올립니다. `.env`, `.env.*`, `.venv/`, `node_modules/`, `__pycache__/`, `.vercel/`은 `.gitignore`로 제외되어 있습니다. 이미 Git에 추적된 파일은 `.gitignore`에 추가해도 빠지지 않으니 커밋 목록을 확인합니다. API 키와 DB 비밀번호는 문서·화면 코드·커밋에 넣지 않습니다.
+소스코드, SQL, 기사 자료, `requirements.txt`를 올립니다. `.env`, `.env.*`, `.venv/`, `node_modules/`, `__pycache__/`, `.vercel/`은 `.gitignore`로 제외되어 있습니다. 이미 Git에 추적된 파일은 `.gitignore`에 추가해도 빠지지 않으니 커밋 목록을 확인합니다. API 키와 DB 비밀번호(`DATABASE_URL` 포함)는 문서·화면 코드·커밋에 넣지 않습니다.
 
 ## 남은 범위
 
-- 기사 관련 기록은 JSON으로 저장하며 MySQL로 옮기지 않았습니다.
-- PostgreSQL·Supabase 전환과 재배포는 향후 검토 사항입니다.
+- 기사 관련 기록은 JSON 파일로 저장하며 DB로 옮기지 않았습니다. 그래서 편집실은 내 PC에서만 씁니다.
+- 예전 MySQL의 회원·좋아요 기록은 자동으로 옮기지 않습니다.

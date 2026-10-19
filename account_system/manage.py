@@ -34,11 +34,11 @@ def main():
             if args.command == "create-admin":
                 if existing:
                     raise ValueError("이미 가입한 이메일입니다. 다른 이메일을 쓰거나 관리자 페이지에서 권한을 변경하세요.")
-                cursor.execute("INSERT INTO account_users (email, display_name, password_hash, role, created_at, updated_at) VALUES (%s, %s, %s, 'admin', UTC_TIMESTAMP(), UTC_TIMESTAMP())", (email, name, encoded))
+                cursor.execute("INSERT INTO account_users (email, display_name, password_hash, role, created_at, updated_at) VALUES (%s, %s, %s, 'admin', timezone('utc', now()), timezone('utc', now()))", (email, name, encoded))
             else:
                 if not existing:
                     raise ValueError("해당 이메일의 계정이 없습니다.")
-                cursor.execute("UPDATE account_users SET password_hash = %s, updated_at = UTC_TIMESTAMP() WHERE id = %s", (encoded, existing["id"]))
+                cursor.execute("UPDATE account_users SET password_hash = %s, updated_at = timezone('utc', now()) WHERE id = %s", (encoded, existing["id"]))
                 cursor.execute("DELETE FROM account_sessions WHERE user_id = %s", (existing["id"],))
         print("관리자 계정 생성 완료. 홈페이지에서 로그인하세요." if args.command == "create-admin" else "비밀번호 변경 완료. 기존 로그인은 모두 해제했습니다.")
     except (ValueError, HTTPException) as error:

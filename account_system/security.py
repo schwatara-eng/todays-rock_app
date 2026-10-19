@@ -69,8 +69,8 @@ def current_user(request: Request):
         # 권한은 쿠키에 저장하지 않습니다. 승격/강등/정지는 다음 요청부터 반영됩니다.
         cursor.execute("""SELECT u.id, u.email, u.display_name, u.role, s.csrf_token
                           FROM account_sessions s JOIN account_users u ON u.id = s.user_id
-                          WHERE s.token_hash = %s AND s.expires_at > UTC_TIMESTAMP()
-                          AND u.is_active = 1""", (token_hash(token),))
+                          WHERE s.token_hash = %s AND s.expires_at > timezone('utc', now())
+                          AND u.is_active""", (token_hash(token),))
         user = cursor.fetchone()
     request.state.account = user
     return user
@@ -100,9 +100,9 @@ def check_csrf(request: Request, user=None):
 
 def new_session(cursor, user_id):
     token, csrf = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
-    cursor.execute("DELETE FROM account_sessions WHERE expires_at <= UTC_TIMESTAMP()")
+    cursor.execute("DELETE FROM account_sessions WHERE expires_at <= timezone('utc', now())")
     cursor.execute("""INSERT INTO account_sessions (token_hash, user_id, csrf_token, expires_at)
-                      VALUES (%s, %s, %s, DATE_ADD(UTC_TIMESTAMP(), INTERVAL 7 DAY))""",
+                      VALUES (%s, %s, %s, timezone('utc', now()) + interval '7 days')""",
                    (token_hash(token), user_id, csrf))
     return token, csrf
 

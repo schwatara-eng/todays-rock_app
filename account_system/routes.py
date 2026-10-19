@@ -7,7 +7,7 @@ from typing import Literal
 from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
-import pymysql
+from psycopg import errors as pg_errors
 
 from .database import database
 from .security import (COOKIE_NAME, ROLES, check_csrf, check_origin, current_user,
@@ -94,14 +94,17 @@ def rate_limit(request, action, email=""):
         buckets.append((f"{action}:email:{email}", 15))
     blocked = False
     with database() as connection, connection.cursor() as cursor:
-        cursor.execute("DELETE FROM account_auth_limits WHERE window_start < DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 DAY)")
+        cursor.execute("DELETE FROM account_auth_limits WHERE window_start < timezone('utc', now()) - interval '1 day'")
         for key, limit in buckets:
             digest = hashlib.sha256(key.encode()).hexdigest()
-            cursor.execute("""INSERT INTO account_auth_limits (bucket_hash, attempts, window_start)
-                              VALUES (%s, 1, UTC_TIMESTAMP()) ON DUPLICATE KEY UPDATE
-                              attempts = IF(window_start < DATE_SUB(UTC_TIMESTAMP(), INTERVAL 15 MINUTE), 1, attempts + 1),
-                              window_start = IF(window_start < DATE_SUB(UTC_TIMESTAMP(), INTERVAL 15 MINUTE), UTC_TIMESTAMP(), window_start)""", (digest,))
-            cursor.execute("SELECT attempts FROM account_auth_limits WHERE bucket_hash = %s", (digest,))
+            # 15분이 지난 기록은 1회부터 다시 셉니다. (ON CONFLICT 안의 값은 모두 갱신 전 값 기준)
+            cursor.execute("""INSERT INTO account_auth_limits AS a (bucket_hash, attempts, window_start)
+                              VALUES (%s, 1, timezone('utc', now())) ON CONFLICT (bucket_hash) DO UPDATE SET
+                              attempts = CASE WHEN a.window_start < timezone('utc', now()) - interval '15 minutes'
+                                              THEN 1 ELSE a.attempts + 1 END,
+                              window_start = CASE WHEN a.window_start < timezone('utc', now()) - interval '15 minutes'
+                                                  THEN timezone('utc', now()) ELSE a.window_start END
+                              RETURNING attempts""", (digest,))
             blocked = blocked or cursor.fetchone()["attempts"] > limit
     if blocked:
         raise HTTPException(429, "시도 횟수가 많습니다. 15분 뒤 다시 시도해 주세요.")
@@ -134,13 +137,12 @@ def signup(data: SignupData, request: Request):
     with database() as connection, connection.cursor() as cursor:
         try:
             cursor.execute("""INSERT INTO account_users (email, display_name, password_hash, role, created_at, updated_at)
-                              VALUES (%s, %s, %s, 'user', UTC_TIMESTAMP(), UTC_TIMESTAMP())""",
+                              VALUES (%s, %s, %s, 'user', timezone('utc', now()), timezone('utc', now()))
+                              RETURNING id""",
                            (data.email, data.display_name, password))
-        except pymysql.IntegrityError as error:
-            if error.args[0] == 1062:
-                raise HTTPException(409, "이미 사용 중인 이메일입니다.") from None
-            raise
-        user = {"id": cursor.lastrowid, "email": data.email, "display_name": data.display_name, "role": "user"}
+        except pg_errors.UniqueViolation:
+            raise HTTPException(409, "이미 사용 중인 이메일입니다.") from None
+        user = {"id": cursor.fetchone()["id"], "email": data.email, "display_name": data.display_name, "role": "user"}
         forget_old_session(cursor, request)
         token, csrf = new_session(cursor, user["id"])
     return login_response(user, token, csrf, 201)
@@ -164,7 +166,7 @@ def login(data: LoginData, request: Request):
         user = locked
         forget_old_session(cursor, request)
         token, csrf = new_session(cursor, user["id"])
-        cursor.execute("UPDATE account_users SET last_login_at = UTC_TIMESTAMP() WHERE id = %s", (user["id"],))
+        cursor.execute("UPDATE account_users SET last_login_at = timezone('utc', now()) WHERE id = %s", (user["id"],))
     return login_response(user, token, csrf)
 
 
@@ -184,7 +186,7 @@ def update_profile(data: ProfileData, request: Request):
     user = require_user(request)
     check_csrf(request, user)
     with database() as connection, connection.cursor() as cursor:
-        cursor.execute("UPDATE account_users SET display_name = %s, updated_at = UTC_TIMESTAMP() WHERE id = %s",
+        cursor.execute("UPDATE account_users SET display_name = %s, updated_at = timezone('utc', now()) WHERE id = %s",
                        (data.display_name, user["id"]))
     return reply({"user": public_user(dict(user, display_name=data.display_name))})
 
@@ -202,7 +204,7 @@ def change_password(data: PasswordData, request: Request):
             raise HTTPException(401, "계정 상태가 변경되었습니다. 다시 로그인하세요.")
         if not verify_password(data.current_password, stored["password_hash"]):
             raise HTTPException(400, "현재 비밀번호가 맞지 않습니다.")
-        cursor.execute("UPDATE account_users SET password_hash = %s, updated_at = UTC_TIMESTAMP() WHERE id = %s", (encoded, user["id"]))
+        cursor.execute("UPDATE account_users SET password_hash = %s, updated_at = timezone('utc', now()) WHERE id = %s", (encoded, user["id"]))
         cursor.execute("DELETE FROM account_sessions WHERE user_id = %s", (user["id"],))
         token, csrf = new_session(cursor, user["id"])
     return login_response(user, token, csrf)
@@ -241,7 +243,8 @@ def like_song(song_id: int, request: Request):
         cursor.execute("SELECT id FROM songs WHERE id = %s", (song_id,))
         if not cursor.fetchone():
             raise HTTPException(404, "곡을 찾지 못했습니다.")
-        cursor.execute("INSERT IGNORE INTO account_likes (user_id, song_id, created_at) VALUES (%s, %s, UTC_TIMESTAMP())", (user["id"], song_id))
+        cursor.execute("""INSERT INTO account_likes (user_id, song_id, created_at) VALUES (%s, %s, timezone('utc', now()))
+                          ON CONFLICT (user_id, song_id) DO NOTHING""", (user["id"], song_id))
     return reply({"songId": song_id, "liked": True})
 
 
@@ -270,9 +273,10 @@ def members(request: Request, q: str = Query("", max_length=100), page: int = Qu
         total = cursor.fetchone()["total"]
         cursor.execute("SELECT id, email, display_name, role, is_active, created_at, last_login_at FROM account_users" + where + " ORDER BY created_at DESC, id DESC LIMIT 30 OFFSET %s", (pattern, pattern, (page - 1) * 30))
         users = cursor.fetchall()
-        cursor.execute("""SELECT COUNT(*) AS total, SUM(role = 'reporter' AND is_active = 1) AS reporters,
-                          SUM(role = 'admin' AND is_active = 1) AS admins,
-                          SUM(is_active = 0) AS suspended FROM account_users""")
+        cursor.execute("""SELECT COUNT(*) AS total,
+                          COUNT(*) FILTER (WHERE role = 'reporter' AND is_active) AS reporters,
+                          COUNT(*) FILTER (WHERE role = 'admin' AND is_active) AS admins,
+                          COUNT(*) FILTER (WHERE NOT is_active) AS suspended FROM account_users""")
         stats = {key: int(value or 0) for key, value in cursor.fetchone().items()}
     return reply({"items": [member_json(u) for u in users], "total": total, "page": page, "pageSize": 30, "stats": stats})
 
@@ -285,7 +289,7 @@ def update_member(member_id: int, data: MemberUpdate, request: Request):
         raise HTTPException(409, "자신의 관리자 권한을 없애거나 자신의 계정을 정지할 수 없습니다.")
     with database() as connection, connection.cursor() as cursor:
         # 관리자 변경을 직렬화해 두 관리자가 동시에 서로를 강등시키는 상황을 막습니다.
-        cursor.execute("SELECT id FROM account_users WHERE role = 'admin' AND is_active = 1 ORDER BY id FOR UPDATE")
+        cursor.execute("SELECT id FROM account_users WHERE role = 'admin' AND is_active ORDER BY id FOR UPDATE")
         admins = [row["id"] for row in cursor.fetchall()]
         if actor["id"] not in admins:
             raise HTTPException(403, "관리자 권한이 변경되었습니다. 다시 로그인하세요.")
@@ -295,12 +299,12 @@ def update_member(member_id: int, data: MemberUpdate, request: Request):
             raise HTTPException(404, "회원을 찾지 못했습니다.")
         if target["id"] in admins and (data.role != "admin" or not data.is_active) and len(admins) <= 1:
             raise HTTPException(409, "마지막 관리자 계정은 유지해야 합니다.")
-        cursor.execute("UPDATE account_users SET role = %s, is_active = %s, updated_at = UTC_TIMESTAMP() WHERE id = %s", (data.role, data.is_active, member_id))
+        cursor.execute("UPDATE account_users SET role = %s, is_active = %s, updated_at = timezone('utc', now()) WHERE id = %s", (data.role, data.is_active, member_id))
         if not data.is_active:
             cursor.execute("DELETE FROM account_sessions WHERE user_id = %s", (member_id,))
         for action, old, new in (("role", target["role"], data.role), ("active", str(int(target["is_active"])), str(int(data.is_active)))):
             if old != new:
-                cursor.execute("INSERT INTO account_audit (actor_id, target_id, action, old_value, new_value, created_at) VALUES (%s, %s, %s, %s, %s, UTC_TIMESTAMP())", (actor["id"], member_id, action, old, new))
+                cursor.execute("INSERT INTO account_audit (actor_id, target_id, action, old_value, new_value, created_at) VALUES (%s, %s, %s, %s, %s, timezone('utc', now()))", (actor["id"], member_id, action, old, new))
     return reply({"member": member_json(dict(target, role=data.role, is_active=data.is_active))})
 
 

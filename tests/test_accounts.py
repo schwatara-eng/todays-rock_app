@@ -1,13 +1,13 @@
-"""회원/권한 통합 테스트. DB_NAME이 _test로 끝나는 별도 MySQL/MariaDB에서만 실행합니다.
+"""회원/권한 통합 테스트. DB_NAME이 _test로 끝나는 별도 PostgreSQL DB에서만 실행합니다.
 
 실행 예: DB_NAME=todays_rock_accounts_test python -m pytest tests/test_accounts.py -q
 Windows에서는 PowerShell의 $env:DB_NAME으로 테스트 DB를 지정하세요.
+운영 DB(Supabase)에 실수로 접속하지 않도록 테스트 중에는 DATABASE_URL을 무시하고 DB_* 값만 씁니다.
 """
 import os
 from pathlib import Path
 import shutil
 
-import pymysql
 import pytest
 from fastapi.testclient import TestClient
 
@@ -23,12 +23,15 @@ PASSWORD = "test-password-12345"
 def clean_test_database(tmp_path, monkeypatch):
     if not os.getenv("DB_NAME", "").endswith("_test"):
         pytest.fail("DB_NAME이 _test로 끝나는 별도 테스트 DB가 필요합니다. 운영 DB에서는 실행하지 않습니다.")
+    monkeypatch.delenv("DATABASE_URL", raising=False)
     connection = connect()
     with connection.cursor() as cursor:
         cursor.execute("""CREATE TABLE IF NOT EXISTS songs (
             id INT PRIMARY KEY, title VARCHAR(200), artist VARCHAR(200), year SMALLINT,
-            genre VARCHAR(100), lyrics_url VARCHAR(500)) ENGINE=InnoDB""")
-        cursor.execute("INSERT IGNORE INTO songs VALUES (1, 'Heroes', 'David Bowie', 1977, 'Art Rock', ''), (2, 'Dreams', 'The Cranberries', 1992, 'Rock', '')")
+            genre VARCHAR(100), lyrics_url VARCHAR(500))""")
+        cursor.execute("""INSERT INTO songs (id, title, artist, year, genre, lyrics_url)
+            VALUES (1, 'Heroes', 'David Bowie', 1977, 'Art Rock', ''), (2, 'Dreams', 'The Cranberries', 1992, 'Rock', '')
+            ON CONFLICT (id) DO NOTHING""")
     connection.commit(); connection.close()
     initialize_schema()
     connection = connect()
@@ -251,7 +254,7 @@ def test_expired_session_and_login_rate_limit():
     c = client(); signup(c)
     connection = connect()
     with connection.cursor() as cursor:
-        cursor.execute("UPDATE account_sessions SET expires_at = DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 HOUR)")
+        cursor.execute("UPDATE account_sessions SET expires_at = timezone('utc', now()) - interval '1 hour'")
     connection.commit(); connection.close()
     assert c.get("/api/auth/me").json()["user"] is None
     for _ in range(15):
