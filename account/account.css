@@ -1,0 +1,284 @@
+/* 로그인 · 마이페이지 · 관리자 페이지 공통 스타일 (홈페이지 색·서체를 그대로 따름) */
+:root {
+  --black: #101010;
+  --paper: #f2efe8;
+  --red: #e33b2e;
+  --yellow: #f2c94c;
+  --gray: #aaa69e;
+  --line: rgba(242, 239, 232, 0.2);
+  --panel: rgba(242, 239, 232, 0.04);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--paper);
+  background:
+    radial-gradient(circle at 85% -10%, rgba(227, 59, 46, .22), transparent 45%),
+    var(--black);
+  font-family: "Noto Sans KR", sans-serif;
+  line-height: 1.6;
+}
+
+a { color: inherit; }
+
+/* 머리말 — 홈페이지와 같은 구성 */
+.site-header {
+  min-height: 72px;
+  padding: 0 5vw;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  color: var(--paper);
+  font-family: "Black Han Sans", sans-serif;
+  font-size: 1.35rem;
+  text-decoration: none;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.header-right > p {
+  margin: 0;
+  color: var(--gray);
+  font-size: .72rem;
+  letter-spacing: .14em;
+}
+
+.auth-nav { display: flex; align-items: center; gap: 6px; }
+
+.auth-link {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--paper);
+  font: 500 .74rem "Noto Sans KR", sans-serif;
+  letter-spacing: .04em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+}
+
+.auth-link:hover { border-color: var(--yellow); color: var(--yellow); }
+
+.auth-link-strong { border-color: var(--red); background: var(--red); color: var(--black); font-weight: 700; }
+.auth-link-strong:hover { border-color: var(--paper); background: var(--paper); color: var(--black); }
+
+main {
+  width: min(960px, 90vw);
+  margin: 0 auto;
+  padding: 72px 0 120px;
+}
+
+.section-label {
+  margin: 0 0 10px;
+  color: var(--red);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-family: "Black Han Sans", sans-serif;
+  font-size: clamp(2.4rem, 7vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.lead {
+  margin: 0 0 40px;
+  color: var(--gray);
+}
+
+/* 버튼 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 18px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--paper);
+  font: 500 .86rem "Noto Sans KR", sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+}
+
+.btn:hover { border-color: var(--yellow); color: var(--yellow); }
+.btn:disabled { opacity: .45; cursor: default; }
+
+.btn-primary {
+  border-color: var(--red);
+  background: var(--red);
+  color: var(--black);
+  font-weight: 700;
+}
+
+.btn-primary:hover { background: var(--paper); border-color: var(--paper); color: var(--black); }
+
+.btn-small { padding: 6px 12px; font-size: .78rem; }
+
+/* 로그인 / 회원가입 */
+.auth-card {
+  width: min(440px, 100%);
+  margin: 0 auto;
+  padding: 36px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.auth-tab {
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--gray);
+  font: 700 .95rem "Noto Sans KR", sans-serif;
+  cursor: pointer;
+}
+
+.auth-tab[aria-selected="true"] { color: var(--paper); border-bottom-color: var(--red); }
+
+.field { display: block; margin-bottom: 18px; }
+
+.field span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--gray);
+  font-size: .78rem;
+  letter-spacing: .06em;
+}
+
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, .35);
+  color: var(--paper);
+  font: 400 .95rem "Noto Sans KR", sans-serif;
+}
+
+.field input:focus { outline: none; border-color: var(--yellow); }
+
+.auth-card .btn-primary { width: 100%; margin-top: 8px; padding: 14px; }
+
+.message { min-height: 1.5em; margin: 14px 0 0; font-size: .85rem; color: var(--gray); }
+.message.error { color: var(--red); }
+
+/* 마이페이지 · 관리자 페이지 */
+.profile {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  padding-bottom: 32px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+}
+
+.profile-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.role-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border: 1px solid currentColor;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  vertical-align: middle;
+}
+
+.role-admin { color: var(--red); }
+.role-reporter { color: var(--yellow); }
+.role-user { color: var(--gray); }
+
+.meta { margin: 0; color: var(--gray); font-size: .88rem; }
+
+.notice {
+  margin-bottom: 32px;
+  padding: 14px 18px;
+  border-left: 3px solid var(--red);
+  background: var(--panel);
+  font-size: .9rem;
+}
+
+h2 {
+  margin: 0 0 18px;
+  font-family: "Black Han Sans", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+/* 좋아요 기록 */
+.like-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+
+.like-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 20px;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.like-item h3 { margin: 0; font-size: 1.05rem; }
+.like-item .artist { color: var(--yellow); }
+.like-item .meta { grid-column: 1; font-size: .78rem; }
+.like-links { grid-row: 1 / span 2; grid-column: 2; display: flex; gap: 8px; }
+
+.empty { padding: 40px 0; color: var(--gray); text-align: center; }
+
+/* 회원 목록 */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-bottom: 40px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.stat { padding: 18px 20px; background: var(--black); }
+.stat strong { display: block; font-family: "Black Han Sans", sans-serif; font-size: 2rem; font-weight: 400; }
+.stat span { color: var(--gray); font-size: .78rem; }
+
+.table-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+
+th, td { padding: 14px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+
+th { color: var(--gray); font-size: .72rem; font-weight: 500; letter-spacing: .1em; }
+
+td.num { text-align: right; }
+
+@media (max-width: 640px) {
+  .header-right > p { display: none; }
+  main { padding-top: 48px; }
+  .auth-card { padding: 26px 20px; }
+  .stats { grid-template-columns: 1fr; }
+  .like-item { grid-template-columns: 1fr; }
+  .like-links { grid-row: auto; grid-column: 1; }
+}

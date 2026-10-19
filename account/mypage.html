@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>마이페이지 — 오늘의 록</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <link href="/account/account.css" rel="stylesheet"/>
+ </head>
+ <body data-page="mypage">
+  <header class="site-header">
+   <a class="logo" href="/">TODAY'S ROCK</a>
+   <div class="header-right">
+    <p>WEATHER · MOOD · MUSIC</p>
+    <nav aria-label="회원 메뉴" class="auth-nav" id="auth-nav"></nav>
+   </div>
+  </header>
+  <main>
+   <p class="notice" hidden id="notice">편집실은 기자와 관리자만 들어갈 수 있어요. 기자 권한이 필요하면 관리자에게 요청해주세요.</p>
+   <section class="profile">
+    <div>
+     <p class="section-label">MY PAGE</p>
+     <h1 id="profile-name">&nbsp;</h1>
+     <p class="meta" id="profile-email"></p>
+    </div>
+    <div class="profile-actions" id="profile-actions"></div>
+   </section>
+   <section aria-labelledby="likes-title">
+    <p class="section-label">LIKED SONGS · <span id="like-count">0</span></p>
+    <h2 id="likes-title">좋아요 히스토리</h2>
+    <ul class="like-list" id="like-list"><li class="empty">불러오는 중이에요…</li></ul>
+   </section>
+  </main>
+  <script src="/account/account.js"></script>
+ </body>
+</html>

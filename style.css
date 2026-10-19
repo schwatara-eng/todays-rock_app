@@ -1355,15 +1355,92 @@ main > .artist-feature .artist-feature-sources {
   gap: 12px;
 }
 
-#artist-title .artist-editor-link {
-  flex: 0 0 auto;
-  padding: 4px 7px;
-  border: 1px solid #666;
-  border-radius: 3px;
-  background: #333;
-  color: #aaa;
-  font: 400 10px/1.2 Arial, sans-serif;
-  letter-spacing: 0;
+
+/* ── 회원 메뉴(머리말 오른쪽) · 좋아요 버튼 ── */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.auth-link {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--paper);
+  font: 500 .74rem "Noto Sans KR", sans-serif;
+  letter-spacing: .04em;
   text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+}
+
+.auth-link:hover {
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+.auth-link-strong {
+  border-color: var(--red);
+  background: var(--red);
+  color: var(--black);
+  font-weight: 700;
+}
+
+.auth-link-strong:hover {
+  border-color: var(--paper);
+  background: var(--paper);
+  color: var(--black);
+}
+
+.song-card {
+  position: relative;
+}
+
+.like-button {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(16, 16, 16, .5);
+  color: var(--gray);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, transform .15s;
+}
+
+.like-button:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.like-button:active {
+  transform: scale(.9);
+}
+
+.like-button[aria-pressed="true"] {
+  border-color: var(--red);
+  background: var(--red);
+  color: var(--black);
+}
+
+@media (max-width: 760px) {
+  .header-right {
+    gap: 0;
+  }
+
+  .auth-link {
+    padding: 5px 9px;
+  }
 }

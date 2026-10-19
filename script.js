@@ -306,6 +306,7 @@ function showRecommendations() {
     const lyricsUrl = song.lyricsUrl;
     list.insertAdjacentHTML("beforeend", `
       <article class="song-card">
+        <button class="like-button" type="button" data-like="${song.id}" aria-pressed="false" aria-label="${song.title} 좋아요">♥</button>
         <span class="song-number">0${index + 1}</span>
         <p class="song-meta">${song.year} · ${song.genre} · ENERGY ${song.energy}/5</p>
         <h3>${song.title}</h3>
@@ -339,8 +340,41 @@ function showRecommendations() {
     </div>
   `;
   resultSection.hidden = false;
+  markLikedSongs();
   // 결과를 펼칠 때 현재 스크롤 위치를 유지한다.
 }
+
+// 6-1. 좋아요
+// 로그인한 회원만 누를 수 있다. 누른 곡은 마이페이지의 좋아요 히스토리에 쌓인다.
+async function markLikedSongs() {
+  if (!window.TRAuth || !(await window.TRAuth.user)) return;
+  const liked = await window.TRAuth.likedIds();
+  document.querySelectorAll("[data-like]").forEach((button) => {
+    button.setAttribute("aria-pressed", String(liked.has(Number(button.dataset.like))));
+  });
+}
+
+document.querySelector("#song-list").addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-like]");
+  if (!button || !window.TRAuth) return;
+
+  if (!(await window.TRAuth.user)) {
+    if (confirm("좋아요는 로그인한 회원만 누를 수 있어요. 로그인할까요?")) {
+      location.href = "/account/login.html?next=/";
+    }
+    return;
+  }
+
+  button.disabled = true;
+  try {
+    const { liked } = await window.TRAuth.toggleLike(Number(button.dataset.like));
+    button.setAttribute("aria-pressed", String(liked));
+  } catch (error) {
+    alert(error.message);
+  } finally {
+    button.disabled = false;
+  }
+});
 
 // 7. 최신 뉴스
 // FastAPI가 NME RSS를 수집해 JSON으로 제공한다.

@@ -22,9 +22,16 @@
    <a aria-label="오늘의 록 처음으로" class="logo" href="#">
     TODAY'S ROCK
    </a>
-   <p>
-    WEATHER · MOOD · MUSIC
-   </p>
+   <div class="header-right">
+    <p>
+     WEATHER · MOOD · MUSIC
+    </p>
+    <!-- 로그인 상태에 따라 account.js가 로그인·회원가입 또는 마이페이지·로그아웃 버튼을 채운다 -->
+    <nav aria-label="회원 메뉴" class="auth-nav" id="auth-nav">
+     <a class="auth-link" href="/account/login.html">로그인</a>
+     <a class="auth-link auth-link-strong" href="/account/login.html?mode=signup">회원가입</a>
+    </nav>
+   </div>
   </header>
   <main>
    <section class="hero">
@@ -153,7 +160,6 @@
     </p>
     <h2 id="artist-title">
      <span>오늘의 뮤지션</span>
-     <a class="artist-editor-link" href="/editor/" aria-label="오늘의 뮤지션 편집실 열기">편집실 ↗</a>
     </h2>
     <div id="artist-current-content">
      <div class="artist-editorial-grid">
@@ -287,6 +293,8 @@
     © 2026 TODAY'S ROCK
    </p>
   </footer>
+  <script src="/account/account.js">
+  </script>
   <script src="script.js">
   </script>
  </body>

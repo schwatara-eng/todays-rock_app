@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>로그인 — 오늘의 록</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <link href="/account/account.css" rel="stylesheet"/>
+ </head>
+ <body data-page="login">
+  <header class="site-header">
+   <a class="logo" href="/">TODAY'S ROCK</a>
+   <div class="header-right">
+    <p>WEATHER · MOOD · MUSIC</p>
+    <nav aria-label="회원 메뉴" class="auth-nav" id="auth-nav"></nav>
+   </div>
+  </header>
+  <main>
+   <section class="auth-card">
+    <p class="section-label">MEMBERSHIP</p>
+    <h1 id="auth-title">로그인</h1>
+    <div class="auth-tabs" role="tablist">
+     <button aria-selected="true" class="auth-tab" data-mode="login" role="tab" type="button">로그인</button>
+     <button aria-selected="false" class="auth-tab" data-mode="signup" role="tab" type="button">회원가입</button>
+    </div>
+    <form id="auth-form" novalidate>
+     <label class="field" hidden id="nickname-field">
+      <span>닉네임</span>
+      <input autocomplete="nickname" maxlength="20" name="nickname" placeholder="1~20자"/>
+     </label>
+     <label class="field">
+      <span>이메일</span>
+      <input autocomplete="email" name="email" required type="email"/>
+     </label>
+     <label class="field">
+      <span>비밀번호</span>
+      <input autocomplete="current-password" minlength="8" name="password" placeholder="8자 이상" required type="password"/>
+     </label>
+     <button class="btn btn-primary" type="submit">로그인</button>
+     <p aria-live="polite" class="message" id="auth-message"></p>
+    </form>
+   </section>
+  </main>
+  <script src="/account/account.js"></script>
+ </body>
+</html>

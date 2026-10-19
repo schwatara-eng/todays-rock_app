@@ -9,14 +9,35 @@ from pathlib import Path
 
 import pymysql
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.concurrency import run_in_threadpool
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 
 load_dotenv(Path(__file__).parent / ".env")
 
 app = FastAPI(title="TODAY'S ROCK API")
 from editor_bridge import router as editor_router
 app.include_router(editor_router)
+
+# 회원가입·로그인·권한·좋아요
+import accounts
+app.include_router(accounts.router)
+
+
+@app.middleware("http")
+async def protect_editor(request: Request, call_next):
+    """편집실(/editor/, /local/, /site/)은 기자·관리자로 로그인해야 열린다."""
+    if accounts.is_editor_path(request.url.path):
+        blocked = await run_in_threadpool(accounts.editor_gate, request)
+        if blocked:
+            status, message = blocked
+            wants_page = request.method == "GET" and "text/html" in request.headers.get("accept", "")
+            if wants_page and status == 401:
+                return RedirectResponse("/account/login.html?next=/editor/", status_code=303)
+            if wants_page and status == 403:
+                return RedirectResponse("/account/mypage.html?denied=editor", status_code=303)
+            return JSONResponse({"error": message}, status_code=status)
+    return await call_next(request)
 
 @app.get("/api/songs")
 def get_songs():
@@ -207,6 +228,22 @@ def font_asset(asset: str):
     if not path.is_relative_to(ROOT / "fonts"):
         raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
     return public_file("fonts/" + asset)
+
+
+# 로그인 · 마이페이지 · 관리자 페이지
+ACCOUNT_FILES = {"login.html", "mypage.html", "admin.html", "account.css", "account.js"}
+
+
+@app.get("/account/", include_in_schema=False)
+def account_home():
+    return RedirectResponse("/account/mypage.html")
+
+
+@app.get("/account/{name}", include_in_schema=False)
+def account_page(name: str):
+    if name not in ACCOUNT_FILES:
+        raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
+    return public_file("account/" + name)
 
 
 @app.get("/admin/", include_in_schema=False)

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>관리자 — 오늘의 록</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <link href="/account/account.css" rel="stylesheet"/>
+ </head>
+ <body data-page="admin">
+  <header class="site-header">
+   <a class="logo" href="/">TODAY'S ROCK</a>
+   <div class="header-right">
+    <p>WEATHER · MOOD · MUSIC</p>
+    <nav aria-label="회원 메뉴" class="auth-nav" id="auth-nav"></nav>
+   </div>
+  </header>
+  <main>
+   <section class="profile">
+    <div>
+     <p class="section-label">ADMIN</p>
+     <h1>관리자 페이지</h1>
+     <p class="meta">회원 권한을 관리하고 편집실로 이동할 수 있어요.</p>
+    </div>
+    <div class="profile-actions">
+     <a class="btn btn-primary" href="/editor/">편집실 ↗</a>
+     <a class="btn" href="/account/mypage.html">마이페이지</a>
+    </div>
+   </section>
+   <section class="stats" aria-label="회원 현황">
+    <div class="stat"><strong id="stat-total">0</strong><span>전체 회원</span></div>
+    <div class="stat"><strong id="stat-reporter">0</strong><span>기자</span></div>
+    <div class="stat"><strong id="stat-user">0</strong><span>사용자</span></div>
+   </section>
+   <section aria-labelledby="users-title">
+    <h2 id="users-title">회원 목록</h2>
+    <p aria-live="polite" class="message" id="admin-message"></p>
+    <div class="table-wrap">
+     <table>
+      <thead>
+       <tr><th>닉네임</th><th>이메일</th><th>권한</th><th>가입일</th><th class="num">좋아요</th><th>권한 변경</th></tr>
+      </thead>
+      <tbody id="user-rows"></tbody>
+     </table>
+    </div>
+   </section>
+  </main>
+  <script src="/account/account.js"></script>
+ </body>
+</html>
