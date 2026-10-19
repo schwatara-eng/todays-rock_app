@@ -17,6 +17,7 @@ lock=asyncio.Lock()
 # 뮤지션별 기록(draft·sheet·review·editorial·approval)은 Supabase DB에 저장한다. (storage.py)
 # {id}는 요청마다 지정된 뮤지션 ID(예: jack-white).
 DEFAULT_ARTIST='jack-white'
+MAX_NEW_FACTS=60   # 팩트시트를 한 번 만들 때 새로 추가하는 항목 수 상한
 ARTIST_ID=re.compile(r'[a-z0-9]+(?:-[a-z0-9]+)*')
 current=contextvars.ContextVar('artist',default=DEFAULT_ARTIST)
 CSP="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; connect-src 'self'; frame-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'"
@@ -111,7 +112,11 @@ async def action(name,data,user=None):
         invalidate();return state()
     if name=='research':
         article=saved_article(data);h=fingerprint(article);sheet=read_sheet()
-        if not sheet or sheet.get('articleHash')!=h or not isinstance(sheet.get('facts'),list):
+        # 예전 방식으로 '일부만 추출' 표시가 붙은 팩트시트는 한 번 다시 맞춰 표시를 바로잡습니다. (검증 결과는 유지)
+        # (조사 대기 항목이 남아 있으면 먼저 그것부터 조사하고, 다 끝난 뒤에 다시 맞춥니다. 긴 원고는 이렇게 묶음별로 진행됩니다.)
+        stale=not sheet or sheet.get('articleHash')!=h or not isinstance(sheet.get('facts'),list)
+        recheck_truncated=not stale and sheet.get('truncated') and not any(f.get('failureType')=='PENDING' for f in sheet['facts'])
+        if stale or recheck_truncated:
             extracted=await ai.extract(normalize(article))
             if not extracted.get('claims'):raise ai.EditorError('검증할 사실 주장을 찾지 못했습니다.',422)
             # 원고를 고쳐도 팩트시트를 처음부터 다시 만들지 않습니다.
@@ -132,7 +137,10 @@ async def action(name,data,user=None):
             excluded=sheet.get('excludedFacts',[]) if sheet else []
             def was_excluded(c):
                 return any(compact(c.get('claim'))==compact(r['fact'].get('claim')) and compact(c.get('excerpt') or c['claim'])==compact(r['fact'].get('excerpt')) for r in excluded)
-            fresh=[c for c in extracted['claims'] if not unchanged(c) and not was_excluded(c)]
+            # '일부만 추출'은 아직 팩트시트에 없는 새 주장이 너무 많아 다 넣지 못했을 때만 표시합니다.
+            fresh_all=[c for c in extracted['claims'] if not unchanged(c) and not was_excluded(c)]
+            fresh=fresh_all[:MAX_NEW_FACTS]
+            truncated=extracted['truncated'] or len(fresh_all)>MAX_NEW_FACTS
             next_no=fact_edit.next_number(sheet)
             facts=list(kept)
             for i,c in enumerate(fresh):
@@ -141,7 +149,7 @@ async def action(name,data,user=None):
                 else:f.update(failureType='PENDING',reason='아직 조사하지 않았습니다.')
                 facts.append(f)
             manual={k:sheet[k] for k in ('excludedFacts','manualHistory','manualRevision') if sheet and k in sheet}
-            sheet=dict(**manual,artist={'name':'기사 기반 자료'},articleHash=h,articleText=article_text(article),facts=facts,truncated=extracted['truncated'],generatedAt=ai.now(),
+            sheet=dict(**manual,artist={'name':'기사 기반 자료'},articleHash=h,articleText=article_text(article),facts=facts,truncated=truncated,generatedAt=ai.now(),
                        note=f'같은 대상을 다루는 주장끼리 묶어 조사합니다. 이전 검증 {len(kept)}개 유지, 새 항목 {len(fresh)}개.')
             write('sheet',sheet);invalidate()
             # 바뀐 사실이 하나도 없으면 바로 사실 검수 보고서를 다시 만듭니다.
@@ -207,7 +215,7 @@ def approval_blocker(s):
     elif not st['allVerified']:
         sheet=read_sheet() or {}
         left=[f.get('id','?') for f in sheet.get('facts',[]) if f.get('verificationStatus') not in ('VERIFIED','OPINION')]
-        if sheet.get('truncated'):reasons.append('팩트시트가 일부만 추출됐습니다. 원고를 나눠 다시 생성하세요.')
+        if sheet.get('truncated'):reasons.append('팩트시트에 \'일부만 추출\' 표시가 있습니다. 01의 \'팩트시트 생성 + 웹 출처 검증\'을 한 번 더 누르면 기존 검증 결과는 그대로 두고 다시 맞춥니다. 그래도 남으면 원고가 너무 길어 새 주장을 다 넣지 못한 것이니 원고를 줄여 주세요.')
         if left:reasons.append(f'검증되지 않은 사실 항목 {len(left)}개가 남아 있습니다({", ".join(left[:8])}{" 등" if len(left)>8 else ""}). 출처 재검색·항목 수정·제외로 정리하세요.')
     elif not st['factCurrent']:
         reasons.append('팩트시트를 고친 뒤(항목 수정·추가·제외) 사실 검수 보고서가 갱신되지 않았습니다. 02 상자 오른쪽 위의 \'사실 검수 갱신\'을 누르세요.')

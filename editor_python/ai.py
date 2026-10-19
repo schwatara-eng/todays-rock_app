@@ -173,7 +173,8 @@ async def extract(article):
         if not key or key in seen: continue
         seen.add(key)
         claims.append(dict(claim=c['claim'].strip(),field='title' if c.get('field')=='title' else 'body',excerpt=c.get('excerpt') or c['claim'],type=claim_type(c.get('type')),group=str(c.get('group') or 'G1')[:20],keywords=[str(k).strip() for k in c.get('keywords',[]) if str(k).strip()][:12]))
-    return {'claims':claims[:40],'truncated':len(claims)>40}
+    # 이미 검증된 항목도 함께 돌아오므로 여기서는 넉넉히 받고, 새 항목 수 제한은 routes.py에서 합니다.
+    return {'claims':claims[:120],'truncated':len(claims)>120}
 
 async def search_sources(claims, excluded):
     instructions='음악 기사 출처 조사자입니다. 영어권 대상은 영어로 검색하세요. 공식 사이트·음반사·시상식 기관, 신뢰할 만한 음악 매체를 우선하세요. PDF·로그인 페이지를 피하고 제외 목록에 없는 실제 검색 결과 URL만 최대 5개 선정하세요. URL을 지어내거나 수정하지 마세요.'
