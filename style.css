@@ -119,6 +119,15 @@ main {
 
 .eyebrow,
 
+.account-hero-label {
+  font: 400 11px/1.5 Arial, "Malgun Gothic", sans-serif;
+  letter-spacing: 2.5px;
+}
+
+.eyebrow {
+  color: var(--red);
+}
+
 .section-label {
   color: var(--red);
   font-size: .72rem;

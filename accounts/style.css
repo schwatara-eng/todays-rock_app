@@ -47,7 +47,7 @@
 .account-intro { font-size: 14px; line-height: 1.85; color: var(--gray); margin: 14px 0 25px; }
 /* 관리실·마이페이지 공통 HERO: 라벨 / 제목·버튼 / 소개문을 같은 그리드에 놓습니다. */
 .account-hero { display: grid; grid-template-columns: minmax(0, 1fr) 264px; align-items: center; gap: 12px 32px; margin-bottom: 32px; }
-.account-hero-label { grid-column: 1; grid-row: 1; margin: 0; color: #d65c50; font: 400 11px/1.5 Arial, "Malgun Gothic", sans-serif; letter-spacing: 2.5px; }
+.account-hero-label { grid-column: 1; grid-row: 1; margin: 0; color: #d65c50; }
 .account-main .account-hero-title { grid-column: 1; grid-row: 2; min-width: 0; margin: 0; color: #eae6df; font: 400 clamp(28px, 4vw, 48px)/1.25 "Black Han Sans", sans-serif; letter-spacing: normal; }
 .account-hero-title em { font-family: "Galmuri9", monospace; font-size: .65em; font-weight: 400; font-style: normal; color: #d7c5ac; }
 .account-hero-description { grid-column: 1; grid-row: 3; min-height: 3.4em; margin: 0; color: #aba5a0; font: 400 14px/1.7 "Noto Sans KR", sans-serif; overflow-wrap: anywhere; }
