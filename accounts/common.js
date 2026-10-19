@@ -90,17 +90,19 @@
       const id = Number(button.dataset.likeSong);
       if (songId !== undefined && id !== songId) return;
       const liked = state.likedIds.has(id);
-      button.textContent = liked ? '♥ 좋아요' : '♡ 좋아요';
+      const icon = liked ? '♥' : '♡';
+      button.textContent = button.classList.contains('like-button-icon') ? icon : `${icon} 좋아요`;
       button.setAttribute('aria-pressed', String(liked));
       button.classList.toggle('is-liked', liked);
       button.setAttribute('aria-label', `${button.dataset.songLabel} ${liked ? '좋아요 취소' : '좋아요'}`);
+      button.title = button.getAttribute('aria-label');
     });
   }
 
-  function addLikeButton(container, song) {
+  function addLikeButton(container, song, { iconOnly = false } = {}) {
     const id = Number(song.id);
     if (!Number.isInteger(id) || id <= 0) return;
-    const button = node('button', '♡ 좋아요', 'like-button');
+    const button = node('button', iconOnly ? '♡' : '♡ 좋아요', iconOnly ? 'like-button like-button-icon' : 'like-button');
     button.type = 'button'; button.dataset.likeSong = String(id);
     button.dataset.songLabel = song.artist + ' - ' + song.title;
     button.setAttribute('aria-pressed', 'false');

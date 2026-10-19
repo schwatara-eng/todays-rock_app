@@ -20,7 +20,8 @@
 .like-button:hover { border-color: var(--red); }
 .like-button.is-liked { color: #ff8478; border-color: rgba(227,59,46,.6); }
 .like-button:disabled { opacity: .55; cursor: wait; }
-.song-links { flex-wrap: wrap; align-items: center; }
+.song-number { position: relative; }
+.song-number .like-button-icon { position: absolute; top: 50%; right: 0; transform: translateY(-50%); display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; padding: 0; font: 22px/1 Arial, sans-serif; }
 .account-page { background: #14100f; }
 .account-page .site-header { gap: 15px; }
 .account-main { width: min(1180px, 90vw); padding: 58px 0 80px; margin: 0 auto; }
