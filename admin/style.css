@@ -1156,3 +1156,32 @@ button:disabled {
   background-image: var(--stamp-critique);
   opacity: .6;
 }
+
+/* 검수 보고서 판정 칸의 작은 도장 — 확인은 APPROVED, 평론은 CRITIQUE
+ * (판정 글자는 app.js가 data-verdict에 넣어 둡니다) */
+.report-verdict[data-verdict^="확인"],
+.report-verdict[data-verdict^="평론"] {
+  position: relative;
+  isolation: isolate;
+  min-width: 64px;
+}
+
+.report-verdict[data-verdict^="확인"]::before,
+.report-verdict[data-verdict^="평론"]::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  /* 판정 글자 첫 줄 뒤에 겹쳐 찍습니다 */
+  left: 2px;
+  top: -6px;
+  width: 50px;
+  height: 50px;
+  background: var(--stamp-approved) center / contain no-repeat;
+  opacity: .6;
+  pointer-events: none;
+}
+
+.report-verdict[data-verdict^="평론"]::before {
+  background-image: var(--stamp-critique);
+  opacity: .55;
+}
