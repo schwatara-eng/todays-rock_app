@@ -264,6 +264,8 @@ function renderFacts(sheet) {
     const combined = element('div', '', 'fact-combined');
     // 검증 완료 항목은 초록 도장으로 한눈에 구분합니다.
     if (fact.verificationStatus === 'VERIFIED') stamp(combined, '검증 완료');
+    // 평론(의견) 항목은 검증 대상이 아니므로 회색 '평론' 도장으로 구분합니다.
+    else if (fact.verificationStatus === 'OPINION' || fact.type === 'opinion') stamp(combined, '평론', 'gray');
     combined.append(card, result);
     pair.append(combined, sourceCard);
     rows.append(pair);
@@ -407,9 +409,11 @@ function editorialForm(issue, operation, token, close) {
   return form;
 }
 
-// 칸 바탕에 초록 도장 무늬를 찍습니다. 모양은 style.css의 .stamped 규칙에서 그립니다.
-function stamp(node, label) {
+// 칸 바탕에 도장 무늬를 찍습니다. 기본은 초록, tone이 'gray'면 회색입니다.
+// 모양은 style.css의 .stamped 규칙에서 그립니다.
+function stamp(node, label, tone = 'green') {
   node.classList.add('stamped');
+  node.classList.toggle('stamped-gray', tone === 'gray');
   node.dataset.stamp = label;
 }
 

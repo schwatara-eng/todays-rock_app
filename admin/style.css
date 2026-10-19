@@ -1151,3 +1151,14 @@ button:disabled {
   margin-top: -56px;
   font-size: 15px;
 }
+
+/* 평론 항목: 검증 대상이 아니므로 회색 도장 */
+.stamped-gray {
+  border-color: #5a5551 !important;
+}
+
+.stamped-gray::before {
+  border-color: rgba(176, 170, 164, .45);
+  box-shadow: inset 0 0 0 5px transparent, inset 0 0 0 6px rgba(176, 170, 164, .28);
+  color: rgba(190, 184, 178, .55);
+}
