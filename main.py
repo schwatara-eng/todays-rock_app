@@ -9,7 +9,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 load_dotenv(Path(__file__).parent / ".env")
@@ -18,6 +18,7 @@ app = FastAPI(title="TODAY'S ROCK API")
 from account_system.routes import router as account_router
 from account_system.security import allowed_hosts, current_user
 from account_system.database import DatabaseError, connect as connect_db
+from editor_python import storage as editor_storage
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=allowed_hosts())
 app.include_router(account_router)
 from editor_bridge import router as editor_router
@@ -159,10 +160,24 @@ def public_file(asset: str):
     return FileResponse(path, headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"})
 
 
+NO_STORE = {"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"}
+
+
+def from_db(load, fallback):
+    """편집실에서 게시한 내용(DB)을 먼저 보여 주고, DB에 연결하지 못하면 저장소 파일을 그대로 보여 줍니다."""
+    try:
+        return load()
+    except DatabaseError:
+        logging.exception("게시 내용 조회 실패 — 저장소 파일로 대신 표시")
+        return fallback()
+
+
 @app.get("/", include_in_schema=False)
 @app.get("/index.html", include_in_schema=False)
 def homepage():
-    return public_file("index.html")
+    # index.html 디자인은 저장소 파일, '오늘의 뮤지션' 기사는 DB의 최근 게시본
+    return from_db(lambda: HTMLResponse(editor_storage.home_page(), headers=NO_STORE),
+                   lambda: public_file("index.html"))
 
 
 @app.get("/style.css", include_in_schema=False)
@@ -180,12 +195,20 @@ def homepage_js():
 def musician_article(slug: str):
     if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
         raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
-    return public_file(f"artist-{slug}.html")
+
+    def load():
+        page = editor_storage.archive_page(slug)
+        if page is None:
+            raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
+        return HTMLResponse(page, headers=NO_STORE)
+
+    return from_db(load, lambda: public_file(f"artist-{slug}.html"))
 
 
 @app.get("/artist-archive.json", include_in_schema=False)
 def musician_archive():
-    return public_file("artist-archive.json")
+    return from_db(lambda: JSONResponse(editor_storage.get_archive(), headers=NO_STORE),
+                   lambda: public_file("artist-archive.json"))
 
 
 @app.get("/images/{asset:path}", include_in_schema=False)
@@ -195,7 +218,17 @@ def image_asset(asset: str):
     path = (ROOT / "images" / asset).resolve()
     if not path.is_relative_to(ROOT / "images"):
         raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
-    return public_file("images/" + asset)
+
+    def load():
+        # 편집실에서 올린 뮤지션 사진은 DB에, 나머지 이미지·영상은 저장소 파일에 있습니다.
+        if not asset.startswith("artist-"):
+            return public_file("images/" + asset)
+        found = editor_storage.get_asset("images/" + asset)
+        if not found:
+            raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
+        return Response(found[0], media_type=found[1], headers={"Cache-Control": "public, max-age=300", "X-Content-Type-Options": "nosniff"})
+
+    return from_db(load, lambda: public_file("images/" + asset))
 
 
 @app.get("/fonts/{asset:path}", include_in_schema=False)

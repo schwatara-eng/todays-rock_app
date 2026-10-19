@@ -3,21 +3,19 @@ import contextvars
 import hashlib
 import json
 import logging
-import os
 from pathlib import Path
 import re
-import tempfile
 from fastapi import APIRouter, Request
-from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
-from . import ai, fact_edit, editorial_edit
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response
+from . import ai, fact_edit, editorial_edit, storage
 from . import publish as publisher
 from account_system.security import check_csrf, current_user, require_role
 
 ROOT=Path(__file__).resolve().parent.parent
 router=APIRouter()
 lock=asyncio.Lock()
-# 뮤지션별로 파일을 나눠 저장한다. {id}는 요청마다 지정된 뮤지션 ID(예: jack-white).
-PATHS={'draft':'articles/drafts/{id}.json','sheet':'articles/research/{id}.json','review':'articles/reviews/{id}.json','editorial':'articles/reviews/{id}-editorial.json','approval':'articles/approvals/{id}.json'}
+# 뮤지션별 기록(draft·sheet·review·editorial·approval)은 Supabase DB에 저장한다. (storage.py)
+# {id}는 요청마다 지정된 뮤지션 ID(예: jack-white).
 DEFAULT_ARTIST='jack-white'
 ARTIST_ID=re.compile(r'[a-z0-9]+(?:-[a-z0-9]+)*')
 current=contextvars.ContextVar('artist',default=DEFAULT_ARTIST)
@@ -29,21 +27,9 @@ def artist_id(value):
     if len(value)>50 or not ARTIST_ID.fullmatch(value):raise ai.EditorError('뮤지션 ID는 영문 소문자·숫자·하이픈만 쓸 수 있습니다. 예: jack-white',400)
     return value
 
-def path_for(key):return ROOT/PATHS[key].format(id=current.get())
+def read(key, default=None):return storage.get_doc(key,current.get(),default)
 
-def read(key, default=None):
-    try:return json.loads(path_for(key).read_text(encoding='utf-8-sig'))
-    except FileNotFoundError:return default
-
-def write(key, value):
-    path=path_for(key);path.parent.mkdir(parents=True,exist_ok=True)
-    # 같은 폴더의 임시 파일을 교체해 불완전한 JSON이 남지 않게 한다.
-    fd,tmp=tempfile.mkstemp(prefix=path.stem+'.',suffix='.tmp',dir=path.parent)
-    try:
-        with os.fdopen(fd,'w',encoding='utf-8') as f:json.dump(value,f,ensure_ascii=False,indent=2);f.write('\n')
-        os.replace(tmp,path)
-    finally:
-        if os.path.exists(tmp):os.unlink(tmp)
+def write(key, value):storage.put_doc(key,current.get(),value)
 
 def read_sheet():
     # 예전 팩트시트의 '해석·평가(interpretation)' 항목을 '평론(opinion)'으로 바꿔 저장합니다.
@@ -215,11 +201,10 @@ async def action(name,data,user=None):
 
 def list_artists():
     found=[]
-    for f in sorted((ROOT/'articles/drafts').glob('*.json')):
-        if not ARTIST_ID.fullmatch(f.stem):continue
-        try:artist=json.loads(f.read_text(encoding='utf-8-sig')).get('artist') or {}
-        except (ValueError,OSError):artist={}
-        found.append({'id':f.stem,'name':artist.get('name') or f.stem,'nameKo':artist.get('nameKo') or ''})
+    for key,draft in storage.list_drafts().items():
+        if not ARTIST_ID.fullmatch(key):continue
+        artist=(draft.get('artist') if isinstance(draft,dict) else None) or {}
+        found.append({'id':key,'name':artist.get('name') or key,'nameKo':artist.get('nameKo') or ''})
     return found
 
 def reply(data,status=200):return JSONResponse(data,status_code=status,headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'})
@@ -248,7 +233,7 @@ async def endpoint(name:str,request:Request):
                 raw=bytearray()
                 async for chunk in request.stream():
                     raw.extend(chunk)
-                    if len(raw)>publisher.MAX_PHOTO:raise ai.EditorError('사진은 8MB 이하로 올려 주세요.',413)
+                    if len(raw)>publisher.MAX_PHOTO:raise ai.EditorError(publisher.PHOTO_LIMIT_MESSAGE,413)
                 path=publisher.save_photo(current.get(),bytes(raw))
                 write('draft',dict(draft,photo=path,photoUpdatedAt=ai.now()))
                 return reply(state())
@@ -296,6 +281,15 @@ async def preview(asset:str,request:Request):
     if not allowed:return reply({'error':'허용되지 않은 파일입니다.'},404)
     path=(ROOT/asset).resolve()
     if not path.is_relative_to(ROOT.resolve()):return reply({'error':'파일 없음'},404)
+    headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}
+    if asset=='index.html':
+        require_role(request,'admin','reporter')
+        return HTMLResponse(storage.home_page(),headers=headers)   # DB에 게시된 현재 기사 포함
+    if asset.startswith('images/'):
+        require_role(request,'admin','reporter')
+        found=storage.get_asset(asset)                              # 편집실에서 올린 사진은 DB에 있음
+        if not found:return reply({'error':'파일 없음'},404)
+        return Response(found[0],media_type=found[1],headers=headers)
     return await static(request,path)
 
 

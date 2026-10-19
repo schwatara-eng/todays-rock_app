@@ -1,25 +1,27 @@
-"""편집실의 뮤지션 사진 등록과 홈 게시를 처리합니다.
+"""편집실의 뮤지션 사진 등록과 홈 게시를 처리합니다. 저장은 모두 Supabase DB에 합니다. (storage.py)
 
-- 사진: images/artist-<뮤지션ID>.png|jpg|webp 로 저장하고 원고(draft)에 경로를 기록합니다.
-- 게시: 승인된 원고로 index.html의 '오늘의 뮤지션' 본문을 바꾸고,
-  홈에서 내려가는 기사는 artist-<뮤지션ID>.html 아카이브 페이지로 옮깁니다.
-  아카이브 목록은 artist-archive.json에 기록하고 홈의 script.js가 읽어 갑니다.
+- 사진: images/artist-<뮤지션ID>.png|jpg|webp 경로로 DB에 저장하고 원고(draft)에 경로를 기록합니다.
+- 게시: 승인된 원고로 '오늘의 뮤지션' 기사 본문을 만들어 DB에 저장합니다.
+  홈(index.html)과 지난 뮤지션 페이지(artist-<ID>.html)는 요청 때마다
+  저장소의 최신 디자인 파일에 DB의 기사 본문을 끼워 넣어 보여 줍니다.
+  아카이브 목록(예전 artist-archive.json)도 DB에 기록하고 홈의 script.js가 /artist-archive.json으로 읽어 갑니다.
 """
 import html
 import json
 import re
-import shutil
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import quote, urlsplit
 
+from . import storage
+
 ROOT = Path(__file__).resolve().parent.parent
-ARCHIVE_JSON = ROOT / 'artist-archive.json'
-HOME = ROOT / 'index.html'
 TEMPLATE = ROOT / 'artist-jack-white.html'   # 아카이브 페이지의 틀(머리말·꼬리말)로 씁니다.
 START = '<div id="artist-current-content">'
 END = '<!-- artist-current-content -->'
-MAX_PHOTO = 8 * 1024 * 1024
+# Vercel은 요청·응답 크기를 4.5MB로 제한하므로 사진은 4MB까지 받습니다.
+MAX_PHOTO = 4 * 1024 * 1024
+PHOTO_LIMIT_MESSAGE = '사진은 4MB 이하로 올려 주세요. (큰 사진은 가로 1600px 정도로 줄이면 충분합니다)'
 # 활동 제목 중 앨범명: 'N집 앨범명 (연도)', '솔로 앨범명 (연도)', '밴드 – 앨범명 (연도)'
 ALBUM = re.compile(r'^(.*(?:\d+집|솔로|EP|싱글)\s+|.+\s[–—−-]\s+)(.+?)(\s*\(\d{4}[^)]*\))$')
 
@@ -41,15 +43,15 @@ def photo_ext(raw):
 
 def save_photo(artist_id, raw):
     if not raw: raise PublishError('사진 파일이 비어 있습니다.')
-    if len(raw) > MAX_PHOTO: raise PublishError('사진은 8MB 이하로 올려 주세요.', 413)
+    if len(raw) > MAX_PHOTO: raise PublishError(PHOTO_LIMIT_MESSAGE, 413)
     ext = photo_ext(raw)
     if not ext: raise PublishError('PNG, JPG, WEBP 사진만 등록할 수 있습니다.', 415)
-    folder = ROOT / 'images'
-    folder.mkdir(exist_ok=True)
-    for old in ('png', 'jpg', 'webp'):            # 같은 뮤지션의 예전 사진은 지웁니다.
-        (folder / f'artist-{artist_id}.{old}').unlink(missing_ok=True)
-    (folder / f'artist-{artist_id}.{ext}').write_bytes(raw)
-    return f'images/artist-{artist_id}.{ext}'
+    path = f'images/artist-{artist_id}.{ext}'
+    types = {'png': 'image/png', 'jpg': 'image/jpeg', 'webp': 'image/webp'}
+    # 같은 뮤지션의 예전 사진(다른 확장자)은 DB에서 지웁니다.
+    others = [f'images/artist-{artist_id}.{old}' for old in types if old != ext]
+    storage.put_asset(path, raw, types[ext], remove=others)
+    return path
 
 
 # ── 원고 → 기사 HTML ───────────────────────────────────────────
@@ -160,10 +162,12 @@ def render_feature(article, photo, sheet):
 
 # ── 게시 ───────────────────────────────────────────────────────
 def load_archive():
-    try:
-        return json.loads(ARCHIVE_JSON.read_text(encoding='utf-8'))
-    except FileNotFoundError:
-        return {'current': None, 'archive': []}
+    return storage.get_archive()
+
+
+def splice_home(page, start, end, block):
+    """index.html의 '오늘의 뮤지션' 표시 영역 안쪽을 block으로 바꿉니다."""
+    return page[:start] + START + '\n' + block + '\n    </div>\n    ' + page[end:]
 
 
 def home_block(page):
@@ -189,44 +193,38 @@ def archive_page(template, block, name, name_ko):
     return re.sub(r'<title>.*?</title>', f'<title>{html.escape(title)}</title>', page, count=1, flags=re.S)
 
 
-def backup(path, stamp):
-    if path.exists():
-        folder = ROOT / 'articles' / 'backups'
-        folder.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(path, folder / f'{stamp}-{path.name}')
-
-
 def publish(artist_id, article, sheet, now):
     photo = article.get('photo')
-    if not photo or not (ROOT / photo).is_file():
+    if not photo or not storage.asset_exists(photo):
         raise PublishError('게시하려면 먼저 뮤지션 사진을 등록하세요.', 409)
     artist = article.get('artist') or {}
     entry = {'id': artist_id, 'name': artist.get('name') or artist_id, 'nameKo': artist.get('nameKo') or ''}
     data = load_archive()
-    page = HOME.read_text(encoding='utf-8')
-    start, end, old_block = home_block(page)
-    template = TEMPLATE.read_text(encoding='utf-8')
+    old_data = json.dumps(data, ensure_ascii=False)
     stamp = datetime.now().strftime('%Y%m%d-%H%M%S')
-    moved = None
+    features, history, moved = {}, [('archive', 'artist-archive.json', old_data)], None
 
-    # 1) 홈에서 내려가는 뮤지션은 아카이브 페이지로 옮깁니다. (같은 뮤지션을 다시 게시하면 건너뜀)
+    # 지금 홈에 걸린 기사 본문: DB에 게시한 적이 있으면 DB에서, 아니면 index.html 파일에서 가져옵니다.
     outgoing = data.get('current')
+    old_block = storage.get_feature(outgoing['id']) if outgoing else None
+    if outgoing and not old_block:
+        old_block = home_block((ROOT / 'index.html').read_text(encoding='utf-8'))[2]
+    if old_block:
+        history.append(('feature', outgoing['id'] if outgoing else 'home', old_block))
+
+    # 1) 홈에서 내려가는 뮤지션은 지난 뮤지션 목록으로 옮깁니다. (같은 뮤지션을 다시 게시하면 건너뜀)
     if outgoing and outgoing.get('id') != artist_id:
-        target = ROOT / f"artist-{outgoing['id']}.html"
-        backup(target, stamp)
-        target.write_text(archive_page(template, old_block, outgoing.get('name', ''), outgoing.get('nameKo', '')), encoding='utf-8')
+        features[outgoing['id']] = old_block
+        name = f"artist-{outgoing['id']}.html"
         data['archive'] = [a for a in data.get('archive', []) if a.get('id') != outgoing['id']]
-        data['archive'].insert(0, dict(outgoing, url=target.name))   # 최신 순
-        moved = target.name
+        data['archive'].insert(0, dict(outgoing, url=name))   # 최신 순
+        moved = name
 
-    # 2) 새 기사로 홈 본문을 바꿉니다.
-    backup(HOME, stamp)
-    block = render_feature(article, photo, sheet)
-    page = page[:start] + START + '\n' + block + '\n    </div>\n    ' + page[end:]
-    HOME.write_text(page, encoding='utf-8')
-
-    # 3) 목록 갱신: 게시한 뮤지션은 아카이브 목록에서 빼고 '현재'로 둡니다.
+    # 2) 새 기사 본문을 만들어 '현재'로 둡니다. 게시한 뮤지션은 지난 목록에서 뺍니다.
+    features[artist_id] = render_feature(article, photo, sheet)
     data['archive'] = [a for a in data.get('archive', []) if a.get('id') != artist_id]
     data['current'] = dict(entry, publishedAt=now)
-    ARCHIVE_JSON.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+    # 3) 한 번에 저장합니다. (실패하면 아무것도 바뀌지 않음, 직전 상태는 site_history에 백업)
+    storage.save_publication(data, features, history, stamp)
     return {'published': artist_id, 'archived': moved, 'backup': stamp}

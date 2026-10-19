@@ -106,6 +106,10 @@ def test_ai_rerun_clears_active_decisions_and_preserves_audit(article, review):
 
 @pytest.fixture
 def saved_state(tmp_path, monkeypatch, article, review):
+    # 편집 기록은 원래 DB에 저장됩니다. 테스트는 실제 DB(Supabase)를 건드리지 않도록 메모리에만 저장합니다.
+    memory = {}
+    monkeypatch.setattr(routes.storage, 'get_doc', lambda kind, artist, default=None: memory.get((kind, artist), default))
+    monkeypatch.setattr(routes.storage, 'put_doc', lambda kind, artist, data: memory.__setitem__((kind, artist), data))
     monkeypatch.setattr(routes, 'ROOT', tmp_path)
     token = routes.current.set('jack-white')
     routes.write('draft', article); routes.write('editorial', review)

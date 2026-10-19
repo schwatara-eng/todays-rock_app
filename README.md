@@ -30,7 +30,7 @@
 | FastAPI / Uvicorn | 곡·뉴스·회원·편집실 API와 모든 화면을 제공하는 단일 서버, 포트 8000 |
 | PostgreSQL (Supabase) / psycopg | 500곡과 기분·날씨 태그, 회원·세션·좋아요·권한 변경 기록 |
 | Python / httpx | OpenAI Responses API 호출과 출처 본문 대조 |
-| JSON 파일 | 기사 원고·팩트시트·검수·승인 기록 |
+| PostgreSQL (Supabase) | 기사 원고·팩트시트·검수·승인 기록, 게시된 기사, 편집실에서 올린 뮤지션 사진 (`editor_python/storage.py`) |
 
 서버는 하나만 실행합니다. Node.js, Live Server, `vercel dev`는 필요하지 않습니다.
 
@@ -47,10 +47,11 @@ todays-rock_app/
 │   ├── ai.py               # OpenAI 호출·검색·본문 수집·인용 대조
 │   ├── fact_edit.py        # 팩트시트 항목 수정·분류·제외
 │   ├── editorial_edit.py   # 편집 의견 원고 수정·패스·다시 검토
-│   ├── publish.py          # 홈 게시·아카이브·백업
+│   ├── publish.py          # 홈 게시·아카이브·백업 (DB에 저장)
+│   ├── storage.py          # 편집실 저장소 — Supabase DB 읽기·쓰기, 기존 파일 옮기기
 │   └── prompts.json        # AI 프롬프트·JSON 스키마
 ├── admin/                  # 편집실 HTML·CSS·JavaScript
-├── articles/               # 뮤지션별 원고·조사·검수·승인 JSON, 게시 전 백업
+├── articles/               # 예전 파일 기록 (DB로 옮기기 전 원본, 옮긴 뒤에는 읽기 전용 참고용)
 ├── db/
 │   ├── todays_rock.sql     # 곡 테이블과 초기 500곡
 │   └── accounts.sql        # 회원 테이블 (기존 데이터 유지, 서버가 자동 실행)
@@ -122,6 +123,18 @@ OPENAI_API_KEY=실제_OpenAI_API_키
 
 **정상 결과:** `관리자 계정 생성 완료. 홈페이지에서 로그인하세요.`
 
+### 6. 기존 기사 기록을 DB로 옮기기 — 한 번만
+
+```powershell
+.\.venv\Scripts\python.exe -m editor_python.storage
+```
+
+`articles/` 폴더의 원고·팩트시트·검수·승인 기록을 Supabase로 복사합니다. 편집실 기록 테이블도 이때 만들어집니다. 이미 DB에 있는 기록은 건너뛰므로 여러 번 실행해도 안전합니다(파일 내용으로 덮어쓰려면 끝에 `--force`).
+
+**정상 결과:** `DB로 복사: 10개 — draft/jack-white, draft/kim-yuna, …`
+
+옮기기 전에도 편집실과 홈페이지는 파일 내용을 그대로 보여 주지만, 배포 사이트에서 저장·게시하려면 기록이 DB에 있어야 합니다. 이 단계 이후로 `articles/` 폴더의 파일은 고칠 필요가 없습니다.
+
 **MySQL에서 옮겨 오는 경우:** 곡 데이터는 2번으로 그대로 옮겨집니다. 예전 MySQL에 있던 회원·좋아요 기록은 자동으로 옮기지 않으므로, 관리자 계정을 이 단계에서 새로 만들고 회원은 다시 가입합니다. (수업용 테스트 계정이라면 이 방법이 가장 단순합니다.)
 
 ## 실행
@@ -138,7 +151,7 @@ OPENAI_API_KEY=실제_OpenAI_API_키
 | `/signup` · `/login` | 회원가입 · 로그인 |
 | `/mypage` | 마이페이지 — 프로필, 좋아요 목록, 닉네임·비밀번호 변경 |
 | `/admin/` | 관리자 페이지 — 회원 검색·권한·정지/복구, 편집실 링크 |
-| `/editor/` | 편집실 (기자·관리자, 내 PC에서만) |
+| `/editor/` | 편집실 (기자·관리자) — 내 PC와 배포 사이트 모두 |
 | `/api/songs` · `/api/news` | 곡 · 뉴스 JSON |
 | `/docs` | API 문서 |
 
@@ -184,7 +197,7 @@ OPENAI_API_KEY=실제_OpenAI_API_키
 
 화면의 번호 순서대로 진행합니다.
 
-1. **01 원고 작성** — 상단에서 뮤지션을 고르거나 **새 뮤지션 추가**로 영문·한글 이름과 파일 ID(예: `kim-yuna`)를 입력합니다. 제목·본문을 쓰고 저장하고, 필요하면 뮤지션 사진(8MB 이하)을 등록합니다.
+1. **01 원고 작성** — 상단에서 뮤지션을 고르거나 **새 뮤지션 추가**로 영문·한글 이름과 파일 ID(예: `kim-yuna`)를 입력합니다. 제목·본문을 쓰고 저장하고, 필요하면 뮤지션 사진(PNG·JPG·WEBP, **4MB 이하**)을 등록합니다.
 2. **02·03 팩트시트와 사실 검수** — **팩트시트 생성 + 웹 출처 검증**을 누르면 원고의 주장을 항목별로 뽑아 출처를 찾고 대조합니다. 항목은 직접 수정·분류·제외할 수 있고, 실패한 항목은 개별로 재검색합니다.
 3. **04 편집 검토** — **AI 편집 검토**를 실행한 뒤, 각 의견을 처리합니다.
    - **원고 수정:** 바꿀 부분, 수정문, 사유를 입력하고 `원고에 반영 · 수정 처리`. 같은 문구가 여러 곳이면 위치를 고릅니다. 수정문을 비우면 그 부분을 삭제합니다.
@@ -210,19 +223,21 @@ OPENAI_API_KEY=실제_OpenAI_API_키
 - 다른 창에서 같은 검토를 먼저 처리했다면 오래된 화면의 변경은 거절됩니다. 새로고침한 뒤 다시 확인합니다.
 - AI 기사 자동 생성은 비활성화되어 있습니다(`/local/generate`는 410 반환). 초안은 에디터가 직접 씁니다.
 
-**홈에 게시**하면 승인된 원고가 홈의 오늘의 뮤지션이 되고, 그전 기사는 `artist-<ID>.html` 아카이브 페이지로 옮겨져 `artist-archive.json`에 기록됩니다. 바뀌기 전 파일은 `articles/backups/`에 보관됩니다.
+**홈에 게시**하면 승인된 원고가 **바로** 홈의 오늘의 뮤지션이 됩니다. 파일을 고치거나 `git push`할 필요가 없습니다. 그전 기사는 지난 뮤지션 목록으로 옮겨져 `artist-<ID>.html` 주소로 계속 볼 수 있습니다.
 
-**저장 위치** — 뮤지션별로 따로 저장되며, 각 파일에는 현재 원고 기준 최신 결과가 남습니다. 파일 ID가 `kim-yuna`라면:
+게시된 기사 본문과 목록은 DB에 저장되고, 홈페이지는 요청 때마다 저장소의 **최신 `index.html` 디자인**에 DB의 기사 본문을 끼워 넣어 보여 줍니다. 그래서 홈 디자인(`index.html`, `style.css`)을 고쳐 `git push`해도 게시한 기사는 그대로 유지됩니다. 게시 직전 상태는 DB의 `site_history` 표에 백업됩니다.
 
-| 기록 | 파일 |
+**저장 위치** — 모두 Supabase DB에 있어 내 PC와 배포 사이트가 같은 기록을 봅니다. Supabase 대시보드의 Table Editor에서 직접 볼 수 있습니다.
+
+| 기록 | DB 표 |
 | --- | --- |
-| 원고 | `articles/drafts/kim-yuna.json` |
-| 팩트시트 | `articles/research/kim-yuna.json` |
-| 사실 검수 | `articles/reviews/kim-yuna.json` |
-| 편집 검토 (처리자·권한·시간·수정 전후 포함) | `articles/reviews/kim-yuna-editorial.json` |
-| 승인 | `articles/approvals/kim-yuna.json` |
+| 원고·팩트시트·사실 검수·편집 검토(처리자·권한·시간·수정 전후 포함)·승인 | `editor_docs` — 뮤지션 ID와 종류(draft·sheet·review·editorial·approval)별 한 줄 |
+| 게시된 기사 본문 (현재·지난 뮤지션) | `site_features` |
+| 현재 뮤지션과 지난 뮤지션 목록 | `editor_docs`의 `site` / `archive` 줄 (예전 `artist-archive.json`) |
+| 편집실에서 올린 뮤지션 사진 | `site_assets` |
+| 게시 직전 백업 | `site_history` |
 
-뮤지션 목록은 `articles/drafts/`의 원고 파일로 만들어집니다.
+DB에 아직 없는 기록은 저장소의 예전 파일(`articles/`, `images/`, `artist-archive.json`, `index.html`)을 그대로 읽습니다.
 
 AI가 찾은 링크와 검수 결과만으로 사실을 확정하지 않습니다. 수치·날짜·수상 기록·인용문은 에디터가 출처 원문과 직접 대조합니다. 검색 실패는 해당 주장이 거짓이라는 뜻이 아닙니다. 검색과 AI 호출에는 요금이 발생할 수 있습니다.
 
@@ -237,7 +252,9 @@ AI가 찾은 링크와 검수 결과만으로 사실을 확정하지 않습니�
 | Supabase 프로젝트가 'Paused' | 무료 프로젝트는 오래 쓰지 않으면 일시정지됩니다. 대시보드에서 **Restore** |
 | 뉴스가 영어로 나옴 | `.env`의 `GOOGLE_TRANSLATE_API_KEY` 확인 후 서버 재시작 |
 | 로그인했는데 로그아웃 상태로 보임 | `localhost`와 `127.0.0.1`을 섞어 쓰지 않았는지 확인 |
-| 편집실 접근 거절 | 마이페이지에서 역할이 기자 또는 관리자인지 확인. 배포한 사이트에서는 편집실이 열리지 않습니다(내 PC 전용) |
+| 편집실 접근 거절 | 마이페이지에서 역할이 기자 또는 관리자인지 확인 |
+| 배포 사이트 편집실에서 AI 조사·검토 실패 | Vercel 환경변수에 `OPENAI_API_KEY`가 있는지 확인 후 Redeploy |
+| 사진 등록 실패 | 4MB 이하인지 확인. 크면 가로 1600px 정도로 줄여서 다시 등록 |
 | 배포 사이트에서 `Invalid host header` | Vercel 환경변수 `APP_ORIGIN`이 접속한 주소와 정확히 같은지 확인 후 Redeploy. 미리보기(Preview) 주소는 막히는 것이 정상 |
 | 배포 사이트에서 곡·로그인 오류 | Vercel 대시보드 → 프로젝트 → **Logs**에서 빨간 오류 확인. 대부분 `DATABASE_URL` 누락·오타 |
 
@@ -275,9 +292,8 @@ $env:DB_NAME="todays_rock_accounts_test"
 
 | 맡는 곳 | 하는 일 |
 | --- | --- |
-| Supabase | PostgreSQL DB — 곡, 회원, 세션, 좋아요 (위 설치 1~2단계에서 이미 준비됨) |
-| Vercel | 홈페이지·회원·곡·뉴스 API를 실행하는 FastAPI 서버 |
-| 내 PC | 편집실 — 원고·검수 JSON과 `index.html`을 파일로 고치므로 내 PC에서만 씁니다 |
+| Supabase | PostgreSQL DB — 곡, 회원, 좋아요, 편집실 기록, 게시된 기사와 사진 |
+| Vercel | 홈페이지·회원·곡·뉴스·편집실을 실행하는 FastAPI 서버 |
 
 ### Vercel에 올리기
 
@@ -292,14 +308,18 @@ $env:DB_NAME="todays_rock_accounts_test"
 | `DATABASE_URL` | 로컬 `.env`와 같은 Supabase **Transaction pooler** 주소 (포트 6543) |
 | `GOOGLE_TRANSLATE_API_KEY` | 번역 API 키 |
 | `APP_ORIGIN` | `https://today-rockapp.vercel.app`처럼 실제 접속 주소. 끝에 `/` 없이 |
+| `OPENAI_API_KEY` | 편집실의 AI 사실 추출·출처 검증·편집 검토용 키 |
+| `OPENAI_MODEL` | (선택) 로컬 `.env`에 지정했다면 같은 값 |
 
    - 주소를 아직 모르면 `APP_ORIGIN` 없이 먼저 배포하고, 나온 주소를 넣은 뒤 **Deployments → … → Redeploy** 합니다. `APP_ORIGIN`이 없으면 사이트가 `Invalid host header`로 열리지 않습니다.
-   - `OPENAI_API_KEY`는 넣지 않습니다. 편집실은 배포 사이트에서 열리지 않으므로 필요 없고, 키 유출 위험만 늘어납니다.
+   - `OPENAI_API_KEY`는 서버에만 저장되고 화면(브라우저)으로는 나가지 않습니다. 편집실은 기자·관리자만 쓸 수 있지만, 사용량에 따라 요금이 나오니 OpenAI 대시보드에서 월 사용 한도를 걸어 두는 것을 권합니다.
 5. **Deploy**를 누르고 끝나면 주소로 접속해 추천곡·뉴스·회원가입이 되는지 확인합니다.
 
 ### 배포 후 알아둘 점
 
-- **기사를 새로 게시하는 순서:** 내 PC 편집실에서 승인 → **홈에 게시** → 바뀐 파일(`index.html`, `artist-*.html`, `artist-archive.json`, 사진)을 `git push` → Vercel이 자동으로 다시 배포합니다. 배포 서버의 파일은 읽기 전용이라 거기서 직접 게시할 수는 없습니다.
+- **배포 사이트에서 기사 쓰기:** `https://…/editor/`에 기자·관리자로 로그인해 원고 작성 → 조사·검수 → 승인 → **홈에 게시**하면 바로 홈에 반영됩니다. 다시 배포할 필요가 없습니다.
+- **요청 한 번은 최대 5분**(Vercel 무료 요금제)입니다. 편집실은 사실 조사를 항목 묶음별로 나눠 요청하므로 보통 문제없지만, 출처 사이트가 매우 느리면 그 항목만 실패할 수 있습니다. 그때는 해당 항목의 **이 항목 출처 재검색**을 누릅니다.
+- 사진은 Vercel의 요청 크기 제한(4.5MB) 때문에 **4MB 이하**만 올릴 수 있습니다.
 - 내 PC와 배포 사이트가 같은 Supabase DB를 쓰므로, 로컬에서 만든 관리자 계정으로 배포 사이트에도 로그인할 수 있습니다.
 - **미리보기(Preview) 배포 주소는 접속이 막힙니다.** 로그인 보안을 위해 `APP_ORIGIN`에 적은 한 주소만 허용하기 때문입니다. 확인은 Production 주소로 합니다.
 - 오래 접속이 없다가 처음 열면 서버가 깨어나느라 몇 초 더 걸릴 수 있습니다.
@@ -312,5 +332,5 @@ $env:DB_NAME="todays_rock_accounts_test"
 
 ## 남은 범위
 
-- 기사 관련 기록은 JSON 파일로 저장하며 DB로 옮기지 않았습니다. 그래서 편집실은 내 PC에서만 씁니다.
+- 편집실 기록은 뮤지션별 JSON 한 덩어리로 DB에 저장합니다. 여러 기자가 같은 뮤지션 원고를 동시에 고치면 나중에 저장한 쪽이 남습니다(검수·승인 단계는 버전 확인으로 막혀 있음).
 - 예전 MySQL의 회원·좋아요 기록은 자동으로 옮기지 않습니다.

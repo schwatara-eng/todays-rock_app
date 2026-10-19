@@ -553,7 +553,7 @@ function showPhoto(article) {
   } else {
     thumb.removeAttribute('src');
     thumb.hidden = true;
-    $('photo-status').textContent = '등록된 사진이 없습니다. (PNG·JPG·WEBP, 8MB 이하)';
+    $('photo-status').textContent = '등록된 사진이 없습니다. (PNG·JPG·WEBP, 4MB 이하)';
   }
 }
 
@@ -960,7 +960,7 @@ $('photo-file').addEventListener('change', () => run(async () => {
   const file = input.files?.[0];
   if (!file) return;
   try {
-    if (file.size > 8 * 1024 * 1024) throw new Error('사진은 8MB 이하로 올려 주세요.');
+    if (file.size > 4 * 1024 * 1024) throw new Error('사진은 4MB 이하로 올려 주세요. 가로 1600px 정도로 줄이면 충분합니다.');
     message('뮤지션 사진을 저장하고 있습니다…');
     const response = await fetch(`/local/photo?${artistQuery()}`, {
       method: 'POST',
