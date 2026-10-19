@@ -1004,3 +1004,106 @@ button:disabled {
 /* 계정 화면으로 돌아가기 */
 .account-return { color: #bbb; font: 12px/1.5 sans-serif; text-decoration: none; white-space: nowrap; }
 .topbar .local { margin-left: auto; }
+
+/* ── 04 편집 검토: 03 팩트시트와 같은 서식 ─────────────────────
+ * 팩트시트 카드(.fact-combined)와 같은 테두리·배경·여백,
+ * 항목 번호 13px 굵게, 검토 대상 문장 14px 굵게, 사유·제안 12px 보조색. */
+.workflow-editing .panel-head h2 {
+  font-family: Arial, "Malgun Gothic", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 1.6px;
+  line-height: 1.5;
+}
+
+#editorial-result {
+  font-family: Arial, "Malgun Gothic", sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+#editorial-result > p {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+#editorial-result > .ok { color: #b3c7b4; }
+#editorial-result > .editorial-summary { color: #d5b89d; }
+
+#editorial-result .editorial-issue,
+#editorial-result .editorial-resolved .issue {
+  margin: 0 0 12px;
+  padding: 16px;
+  border: 1px solid #51413a;
+  border-radius: 6px;
+  background: #211e1c;
+  overflow-wrap: anywhere;
+}
+
+#editorial-result .editorial-issue > strong {
+  display: block;
+  color: #d66a60;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+#editorial-result .editorial-issue > p {
+  margin: 8px 0 0;
+  color: #d4b5a2;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+#editorial-result .editorial-issue > p.editorial-quote {
+  margin-top: 10px;
+  color: #eae6df;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+#editorial-result .editorial-issue > p.editorial-decision {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #51413a;
+  color: #b3c7b4;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#editorial-result .editorial-issue > p.editorial-form-note {
+  color: #a99c93;
+  font-size: 11px;
+}
+
+#editorial-result .editorial-issue > button,
+#editorial-result .editorial-tools button {
+  margin-top: 12px;
+  padding: 7px 12px;
+  font-size: 11px;
+}
+
+#editorial-result .editorial-resolved {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid #51413a;
+  border-radius: 6px;
+}
+
+#editorial-result .editorial-resolved > summary {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+#editorial-result .editorial-resolved > summary + .issue { margin-top: 14px; }
+
+#editorial-result .editorial-change > summary,
+#editorial-result .editorial-record-heading,
+#editorial-result .editorial-activity-list li {
+  font-size: 12px;
+}
