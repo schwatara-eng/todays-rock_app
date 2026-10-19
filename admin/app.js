@@ -149,7 +149,7 @@ function renderFactTools(rows, sheet) {
   const add = element('button', '항목 추가'); add.type = 'button';
   const form = factEditForm(null, token);
   add.addEventListener('click', () => {
-    if (rows.hidden) header.querySelector('.section-toggle').click();
+    if (rows.hidden) document.querySelector('.fact-fold-toggle')?.click();
     form.hidden = !form.hidden;
     if (!form.hidden) form.querySelector('textarea').focus();
   });
@@ -1049,32 +1049,22 @@ function setupEditorialWorkflow() {
   writing.append(draft);
   // 02·03 제목 상자는 한 묶음으로 큰 상자 맨 위에 고정합니다. (CSS .fact-workspace-head)
   const factHead = element('div', '', 'fact-workspace-head');
-  factHead.append(facts, factResults);
+  // 02·03 아래, 큰 상자 바닥에 항목 전체를 접고 펴는 글자 토글을 둡니다.
+  const foldToggle = element('button', '▼ 접기', 'fact-fold-toggle');
+  foldToggle.type = 'button';
+  foldToggle.setAttribute('aria-expanded', 'true');
+  foldToggle.setAttribute('aria-controls', 'fact-pairs');
+  foldToggle.addEventListener('click', () => {
+    pairs.hidden = !pairs.hidden;
+    foldToggle.textContent = pairs.hidden ? '▶ 펼치기' : '▼ 접기';
+    foldToggle.setAttribute('aria-expanded', String(!pairs.hidden));
+  });
+  factHead.append(facts, factResults, foldToggle);
   factWorkspace.append(factHead, pairs);
   factcheck.append(report, factWorkspace);
-  const sectionButtons = [];
-  let itemsCollapsed = false;
-  for (const panel of [facts, factResults]) {
-    const button = element('button', '접기', 'section-toggle');
-    button.type = 'button';
-    button.setAttribute('aria-expanded', 'true');
-    button.setAttribute('aria-controls', 'fact-pairs');
-    button.addEventListener('click', () => {
-      itemsCollapsed = !itemsCollapsed;
-      pairs.hidden = itemsCollapsed;
-      for (const control of sectionButtons) {
-        control.textContent = itemsCollapsed ? '펼치기' : '접기';
-        control.setAttribute('aria-expanded', String(!itemsCollapsed));
-      }
-    });
-    sectionButtons.push(button);
-    if (panel === facts) {
-      const controls = element('div', '', 'fact-header-actions'); controls.id = 'fact-header-actions';
-      controls.append(button); panel.querySelector('.panel-head').append(controls);
-    } else {
-      panel.querySelector('.panel-head').append(button);
-    }
-  }
+  // 02 상자 오른쪽 위: '항목 추가'·'사실 검수 갱신' 버튼 자리 (renderFactTools가 채움)
+  const controls = element('div', '', 'fact-header-actions'); controls.id = 'fact-header-actions';
+  facts.querySelector('.panel-head').append(controls);
   editing.append(editorialPanel);
   // 기존 사실 검수 결과 DOM은 예전 화면 배치와의 호환을 위해 유지한다.
   sourcePanel.hidden = true;

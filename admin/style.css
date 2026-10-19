@@ -519,8 +519,45 @@ button:disabled {
   gap: 7px;
 }
 
+/* 02 제목 상자: 왼쪽에 제목·개수, 오른쪽 위에 '항목 추가'·'사실 검수 갱신' */
+.workflow-factcheck .facts-panel .panel-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 12px;
+  row-gap: 9px;
+  align-items: start;
+}
+
+.workflow-factcheck .facts-panel .panel-head > h2,
+.workflow-factcheck .facts-panel .panel-head > span {
+  grid-column: 1;
+}
+
 .fact-header-actions {
-  width: 100%;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  justify-content: flex-end;
+  align-self: start;
+}
+
+/* 02·03 아래 큰 상자 바닥의 접기/펼치기 글자 토글 */
+.fact-fold-toggle {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin: -4px 0 -6px;
+  padding: 2px 2px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #d7b69c;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+
+.fact-fold-toggle:hover {
+  color: #f2efe8;
+  filter: none;
 }
 
 .fact-header-extra button {
