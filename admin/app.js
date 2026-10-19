@@ -262,6 +262,8 @@ function renderFacts(sheet) {
     }
     const pair = element('div', '', 'fact-pair');
     const combined = element('div', '', 'fact-combined');
+    // 검증 완료 항목은 초록 도장으로 한눈에 구분합니다.
+    if (fact.verificationStatus === 'VERIFIED') stamp(combined, '검증 완료');
     combined.append(card, result);
     pair.append(combined, sourceCard);
     rows.append(pair);
@@ -405,6 +407,12 @@ function editorialForm(issue, operation, token, close) {
   return form;
 }
 
+// 칸 바탕에 초록 도장 무늬를 찍습니다. 모양은 style.css의 .stamped 규칙에서 그립니다.
+function stamp(node, label) {
+  node.classList.add('stamped');
+  node.dataset.stamp = label;
+}
+
 function editorialActor(decision) {
   const actor = decision.actor || {};
   const role = actor.role === 'admin' ? '관리자' : '기자';
@@ -427,6 +435,7 @@ function editorialCard(issue, event = null) {
   const token = lastState?.editorialReviewHash;
   if (issue.decision) {
     const decision = issue.decision;
+    stamp(card, decision.status === 'edited' ? '수정 반영' : '패스 승인');
     card.append(element('p', decision.status === 'edited' ? '수정 반영 완료' : '에디터 패스', 'editorial-decision'));
     card.append(element('p', `처리 사유: ${decision.reason}`), element('p', editorialActor(decision), 'editorial-form-note'));
     if (event?.operation === 'edit') card.append(editorialChange(event));
@@ -520,6 +529,9 @@ function showState(data, replaceArticle = true) {
   const published = approved && data.approval?.published === true;
   $('draft-status').textContent = approved ? '승인 완료' : '초안';
   $('approval-status').textContent = published ? '승인 완료 · 홈 게시됨' : approved ? '승인 완료 · 미게시' : '초안 · 미게시';
+  const approvalPanel = document.querySelector('.approval-panel');
+  if (approved) stamp(approvalPanel, published ? '게시 완료' : '승인 완료');
+  else { approvalPanel.classList.remove('stamped'); delete approvalPanel.dataset.stamp; }
   $('confirm-sources').checked = false;
   $('export-article').disabled = !approved;
   $('publish').disabled = !approved;
