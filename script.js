@@ -458,8 +458,10 @@ async function loadArtistArchive() {
     const link = document.createElement("a");
     link.className = "artist-archive-item";
     link.href = artist.url;
-    link.textContent = artist.nameKo
-      ? `${artist.name} (${artist.nameKo})` : artist.name;
+    // 한국 뮤지션은 '한글 (영문)', 그 밖에는 '영문 (한글)'
+    link.textContent = !artist.nameKo ? artist.name
+      : artist.korean ? `${artist.nameKo} (${artist.name})`
+      : `${artist.name} (${artist.nameKo})`;
     archiveList.appendChild(link);
   });
   archiveBar.hidden = artistArchive.length === 0;

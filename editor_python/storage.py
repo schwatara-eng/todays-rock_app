@@ -139,6 +139,19 @@ def get_archive():
     return _file_json('artist-archive.json') or {'current': None, 'archive': []}
 
 
+def set_archive_korean(artist_id, korean):
+    """게시 목록(현재·지난 뮤지션)에 있는 뮤지션의 '한국 뮤지션' 표시를 바꿉니다. 없으면 아무것도 안 함."""
+    data = get_archive() or {}
+    changed = False
+    for entry in [data.get('current')] + list(data.get('archive') or []):
+        if isinstance(entry, dict) and entry.get('id') == artist_id and entry.get('korean') is not korean:
+            entry['korean'] = korean
+            changed = True
+    if changed:
+        put_doc('site', 'archive', data)
+    return changed
+
+
 def get_feature(artist_id):
     with db() as cur:
         cur.execute('SELECT block FROM site_features WHERE artist_id = %s', (artist_id,))
@@ -213,7 +226,7 @@ def archive_page(slug):
     block = get_feature(slug) if entry else None
     if block:
         template = publish.TEMPLATE.read_text(encoding='utf-8')
-        return publish.archive_page(template, block, entry.get('name', ''), entry.get('nameKo', ''))
+        return publish.archive_page(template, block, entry.get('name', ''), entry.get('nameKo', ''), entry.get('korean') is True)
     file = ROOT / f'artist-{slug}.html'
     return file.read_text(encoding='utf-8') if file.is_file() else None
 

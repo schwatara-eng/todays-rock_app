@@ -620,6 +620,8 @@ async function loadArtists(extra = null) {
     return option;
   }));
   select.value = currentArtist;
+  const now = list.find((a) => a.id === currentArtist);
+  $('artist-korean').checked = Boolean(now?.korean);
   return list;
 }
 
@@ -666,6 +668,20 @@ $('artist-select').addEventListener('change', (event) => run(async () => {
   message('뮤지션을 바꿨습니다. 이 뮤지션의 원고와 검토 기록을 불러왔습니다.');
 }));
 
+// '한국 뮤지션' 체크: 바로 저장하고, 이미 게시된 뮤지션이면 홈 아카이브 표시도 함께 바꿉니다.
+$('artist-korean').addEventListener('change', (event) => run(async () => {
+  const korean = event.target.checked;
+  if (pendingArtistInfo) {            // 아직 저장 전인 새 뮤지션은 초안 저장 때 함께 저장
+    pendingArtistInfo.korean = korean;
+    message(korean ? '한국 뮤지션으로 표시합니다. 초안을 저장하면 반영됩니다.' : '한국 뮤지션 표시를 껐습니다.');
+    return;
+  }
+  const data = await post('/local/artist-info', { korean });
+  showState(data, false);
+  await loadArtists();
+  message(korean ? "한국 뮤지션으로 표시했습니다. 아카이브에는 '한글 (영문)' 순서로 보입니다." : "한국 뮤지션 표시를 껐습니다. 아카이브에는 '영문 (한글)' 순서로 보입니다.");
+}));
+
 $('artist-new').addEventListener('click', () => {
   $('artist-new-form').hidden = !$('artist-new-form').hidden;
 });
@@ -682,16 +698,18 @@ $('artist-new-add').addEventListener('click', () => run(async () => {
   const name = $('artist-new-name').value.trim();
   const nameKo = $('artist-new-nameko').value.trim();
   const id = $('artist-new-id').value.trim().toLowerCase();
+  const korean = $('artist-new-korean').checked;
   if (!name) throw new Error('영문 이름을 입력해 주세요.');
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id) || id.length > 50) throw new Error('파일 ID는 영문 소문자·숫자·하이픈만 쓸 수 있습니다. 예: kim-yuna');
   if (hasUnsavedChanges() && !confirm('저장하지 않은 원고가 있습니다. 새 뮤지션으로 이동할까요?')) return;
   const existing = (await getJson('/local/artists')).artists;
   if (existing.some((a) => a.id === id)) throw new Error('이미 있는 파일 ID입니다. 목록에서 선택해 주세요.');
-  pendingArtistInfo = { name, nameKo };
-  await loadArtists({ id, name, nameKo });
+  pendingArtistInfo = { name, nameKo, korean };
+  await loadArtists({ id, name, nameKo, korean });
   await loadArtist(id);
   $('artist-new-form').hidden = true;
   for (const field of ['artist-new-name', 'artist-new-nameko', 'artist-new-id']) $(field).value = '';
+  $('artist-new-korean').checked = false;
   delete $('artist-new-id').dataset.edited;
   message(`새 뮤지션 '${nameKo || name}'을 추가했습니다. 원고를 쓰고 초안 저장을 누르면 파일이 만들어집니다.`);
 }));

@@ -1299,3 +1299,19 @@ button:disabled {
   background-image: var(--stamp-critique);
   opacity: .55;
 }
+
+/* 뮤지션 선택 줄의 '한국 뮤지션' 체크 */
+.artist-korean {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: #d1b6a0;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.artist-korean input {
+  accent-color: #c64d42;
+}

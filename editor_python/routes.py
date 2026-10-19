@@ -99,13 +99,21 @@ async def action(name,data,user=None):
         updated=fact_edit.apply(sheet,article,data)
         write('sheet',updated);invalidate()
         return state()
+    if name=='artist-info':
+        # 뮤지션 정보(한국 뮤지션 여부)만 바꿉니다. 원고 내용이 아니므로 검수·승인은 그대로 둡니다.
+        if not isinstance(data.get('korean'),bool):raise ai.EditorError('한국 뮤지션 여부를 확인할 수 없습니다.',400)
+        old=read('draft')
+        if not isinstance(old,dict) or not old.get('artist'):raise ai.EditorError('원고를 먼저 저장한 뒤 바꿔 주세요.',409)
+        write('draft',dict(old,artist=dict(old['artist'],korean=data['korean'])))
+        storage.set_archive_korean(current.get(),data['korean'])
+        return state()
     if name=='generate':raise ai.EditorError('AI 기사 자동 생성은 사용하지 않습니다. 에디터가 초안을 직접 작성하세요.',410)
     if name=='save':
         if not valid(data.get('article')):raise ai.EditorError('기사 제목 또는 본문을 확인하세요.',400)
         old=read('draft',{}) or {}
         info=data.get('artistInfo')
         if isinstance(info,dict) and isinstance(info.get('name'),str) and info['name'].strip():
-            artist={'name':info['name'].strip()[:100],'nameKo':str(info.get('nameKo') or '').strip()[:100]}
+            artist={'name':info['name'].strip()[:100],'nameKo':str(info.get('nameKo') or '').strip()[:100],'korean':info.get('korean') is True}
         else:artist=old.get('artist')
         if not artist:raise ai.EditorError('새 뮤지션은 이름을 입력해야 저장할 수 있습니다.',400)
         write('draft',dict(old,id=current.get(),artist=artist,**normalize(data['article']),factIds=[],status='draft',reviewed=False))
@@ -228,7 +236,7 @@ def list_artists():
     for key,draft in storage.list_drafts().items():
         if not ARTIST_ID.fullmatch(key):continue
         artist=(draft.get('artist') if isinstance(draft,dict) else None) or {}
-        found.append({'id':key,'name':artist.get('name') or key,'nameKo':artist.get('nameKo') or ''})
+        found.append({'id':key,'name':artist.get('name') or key,'nameKo':artist.get('nameKo') or '','korean':artist.get('korean') is True})
     return found
 
 def reply(data,status=200):return JSONResponse(data,status_code=status,headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'})

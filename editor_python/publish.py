@@ -180,7 +180,14 @@ def home_block(page):
     return start, end, inner[:close].strip('\n')
 
 
-def archive_page(template, block, name, name_ko):
+def display_name(name, name_ko, korean=False):
+    """한국 뮤지션은 '한글 (영문)', 그 밖에는 '영문 (한글)'."""
+    if korean and name_ko:
+        return f'{name_ko} ({name})' if name and name != name_ko else name_ko
+    return f'{name} ({name_ko})' if name_ko else name
+
+
+def archive_page(template, block, name, name_ko, korean=False):
     """아카이브 틀에 기사 본문을 넣어 지난 뮤지션 페이지를 만듭니다."""
     start = template.find('<div class="artist-editorial-grid">')
     back = template.find('archive-back-link')
@@ -189,7 +196,7 @@ def archive_page(template, block, name, name_ko):
         raise PublishError('아카이브 틀(artist-jack-white.html)의 구조를 찾지 못했습니다.', 500)
     line_start = template.rfind('\n', 0, start) + 1
     page = template[:line_start] + block.rstrip() + '\n    ' + template[stop:]
-    title = f'{name}' + (f' ({name_ko})' if name_ko else '') + ' — TODAY’S ROCK'
+    title = display_name(name, name_ko, korean) + ' — TODAY’S ROCK'
     return re.sub(r'<title>.*?</title>', f'<title>{html.escape(title)}</title>', page, count=1, flags=re.S)
 
 
@@ -198,7 +205,8 @@ def publish(artist_id, article, sheet, now):
     if not photo or not storage.asset_exists(photo):
         raise PublishError('게시하려면 먼저 뮤지션 사진을 등록하세요.', 409)
     artist = article.get('artist') or {}
-    entry = {'id': artist_id, 'name': artist.get('name') or artist_id, 'nameKo': artist.get('nameKo') or ''}
+    entry = {'id': artist_id, 'name': artist.get('name') or artist_id, 'nameKo': artist.get('nameKo') or '',
+             'korean': artist.get('korean') is True}
     data = load_archive()
     old_data = json.dumps(data, ensure_ascii=False)
     stamp = datetime.now().strftime('%Y%m%d-%H%M%S')
