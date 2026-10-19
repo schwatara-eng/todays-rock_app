@@ -712,6 +712,83 @@ button:disabled {
   min-height: 0;
 }
 
+/* 05 승인 박스 + 06 홈 게시 버튼 */
+.approval-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 14px;
+  margin-top: 16px;
+  align-items: stretch;
+}
+
+.approval-row > .approval-panel {
+  margin-top: 0;
+}
+
+.publish-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 20px;
+  border: 1px solid #a8342c;
+  border-radius: 7px;
+  background: #a8342c;
+  color: #fff;
+  text-align: center;
+  transition: filter .2s, transform .1s;
+}
+
+.publish-button:hover {
+  filter: brightness(1.15);
+}
+
+.publish-button:active {
+  transform: translateY(1px);
+}
+
+.publish-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  opacity: .8;
+}
+
+.publish-title {
+  font-family: "Black Han Sans", sans-serif;
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.publish-note {
+  max-width: 200px;
+  font-size: 12px;
+  line-height: 1.6;
+  opacity: .85;
+}
+
+.publish-button:disabled {
+  border-color: #3b3430;
+  background: #1c1b1a;
+  color: #8f8279;
+  filter: none;
+  opacity: 1;
+}
+
+.publish-button.is-published {
+  border-color: #4f6a4c;
+  background: #2b3a29;
+  color: #cfe3cc;
+}
+
+/* 좁은 화면에서는 게시 버튼을 승인 박스 아래로 */
+@media (max-width: 900px) {
+  .approval-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 .approval-panel > p {
   color: #c7bcb3;
   line-height: 1.8;

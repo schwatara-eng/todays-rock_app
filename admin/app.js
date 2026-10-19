@@ -539,6 +539,7 @@ function showState(data, replaceArticle = true) {
   $('confirm-sources').checked = false;
   $('export-article').disabled = !approved;
   $('publish').disabled = !approved;
+  setPublishLook(published ? 'published' : approved ? 'ready' : 'locked');
   showPhoto(data.article);
 }
 
@@ -776,6 +777,7 @@ for (const id of ['title', 'body']) {
       $('approval-status').textContent = '저장되지 않음 · 재검토 필요';
       $('export-article').disabled = true;
       $('publish').disabled = true;
+      setPublishLook('unsaved');
     } else if (lastState) {
       showState(lastState, false); // 저장된 내용으로 되돌리면 원래 상태 표시로 돌아갑니다.
     }
@@ -971,6 +973,21 @@ $('photo-file').addEventListener('change', () => run(async () => {
     input.value = '';
   }
 }));
+
+// 06 홈 게시 버튼의 글자와 색을 상태에 맞게 바꿉니다.
+// (켜고 끄는 disabled 처리는 기존 코드가 그대로 담당합니다)
+function setPublishLook(mode) {
+  const looks = {
+    locked: ['홈에 게시', '편집자 승인 후 사용할 수 있습니다.'],
+    unsaved: ['홈에 게시', '수정한 원고를 저장하고 다시 승인해야 합니다.'],
+    ready: ['홈에 게시 ↗', '오늘의 뮤지션을 이 기사로 바꾸고, 이전 기사는 아카이브로 옮깁니다.'],
+    published: ['게시 완료', '홈의 오늘의 뮤지션에 반영됐습니다. 다시 누르면 재게시합니다.'],
+  };
+  const [title, note] = looks[mode] || looks.locked;
+  $('publish-title').textContent = title;
+  $('publish-note').textContent = note;
+  $('publish').classList.toggle('is-published', mode === 'published');
+}
 
 // 홈에 게시: 서버가 승인 상태를 다시 확인한 뒤 index.html과 아카이브를 바꿉니다.
 $('publish').addEventListener('click', () => run(async () => {
