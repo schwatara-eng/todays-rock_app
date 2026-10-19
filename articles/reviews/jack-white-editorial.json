@@ -5,36 +5,36 @@
       "field": "title",
       "category": "title",
       "text": "잭 화이트 Jack White",
-      "reason": "한글·영문 제목이 함께 사용돼 일관성이 떨어집니다. 매체 스타일에 따라 한쪽 표기로 통일해야 가독성이 좋아집니다.",
-      "suggestion": "제목을 ‘잭 화이트(Jack White)’ 또는 ‘Jack White’ 중 하나로 통일하거나, 괄호로 병기해 표기 규칙을 명확히 하세요."
+      "reason": "한글명과 영문명을 띄어 병기한 형태가 시각적으로 산만하고 스타일이 일관되지 않습니다.",
+      "suggestion": "타이틀은 '잭 화이트(Jack White)'처럼 괄호로 통일하거나 영어 우선이면 'Jack White (잭 화이트)'로 통일하세요."
     },
     {
       "field": "body",
       "category": "structure",
-      "text": "기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람",
-      "reason": "문장이 독립적으로 떨어져 있어 도입부와 자연스럽게 연결되지 않습니다. 현재는 헤드라인 성격인데 본문 첫 문단과 흐름이 매끄럽지 않습니다.",
-      "suggestion": "해당 문장을 첫 단락의 첫 문장으로 통합하거나, 소제목 형태로 명확히 구분해 연결감을 살리세요."
-    },
-    {
-      "field": "body",
-      "category": "readability",
-      "text": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
-      "reason": "‘솔로 경력 34번째’ 등 표현이 모호해 독자가 무엇을 지칭하는지 혼동할 수 있습니다(솔로·밴드 포함 여부 등).",
-      "suggestion": "‘솔로로서의 노미네이트 횟수’인지, ‘전체(밴드 포함)’인지 명확히 구체화해 문장을 다듬으세요."
-    },
-    {
-      "field": "body",
-      "category": "repetition",
-      "text": "솔로 No Name (2024):\n솔로 Frozen Charlotte (2026):",
-      "reason": "‘솔로’ 표기가 반복되어 문장 흐름이 답답하게 느껴집니다. 항목 간 표기 방식도 통일되어 있지 않습니다.",
-      "suggestion": "각 항목 앞의 ‘솔로’ 표기를 한 번만 설명하거나, 항목 제목 형식을 동일하게 맞춰 간결하게 정리하세요."
+      "text": "잭 화이트(Jack White). 1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
+      "reason": "첫 문단에서 괄호 표기·마침표 사용이 혼재되어 문장 흐름이 끊깁니다.",
+      "suggestion": "괄호와 마침표 사용을 정리해 문장을 매끄럽게 연결하세요(예: '잭 화이트(Jack White)는 디트로이트...')."
     },
     {
       "field": "body",
       "category": "style",
-      "text": "The Raconteurs · The Dead Weather: 밴드를 바꿔가며 파워팝과 어두운 블루스 록을 오갔다.",
-      "reason": "밴드 나열 방식과 설명문이 짧게 연결되어 있어 항목들의 체계가 불명확합니다. 다른 항목들과 통일된 서술 방식으로 정리하면 더 읽기 쉽습니다.",
-      "suggestion": "밴드명과 활동 설명을 ‘The Raconteurs · The Dead Weather — 밴드를 오가며…’처럼 구분 기호와 서술형을 통일해 배열하세요."
+      "text": "The White Stripes – Elephant (2003): 'Seven Nation Army'가 실린 앨범.",
+      "reason": "목록 표기의 구두점·대시·콜론 사용이 일관되지 않아 가독성이 떨어집니다.",
+      "suggestion": "목록 형식을 통일(예: 'The White Stripes — Elephant (2003): …' 또는 'The White Stripes — Elephant (2003) — …')하고 줄바꿈·문장부호를 일괄 적용하세요."
+    },
+    {
+      "field": "body",
+      "category": "readability",
+      "text": "Third Man Records (2009~): 내슈빌에 세운 레이블이자 레코드숍.",
+      "reason": "연도 표기 방식(예: '2009~' vs '2009년 설립')이 섞여 있어 연대 표기가 산만합니다.",
+      "suggestion": "연도 표기를 '2009년' 또는 '2009년~'처럼 기사 전체에 걸쳐 통일하세요."
+    },
+    {
+      "field": "body",
+      "category": "readability",
+      "text": "에디터 코멘트\n\n잭 화이트의 음악은 '덜어냄'에서 시작한다.",
+      "reason": "에디터 코멘트의 서술 톤이 친근한 2인칭 표현과 주관적 권유(예: '볼륨을 올리고 들어보자')로 마무리되어 기사 톤과 다소 어긋납니다.",
+      "suggestion": "톤을 객관적으로 다듬어 권유 표현을 줄이고 핵심 인사이트 중심으로 간결히 정리하세요."
     }
   ],
   "approved": false,

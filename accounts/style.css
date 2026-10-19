@@ -1,4 +1,12 @@
 /* 회원 UI 전용 스타일. 홈페이지의 음악/기사 레이아웃과 분리합니다. */
+@font-face {
+  font-family: "Galmuri9";
+  src: url("/fonts/Galmuri9.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 [hidden] { display: none !important; }
 .header-end, .account-nav { display: flex; align-items: center; }
 .header-end { gap: 25px; }
@@ -23,6 +31,13 @@
 .account-main h2 { font: 700 19px/1.5 'Noto Sans KR', sans-serif; margin: 0 0 18px; letter-spacing: -.025em; }
 .box-heading h2 { margin-bottom: 0; }
 .account-intro { font-size: 14px; line-height: 1.85; color: var(--gray); margin: 14px 0 25px; }
+/* 관리실 제목은 편집실의 제목·도스 서체·소개문 간격을 따릅니다. */
+.admin-heading { margin-bottom: 0; }
+.admin-intro { font-family: Arial, "Malgun Gothic", sans-serif; }
+.admin-intro .section-label { color: #d65c50; font-size: 11px; font-weight: 400; letter-spacing: 2.5px; }
+.account-main .admin-intro h1 { font: 400 clamp(28px, 4vw, 48px)/normal "Black Han Sans", sans-serif; color: #eae6df; letter-spacing: normal; margin: 12px 0; }
+.admin-intro h1 em { font-family: "Galmuri9", monospace; font-size: .65em; font-weight: 400; color: #d7c5ac; font-style: normal; }
+.admin-heading .admin-intro .account-intro { color: #aba5a0; line-height: 1.7; margin: 14px 0 36px; }
 .account-muted { color: var(--gray); font-size: 12px; line-height: 1.8; }
 .account-box { padding: 30px; border: 1px solid var(--line); background: rgba(26,20,18,.86); border-radius: 5px; min-width: 0; }
 .auth-box { padding: 38px; }
