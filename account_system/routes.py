@@ -220,16 +220,17 @@ def like_ids(request: Request):
 @router.get("/me/likes")
 def likes(request: Request, page: int = Query(1, ge=1, le=10000)):
     user = require_user(request)
+    page_size = 15
     with database() as connection, connection.cursor() as cursor:
         cursor.execute("SELECT COUNT(*) AS total FROM account_likes l JOIN songs s ON s.id = l.song_id WHERE l.user_id = %s", (user["id"],))
         total = cursor.fetchone()["total"]
         cursor.execute("""SELECT s.id, s.title, s.artist, s.year, s.genre, s.lyrics_url, l.created_at AS liked_at
                           FROM account_likes l JOIN songs s ON s.id = l.song_id WHERE l.user_id = %s
-                          ORDER BY l.created_at DESC, l.song_id DESC LIMIT 24 OFFSET %s""", (user["id"], (page - 1) * 24))
+                          ORDER BY l.created_at DESC, l.song_id DESC LIMIT %s OFFSET %s""", (user["id"], page_size, (page - 1) * page_size))
         items = cursor.fetchall()
     for item in items:
         item["liked_at"] = iso_date(item["liked_at"])
-    return reply({"items": items, "total": total, "page": page, "pageSize": 24})
+    return reply({"items": items, "total": total, "page": page, "pageSize": page_size})
 
 
 @router.put("/me/likes/{song_id}")

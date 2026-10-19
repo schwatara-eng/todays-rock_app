@@ -78,11 +78,11 @@
 .page-tools { display: flex; flex-wrap: wrap; gap: 10px; }
 .count-tag { display: inline-block; color: var(--yellow); font-size: 14px; padding-left: 8px; }
 .small-link { font-size: 12px; text-decoration: none; color: var(--gray); white-space: nowrap; }
-.likes-table-wrap { margin-top: 23px; max-height: 560px; overflow: auto; overscroll-behavior: contain; border-top: 1px solid var(--line); scrollbar-gutter: stable; }
+.likes-table-wrap { margin-top: 23px; overflow-x: auto; border-top: 1px solid var(--line); }
 .likes-table-wrap:focus-visible { outline: 2px solid var(--yellow); outline-offset: 4px; }
 .likes-table { width: 100%; min-width: 800px; border-collapse: collapse; text-align: left; font-size: 12px; }
-.likes-table th, .likes-table td { padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-.likes-table thead th { position: sticky; top: 0; z-index: 1; background: #1c1614; color: var(--gray); font-weight: 400; white-space: nowrap; }
+.likes-table th, .likes-table td { padding: 6px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.likes-table thead th { background: #1c1614; color: var(--gray); font-weight: 400; white-space: nowrap; }
 .likes-table th:nth-child(1) { width: 48px; }
 .likes-table th:nth-child(2) { width: 26%; }
 .likes-table th:nth-child(3) { width: 20%; }
@@ -91,8 +91,8 @@
 .likes-table th:nth-child(6) { width: 86px; }
 .likes-table th:nth-child(7) { width: 70px; }
 .likes-table tbody tr:hover { background: rgba(242,239,232,.025); }
-.likes-table .likes-song-title { font-size: 13px; font-weight: 500; line-height: 1.6; overflow-wrap: anywhere; }
-.likes-artist, .likes-details { color: var(--gray); line-height: 1.65; overflow-wrap: anywhere; }
+.likes-table .likes-song-title { font-size: 13px; font-weight: 500; line-height: 1.4; overflow-wrap: anywhere; }
+.likes-artist, .likes-details { color: var(--gray); line-height: 1.5; overflow-wrap: anywhere; }
 .likes-number { color: var(--gray); font-variant-numeric: tabular-nums; }
 .likes-date, .likes-table a { white-space: nowrap; }
 .likes-table a { color: var(--yellow); text-decoration: none; text-underline-offset: 4px; }
