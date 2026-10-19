@@ -75,6 +75,31 @@ header {
   color: #d9a5a0;
 }
 
+.topbar-side {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.desk-link {
+  padding: 8px 14px;
+  border: 1px solid #62534b;
+  border-radius: 6px;
+  background: #34302d;
+  color: #eee;
+  font-size: 12px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.desk-link:hover {
+  filter: brightness(1.2);
+}
+
+.desk-link[hidden] {
+  display: none;
+}
+
 main {
   width: 100%;
   margin: auto;

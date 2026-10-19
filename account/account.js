@@ -62,7 +62,7 @@
     }
 
     nav.innerHTML = `
-      ${user.role === "admin" ? '<a class="auth-link" href="/account/admin.html">관리자</a>' : ""}
+      ${user.role === "admin" ? '<a class="auth-link" href="/account/admin.html">관리실</a>' : ""}
       <a class="auth-link" href="/account/mypage.html">${escapeHtml(user.nickname)}</a>
       <button class="auth-link" type="button" data-logout>로그아웃</button>`;
     nav.querySelector("[data-logout]").addEventListener("click", logout);
@@ -128,7 +128,7 @@
     const actions = document.querySelector("#profile-actions");
     // 편집실 버튼은 기자(와 모든 권한을 가진 관리자)에게만 보인다.
     if (user.canEdit) actions.insertAdjacentHTML("beforeend", '<a class="btn btn-primary" href="/editor/">편집실 ↗</a>');
-    if (user.role === "admin") actions.insertAdjacentHTML("beforeend", '<a class="btn" href="/account/admin.html">관리자 페이지</a>');
+    if (user.role === "admin") actions.insertAdjacentHTML("beforeend", '<a class="btn" href="/account/admin.html">관리실 ↗</a>');
 
     if (new URLSearchParams(location.search).get("denied") === "editor") {
       document.querySelector("#notice").hidden = false;

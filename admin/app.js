@@ -918,3 +918,10 @@ setupEditorialWorkflow();
 
 initialize();
 
+// 관리자에게만 '관리실' 버튼을 보여준다. (기자는 편집실만 사용)
+fetch('/api/auth/me', { cache: 'no-store' })
+  .then((response) => response.json())
+  .then(({ user }) => {
+    if (user && user.role === 'admin') $('admin-desk-link').hidden = false;
+  })
+  .catch(() => {});
