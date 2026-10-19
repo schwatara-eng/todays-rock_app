@@ -4,40 +4,33 @@
     {
       "field": "title",
       "category": "title",
-      "text": "잭 화이트 Jack White",
-      "reason": "한글명과 영문명을 띄어 병기한 형태가 시각적으로 산만하고 스타일이 일관되지 않습니다.",
-      "suggestion": "타이틀은 '잭 화이트(Jack White)'처럼 괄호로 통일하거나 영어 우선이면 'Jack White (잭 화이트)'로 통일하세요."
+      "text": "Jack White 잭 화이트",
+      "reason": "영문·한글 병기 방식이 혼재되어 있어 제목이 중복·가독성 저하를 유발합니다.",
+      "suggestion": "한글 매체라면 주된 표기를 하나로 정하고 괄호로 보조 표기(Jack White)를 사용하는 것을 권합니다."
     },
     {
       "field": "body",
       "category": "structure",
-      "text": "잭 화이트(Jack White). 1997년 멕 화이트와 결성한 2인조 화이트 스트라입스(The White Stripes)로 이름을 알렸다.",
-      "reason": "첫 문단에서 괄호 표기·마침표 사용이 혼재되어 문장 흐름이 끊깁니다.",
-      "suggestion": "괄호와 마침표 사용을 정리해 문장을 매끄럽게 연결하세요(예: '잭 화이트(Jack White)는 디트로이트...')."
+      "text": "주요 앨범과 활동",
+      "reason": "앨범(음반)과 활동(명예의 전당, 레이블 등)이 한 섹션에 섞여 있어 항목 분류가 모호합니다.",
+      "suggestion": "앨범 목록과 기타 활동(레이블·수상·책)은 별도 소제목으로 나누어 정리하세요."
+    },
+    {
+      "field": "body",
+      "category": "readability",
+      "text": "기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람",
+      "reason": "문장 맺음이 서술형 본문과 겹치며 도입부가 단문 나열 형태로 읽히기 쉽습니다.",
+      "suggestion": "도입 문장을 간결한 한 문장 또는 서브타이틀로 정리하고 바로 이어지는 본문과 자연스럽게 연결하세요."
     },
     {
       "field": "body",
       "category": "style",
-      "text": "The White Stripes – Elephant (2003): 'Seven Nation Army'가 실린 앨범.",
-      "reason": "목록 표기의 구두점·대시·콜론 사용이 일관되지 않아 가독성이 떨어집니다.",
-      "suggestion": "목록 형식을 통일(예: 'The White Stripes — Elephant (2003): …' 또는 'The White Stripes — Elephant (2003) — …')하고 줄바꿈·문장부호를 일괄 적용하세요."
-    },
-    {
-      "field": "body",
-      "category": "readability",
-      "text": "Third Man Records (2009~): 내슈빌에 세운 레이블이자 레코드숍.",
-      "reason": "연도 표기 방식(예: '2009~' vs '2009년 설립')이 섞여 있어 연대 표기가 산만합니다.",
-      "suggestion": "연도 표기를 '2009년' 또는 '2009년~'처럼 기사 전체에 걸쳐 통일하세요."
-    },
-    {
-      "field": "body",
-      "category": "readability",
-      "text": "에디터 코멘트\n\n잭 화이트의 음악은 '덜어냄'에서 시작한다.",
-      "reason": "에디터 코멘트의 서술 톤이 친근한 2인칭 표현과 주관적 권유(예: '볼륨을 올리고 들어보자')로 마무리되어 기사 톤과 다소 어긋납니다.",
-      "suggestion": "톤을 객관적으로 다듬어 권유 표현을 줄이고 핵심 인사이트 중심으로 간결히 정리하세요."
+      "text": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
+      "reason": "수치와 연도가 한 문장에서 뒤섞여 정보 전달이 산만합니다.",
+      "suggestion": "노미네이트 횟수와 연도를 분리해 표기하거나 괄호로 정리해 가독성을 높이세요."
     }
   ],
   "approved": false,
   "note": "AI 편집 의견입니다. 사실 검수 및 편집자 승인을 대체하지 않습니다.",
-  "articleHash": "6256f972dd284b313c0dc3daf4637f4ba005cf20e2c9754f6e77e182394070cf"
+  "articleHash": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb"
 }
