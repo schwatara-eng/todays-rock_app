@@ -187,7 +187,7 @@ async def action(name,data,user=None):
     if name=='approve':
         if data.get('confirmSources') is not True:raise ai.EditorError('실제 출처 확인 및 최종 검토 확인이 필요합니다.',400)
         article=saved_article(data);s=state()
-        if not all(s['state'][k] for k in ('factCurrent','allVerified','editorialCurrent')):raise ai.EditorError('저장된 기사 버전의 사실 검수와 편집 검토를 모두 완료해야 합니다.',409)
+        if not all(s['state'][k] for k in ('factCurrent','allVerified','editorialCurrent')):raise ai.EditorError(approval_blocker(s),409)
         if s['review'].get('issues') or editorial_edit.pending(read('editorial')):raise ai.EditorError('미처리 검토 지적이 남아 있습니다. 사실 검수와 편집 의견 처리를 완료하세요.',409)
         write('approval',dict(articleId=current.get(),articleHash=fingerprint(article),status='approved',approved=True,confirmedSources=True,sheetHash=fact_edit.fingerprint(s['factSheet']),editorialHash=s['editorialReviewHash'],approvedAt=ai.now(),published=False));return state()
     if name=='publish':
@@ -198,6 +198,22 @@ async def action(name,data,user=None):
         write('approval',dict(read('approval'),published=True,publishedAt=ai.now()))
         return dict(state(),publishResult=result)
     raise ai.EditorError('지원하지 않는 기능입니다.',404)
+
+def approval_blocker(s):
+    """승인을 막는 조건을 하나씩 확인해, 무엇을 하면 되는지 알려 줍니다."""
+    st=s['state'];reasons=[]
+    if not st['researchCurrent']:
+        reasons.append('팩트시트가 지금 원고와 맞지 않습니다(팩트시트를 만든 뒤 원고가 바뀜). 01의 \'팩트시트 생성 + 웹 출처 검증\'을 다시 누르세요.')
+    elif not st['allVerified']:
+        sheet=read_sheet() or {}
+        left=[f.get('id','?') for f in sheet.get('facts',[]) if f.get('verificationStatus') not in ('VERIFIED','OPINION')]
+        if sheet.get('truncated'):reasons.append('팩트시트가 일부만 추출됐습니다. 원고를 나눠 다시 생성하세요.')
+        if left:reasons.append(f'검증되지 않은 사실 항목 {len(left)}개가 남아 있습니다({", ".join(left[:8])}{" 등" if len(left)>8 else ""}). 출처 재검색·항목 수정·제외로 정리하세요.')
+    elif not st['factCurrent']:
+        reasons.append('팩트시트를 고친 뒤(항목 수정·추가·제외) 사실 검수 보고서가 갱신되지 않았습니다. 02 상자 오른쪽 위의 \'사실 검수 갱신\'을 누르세요.')
+    if not st['editorialCurrent']:
+        reasons.append('편집 검토가 지금 원고와 맞지 않습니다(편집 검토 뒤 원고가 바뀜). 04의 \'AI 편집 검토\'를 다시 실행하세요.')
+    return '승인할 수 없습니다. ' + ' / '.join(reasons or ['사실 검수와 편집 검토를 모두 완료해야 합니다.'])
 
 def list_artists():
     found=[]
