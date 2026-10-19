@@ -45,7 +45,7 @@ def get_songs():
             )
             song["lyricsUrl"] = song.pop("lyrics_url")
 
-        return songs
+        return JSONResponse(songs, headers={"Cache-Control": SONGS_CACHE})
 
     except DatabaseError:
         logging.exception("PostgreSQL 곡 조회 실패")
@@ -102,6 +102,7 @@ async def get_news():
 
         # 제목과 설명을 한 번에 한국어로 번역
         api_key = os.getenv("GOOGLE_TRANSLATE_API_KEY")
+        translated_ok = False
 
         if api_key:
             texts = [
@@ -136,6 +137,8 @@ async def get_news():
                     article["title"] = translated[index * 2]
                     article["description"] = translated[index * 2 + 1]
 
+                translated_ok = True
+
             except (
                 httpx.HTTPError,
                 KeyError,
@@ -146,18 +149,31 @@ async def get_news():
         else:
             logging.warning("Google 번역 API 키가 없습니다.")
 
-        return articles
+        # 번역된 뉴스는 CDN에 15분 저장해, 그 사이 방문자는 NME·번역을 기다리지 않습니다.
+        return JSONResponse(articles, headers={"Cache-Control": NEWS_CACHE if translated_ok else NEWS_FALLBACK_CACHE})
 
 
 # 홈페이지·공개 자산만 제공한다. 프로젝트 전체를 정적 폴더로 노출하지 않는다.
 ROOT = Path(__file__).resolve().parent
 
 
-def public_file(asset: str):
+# ── 캐시 규칙 ────────────────────────────────────────────────
+# s-maxage: Vercel CDN(한국 근처 서버)이 이 시간 동안 저장해 두고 Python 서버를 거치지 않고 바로 보냅니다.
+#           새로 배포하면 Vercel이 CDN 저장분을 모두 비우므로 디자인 수정은 배포 즉시 반영됩니다.
+# max-age:  방문자 브라우저가 저장해 두는 시간. 디자인 수정이 늦게 보이지 않도록 짧게 둡니다.
+# stale-while-revalidate: 기한이 지나도 일단 저장분을 보내고 뒤에서 새로 받아 둡니다.
+STATIC_CACHE = "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800"   # CSS·JS·폰트·영상·기본 이미지
+PHOTO_CACHE = "public, max-age=60, s-maxage=60, stale-while-revalidate=600"            # 편집실에서 올린 뮤지션 사진
+SONGS_CACHE = "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400"       # 곡 500개 (SQL로만 바뀜)
+NEWS_CACHE = "public, max-age=300, s-maxage=900, stale-while-revalidate=3600"          # 번역된 뉴스 15분
+NEWS_FALLBACK_CACHE = "public, max-age=60, s-maxage=60"                                # 번역 실패 시 짧게
+
+
+def public_file(asset: str, cache: str = "no-store"):
     path = (ROOT / asset).resolve()
     if not path.is_relative_to(ROOT) or not path.is_file():
         raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
-    return FileResponse(path, headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"})
+    return FileResponse(path, headers={"Cache-Control": cache, "X-Content-Type-Options": "nosniff"})
 
 
 NO_STORE = {"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"}
@@ -182,12 +198,12 @@ def homepage():
 
 @app.get("/style.css", include_in_schema=False)
 def homepage_css():
-    return public_file("style.css")
+    return public_file("style.css", STATIC_CACHE)
 
 
 @app.get("/script.js", include_in_schema=False)
 def homepage_js():
-    return public_file("script.js")
+    return public_file("script.js", STATIC_CACHE)
 
 
 # 지난 뮤지션 아카이브 페이지(artist-<뮤지션ID>.html)와 아카이브 목록
@@ -222,13 +238,15 @@ def image_asset(asset: str):
     def load():
         # 편집실에서 올린 뮤지션 사진은 DB에, 나머지 이미지·영상은 저장소 파일에 있습니다.
         if not asset.startswith("artist-"):
-            return public_file("images/" + asset)
+            return public_file("images/" + asset, STATIC_CACHE)
         found = editor_storage.get_asset("images/" + asset)
         if not found:
             raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
-        return Response(found[0], media_type=found[1], headers={"Cache-Control": "public, max-age=300", "X-Content-Type-Options": "nosniff"})
+        return Response(found[0], media_type=found[1], headers={"Cache-Control": PHOTO_CACHE, "X-Content-Type-Options": "nosniff"})
 
-    return from_db(load, lambda: public_file("images/" + asset))
+    if not asset.startswith("artist-"):          # 배경 영상·기본 이미지는 DB를 거치지 않습니다.
+        return public_file("images/" + asset, STATIC_CACHE)
+    return from_db(load, lambda: public_file("images/" + asset, PHOTO_CACHE))
 
 
 @app.get("/fonts/{asset:path}", include_in_schema=False)
@@ -238,7 +256,7 @@ def font_asset(asset: str):
     path = (ROOT / "fonts" / asset).resolve()
     if not path.is_relative_to(ROOT / "fonts"):
         raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
-    return public_file("fonts/" + asset)
+    return public_file("fonts/" + asset, STATIC_CACHE)
 
 
 def account_page(request, filename, role=None):
@@ -275,5 +293,5 @@ def admin_page(request: Request):
 def account_asset(asset: str):
     if asset not in {"common.js", "page.js", "style.css"}:
         raise HTTPException(404, "파일을 찾지 못했습니다.")
-    return public_file("accounts/" + asset)
+    return public_file("accounts/" + asset, STATIC_CACHE)
 

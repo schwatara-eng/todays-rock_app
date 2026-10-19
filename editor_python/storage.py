@@ -15,6 +15,7 @@ import json
 import mimetypes
 from pathlib import Path
 
+from psycopg import errors as pg_errors
 from psycopg.types.json import Jsonb
 
 from account_system.database import connect
@@ -62,11 +63,16 @@ FILES = {'draft': 'articles/drafts/{id}.json', 'sheet': 'articles/research/{id}.
 
 
 class _Conn:
-    """with 문으로 쓰는 짧은 DB 연결. 끝나면 commit, 오류면 rollback."""
+    """with 문으로 쓰는 짧은 DB 연결. 끝나면 commit, 오류면 rollback.
+    ensure=True(저장할 때)면 서버가 켜진 뒤 처음 한 번 표를 준비합니다.
+    읽기만 할 때는 이 준비를 건너뛰어 화면이 빨리 뜨게 합니다."""
+    def __init__(self, ensure=True):
+        self.ensure = ensure
+
     def __enter__(self):
         global _ready
         self.conn = connect()
-        if not _ready:
+        if self.ensure and not _ready:
             with self.conn.cursor() as cur:
                 for statement in SCHEMA.split(';'):
                     if statement.strip():
@@ -83,7 +89,23 @@ class _Conn:
 
 
 def db():
-    return _Conn()
+    """저장용 연결 (필요하면 표를 먼저 만듭니다)."""
+    return _Conn(ensure=True)
+
+
+def reading():
+    """읽기 전용 연결 (표 준비를 건너뜁니다)."""
+    return _Conn(ensure=False)
+
+
+def _fetch(sql, params=(), many=False):
+    """읽기 조회 한 번. 표가 아직 없으면(처음 배포 직후 등) 빈 결과로 봅니다."""
+    try:
+        with reading() as cur:
+            cur.execute(sql, params)
+            return cur.fetchall() if many else cur.fetchone()
+    except pg_errors.UndefinedTable:
+        return [] if many else None
 
 
 def _file_json(rel):
@@ -95,9 +117,7 @@ def _file_json(rel):
 
 # ── 편집 기록 ──────────────────────────────────────────────
 def get_doc(kind, artist_id, default=None):
-    with db() as cur:
-        cur.execute('SELECT data FROM editor_docs WHERE kind = %s AND artist_id = %s', (kind, artist_id))
-        row = cur.fetchone()
+    row = _fetch('SELECT data FROM editor_docs WHERE kind = %s AND artist_id = %s', (kind, artist_id))
     if row:
         return row['data']
     if kind in FILES:
@@ -122,21 +142,38 @@ def list_drafts():
         data = _file_json(f'articles/drafts/{f.name}')
         if isinstance(data, dict):
             found[f.stem] = data
-    with db() as cur:
-        cur.execute("SELECT artist_id, data FROM editor_docs WHERE kind = 'draft' ORDER BY artist_id")
-        for row in cur.fetchall():
-            found[row['artist_id']] = row['data']
+    for row in _fetch("SELECT artist_id, data FROM editor_docs WHERE kind = 'draft' ORDER BY artist_id", many=True):
+        found[row['artist_id']] = row['data']
     return dict(sorted(found.items()))
 
 
 # ── 게시 상태 ──────────────────────────────────────────────
-def get_archive():
-    with db() as cur:
-        cur.execute("SELECT data FROM editor_docs WHERE kind = 'site' AND artist_id = 'archive'")
-        row = cur.fetchone()
-    if row:
-        return row['data']
+def _file_archive():
     return _file_json('artist-archive.json') or {'current': None, 'archive': []}
+
+
+def get_archive():
+    row = _fetch("SELECT data FROM editor_docs WHERE kind = 'site' AND artist_id = 'archive'")
+    return row['data'] if row else _file_archive()
+
+
+def _published(pick):
+    """게시 목록과, pick(목록)이 고른 뮤지션의 기사 본문을 DB 연결 한 번으로 함께 가져옵니다."""
+    try:
+        with reading() as cur:
+            cur.execute("SELECT data FROM editor_docs WHERE kind = 'site' AND artist_id = 'archive'")
+            row = cur.fetchone()
+            data = row['data'] if row else _file_archive()
+            entry = pick(data)
+            block = None
+            if entry:
+                cur.execute('SELECT block FROM site_features WHERE artist_id = %s', (entry['id'],))
+                found = cur.fetchone()
+                block = found['block'] if found else None
+            return data, entry, block
+    except pg_errors.UndefinedTable:
+        data = _file_archive()
+        return data, pick(data), None
 
 
 def set_archive_korean(artist_id, korean):
@@ -153,9 +190,7 @@ def set_archive_korean(artist_id, korean):
 
 
 def get_feature(artist_id):
-    with db() as cur:
-        cur.execute('SELECT block FROM site_features WHERE artist_id = %s', (artist_id,))
-        row = cur.fetchone()
+    row = _fetch('SELECT block FROM site_features WHERE artist_id = %s', (artist_id,))
     return row['block'] if row else None
 
 
@@ -186,9 +221,7 @@ def put_asset(path, content, content_type, remove=()):
 
 def get_asset(path):
     """(내용, 종류) — DB에 올린 사진이 먼저, 없으면 저장소 파일."""
-    with db() as cur:
-        cur.execute('SELECT content, content_type FROM site_assets WHERE path = %s', (path,))
-        row = cur.fetchone()
+    row = _fetch('SELECT content, content_type FROM site_assets WHERE path = %s', (path,))
     if row:
         return bytes(row['content']), row['content_type']
     file = (ROOT / path).resolve()
@@ -198,10 +231,8 @@ def get_asset(path):
 
 
 def asset_exists(path):
-    with db() as cur:
-        cur.execute('SELECT 1 FROM site_assets WHERE path = %s', (path,))
-        if cur.fetchone():
-            return True
+    if _fetch('SELECT 1 FROM site_assets WHERE path = %s', (path,)):
+        return True
     return (ROOT / path).is_file()
 
 
@@ -210,8 +241,7 @@ def home_page():
     """index.html에 DB의 현재 '오늘의 뮤지션' 기사를 끼워 넣습니다. 게시 기록이 없으면 파일 그대로."""
     from . import publish
     page = (ROOT / 'index.html').read_text(encoding='utf-8')
-    current = (get_archive() or {}).get('current')
-    block = get_feature(current['id']) if current else None
+    _, _, block = _published(lambda data: (data or {}).get('current'))
     if not block:
         return page
     start, end, _ = publish.home_block(page)
@@ -221,9 +251,7 @@ def home_page():
 def archive_page(slug):
     """지난 뮤지션 페이지. DB에 기사가 있으면 저장소의 아카이브 틀로 만들고, 없으면 파일 그대로."""
     from . import publish
-    data = get_archive() or {}
-    entry = next((a for a in data.get('archive', []) if a.get('id') == slug), None)
-    block = get_feature(slug) if entry else None
+    _, entry, block = _published(lambda data: next((a for a in (data or {}).get('archive', []) if a.get('id') == slug), None))
     if block:
         template = publish.TEMPLATE.read_text(encoding='utf-8')
         return publish.archive_page(template, block, entry.get('name', ''), entry.get('nameKo', ''), entry.get('korean') is True)
