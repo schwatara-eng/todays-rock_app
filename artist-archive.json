@@ -2,13 +2,15 @@
   "current": {
     "id": "kim-yuna",
     "name": "Kim Yuna",
-    "nameKo": "김윤아"
+    "nameKo": "김윤아",
+    "publishedAt": "2026-10-19T04:14:25.776Z"
   },
   "archive": [
     {
       "id": "jack-white",
       "name": "Jack White",
       "nameKo": "잭 화이트",
+      "publishedAt": "2026-10-19T04:10:13.017Z",
       "url": "artist-jack-white.html"
     }
   ]

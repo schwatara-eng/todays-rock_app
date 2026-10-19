@@ -32,5 +32,201 @@
   ],
   "approved": false,
   "note": "AI 편집 의견입니다. 사실 검수 및 편집자 승인을 대체하지 않습니다.",
-  "articleHash": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb"
+  "articleHash": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb",
+  "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+  "aiArticleHash": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb",
+  "decisions": {
+    "E001": {
+      "status": "passed",
+      "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+      "issueHash": "d632d21a48faa4dd07bc5c77b6b9238e1963140d082c70b9b68a181e6f93c7a8",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "reason": "제목 양식임",
+      "at": "2026-10-19T04:08:11.030Z"
+    },
+    "E002": {
+      "status": "passed",
+      "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+      "issueHash": "a6a8250445f28791b79e1ab8aa3f7c5f9a991ef96181b035c956b9bc856e387d",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "reason": "코너명임",
+      "at": "2026-10-19T04:08:50.753Z"
+    },
+    "E003": {
+      "status": "passed",
+      "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+      "issueHash": "2f63977d9be1f9f6c17c78846418185c3ca81ea0e9cc6a1ae103b894adcf3401",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "reason": "에디터의 의도임",
+      "at": "2026-10-19T04:09:13.780Z"
+    },
+    "E004": {
+      "status": "passed",
+      "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+      "issueHash": "3d089afe8d59bd395127aed06a7dfe6d9b8836272f90bd2882e31ef1a351efcf",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "reason": "바이오그래피 축약문이라 허용",
+      "at": "2026-10-19T04:09:43.885Z"
+    }
+  },
+  "anchors": {},
+  "manualRevision": 4,
+  "manualHistory": [
+    {
+      "operation": "pass",
+      "issueId": "E001",
+      "issue": {
+        "field": "title",
+        "category": "title",
+        "text": "Jack White 잭 화이트",
+        "reason": "영문·한글 병기 방식이 혼재되어 있어 제목이 중복·가독성 저하를 유발합니다.",
+        "suggestion": "한글 매체라면 주된 표기를 하나로 정하고 괄호로 보조 표기(Jack White)를 사용하는 것을 권합니다.",
+        "id": "E001"
+      },
+      "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+      "reason": "제목 양식임",
+      "at": "2026-10-19T04:08:11.030Z",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "before": null,
+      "articleHashBefore": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb",
+      "after": {
+        "status": "passed",
+        "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+        "issueHash": "d632d21a48faa4dd07bc5c77b6b9238e1963140d082c70b9b68a181e6f93c7a8",
+        "actor": {
+          "id": 1,
+          "displayName": "당최",
+          "role": "admin"
+        },
+        "reason": "제목 양식임",
+        "at": "2026-10-19T04:08:11.030Z"
+      },
+      "articleHashAfter": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb"
+    },
+    {
+      "operation": "pass",
+      "issueId": "E002",
+      "issue": {
+        "field": "body",
+        "category": "structure",
+        "text": "주요 앨범과 활동",
+        "reason": "앨범(음반)과 활동(명예의 전당, 레이블 등)이 한 섹션에 섞여 있어 항목 분류가 모호합니다.",
+        "suggestion": "앨범 목록과 기타 활동(레이블·수상·책)은 별도 소제목으로 나누어 정리하세요.",
+        "id": "E002"
+      },
+      "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+      "reason": "코너명임",
+      "at": "2026-10-19T04:08:50.753Z",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "before": null,
+      "articleHashBefore": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb",
+      "after": {
+        "status": "passed",
+        "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+        "issueHash": "a6a8250445f28791b79e1ab8aa3f7c5f9a991ef96181b035c956b9bc856e387d",
+        "actor": {
+          "id": 1,
+          "displayName": "당최",
+          "role": "admin"
+        },
+        "reason": "코너명임",
+        "at": "2026-10-19T04:08:50.753Z"
+      },
+      "articleHashAfter": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb"
+    },
+    {
+      "operation": "pass",
+      "issueId": "E003",
+      "issue": {
+        "field": "body",
+        "category": "readability",
+        "text": "기타 하나, 드럼 하나로 록을 다시 날것으로 돌려놓은 사람",
+        "reason": "문장 맺음이 서술형 본문과 겹치며 도입부가 단문 나열 형태로 읽히기 쉽습니다.",
+        "suggestion": "도입 문장을 간결한 한 문장 또는 서브타이틀로 정리하고 바로 이어지는 본문과 자연스럽게 연결하세요.",
+        "id": "E003"
+      },
+      "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+      "reason": "에디터의 의도임",
+      "at": "2026-10-19T04:09:13.780Z",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "before": null,
+      "articleHashBefore": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb",
+      "after": {
+        "status": "passed",
+        "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+        "issueHash": "2f63977d9be1f9f6c17c78846418185c3ca81ea0e9cc6a1ae103b894adcf3401",
+        "actor": {
+          "id": 1,
+          "displayName": "당최",
+          "role": "admin"
+        },
+        "reason": "에디터의 의도임",
+        "at": "2026-10-19T04:09:13.780Z"
+      },
+      "articleHashAfter": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb"
+    },
+    {
+      "operation": "pass",
+      "issueId": "E004",
+      "issue": {
+        "field": "body",
+        "category": "style",
+        "text": "솔로 No Name (2024): 2025년 그래미 '베스트 록 앨범' 후보에 올랐고, 이는 솔로 경력 34번째, 통산 46번째 노미네이트였다.",
+        "reason": "수치와 연도가 한 문장에서 뒤섞여 정보 전달이 산만합니다.",
+        "suggestion": "노미네이트 횟수와 연도를 분리해 표기하거나 괄호로 정리해 가독성을 높이세요.",
+        "id": "E004"
+      },
+      "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+      "reason": "바이오그래피 축약문이라 허용",
+      "at": "2026-10-19T04:09:43.885Z",
+      "actor": {
+        "id": 1,
+        "displayName": "당최",
+        "role": "admin"
+      },
+      "before": null,
+      "articleHashBefore": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb",
+      "after": {
+        "status": "passed",
+        "reviewId": "legacy-6f27e6d1bb4f38b62e04e9d73981e0c04048fec0de31c5a0b3dbfd26f82fdcc2",
+        "issueHash": "3d089afe8d59bd395127aed06a7dfe6d9b8836272f90bd2882e31ef1a351efcf",
+        "actor": {
+          "id": 1,
+          "displayName": "당최",
+          "role": "admin"
+        },
+        "reason": "바이오그래피 축약문이라 허용",
+        "at": "2026-10-19T04:09:43.885Z"
+      },
+      "articleHashAfter": "65efcca1d06b3a76c243aa23e09a9c4f17c70c872dc826ecb099c1bf8114eccb"
+    }
+  ]
 }

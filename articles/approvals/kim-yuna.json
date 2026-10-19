@@ -1,5 +1,12 @@
 {
-  "status": "draft",
-  "approved": false,
-  "invalidatedAt": "2026-10-18T06:47:36.194Z"
+  "articleId": "kim-yuna",
+  "articleHash": "e5092dceceaa71a66fcf1fe98822965b438629a6e07f15d88d6b81c4e9a17a4e",
+  "status": "approved",
+  "approved": true,
+  "confirmedSources": true,
+  "sheetHash": "6d2c9266ce41426abc0b3a54b4491ed40269897fcf1055c73fe3728b0f2935cf",
+  "editorialHash": "3ce457bd7f3676c5df0f344dc5374fa9be0a24bc1ba876c535107eaf1549c66f",
+  "approvedAt": "2026-10-19T04:14:19.793Z",
+  "published": true,
+  "publishedAt": "2026-10-19T04:14:25.783Z"
 }
