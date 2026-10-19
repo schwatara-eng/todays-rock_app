@@ -1124,8 +1124,8 @@ button:disabled {
   box-sizing: border-box;
   right: 18px;
   bottom: 14px;
-  width: 92px;
-  height: 92px;
+  width: 100px;
+  height: 100px;
   display: grid;
   place-items: center;
   padding: 0 14px;
@@ -1133,7 +1133,7 @@ button:disabled {
   border-radius: 50%;
   box-shadow: inset 0 0 0 5px transparent, inset 0 0 0 6px rgba(126, 186, 122, .32);
   color: rgba(140, 198, 134, .62);
-  font: 400 14px/1.2 "Galmuri9", monospace;
+  font: 400 17px/1.15 "Gungsuh", "궁서", "GungSeo", "궁서체", serif;
   letter-spacing: 1px;
   text-align: center;
   word-break: keep-all;
@@ -1143,13 +1143,13 @@ button:disabled {
 
 /* 승인 칸은 넓으니 도장을 조금 크게 */
 .approval-panel.stamped::before {
-  width: 112px;
-  height: 112px;
+  width: 124px;
+  height: 124px;
   right: 32px;
   top: 50%;
   bottom: auto;
-  margin-top: -56px;
-  font-size: 15px;
+  margin-top: -62px;
+  font-size: 21px;
 }
 
 /* 평론 항목: 검증 대상이 아니므로 회색 도장 */
