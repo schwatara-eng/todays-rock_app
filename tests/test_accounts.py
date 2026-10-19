@@ -175,6 +175,51 @@ def test_likes_are_idempotent_and_separate_for_each_user():
     assert a.get("/api/me/likes").json()["total"] == 0
 
 
+def test_editorial_decisions_require_editor_session_and_rebind_approval(monkeypatch):
+    from editor_python import ai, editorial_edit, fact_edit, routes
+    admin = seed_admin()
+    reporter = client(); reporter_user = signup(reporter, 'reporter@example.com', '담당 기자')['user']
+    reader = client(); signup(reader, 'plain-reader@example.com')
+    assert set_role(admin, reporter_user['id']).status_code == 200
+    async def no_ai(*args, **kwargs):
+        raise AssertionError('사람의 처리와 승인에서는 AI를 호출하지 않습니다.')
+    monkeypatch.setattr(ai, 'editorial', no_ai)
+    monkeypatch.setattr(ai, 'review', no_ai)
+    article = dict(id='human-editorial', artist={'name': 'Test Artist'}, title='테스트 제목', body='테스트 본문입니다.')
+    token = routes.current.set('human-editorial')
+    try:
+        h = routes.fingerprint(article)
+        routes.write('draft', article)
+        sheet = dict(articleHash=h, facts=[dict(id='F001', verificationStatus='VERIFIED')], truncated=False)
+        routes.write('sheet', sheet)
+        routes.write('review', dict(articleHash=h, researchHash=h, sheetHash=fact_edit.fingerprint(sheet), issues=[]))
+        routes.write('editorial', dict(articleHash=h, issues=[dict(field='title', category='title', text='테스트 제목', reason='제목', suggestion='다듬기'), dict(field='body', category='style', text='테스트 본문입니다.', reason='문체', suggestion='다듬기')]))
+        def data(operation='pass', issue_id='E001'):
+            return dict(artist='human-editorial', article=article, operation=operation, issueId=issue_id,
+                        reason='에디터의 의도된 표현이므로 유지합니다.',
+                        expectedReviewHash=editorial_edit.fingerprint(routes.read('editorial')),
+                        actor={'id': 99999, 'displayName': '위조 관리자', 'role': 'admin'})
+        assert client().post('/local/editorial-edit', json=data()).status_code == 401
+        assert reader.post('/local/editorial-edit', json=data(), headers=csrf(reader)).status_code == 403
+        assert reporter.post('/local/editorial-edit', json=data()).status_code == 403
+        passed = reporter.post('/local/editorial-edit', json=data(), headers=csrf(reporter))
+        assert passed.status_code == 200, passed.text
+        decision = passed.json()['editorialReview']['issues'][0]['decision']
+        assert decision['actor'] == dict(id=reporter_user['id'], displayName='담당 기자', role='reporter')
+        assert passed.json()['state']['editorialRemaining'] == 1
+        approve = dict(artist='human-editorial', article=article, confirmSources=True)
+        assert reporter.post('/local/approve', json=approve, headers=csrf(reporter)).status_code == 409
+        assert reporter.post('/local/editorial-edit', json=data(issue_id='E002'), headers=csrf(reporter)).status_code == 200
+        approved = reporter.post('/local/approve', json=approve, headers=csrf(reporter))
+        assert approved.status_code == 200 and approved.json()['state']['approved']
+        reopened = reporter.post('/local/editorial-edit', json=data('reopen'), headers=csrf(reporter))
+        assert reopened.status_code == 200 and not reopened.json()['state']['approved']
+        assert reporter.get('/local/publication-export?artist=human-editorial').status_code == 409
+        assert admin.post('/local/editorial-edit', json=data(), headers=csrf(admin)).status_code == 200
+    finally:
+        routes.current.reset(token)
+
+
 def test_profile_password_change_rotates_sessions():
     c = client(); signup(c)
     second = client(); second.post("/api/auth/login", json={"email": "reader@example.com", "password": PASSWORD})

@@ -9,7 +9,7 @@ import re
 import tempfile
 from fastapi import APIRouter, Request
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
-from . import ai, fact_edit
+from . import ai, fact_edit, editorial_edit
 from . import publish as publisher
 from account_system.security import check_csrf, current_user, require_role
 
@@ -80,8 +80,10 @@ def state():
     review_current=bool(research and review and review.get('articleHash')==h and review.get('researchHash')==sheet['articleHash'] and (review.get('sheetHash')==sheet_hash or not sheet.get('manualRevision') and not review.get('sheetHash')))
     fact=bool(verified and review_current)
     edit=bool(h and editorial and editorial.get('articleHash')==h)
-    approved=bool(fact and edit and approval and approval.get('articleHash')==h and approval.get('status')=='approved' and (approval.get('sheetHash')==sheet_hash or not sheet.get('manualRevision') and not approval.get('sheetHash')) and not review.get('issues') and not editorial.get('issues'))
-    return dict(factSheetHash=sheet_hash,artistId=current.get(),article=article,factSheet=sheet if research else None,review=review if review_current else None,editorialReview=editorial if edit else None,approval=approval if approved else None,state=dict(approved=approved,factCurrent=fact,researchCurrent=research,allVerified=verified,editorialCurrent=edit,status='approved' if approved else 'draft',published=False))
+    editorial_hash=editorial_edit.fingerprint(editorial) if edit else None
+    remaining=editorial_edit.pending(editorial) if edit else []
+    approved=bool(fact and edit and approval and approval.get('articleHash')==h and approval.get('status')=='approved' and (approval.get('sheetHash')==sheet_hash or not sheet.get('manualRevision') and not approval.get('sheetHash')) and (approval.get('editorialHash')==editorial_hash or not editorial.get('manualRevision') and not approval.get('editorialHash')) and not review.get('issues') and not remaining)
+    return dict(factSheetHash=sheet_hash,editorialReviewHash=editorial_hash,artistId=current.get(),article=article,factSheet=sheet if research else None,review=review if review_current else None,editorialReview=editorial_edit.present(editorial) if edit else None,approval=approval if approved else None,state=dict(approved=approved,factCurrent=fact,researchCurrent=research,allVerified=verified,editorialCurrent=edit,editorialRemaining=len(remaining) if edit else None,status='approved' if approved else 'draft',published=False))
 
 def invalidate():write('approval',dict(status='draft',approved=False,invalidatedAt=ai.now()))
 
@@ -96,7 +98,14 @@ def save_review(article,sheet,result):
     h=fingerprint(article)
     write('review',dict(result,articleHash=h,researchHash=sheet['articleHash'],sheetHash=fact_edit.fingerprint(sheet)))
 
-async def action(name,data):
+async def action(name,data,user=None):
+    if name=='editorial-edit':
+        article=saved_article(data)
+        updated,updated_article=editorial_edit.apply(read('editorial'),article,data,user)
+        invalidate()
+        if fingerprint(updated_article)!=fingerprint(article):write('draft',updated_article)
+        write('editorial',updated)
+        return state()
     if name=='fact-edit':
         article=saved_article(data);sheet=read_sheet()
         if not sheet or sheet.get('articleHash')!=fingerprint(article):raise ai.EditorError('현재 원고의 팩트시트가 필요합니다. 원고 변경 후에는 웹 출처 조사로 갱신하세요.',409)
@@ -187,14 +196,14 @@ async def action(name,data):
             sheet=read_sheet()
             if not sheet or sheet.get('articleHash')!=h:raise ai.EditorError('먼저 현재 원고로 팩트시트 생성 및 웹 검증을 진행하세요.',409)
             save_review(article,sheet,await ai.review(article,sheet))
-        if name in ('editorial','recheck'):write('editorial',dict(await ai.editorial(normalize(article)),articleHash=h))
+        if name in ('editorial','recheck'):write('editorial',editorial_edit.prepare(await ai.editorial(normalize(article)),h,read('editorial')))
         invalidate();return state()
     if name=='approve':
         if data.get('confirmSources') is not True:raise ai.EditorError('실제 출처 확인 및 최종 검토 확인이 필요합니다.',400)
         article=saved_article(data);s=state()
         if not all(s['state'][k] for k in ('factCurrent','allVerified','editorialCurrent')):raise ai.EditorError('저장된 기사 버전의 사실 검수와 편집 검토를 모두 완료해야 합니다.',409)
-        if s['review'].get('issues') or s['editorialReview'].get('issues'):raise ai.EditorError('검토 지적 사항이 남아 있습니다. 수정 후 재검수하세요.',409)
-        write('approval',dict(articleId=current.get(),articleHash=fingerprint(article),status='approved',approved=True,confirmedSources=True,sheetHash=fact_edit.fingerprint(s['factSheet']),approvedAt=ai.now(),published=False));return state()
+        if s['review'].get('issues') or editorial_edit.pending(read('editorial')):raise ai.EditorError('미처리 검토 지적이 남아 있습니다. 사실 검수와 편집 의견 처리를 완료하세요.',409)
+        write('approval',dict(articleId=current.get(),articleHash=fingerprint(article),status='approved',approved=True,confirmedSources=True,sheetHash=fact_edit.fingerprint(s['factSheet']),editorialHash=s['editorialReviewHash'],approvedAt=ai.now(),published=False));return state()
     if name=='publish':
         # 서버에 저장된 승인 상태를 다시 확인한 뒤에만 홈에 게시합니다.
         s=state()
@@ -246,12 +255,12 @@ async def endpoint(name:str,request:Request):
             raw=bytearray()
             async for chunk in request.stream():
                 raw.extend(chunk)
-                if len(raw)>(100000 if name in ('fact-edit','research-one') else 50000):raise ai.EditorError('요청이 너무 큽니다.',413)
+                if len(raw)>(150000 if name=='editorial-edit' else 100000 if name in ('fact-edit','research-one') else 50000):raise ai.EditorError('요청이 너무 큽니다.',413)
             try:data=json.loads(raw or b'{}')
             except (ValueError,UnicodeDecodeError):raise ai.EditorError('올바른 JSON 요청이 아닙니다.',400) from None
             if not isinstance(data,dict):raise ai.EditorError('JSON 객체가 필요합니다.',400)
             current.set(artist_id(data.get('artist')))
-            return reply(await action(name,data))
+            return reply(await action(name,data,user))
     except ai.EditorError as e:return reply({'error':str(e)},e.status)
     except publisher.PublishError as e:return reply({'error':str(e)},e.status)
     except Exception:
