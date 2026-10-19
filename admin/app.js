@@ -412,7 +412,14 @@ function editorialActor(decision) {
   return `${actor.displayName || '편집자'} · ${role}${time ? ' · ' + time : ''}`;
 }
 
-function editorialCard(issue) {
+function editorialChange(event) {
+  const change = document.createElement('details'); change.className = 'editorial-change';
+  change.append(element('summary', '수정 전후 보기'));
+  change.append(element('p', `수정 전: ${event.original}`, 'editorial-quote'), element('p', `수정 후: ${event.replacement || '(삭제)'}`, 'editorial-quote'));
+  return change;
+}
+
+function editorialCard(issue, event = null) {
   const card = element('div', '', 'issue editorial-issue'); card.dataset.editorialIssue = issue.id;
   card.append(element('strong', `${issue.id} · ${koreanLabel(issue.field)} · ${koreanLabel(issue.category || 'editorial')}`));
   if (issue.text) card.append(element('p', `AI 검토 원문: ${issue.text}`, 'editorial-quote'));
@@ -422,6 +429,7 @@ function editorialCard(issue) {
     const decision = issue.decision;
     card.append(element('p', decision.status === 'edited' ? '수정 반영 완료' : '에디터 패스', 'editorial-decision'));
     card.append(element('p', `처리 사유: ${decision.reason}`), element('p', editorialActor(decision), 'editorial-form-note'));
+    if (event?.operation === 'edit') card.append(editorialChange(event));
     const reopen = element('button', '다시 검토'); reopen.type = 'button';
     reopen.addEventListener('click', () => run(() => saveEditorialChange({ operation: 'reopen', issueId: issue.id }, token)));
     card.append(reopen);
@@ -464,29 +472,35 @@ function renderEditorialReview(review) {
     root.append(element('p', '원고를 수정했습니다. 바뀐 원고의 팩트시트와 사실 검수를 갱신하세요.', 'editorial-summary'));
   }
   for (const issue of waiting) root.append(editorialCard(issue));
-  if (resolved.length) {
+  const history = Array.isArray(review.manualHistory) ? review.manualHistory : [];
+  const decisions = new Map(resolved.map(issue => [issue.id, issue.decision]));
+  const latest = new Map();
+  history.forEach((event, index) => {
+    const decision = decisions.get(event.issueId);
+    if (decision && event.reviewId === review.reviewId && event.at === decision.at
+        && event.operation === (decision.status === 'edited' ? 'edit' : 'pass')) latest.set(event.issueId, index);
+  });
+  // 현재 처리 결과는 카드에서 한 번만 보여 주고, 그 전의 기록만 아래에 남깁니다.
+  const shown = new Set(latest.values());
+  const earlier = history.filter((event, index) => !shown.has(index));
+  if (resolved.length || earlier.length) {
     const done = document.createElement('details'); done.className = 'editorial-resolved';
-    done.append(element('summary', `처리한 편집 의견 ${resolved.length}건 · 보기/다시 검토`));
-    for (const issue of resolved) done.append(editorialCard(issue));
-    root.append(done);
-  }
-  const history = review.manualHistory || [];
-  if (history.length) {
-    const log = document.createElement('details'); log.className = 'editorial-history';
-    log.append(element('summary', `처리 이력 ${history.length}건${history.length > 20 ? ' · 최근 20건' : ''}`));
-    const list = document.createElement('ol');
-    for (const event of history.slice(-20).reverse()) {
-      const item = document.createElement('li');
-      const operation = { edit: '원고 수정', pass: '패스', reopen: '다시 검토' }[event.operation] || '처리';
-      item.append(element('strong', `${event.issueId} · ${operation}`), element('p', editorialActor(event), 'editorial-form-note'), element('p', `사유: ${event.reason}`));
-      if (event.issue?.text) item.append(element('p', `AI 검토 대상: ${event.issue.text}`, 'editorial-quote'));
-      if (event.operation === 'edit') {
-        const change = document.createElement('details'); change.append(element('summary', '수정 전후 보기'));
-        change.append(element('p', `수정 전: ${event.original}`, 'editorial-quote'), element('p', `수정 후: ${event.replacement || '(삭제)'}`, 'editorial-quote')); item.append(change);
+    done.append(element('summary', resolved.length ? `처리한 편집 의견 ${resolved.length}건 · 보기/다시 검토` : `처리한 편집 의견 · 이전 기록 ${earlier.length}건`));
+    for (const issue of resolved) done.append(editorialCard(issue, history[latest.get(issue.id)]));
+    if (earlier.length) {
+      done.append(element('p', `이전 처리 기록 ${earlier.length}건${earlier.length > 20 ? ' · 최근 20건' : ''}`, 'editorial-record-heading'));
+      const list = document.createElement('ol'); list.className = 'editorial-activity-list';
+      for (const event of earlier.slice(-20).reverse()) {
+        const item = document.createElement('li');
+        const operation = { edit: '원고 수정', pass: '패스', reopen: '다시 검토' }[event.operation] || '처리';
+        item.append(element('strong', `${event.issueId} · ${operation}`), element('p', editorialActor(event), 'editorial-form-note'), element('p', `사유: ${event.reason}`));
+        if (event.issue?.text) item.append(element('p', `AI 검토 대상: ${event.issue.text}`, 'editorial-quote'));
+        if (event.operation === 'edit') item.append(editorialChange(event));
+        list.append(item);
       }
-      list.append(item);
+      done.append(list);
     }
-    log.append(list); root.append(log);
+    root.append(done);
   }
 }
 

@@ -256,13 +256,15 @@ button:disabled {
 .editorial-human-form textarea:focus, .editorial-human-form select:focus { outline: 2px solid #c55448; outline-offset: 2px; }
 .editorial-form-note { color: #a99c93; font-size: 11px; line-height: 1.8; }
 .editorial-decision { color: #b3c7b4; font-weight: 700; }
-.editorial-resolved, .editorial-history { margin-top: 16px; border: 1px solid #51413a; border-radius: 5px; padding: 14px; }
-.editorial-resolved > summary, .editorial-history > summary { cursor: pointer; font-size: 12px; font-weight: 700; line-height: 1.7; }
+.editorial-resolved { margin-top: 16px; border: 1px solid #51413a; border-radius: 5px; padding: 14px; }
+.editorial-resolved > summary { cursor: pointer; font-size: 12px; font-weight: 700; line-height: 1.7; }
 .editorial-resolved .issue { border-left-color: #78896b; background: #20241f; margin-top: 14px; }
-.editorial-history ol { padding-left: 18px; }
-.editorial-history li { padding: 12px 0; border-bottom: 1px solid #403731; font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; }
-.editorial-history li p { margin: 7px 0; }
-.editorial-history li summary { cursor: pointer; }
+.editorial-change { margin-top: 12px; }
+.editorial-change > summary { cursor: pointer; font-size: 12px; line-height: 1.8; }
+.editorial-record-heading { margin: 20px 0 8px; color: #d5b89d; font-size: 12px; }
+.editorial-activity-list { padding-left: 18px; }
+.editorial-activity-list li { padding: 12px 0; border-bottom: 1px solid #403731; font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; }
+.editorial-activity-list li p { margin: 7px 0; }
 
 .section-toggle {
   font-size: 11px;
