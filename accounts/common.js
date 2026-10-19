@@ -85,29 +85,51 @@
     state.likesLoaded = true;
   }
 
-  function syncLikeButtons(songId) {
+  function syncLikeButtons(songId, animate = false) {
     document.querySelectorAll('[data-like-song]').forEach(button => {
       const id = Number(button.dataset.likeSong);
       if (songId !== undefined && id !== songId) return;
       const liked = state.likedIds.has(id);
-      const icon = liked ? '♥' : '♡';
-      button.textContent = button.classList.contains('like-button-icon') ? icon : `${icon} 좋아요`;
+      const wasLiked = button.getAttribute('aria-pressed') === 'true';
+      if (!button.classList.contains('like-button-icon')) button.textContent = liked ? '♥ 좋아요' : '♡ 좋아요';
       button.setAttribute('aria-pressed', String(liked));
       button.classList.toggle('is-liked', liked);
       button.setAttribute('aria-label', `${button.dataset.songLabel} ${liked ? '좋아요 취소' : '좋아요'}`);
       button.title = button.getAttribute('aria-label');
+      if (!liked) button.classList.remove('is-popping');
+      if (animate && liked && !wasLiked) {
+        button.classList.remove('is-popping');
+        void button.offsetWidth;
+        button.classList.add('is-popping');
+      }
     });
+  }
+
+  function heartIcon() {
+    const ns = 'http://www.w3.org/2000/svg';
+    const icon = document.createElementNS(ns, 'svg');
+    icon.setAttribute('viewBox', '0 0 24 24');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.setAttribute('focusable', 'false');
+    icon.classList.add('like-heart');
+    const shape = document.createElementNS(ns, 'path');
+    shape.setAttribute('d', 'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z');
+    icon.append(shape);
+    return icon;
   }
 
   function addLikeButton(container, song, { iconOnly = false } = {}) {
     const id = Number(song.id);
     if (!Number.isInteger(id) || id <= 0) return;
-    const button = node('button', iconOnly ? '♡' : '♡ 좋아요', iconOnly ? 'like-button like-button-icon' : 'like-button');
+    const button = node('button', undefined, iconOnly ? 'like-button like-button-icon' : 'like-button');
+    if (iconOnly) button.append(heartIcon());
+    else button.textContent = '♡ 좋아요';
     button.type = 'button'; button.dataset.likeSong = String(id);
     button.dataset.songLabel = song.artist + ' - ' + song.title;
     button.setAttribute('aria-pressed', 'false');
     container.append(button);
     syncLikeButtons(id);
+    button.addEventListener('animationend', () => button.classList.remove('is-popping'));
     button.addEventListener('click', async () => {
       button.disabled = true;
       try {
@@ -117,7 +139,7 @@
         await loadLikeIds();
         const data = await api('/api/me/likes/' + id, { method: state.likedIds.has(id) ? 'DELETE' : 'PUT' });
         if (data.liked) state.likedIds.add(id); else state.likedIds.delete(id);
-        syncLikeButtons(id);
+        syncLikeButtons(id, true);
         document.dispatchEvent(new CustomEvent('tr:likes-changed', { detail: data }));
       } catch (error) {
         if (error.status === 401) location.assign(loginUrl());

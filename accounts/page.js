@@ -77,24 +77,33 @@
 
   async function loadLikes() {
     const data = await A.api('/api/me/likes?page=' + likesPage);
-    if (!data.items.length && data.total && likesPage > 1) { likesPage--; return loadLikes(); }
+    if (!data.items.length && likesPage > 1) { likesPage = Math.max(1, Math.ceil(data.total / data.pageSize)); return loadLikes(); }
     $('likes-count').textContent = data.total;
     $('likes-list').replaceChildren();
     if (!data.items.length) {
-      const empty = A.node('div', undefined, 'empty-state');
+      const row = A.node('tr'), empty = A.node('td', undefined, 'empty-state');
+      empty.colSpan = 7;
       empty.append(A.node('strong', '아직 좋아요한 곡이 없어요.'), A.node('p', '추천곡에서 하트를 눌러 첫 곡을 모아보세요.'));
       const home = A.node('a', '오늘의 음악 찾기 ↗', 'account-secondary'); home.href = '/'; empty.append(home);
-      $('likes-list').append(empty);
+      row.append(empty); $('likes-list').append(row);
     }
-    for (const song of data.items) {
+    for (const [index, song] of data.items.entries()) {
       A.state.likedIds.add(song.id);
-      const card = A.node('article', undefined, 'saved-song');
-      card.append(A.node('p', `${song.year} · ${song.genre}`, 'song-caption'), A.node('h3', song.title), A.node('p', song.artist, 'saved-artist'), A.node('p', date(song.liked_at) + ' 저장', 'saved-date'));
-      const links = A.node('div', undefined, 'saved-links');
+      const row = A.node('tr');
+      const number = A.node('td', (likesPage - 1) * data.pageSize + index + 1, 'likes-number');
+      const title = A.node('th', song.title, 'likes-song-title'); title.scope = 'row';
+      const artist = A.node('td', song.artist, 'likes-artist');
+      const details = A.node('td', `${song.year} · ${song.genre}`, 'likes-details');
+      const saved = A.node('td', date(song.liked_at), 'likes-date');
+      const listen = A.node('td');
       const youtube = A.node('a', 'YouTube ↗');
       youtube.href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(song.artist + ' ' + song.title);
-      youtube.target = '_blank'; youtube.rel = 'noopener'; links.append(youtube);
-      card.append(links); $('likes-list').append(card); A.addLikeButton(links, song);
+      youtube.target = '_blank'; youtube.rel = 'noopener';
+      youtube.setAttribute('aria-label', `${song.artist} - ${song.title} YouTube에서 듣기`);
+      listen.append(youtube);
+      const action = A.node('td', undefined, 'likes-action');
+      row.append(number, title, artist, details, saved, listen, action);
+      $('likes-list').append(row); A.addLikeButton(action, song, { iconOnly: true });
     }
     $('likes-prev').disabled = likesPage <= 1;
     $('likes-next').disabled = likesPage * data.pageSize >= data.total;

@@ -14,8 +14,14 @@
     <p class="page-message" id="page-message" role="status" aria-live="polite"></p>
     <section class="account-box likes-section" aria-labelledby="likes-title">
       <div class="box-heading"><h2 id="likes-title">좋아요한 곡 <span id="likes-count" class="count-tag">0</span></h2><a class="small-link" href="/">오늘의 음악 찾기 ↗</a></div>
-      <p class="account-muted">하트를 누른 곡이 최근 순서로 모여요.</p>
-      <div id="likes-list" class="likes-grid"><p class="empty-state">곡을 불러오고 있어요.</p></div>
+      <p class="account-muted">최근에 좋아요한 순서로 모여요. 하트를 다시 누르면 목록에서 빠져요.</p>
+      <div class="likes-table-wrap" role="region" aria-label="좋아요한 곡 목록" tabindex="0">
+        <table class="likes-table" aria-labelledby="likes-title">
+          <thead><tr><th scope="col">번호</th><th scope="col">곡명</th><th scope="col">뮤지션</th><th scope="col">연도 · 장르</th><th scope="col">저장일</th><th scope="col">듣기</th><th scope="col">좋아요</th></tr></thead>
+          <tbody id="likes-list"><tr><td colspan="7" class="empty-state">곡을 불러오고 있어요.</td></tr></tbody>
+        </table>
+      </div>
+      <p class="account-muted likes-scroll-hint">표를 좌우로 움직여 나머지 정보를 확인할 수 있어요.</p>
       <div class="pagination"><button id="likes-prev" type="button" disabled>이전</button><span id="likes-page">1</span><button id="likes-next" type="button" disabled>다음</button></div>
     </section>
     <div class="profile-grid">
