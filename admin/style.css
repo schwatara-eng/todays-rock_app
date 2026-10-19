@@ -1315,3 +1315,12 @@ button:disabled {
 .artist-korean input {
   accent-color: #c64d42;
 }
+
+.artist-korean-save {
+  padding: 6px 12px;
+  font-size: 11px;
+}
+
+.artist-korean-save:disabled {
+  opacity: .55;
+}

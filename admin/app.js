@@ -525,6 +525,7 @@ function showArticle(article) {
 
 function showState(data, replaceArticle = true) {
   lastState = data;
+  syncKorean(data);
   if (replaceArticle) showArticle(data.article);
   renderFacts(data.factSheet);
   renderEditorialReview(data.editorialReview);
@@ -588,6 +589,7 @@ async function run(task) {
     message(`오류: ${error.message}`);
   } finally {
     buttons.forEach((button) => { button.disabled = ['export-article', 'publish'].includes(button.id) ? (!lastState?.state?.approved || hasUnsavedChanges()) : false; });
+    markKorean();   // '한국 뮤지션' 저장 버튼은 바뀐 내용이 있을 때만 켭니다.
     $('artist-select').disabled = false;
   }
 }
@@ -620,8 +622,6 @@ async function loadArtists(extra = null) {
     return option;
   }));
   select.value = currentArtist;
-  const now = list.find((a) => a.id === currentArtist);
-  $('artist-korean').checked = Boolean(now?.korean);
   return list;
 }
 
@@ -668,18 +668,35 @@ $('artist-select').addEventListener('change', (event) => run(async () => {
   message('뮤지션을 바꿨습니다. 이 뮤지션의 원고와 검토 기록을 불러왔습니다.');
 }));
 
-// '한국 뮤지션' 체크: 바로 저장하고, 이미 게시된 뮤지션이면 홈 아카이브 표시도 함께 바꿉니다.
-$('artist-korean').addEventListener('change', (event) => run(async () => {
-  const korean = event.target.checked;
-  if (pendingArtistInfo) {            // 아직 저장 전인 새 뮤지션은 초안 저장 때 함께 저장
+// '한국 뮤지션' 체크 + 저장 버튼
+// 체크 표시는 항상 서버에 저장된 값(현재 뮤지션의 원고 정보)에서 다시 그립니다.
+// 뮤지션을 바꾸면 그 뮤지션의 값으로 바뀌고, 체크만 바꾼 상태에서는 '저장' 버튼이 켜집니다.
+let savedKorean = false;
+function syncKorean(data) {
+  savedKorean = pendingArtistInfo ? Boolean(pendingArtistInfo.korean) : data?.article?.artist?.korean === true;
+  $('artist-korean').checked = savedKorean;
+  markKorean();
+}
+function markKorean() {
+  const button = $('artist-korean-save');
+  const dirty = $('artist-korean').checked !== savedKorean;
+  button.disabled = !dirty;
+  button.textContent = dirty ? '저장' : '저장됨';
+  button.classList.toggle('primary', dirty);
+}
+$('artist-korean').addEventListener('change', markKorean);
+$('artist-korean-save').addEventListener('click', () => run(async () => {
+  const korean = $('artist-korean').checked;
+  if (pendingArtistInfo) {            // 아직 저장 전인 새 뮤지션은 초안 저장 때 함께 저장됩니다.
     pendingArtistInfo.korean = korean;
-    message(korean ? '한국 뮤지션으로 표시합니다. 초안을 저장하면 반영됩니다.' : '한국 뮤지션 표시를 껐습니다.');
+    savedKorean = korean; markKorean();
+    message('새 뮤지션이라 초안을 저장할 때 함께 저장됩니다.');
     return;
   }
   const data = await post('/local/artist-info', { korean });
   showState(data, false);
   await loadArtists();
-  message(korean ? "한국 뮤지션으로 표시했습니다. 아카이브에는 '한글 (영문)' 순서로 보입니다." : "한국 뮤지션 표시를 껐습니다. 아카이브에는 '영문 (한글)' 순서로 보입니다.");
+  message(korean ? "한국 뮤지션으로 저장했습니다. 아카이브에는 '한글 (영문)' 순서로 보입니다." : "한국 뮤지션 표시를 껐습니다. 아카이브에는 '영문 (한글)' 순서로 보입니다.");
 }));
 
 $('artist-new').addEventListener('click', () => {
