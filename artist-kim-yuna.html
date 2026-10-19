@@ -135,12 +135,49 @@
 </ol>       </div>
       </div>
      </div>
-    <p>
-     <a class="archive-back-link" href="index.html">
-      ← 오늘의 뮤지션으로 돌아가기
-     </a>
+    <p class="archive-nav">
+     <a class="archive-back-link" href="index.html">← 오늘의 뮤지션으로 돌아가기</a>
+     <span class="archive-nav-group" id="archive-nav-group" hidden>
+      <span class="archive-nav-divider" aria-hidden="true"></span>
+      <span class="archive-nav-label">ARCHIVE</span>
+      <span class="archive-nav-list" id="archive-nav-list"></span>
+     </span>
     </p>
    </section>
   </main>
+  <script>
+   // 다른 지난 뮤지션 링크: 홈과 같은 artist-archive.json을 읽어 그립니다. (지금 보는 뮤지션은 링크 없이 표시)
+   (async () => {
+     const group = document.querySelector("#archive-nav-group");
+     const list = document.querySelector("#archive-nav-list");
+     let archive = [];
+     try {
+       const response = await fetch("artist-archive.json", { cache: "no-store" });
+       if (response.ok) archive = (await response.json()).archive || [];
+     } catch {
+       archive = [];
+     }
+     const here = location.pathname.split("/").pop();
+     archive.forEach((artist, index) => {
+       if (index) {
+         const separator = document.createElement("span");
+         separator.className = "archive-nav-separator";
+         separator.textContent = "/";
+         list.appendChild(separator);
+       }
+       const current = artist.url === here;
+       const item = document.createElement(current ? "span" : "a");
+       item.className = "archive-nav-item" + (current ? " current" : "");
+       if (current) item.setAttribute("aria-current", "page");
+       else item.href = artist.url;
+       // 한국 뮤지션은 '한글 (영문)', 그 밖에는 '영문 (한글)'
+       item.textContent = !artist.nameKo ? artist.name
+         : artist.korean ? `${artist.nameKo} (${artist.name})`
+         : `${artist.name} (${artist.nameKo})`;
+       list.appendChild(item);
+     });
+     group.hidden = archive.length === 0;
+   })();
+  </script>
  </body>
 </html>

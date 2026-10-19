@@ -1363,3 +1363,89 @@ main > .artist-feature .artist-feature-sources {
   justify-content: space-between;
   gap: 12px;
 }
+
+/* 지난 뮤지션 페이지 하단: 돌아가기 + ARCHIVE 링크 (홈의 ARCHIVE 줄과 같은 톤) */
+.archive-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin: 32px 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.18);
+}
+
+.archive-nav .archive-back-link {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.archive-nav-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+  flex: 1;
+}
+
+.archive-nav-group[hidden] {
+  display: none;
+}
+
+.archive-nav-divider {
+  flex-shrink: 0;
+  width: 1px;
+  height: 14px;
+  background: rgba(255,255,255,.25);
+}
+
+.archive-nav-label {
+  flex-shrink: 0;
+  color: #d56c61;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.archive-nav-list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.archive-nav-list::-webkit-scrollbar {
+  display: none;
+}
+
+.archive-nav-item {
+  flex-shrink: 0;
+  color: #eae4de;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+a.archive-nav-item:hover,
+.archive-nav-item.current {
+  color: #d56c61;
+  text-decoration: underline;
+}
+
+.archive-nav-separator {
+  color: #69615d;
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  .archive-nav-group {
+    flex-basis: 100%;
+    gap: 12px;
+  }
+
+  .archive-nav-divider {
+    display: none;
+  }
+}
