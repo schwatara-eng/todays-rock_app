@@ -881,6 +881,11 @@ footer {
   line-height: 1.55;
 }
 
+/* 앨범명은 <em>으로 표시하되 이탤릭 없이 똑바로 세운다 */
+.artist-feature-history em {
+  font-style: normal;
+}
+
 .artist-feature-history li p {
   margin: 6px 0 0;
   font-size: 13px;
