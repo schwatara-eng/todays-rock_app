@@ -1049,8 +1049,8 @@ function setPublishLook(mode) {
   const looks = {
     locked: ['홈에 게시', '편집자 승인 후 사용할 수 있습니다.'],
     unsaved: ['홈에 게시', '수정한 원고를 저장하고 다시 승인해야 합니다.'],
-    ready: ['홈에 게시 ↗', '오늘의 뮤지션을 이 기사로 바꾸고, 이전 기사는 아카이브로 옮깁니다.'],
-    published: ['게시 완료', '홈의 오늘의 뮤지션에 반영됐습니다. 다시 누르면 재게시합니다.'],
+    ready: ['홈에 게시 ↗', '오늘의 뮤지션을 이 기사로 바꾸고,\n이전 기사는 아카이브로 옮깁니다.'],
+    published: ['게시 완료', '홈의 오늘의 뮤지션에 반영됐습니다.\n다시 누르면 재게시합니다.'],
   };
   const [title, note] = looks[mode] || looks.locked;
   $('publish-title').textContent = title;

@@ -802,6 +802,7 @@ button:disabled {
   max-width: 200px;
   font-size: 12px;
   line-height: 1.6;
+  white-space: pre-line;   /* 문구 속 줄바꿈(\n)을 그대로 보여 줍니다 */
   opacity: .85;
 }
 
