@@ -1324,3 +1324,21 @@ button:disabled {
 .artist-korean-save:disabled {
   opacity: .55;
 }
+
+/* 작업 중 화면 잠금: 투명한 막이 화면 전체를 덮고 커서를 대기(모래시계) 모양으로 바꿉니다. */
+.busy-shield {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  background: transparent;
+  cursor: wait;
+}
+
+.busy-shield[hidden] {
+  display: none;
+}
+
+html.is-busy,
+html.is-busy * {
+  cursor: wait !important;
+}

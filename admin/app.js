@@ -579,7 +579,40 @@ async function post(endpoint, payload = {}) {
   return readJson(response);
 }
 
+// 작업 중(팩트시트·출처 검증·편집 검토 등)에는 화면 전체를 투명한 막으로 덮습니다.
+//  - 막 위에서는 커서가 어디서든 대기(모래시계) 모양으로 바뀝니다.
+//  - 클릭과 키 입력을 막아, 작업 중에 새로 그려진 버튼(예: '이 항목만 검증')을
+//    눌러 다른 작업이 겹쳐 시작되거나 진행 중인 작업이 끊기지 않게 합니다.
+//  - 스크롤은 그대로 되므로 진행 상황은 계속 볼 수 있습니다.
+let busy = false;
+const busyShield = document.createElement('div');
+busyShield.className = 'busy-shield';
+busyShield.hidden = true;
+busyShield.setAttribute('aria-hidden', 'true');
+document.body.append(busyShield);
+
+function setBusy(on) {
+  busy = on;
+  busyShield.hidden = !on;
+  document.documentElement.classList.toggle('is-busy', on);
+  document.body.setAttribute('aria-busy', String(on));
+  if (on && document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
+}
+
+// 작업 중에는 스크롤 키만 허용하고, 그 밖의 키 입력(Enter·Space·글자 입력 등)은 막습니다.
+const SCROLL_KEYS = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'];
+document.addEventListener('keydown', (event) => {
+  if (busy && !SCROLL_KEYS.includes(event.key)) { event.preventDefault(); event.stopPropagation(); }
+}, true);
+
+// 작업 중에 창을 닫거나 새로고침하면 한 번 더 묻습니다.
+window.addEventListener('beforeunload', (event) => {
+  if (busy) { event.preventDefault(); event.returnValue = ''; }
+});
+
 async function run(task) {
+  if (busy) return;   // 이미 작업 중이면 새 작업을 시작하지 않습니다.
+  setBusy(true);
   const buttons = [...document.querySelectorAll('button')];
   buttons.forEach((button) => { button.disabled = true; });
   $('artist-select').disabled = true;
@@ -591,6 +624,7 @@ async function run(task) {
     buttons.forEach((button) => { button.disabled = ['export-article', 'publish'].includes(button.id) ? (!lastState?.state?.approved || hasUnsavedChanges()) : false; });
     markKorean();   // '한국 뮤지션' 저장 버튼은 바뀐 내용이 있을 때만 켭니다.
     $('artist-select').disabled = false;
+    setBusy(false);
   }
 }
 
