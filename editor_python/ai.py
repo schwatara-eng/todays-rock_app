@@ -294,7 +294,15 @@ async def review(article,sheet):
         except EditorError:pass
     return dict(articleId=article.get('id','jack-white'),status='needs_review',issues=issues,report=report,approved=False,note='외부 출처 기반 AI 보조 검수입니다. 사람의 원출처 확인이 필요합니다.')
 
+# 코너명(섹션 제목)은 사이트 고정 양식이라 편집 검토 의견에서 뺍니다.
+# 띄어쓰기·문장부호·대소문자는 무시하고 비교합니다. (EDITOR’S COMMENT → editorscomment)
+CORNER_LABELS={'artist','editorscomment','에디터코멘트','주요앨범과활동','대표곡'}
+
+def is_corner_label(issue):
+    return re.sub(r'[\W_]+','',str((issue or {}).get('text') or '')).lower() in CORNER_LABELS
+
 async def editorial(article):
     r=await structured('editorial',{'article':article},'editorialSchema')
     if not isinstance(r.get('issues'),list):raise EditorError('편집 검토 결과 형식 오류',502)
-    return dict(type='editorial',issues=r['issues'][:5],approved=False,note='AI 편집 의견입니다. 사실 검수 및 편집자 승인을 대체하지 않습니다.')
+    issues=[i for i in r['issues'] if not is_corner_label(i)]
+    return dict(type='editorial',issues=issues[:5],approved=False,note='AI 편집 의견입니다. 사실 검수 및 편집자 승인을 대체하지 않습니다.')

@@ -169,3 +169,16 @@ def test_unsaved_or_wrong_artist_draft_is_rejected(saved_state, article):
             act('editorial-edit', article=article, **payload(review))
     finally:
         routes.current.reset(token)
+
+
+def test_corner_labels_are_dropped_from_editorial_review(monkeypatch):
+    labels = ["EDITOR’S COMMENT", "EDITOR'S COMMENT", '에디터 코멘트', '주요 앨범과 활동', '대표곡', 'ARTIST']
+    issues = [dict(field='body', category='style', text=t, reason='표기 혼용', suggestion='통일하세요.') for t in labels]
+    issues.append(dict(field='body', category='readability', text='매끈하게 다듬은 소리에 지쳤다면', reason='긴 문장', suggestion='나누세요.'))
+
+    async def fake(kind, payload, schema, tokens=6500):
+        return {'issues': issues}
+
+    monkeypatch.setattr(ai, 'structured', fake)
+    result = asyncio.run(ai.editorial({'title': '제목', 'body': '본문'}))
+    assert [i['text'] for i in result['issues']] == ['매끈하게 다듬은 소리에 지쳤다면']
