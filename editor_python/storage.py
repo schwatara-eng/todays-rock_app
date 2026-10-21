@@ -157,6 +157,12 @@ def get_archive():
     return row['data'] if row else _file_archive()
 
 
+def public_archive():
+    """공개 API 응답에는 비공개 목록과 내부 이력을 포함하지 않습니다."""
+    data = get_archive()
+    return {'current': data.get('current'), 'archive': data.get('archive') or []}
+
+
 def _published(pick):
     """게시 목록과, pick(목록)이 고른 뮤지션의 기사 본문을 DB 연결 한 번으로 함께 가져옵니다."""
     try:
@@ -256,11 +262,14 @@ def archive_page(slug):
     """지난 뮤지션 페이지. DB에 기사가 있으면 저장소의 아카이브 틀로 만들고, 없으면 파일 그대로."""
     from . import publish
     _, entry, block = _published(lambda data: next((a for a in (data or {}).get('archive', []) if a.get('id') == slug), None))
+    if not entry:
+        return None
     if block:
         template = publish.TEMPLATE.read_text(encoding='utf-8')
         return publish.archive_page(template, block, entry.get('name', ''), entry.get('nameKo', ''), entry.get('korean') is True)
-    # 공개 목록에 없는 기사(비공개 포함)는 파일이 남아 있어도 제공하지 않는다.
-    return None
+    # 기존 정적 아카이브: 공개 목록에 있는 파일만 허용합니다.
+    file = ROOT / f'artist-{slug}.html'
+    return file.read_text(encoding='utf-8') if file.is_file() else None
 
 
 def migrate_files(force=False):
