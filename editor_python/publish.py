@@ -208,6 +208,8 @@ def publish(artist_id, article, sheet, now):
     entry = {'id': artist_id, 'name': artist.get('name') or artist_id, 'nameKo': artist.get('nameKo') or '',
              'korean': artist.get('korean') is True}
     data = load_archive()
+    data.setdefault('hidden', [])
+    data['hidden'] = [a for a in data['hidden'] if a.get('id') != artist_id]
     old_data = json.dumps(data, ensure_ascii=False)
     stamp = datetime.now().strftime('%Y%m%d-%H%M%S')
     features, history, moved = {}, [('archive', 'artist-archive.json', old_data)], None
@@ -231,8 +233,38 @@ def publish(artist_id, article, sheet, now):
     # 2) 새 기사 본문을 만들어 '현재'로 둡니다. 게시한 뮤지션은 지난 목록에서 뺍니다.
     features[artist_id] = render_feature(article, photo, sheet)
     data['archive'] = [a for a in data.get('archive', []) if a.get('id') != artist_id]
-    data['current'] = dict(entry, publishedAt=now)
+    data['current'] = dict(entry, publishedAt=now, lastActivatedAt=now)
 
     # 3) 한 번에 저장합니다. (실패하면 아무것도 바뀌지 않음, 직전 상태는 site_history에 백업)
     storage.save_publication(data, features, history, stamp)
     return {'published': artist_id, 'archived': moved, 'backup': stamp}
+
+
+def unpublish(artist_id, now):
+    """공개 기사만 내리고 직전 아카이브 기사를 자동 복원합니다."""
+    data = load_archive()
+    outgoing = data.get('current')
+    archive = list(data.get('archive') or [])
+    hidden = list(data.get('hidden') or [])
+    target = outgoing if outgoing and outgoing.get('id') == artist_id else next(
+        (a for a in archive if a.get('id') == artist_id), None)
+    if not target:
+        raise PublishError('공개된 기사를 찾지 못했습니다.', 409)
+    entry = dict(target, unpublishedAt=now)
+    entry.pop('url', None)
+    hidden = [a for a in hidden if a.get('id') != artist_id]
+    hidden.insert(0, entry)
+    archive = [a for a in archive if a.get('id') != artist_id]
+    restored = None
+    if outgoing and outgoing.get('id') == artist_id:
+        restored = archive.pop(0) if archive else None
+        if restored:
+            restored = dict(restored)
+            restored.pop('url', None)
+            restored['lastActivatedAt'] = now
+        data['current'] = restored
+    data['archive'] = archive
+    data['hidden'] = hidden
+    stamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+    storage.save_publication(data, {}, [('archive', 'artist-archive.json', json.dumps(load_archive(), ensure_ascii=False))], stamp)
+    return {'unpublished': artist_id, 'restored': restored['id'] if restored else None}
