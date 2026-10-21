@@ -275,13 +275,20 @@ button:disabled {
 .workflow-writing .editor > .panel-head h2,
 .workflow-factcheck .panel-head h2,
 .fact-excluded-list > summary,
+/* '검수 보고서' 토글: 팩트시트 아래 '▶ 펼치기/▼ 접기'(.fact-fold-toggle 버튼)와 같은 서체.
+ * 버튼은 브라우저 기본 서체(system-ui)를 쓰므로 여기서도 같은 서체를 지정합니다. */
 .fact-report > summary {
-  font-family: Arial, "Malgun Gothic", sans-serif;
+  font-family: system-ui, "Malgun Gothic", sans-serif;
   font-size: 12px;
   font-weight: 700;
   font-style: normal;
-  letter-spacing: 1.6px;
+  letter-spacing: .5px;
   line-height: 1.5;
+  color: #d7b69c;
+}
+
+.fact-report > summary:hover {
+  color: #f2efe8;
 }
 
 /* ── 3. 작업 공간 배치 (app.js의 setupEditorialWorkflow가 만드는 구조) ──
@@ -550,6 +557,7 @@ button:disabled {
   border-radius: 0;
   background: none;
   color: #d7b69c;
+  font-family: system-ui, "Malgun Gothic", sans-serif;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .5px;
