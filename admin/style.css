@@ -1343,3 +1343,9 @@ html.is-busy,
 html.is-busy * {
   cursor: wait !important;
 }
+
+/* 기사 공개 관리: 기존 게시 카드와 동일한 편집실 톤 */
+.unpublish-button { grid-column: 2; padding: 10px 14px; background: #24211f; border: 1px solid #876a61; color: #f0ddd7; cursor: pointer; font: inherit; }
+.unpublish-button[hidden] { display: none; }
+.unpublish-button:hover { background: #3a2724; }
+@media (max-width: 900px) { .unpublish-button { grid-column: 1; } }
