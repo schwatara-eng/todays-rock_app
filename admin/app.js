@@ -559,6 +559,15 @@ function showPhoto(article) {
     thumb.hidden = true;
     $('photo-status').textContent = '등록된 사진이 없습니다. (PNG·JPG·WEBP, 4MB 이하)';
   }
+  const credit = $('photo-credit');
+  if (document.activeElement !== credit) credit.value = photoCredit(article);
+}
+
+// 사진 출처('PHOTO | ' 뒤에 붙는 글자). 입력한 적 없는 잭 화이트 원고는 예전 표기를 씁니다. (publish.py와 같은 규칙)
+function photoCredit(article) {
+  if (!article) return '';
+  if ('photoCredit' in article) return article.photoCredit || '';
+  return (article.artist?.name || '').trim().toLowerCase() === 'jack white' ? 'AI-generated (OpenAI)' : '';
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -891,6 +900,18 @@ async function renderPreview() {
     photoImg.src = `/site/${photo}?v=${encodeURIComponent(lastState.article.photoUpdatedAt || '')}`;
     photoImg.alt = name.nameKo || name.name || article.title;
   }
+  // 사진 출처: 입력한 출처로 바꾸고, 비어 있으면 출처 표시를 뺍니다.
+  const figure = doc.querySelector('.artist-feature-photo');
+  const creditText = $('photo-credit').value.replace(/\s+/g, ' ').trim().replace(/^PHOTO\s*[|:·]?\s*/i, '').trim();
+  let caption = figure?.querySelector('.artist-photo-credit');
+  if (figure && creditText) {
+    if (!caption) {
+      caption = doc.createElement('figcaption');
+      caption.className = 'artist-photo-credit';
+      figure.append(caption);
+    }
+    caption.textContent = `PHOTO | ${creditText}`;
+  } else if (caption) caption.remove();
   const normalizeName = v => v.replace(/[^\p{L}\p{N}]/gu, '').toLowerCase();
   const first = normalizeName(sections.intro[0] || '');
   if ([name.name, name.nameKo, `${name.nameKo}${name.name}`, `${name.name}${name.nameKo}`].filter(Boolean).some(v => normalizeName(v) === first)) sections.intro.shift();
@@ -1043,6 +1064,25 @@ $('photo-file').addEventListener('change', () => run(async () => {
     message('뮤지션 사진을 등록했습니다. 미리보기와 홈 게시에 이 사진이 쓰입니다.');
   } finally {
     input.value = '';
+  }
+}));
+
+// 사진 출처: 입력을 마치면(Enter 또는 칸 밖 클릭) 저장합니다. 미리보기와 홈 게시에 'PHOTO | 출처'로 표시됩니다.
+$('photo-credit').addEventListener('keydown', event => {
+  if (event.key === 'Enter') { event.preventDefault(); event.target.blur(); }
+});
+$('photo-credit').addEventListener('change', () => run(async () => {
+  const input = $('photo-credit');
+  const credit = input.value.replace(/\s+/g, ' ').trim();
+  if (credit === photoCredit(lastState?.article)) return;
+  try {
+    showState(await post('/local/photo-credit', { credit }), false);
+    message(credit
+      ? (lastState?.state?.published ? '사진 출처를 저장했습니다. 이미 게시된 기사는 홈 게시를 다시 하면 반영됩니다.' : '사진 출처를 저장했습니다.')
+      : '사진 출처를 지웠습니다. 출처 표시 없이 게시됩니다.');
+  } catch (error) {
+    input.value = photoCredit(lastState?.article);
+    throw error;
   }
 }));
 

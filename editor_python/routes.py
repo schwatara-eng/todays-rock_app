@@ -110,6 +110,16 @@ async def action(name,data,user=None):
         write('draft',dict(old,artist=dict(old['artist'],korean=data['korean'])))
         storage.set_archive_korean(current.get(),data['korean'])
         return state()
+    if name=='photo-credit':
+        # 사진 출처만 바꿉니다. 원고 내용이 아니므로 검수·승인은 그대로 둡니다. 빈 값이면 출처 표시를 뺍니다.
+        credit=data.get('credit')
+        if not isinstance(credit,str):raise ai.EditorError('사진 출처를 확인할 수 없습니다.',400)
+        credit=publisher.clean_credit(credit)
+        if len(credit)>100:raise ai.EditorError('사진 출처는 100자 이내로 입력하세요.',400)
+        old=read('draft')
+        if not valid(old):raise ai.EditorError('원고를 먼저 저장한 뒤 사진 출처를 입력하세요.',409)
+        write('draft',dict(old,photoCredit=credit))
+        return state()
     if name=='generate':raise ai.EditorError('AI 기사 자동 생성은 사용하지 않습니다. 에디터가 초안을 직접 작성하세요.',410)
     if name=='save':
         if not valid(data.get('article')):raise ai.EditorError('기사 제목 또는 본문을 확인하세요.',400)

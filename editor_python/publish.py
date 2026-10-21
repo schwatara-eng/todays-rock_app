@@ -54,6 +54,19 @@ def save_photo(artist_id, raw):
     return path
 
 
+def clean_credit(text):
+    """입력한 사진 출처를 정리합니다. 앞에 'PHOTO |'를 직접 적었으면 한 번만 붙도록 뺍니다."""
+    text = re.sub(r'\s+', ' ', str(text or '')).strip()
+    return re.sub(r'^PHOTO\s*[|:·]?\s*', '', text, flags=re.I).strip()
+
+
+def photo_credit(article, name):
+    """편집실에서 입력한 사진 출처. 입력한 적 없는 잭 화이트 원고는 예전 표기를 그대로 씁니다."""
+    if 'photoCredit' in article:
+        return clean_credit(article.get('photoCredit'))
+    return 'AI-generated (OpenAI)' if str(name).strip().lower() == 'jack white' else ''
+
+
 # ── 원고 → 기사 HTML ───────────────────────────────────────────
 def split_sections(body):
     sections = {'intro': [], 'history': [], 'comment': [], 'tracks': []}
@@ -108,12 +121,13 @@ def render_feature(article, photo, sheet):
     if s['intro'] and norm(s['intro'][0]) in {norm(name), norm(name_ko), norm(name_ko + name), norm(name + name_ko)}:
         s['intro'].pop(0)                         # 첫 줄이 뮤지션 이름이면 빼고 시작합니다.
     lead = s['intro'].pop(0) if s['intro'] else article['title']
+    credit = photo_credit(article, name)
 
     out = ['     <div class="artist-editorial-grid">',
            '      <div class="artist-editorial-left">',
            '       <figure class="artist-feature-photo">',
            f'        <img src="{e(photo)}" alt="{e(name_ko or name)}" loading="lazy" />',
-           *(['        <figcaption class="artist-photo-credit">PHOTO | AI-generated (OpenAI)</figcaption>'] if str(name).strip().lower() == 'jack white' else []),
+           *([f'        <figcaption class="artist-photo-credit">PHOTO | {t(credit)}</figcaption>'] if credit else []),
            '       </figure>',
            '      </div>',
            '      <div class="artist-editorial-right">',

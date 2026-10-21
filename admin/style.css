@@ -968,6 +968,43 @@ button:disabled {
   margin: 0 0 6px;
 }
 
+.photo-field > div {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* 파일 선택창 오른쪽에 사진 출처 입력란 */
+.photo-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.photo-inputs #photo-file {
+  flex: 0 1 auto;
+  width: auto;
+  max-width: 100%;
+}
+
+.editor .photo-credit-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 240px;
+  margin: 0;
+}
+
+.photo-credit-field span {
+  flex: none;
+}
+
+.photo-credit-field input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 8px 10px;
+}
+
 /* ── 8. 팩트 항목 수정·제외 ──────────────────────────────── */
 .fact-edit-actions {
   display: flex;

@@ -77,7 +77,13 @@
             <img id="photo-thumb" alt="등록된 뮤지션 사진" hidden>
             <div>
               <p id="photo-status" class="hint">등록된 사진이 없습니다.</p>
-              <input id="photo-file" type="file" accept="image/png,image/jpeg,image/webp">
+              <div class="photo-inputs">
+                <input id="photo-file" type="file" accept="image/png,image/jpeg,image/webp">
+                <label class="photo-credit-field">
+                  <span>출처</span>
+                  <input id="photo-credit" type="text" maxlength="100" placeholder="예: AI-generated (OpenAI)" aria-label="사진 출처 (PHOTO | 뒤에 표시)">
+                </label>
+              </div>
             </div>
           </div>
 
