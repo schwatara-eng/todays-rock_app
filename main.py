@@ -192,8 +192,11 @@ def from_db(load, fallback):
 @app.get("/index.html", include_in_schema=False)
 def homepage():
     # index.html 디자인은 저장소 파일, '오늘의 뮤지션' 기사는 DB의 최근 게시본
-    return from_db(lambda: HTMLResponse(editor_storage.home_page(), headers=NO_STORE),
-                   lambda: public_file("index.html"))
+    try:
+        return HTMLResponse(editor_storage.home_page(), headers=NO_STORE)
+    except DatabaseError:
+        logging.exception('현재 뮤지션 공개 상태 조회 실패')
+        raise HTTPException(status_code=503, detail='홈 게시 상태를 확인할 수 없습니다.')
 
 
 @app.get("/style.css", include_in_schema=False)
