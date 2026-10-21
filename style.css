@@ -1463,7 +1463,7 @@ a.archive-nav-item:hover,
 }
 .artist-photo-credit {
   position: absolute;
-  left: 0;
+  left: .3em; /* PHOTO 앞 스페이스 한 칸 정도 간격 */
   bottom: 0;
   z-index: 2;
   color: #fff;
