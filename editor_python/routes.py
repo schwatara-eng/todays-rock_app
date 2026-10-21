@@ -70,7 +70,10 @@ def state():
     editorial_hash=editorial_edit.fingerprint(editorial) if edit else None
     remaining=editorial_edit.pending(editorial) if edit else []
     approved=bool(fact and edit and approval and approval.get('articleHash')==h and approval.get('status')=='approved' and (approval.get('sheetHash')==sheet_hash or not sheet.get('manualRevision') and not approval.get('sheetHash')) and (approval.get('editorialHash')==editorial_hash or not editorial.get('manualRevision') and not approval.get('editorialHash')) and not review.get('issues') and not remaining)
-    return dict(factSheetHash=sheet_hash,editorialReviewHash=editorial_hash,artistId=current.get(),article=article,factSheet=sheet if research else None,review=review if review_current else None,editorialReview=editorial_edit.present(editorial) if edit else None,approval=approval if approved else None,state=dict(approved=approved,factCurrent=fact,researchCurrent=research,allVerified=verified,editorialCurrent=edit,editorialRemaining=len(remaining) if edit else None,status='approved' if approved else 'draft',published=False))
+    publication=storage.get_archive()
+    published=bool(publication.get('current') and publication['current'].get('id')==current.get() or any(a.get('id')==current.get() for a in publication.get('archive',[])))
+    hidden=any(a.get('id')==current.get() for a in publication.get('hidden',[]))
+    return dict(factSheetHash=sheet_hash,editorialReviewHash=editorial_hash,artistId=current.get(),article=article,factSheet=sheet if research else None,review=review if review_current else None,editorialReview=editorial_edit.present(editorial) if edit else None,approval=approval if approved else None,state=dict(approved=approved,factCurrent=fact,researchCurrent=research,allVerified=verified,editorialCurrent=edit,editorialRemaining=len(remaining) if edit else None,status='approved' if approved else 'draft',published=published,hidden=hidden,isCurrent=bool(publication.get('current') and publication['current'].get('id')==current.get())))
 
 def invalidate():write('approval',dict(status='draft',approved=False,invalidatedAt=ai.now()))
 
@@ -206,6 +209,9 @@ async def action(name,data,user=None):
         if not all(s['state'][k] for k in ('factCurrent','allVerified','editorialCurrent')):raise ai.EditorError(approval_blocker(s),409)
         if s['review'].get('issues') or editorial_edit.pending(read('editorial')):raise ai.EditorError('미처리 검토 지적이 남아 있습니다. 사실 검수와 편집 의견 처리를 완료하세요.',409)
         write('approval',dict(articleId=current.get(),articleHash=fingerprint(article),status='approved',approved=True,confirmedSources=True,sheetHash=fact_edit.fingerprint(s['factSheet']),editorialHash=s['editorialReviewHash'],approvedAt=ai.now(),published=False));return state()
+    if name=='unpublish':
+        result=publisher.unpublish(current.get(),ai.now())
+        return dict(state(),publishResult=result)
     if name=='publish':
         # 서버에 저장된 승인 상태를 다시 확인한 뒤에만 홈에 게시합니다.
         s=state()
