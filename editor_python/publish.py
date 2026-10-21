@@ -171,7 +171,7 @@ def render_feature(article, photo, sheet):
     sources = verified_sources(sheet)
     if sources:
         links = ' · '.join(f'<a href="{e(u)}" target="_blank" rel="noopener noreferrer">{t(l)} ↗</a>' for l, u in sources.items())
-        out.append(f'     <div class="artist-feature-sources">SOURCES {"|" if str(name).strip().lower() == "jack white" else "·"} {links}</div>')
+        out.append(f'     <div class="artist-feature-sources">SOURCES | {links}</div>')
     return '\n'.join(out)
 
 
@@ -180,8 +180,14 @@ def load_archive():
     return storage.get_archive()
 
 
+def sources_bar(block):
+    """예전에 'SOURCES · '로 게시된 기사도 'SOURCES | '로 보이게 맞춥니다."""
+    return block.replace('class="artist-feature-sources">SOURCES · ', 'class="artist-feature-sources">SOURCES | ')
+
+
 def splice_home(page, start, end, block):
     """index.html의 '오늘의 뮤지션' 표시 영역 안쪽을 block으로 바꿉니다."""
+    block = sources_bar(block)
     return page[:start] + START + '\n' + block + '\n    </div>\n    ' + page[end:]
 
 
@@ -210,7 +216,7 @@ def archive_page(template, block, name, name_ko, korean=False):
     if start < 0 or stop < start:
         raise PublishError('아카이브 틀(artist-jack-white.html)의 구조를 찾지 못했습니다.', 500)
     line_start = template.rfind('\n', 0, start) + 1
-    page = template[:line_start] + block.rstrip() + '\n    ' + template[stop:]
+    page = template[:line_start] + sources_bar(block).rstrip() + '\n    ' + template[stop:]
     title = display_name(name, name_ko, korean) + ' — TODAY’S ROCK'
     return re.sub(r'<title>.*?</title>', f'<title>{html.escape(title)}</title>', page, count=1, flags=re.S)
 

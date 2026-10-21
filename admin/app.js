@@ -966,7 +966,7 @@ async function renderPreview() {
     link.append(label, arrow); li.append(link); tracks.append(li);
   });
   // 출처: 템플릿(잭 화이트)의 출처는 비우고, 이 원고의 팩트시트에서
-  // '검증됨(VERIFIED)'인 출처만 모아 "SOURCES · 매체 ↗ · 매체 ↗" 형식으로 채웁니다.
+  // '검증됨(VERIFIED)'인 출처만 모아 "SOURCES | 매체 ↗ · 매체 ↗" 형식으로 채웁니다.
   const sourceBox = doc.querySelector('.artist-feature-sources');
   if (sourceBox) {
     const picked = new Map(); // 매체 이름 → 첫 번째 주소 (같은 매체는 한 번만)
@@ -988,7 +988,7 @@ async function renderPreview() {
       const a = doc.createElement('a');
       a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
       a.textContent = `${label} ↗`;
-      sourceBox.append(' · ', a);
+      sourceBox.append(sourceBox.childNodes.length > 1 ? ' · ' : ' | ', a);
     }
     sourceBox.hidden = picked.size === 0; // 검증된 출처가 없으면 줄 자체를 숨깁니다.
   }
