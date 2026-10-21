@@ -243,6 +243,10 @@ def home_page():
     page = (ROOT / 'index.html').read_text(encoding='utf-8')
     _, _, block = _published(lambda data: (data or {}).get('current'))
     if not block:
+        # DB에서 현재 기사 없음이 명시된 경우 저장소의 옛 기사를 노출하지 않는다.
+        if get_archive().get('current') is None:
+            start, end, _ = publish.home_block(page)
+            return publish.splice_home(page, start, end, '<p class="artist-copy">새로운 뮤지션 기사를 준비하고 있습니다.</p>')
         return page
     start, end, _ = publish.home_block(page)
     return publish.splice_home(page, start, end, block)
@@ -255,8 +259,8 @@ def archive_page(slug):
     if block:
         template = publish.TEMPLATE.read_text(encoding='utf-8')
         return publish.archive_page(template, block, entry.get('name', ''), entry.get('nameKo', ''), entry.get('korean') is True)
-    file = ROOT / f'artist-{slug}.html'
-    return file.read_text(encoding='utf-8') if file.is_file() else None
+    # 공개 목록에 없는 기사(비공개 포함)는 파일이 남아 있어도 제공하지 않는다.
+    return None
 
 
 def migrate_files(force=False):
