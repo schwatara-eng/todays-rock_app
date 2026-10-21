@@ -113,6 +113,7 @@ def render_feature(article, photo, sheet):
            '      <div class="artist-editorial-left">',
            '       <figure class="artist-feature-photo">',
            f'        <img src="{e(photo)}" alt="{e(name_ko or name)}" loading="lazy" />',
+           *(['        <figcaption class="artist-photo-credit">PHOTO | AI-generated (OpenAI)</figcaption>'] if str(name).strip().lower() == 'jack white' else []),
            '       </figure>',
            '      </div>',
            '      <div class="artist-editorial-right">',
@@ -156,7 +157,7 @@ def render_feature(article, photo, sheet):
     sources = verified_sources(sheet)
     if sources:
         links = ' · '.join(f'<a href="{e(u)}" target="_blank" rel="noopener noreferrer">{t(l)} ↗</a>' for l, u in sources.items())
-        out.append(f'     <div class="artist-feature-sources">SOURCES · {links}</div>')
+        out.append(f'     <div class="artist-feature-sources">SOURCES {"|" if str(name).strip().lower() == "jack white" else "·"} {links}</div>')
     return '\n'.join(out)
 
 
