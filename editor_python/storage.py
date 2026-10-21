@@ -215,6 +215,24 @@ def save_publication(archive, features, history, stamp):
                     (Jsonb(archive),))
 
 
+def delete_artist(artist_id, archive, backup, stamp):
+    """뮤지션 한 명의 편집 기록·사진·비공개 기사 본문을 한 번에 지웁니다.
+    지우기 전 내용(backup)은 site_history에 남깁니다. 중간에 실패하면 아무것도 바뀌지 않습니다.
+    archive: 비공개 목록에서 이 뮤지션을 뺀 게시 상태. 바꿀 필요가 없으면 None."""
+    photos = [f'images/artist-{artist_id}.{ext}' for ext in ('png', 'jpg', 'webp')]
+    with db() as cur:
+        cur.execute('INSERT INTO site_history (stamp, kind, name, content) VALUES (%s, %s, %s, %s)',
+                    (stamp, 'deleted-artist', artist_id, backup))
+        # kind='site'는 홈 게시 상태(artist_id='archive')라 지우지 않습니다.
+        cur.execute("DELETE FROM editor_docs WHERE artist_id = %s AND kind <> 'site'", (artist_id,))
+        cur.execute('DELETE FROM site_features WHERE artist_id = %s', (artist_id,))
+        cur.execute('DELETE FROM site_assets WHERE path = ANY(%s)', (photos,))
+        if archive is not None:
+            cur.execute("""INSERT INTO editor_docs (kind, artist_id, data, updated_at) VALUES ('site', 'archive', %s, timezone('utc', now()))
+                           ON CONFLICT (kind, artist_id) DO UPDATE SET data = EXCLUDED.data, updated_at = EXCLUDED.updated_at""",
+                        (Jsonb(archive),))
+
+
 # ── 사진 ───────────────────────────────────────────────────
 def put_asset(path, content, content_type, remove=()):
     with db() as cur:

@@ -1,5 +1,6 @@
 import asyncio
 import contextvars
+from datetime import datetime
 import hashlib
 import json
 import logging
@@ -102,6 +103,24 @@ async def action(name,data,user=None):
         updated=fact_edit.apply(sheet,article,data)
         write('sheet',updated);invalidate()
         return state()
+    if name=='artist-delete':
+        # 편집실에서 추가한 뮤지션을 기록째 지웁니다. 공개 중인 기사는 먼저 비공개로 돌려야 합니다.
+        aid=current.get()
+        if data.get('confirm')!=aid:raise ai.EditorError('삭제할 뮤지션을 확인하지 못했습니다. 새로고침한 뒤 다시 시도하세요.',400)
+        if (ROOT/'articles/drafts'/f'{aid}.json').is_file():
+            raise ai.EditorError('저장소에 기본으로 들어 있는 원고는 편집실에서 삭제할 수 없습니다.',409)
+        site=storage.get_archive() or {}
+        shown=[site.get('current')]+list(site.get('archive') or [])
+        if any(isinstance(a,dict) and a.get('id')==aid for a in shown):
+            raise ai.EditorError('홈이나 아카이브에 공개된 기사입니다. 06의 \'비공개로 전환\'을 먼저 누른 뒤 삭제하세요.',409)
+        hidden=list(site.get('hidden') or [])
+        was_hidden=any(isinstance(a,dict) and a.get('id')==aid for a in hidden)
+        archive=dict(site,hidden=[a for a in hidden if not (isinstance(a,dict) and a.get('id')==aid)]) if was_hidden else None
+        docs={k:read(k) for k in ('draft','sheet','review','editorial','approval')}
+        if not any(docs.values()) and not was_hidden:raise ai.EditorError('저장된 기록이 없는 뮤지션입니다.',404)
+        backup=json.dumps(dict(artistId=aid,deletedAt=ai.now(),deletedBy=(user or {}).get('id'),docs=docs,hidden=was_hidden),ensure_ascii=False)
+        storage.delete_artist(aid,archive,backup,datetime.now().strftime('%Y%m%d-%H%M%S'))
+        return {'deleted':aid,'artists':list_artists()}
     if name=='artist-info':
         # 뮤지션 정보(한국 뮤지션 여부)만 바꿉니다. 원고 내용이 아니므로 검수·승인은 그대로 둡니다.
         if not isinstance(data.get('korean'),bool):raise ai.EditorError('한국 뮤지션 여부를 확인할 수 없습니다.',400)

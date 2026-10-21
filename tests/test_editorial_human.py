@@ -182,3 +182,30 @@ def test_corner_labels_are_dropped_from_editorial_review(monkeypatch):
     monkeypatch.setattr(ai, 'structured', fake)
     result = asyncio.run(ai.editorial({'title': '제목', 'body': '본문'}))
     assert [i['text'] for i in result['issues']] == ['매끈하게 다듬은 소리에 지쳤다면']
+
+
+def test_artist_delete_rules(monkeypatch):
+    docs = {('draft', 'radiohead'): {'title': 't', 'body': 'b', 'artist': {'name': 'Radiohead'}}}
+    site = {'current': {'id': 'kim-yuna'}, 'archive': [{'id': 'guckkasten'}], 'hidden': [{'id': 'chang-kiha'}]}
+    calls = []
+    monkeypatch.setattr(routes.storage, 'get_doc', lambda kind, aid, default=None: docs.get((kind, aid), default))
+    monkeypatch.setattr(routes.storage, 'get_archive', lambda: copy.deepcopy(site))
+    monkeypatch.setattr(routes.storage, 'list_drafts', lambda: {})
+    monkeypatch.setattr(routes.storage, 'delete_artist', lambda *args: calls.append(args))
+
+    def act_as(aid, **data):
+        token = routes.current.set(aid)
+        try:
+            return asyncio.run(routes.action('artist-delete', data, USER))
+        finally:
+            routes.current.reset(token)
+
+    assert act_as('radiohead', confirm='radiohead')['deleted'] == 'radiohead'
+    assert calls[-1][1] is None                      # 게시 목록은 건드리지 않음
+    assert act_as('chang-kiha', confirm='chang-kiha')['deleted'] == 'chang-kiha'
+    assert calls[-1][1]['hidden'] == []              # 비공개 목록에서 빠짐
+    for aid, confirm, status in [('radiohead', 'other', 400), ('guckkasten', 'guckkasten', 409),
+                                 ('kim-yuna', 'kim-yuna', 409), ('nobody', 'nobody', 404)]:
+        with pytest.raises(ai.EditorError) as error:
+            act_as(aid, confirm=confirm)
+        assert error.value.status == status

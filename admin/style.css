@@ -943,6 +943,18 @@ button:disabled {
   outline: 1px solid #c55448;
 }
 
+/* 뮤지션 삭제: 줄 오른쪽 끝, 비공개 전환 버튼과 같은 경고 톤 */
+.artist-delete {
+  margin-left: auto;
+  background: #24211f;
+  border-color: #876a61;
+  color: #f0ddd7;
+}
+
+.artist-delete:hover {
+  background: #3a2724;
+}
+
 .artist-new-form {
   display: flex;
   flex-wrap: wrap;

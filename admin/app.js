@@ -777,6 +777,24 @@ $('artist-new-add').addEventListener('click', () => run(async () => {
   message(`새 뮤지션 '${nameKo || name}'을 추가했습니다. 원고를 쓰고 초안 저장을 누르면 파일이 만들어집니다.`);
 }));
 
+// 선택한 뮤지션 삭제: 공개 중인 기사·저장소 기본 원고는 서버가 거절합니다.
+$('artist-delete').addEventListener('click', () => run(async () => {
+  const deleting = currentArtist;
+  const label = $('artist-select').selectedOptions[0]?.textContent || deleting;
+  const { artists } = await getJson('/local/artists');
+  const saved = artists.some((a) => a.id === deleting);
+  if (!confirm(saved
+    ? `'${label}'을(를) 삭제할까요?\n\n원고·팩트시트·검토·승인 기록과 등록한 사진이 모두 지워지며 편집실에서 되돌릴 수 없습니다.\n(삭제 직전 기록은 서버 백업에 남습니다.)`
+    : `'${label}'은(는) 아직 저장하지 않은 뮤지션입니다. 목록에서 뺄까요?`)) return;
+  let remaining = artists;
+  if (saved) remaining = (await post('/local/artist-delete', { confirm: deleting })).artists;
+  pendingArtistInfo = null;
+  currentArtist = remaining.find((a) => a.id !== deleting)?.id || 'jack-white';
+  await loadArtists();
+  await loadArtist(currentArtist);
+  message(saved ? `'${label}'을(를) 삭제했습니다.` : `'${label}'을(를) 목록에서 뺐습니다.`);
+}));
+
 // ─────────────────────────────────────────────────────────────
 // 4. 초안 생성·저장·AI 검토
 // ─────────────────────────────────────────────────────────────
