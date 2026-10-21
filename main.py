@@ -218,13 +218,20 @@ def musician_article(slug: str):
             raise HTTPException(status_code=404, detail="파일을 찾지 못했습니다.")
         return HTMLResponse(page, headers=NO_STORE)
 
-    return from_db(load, lambda: public_file(f"artist-{slug}.html"))
+    # DB 장애 시 정적 파일로 우회하면 비공개 기사가 노출될 수 있어 차단합니다.
+    try:
+        return load()
+    except DatabaseError:
+        logging.exception('기사 공개 상태 조회 실패')
+        raise HTTPException(status_code=503, detail='기사 공개 상태를 확인할 수 없습니다.')
 
 
 @app.get("/artist-archive.json", include_in_schema=False)
 def musician_archive():
-    return from_db(lambda: JSONResponse(editor_storage.get_archive(), headers=NO_STORE),
-                   lambda: public_file("artist-archive.json"))
+    try:
+        return JSONResponse(editor_storage.public_archive(), headers=NO_STORE)
+    except DatabaseError:
+        raise HTTPException(status_code=503, detail='아카이브 공개 상태를 확인할 수 없습니다.')
 
 
 @app.get("/images/{asset:path}", include_in_schema=False)
