@@ -531,16 +531,19 @@ function showState(data, replaceArticle = true) {
   renderEditorialReview(data.editorialReview);
 
   const approved = data.state?.approved === true;
-  const published = approved && data.approval?.published === true;
+  const published = data.state?.published === true;
+  const hidden = data.state?.hidden === true;
   $('draft-status').textContent = approved ? '승인 완료' : '초안';
-  $('approval-status').textContent = published ? '승인 완료 · 홈 게시됨' : approved ? '승인 완료 · 미게시' : '초안 · 미게시';
+  $('approval-status').textContent = published ? (data.state?.isCurrent ? '승인 완료 · 홈 게시됨' : '승인 완료 · 아카이브 공개') : hidden ? '비공개' : approved ? '승인 완료 · 미게시' : '초안 · 미게시';
   const approvalPanel = document.querySelector('.approval-panel');
   if (approved) stamp(approvalPanel);
   else { approvalPanel.classList.remove('stamped'); delete approvalPanel.dataset.stamp; }
   $('confirm-sources').checked = false;
   $('export-article').disabled = !approved;
   $('publish').disabled = !approved;
-  setPublishLook(published ? 'published' : approved ? 'ready' : 'locked');
+  setPublishLook(published ? 'published' : hidden ? 'hidden' : approved ? 'ready' : 'locked');
+  $('unpublish').hidden = !published;
+  $('unpublish').disabled = !published;
   showPhoto(data.article);
 }
 
@@ -1050,13 +1053,21 @@ function setPublishLook(mode) {
     locked: ['홈에 게시', '편집자 승인 후 사용할 수 있습니다.'],
     unsaved: ['홈에 게시', '수정한 원고를 저장하고 다시 승인해야 합니다.'],
     ready: ['홈에 게시 ↗', '오늘의 뮤지션을 이 기사로 바꾸고,\n이전 기사는 아카이브로 옮깁니다.'],
-    published: ['게시 완료', '홈의 오늘의 뮤지션에 반영됐습니다.\n다시 누르면 재게시합니다.'],
+    published: ['게시 완료', '공개 중인 기사입니다. 다시 누르면 대표 기사로 재게시합니다.'],
+    hidden: ['다시 공개 ↗', '이 기사를 대표 기사로 다시 공개합니다. 기존 대표 기사는 아카이브로 옮깁니다.'],
   };
   const [title, note] = looks[mode] || looks.locked;
   $('publish-title').textContent = title;
   $('publish-note').textContent = note;
   $('publish').classList.toggle('is-published', mode === 'published');
 }
+
+$('unpublish').addEventListener('click', () => run(async () => {
+  if (!confirm('이 기사를 비공개로 전환할까요? 대표 기사라면 직전 공개 기사가 자동 복원됩니다.')) return;
+  const data = await post('/local/unpublish');
+  showState(data, false);
+  message(data.publishResult?.restored ? '비공개 처리했습니다. 직전 공개 기사가 대표 기사로 복원됐습니다.' : '비공개 처리했습니다.');
+}));
 
 // 홈에 게시: 서버가 승인 상태를 다시 확인한 뒤 index.html과 아카이브를 바꿉니다.
 $('publish').addEventListener('click', () => run(async () => {
