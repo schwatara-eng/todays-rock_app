@@ -132,7 +132,7 @@
       const start = performance.now();
       function step(now) {
         const progress = Math.min(1, (now - start) / ms);
-        audio.volume = from + (volume - from) * progress;
+        audio.volume = Math.min(1, Math.max(0, from + (volume - from) * progress));
         if (progress < 1) requestAnimationFrame(step); else resolve();
       }
       requestAnimationFrame(step);
@@ -227,8 +227,12 @@
         });
       });
     },
-    // 카드 안에 넣을 재생 버튼 HTML
+    // 카드 안에 넣을 재생 버튼 + 진행 바 HTML (원픽 카드용)
     buttonHtml(label) {
+      return this.playButtonHtml(label) + this.progressHtml();
+    },
+    // 재생 버튼만 (곡 카드에서는 좋아요 버튼 왼쪽에 넣는다)
+    playButtonHtml(label) {
       label = String(label).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
       return `
         <button class="preview-button" type="button" aria-label="${label} 미리듣기">
@@ -236,8 +240,11 @@
           <svg class="preview-icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h4v12H3zM9 2h4v12H9z"/></svg>
           <i class="preview-spinner" aria-hidden="true"></i>
         </button>
-        <div class="preview-progress" aria-hidden="true"><span></span></div>
       `;
+    },
+    // 카드 아래 진행 바
+    progressHtml() {
+      return `<div class="preview-progress" aria-hidden="true"><span></span></div>`;
     },
   };
 })();

@@ -306,8 +306,8 @@ function showRecommendations() {
     const lyricsUrl = song.lyricsUrl;
     list.insertAdjacentHTML("beforeend", `
       <article class="song-card" data-preview="${index}">
-        ${window.TRPreview ? window.TRPreview.buttonHtml(song.title) : ""}
-        <span class="song-number">0${index + 1}</span>
+        ${window.TRPreview ? window.TRPreview.progressHtml() : ""}
+        <span class="song-number">0${index + 1}${window.TRPreview ? window.TRPreview.playButtonHtml(song.title) : ""}</span>
         <p class="song-meta">${song.year} · ${song.genre} · ENERGY ${song.energy}/5</p>
         <h3>${song.title}</h3>
         <p class="song-artist">${song.artist}</p>

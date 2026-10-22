@@ -1554,6 +1554,41 @@ a.archive-nav-item:hover,
   color: var(--black);
 }
 
+/* 곡 카드: 좋아요(하트) 버튼과 같은 크기로, 하트 버튼 왼쪽에 둔다 */
+.song-number .preview-button {
+  top: 50%;
+  right: 40px;
+  width: 32px;
+  height: 32px;
+  border-color: var(--line);
+  color: var(--gray);
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 1rem;
+  transform: translateY(-50%);
+}
+
+/* 좋아요 버튼이 없는 곡(로그인 모듈이 없을 때 등)은 오른쪽 끝으로 */
+.song-number .preview-button:last-child {
+  right: 0;
+}
+
+.song-number .preview-button:hover,
+.song-number .preview-button:focus-visible {
+  border-color: var(--gray);
+  background: rgba(170, 166, 158, .08);
+  color: var(--paper);
+}
+
+.song-number .preview-button svg {
+  width: 12px;
+  height: 12px;
+}
+
+.song-number .preview-spinner {
+  width: 12px;
+  height: 12px;
+}
+
 /* 미리듣기를 찾지 못한 곡: 재생 버튼을 숨기고 YouTube 링크만 남긴다 */
 .no-preview .preview-button {
   display: none;
@@ -1717,4 +1752,11 @@ body:has(.preview-bar.is-open) {
   .preview-bar { transition: none; }
   .preview-eq i,
   .preview-spinner { animation: none; }
+}
+
+/* 재생 중일 때는 하트 버튼 옆 재생 버튼도 빨간색 */
+.song-card.is-playing .song-number .preview-button {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--black);
 }
