@@ -1757,7 +1757,7 @@ body:has(.preview-bar.is-open) {
   .preview-spinner { animation: none; }
 }
 
-/* 오늘의 뮤지션 대표곡: 카드 왼쪽 위에 ▶ 버튼 (번호 · ↗와 한 줄) (preview-player.js) */
+/* 오늘의 뮤지션 대표곡 카드: 번호는 왼쪽 위, ▶ 버튼은 오른쪽 아래(곡 제목·가수 오른쪽) (preview-player.js) */
 .artist-feature-track-group .artist-feature-tracks li.artist-track {
   position: relative;
   display: flex;
@@ -1768,24 +1768,28 @@ body:has(.preview-bar.is-open) {
 .artist-feature-track-group .artist-track a {
   flex: 1;
   justify-content: flex-start;
-  padding-top: 12px;
+  padding: 10px 25px 12px 12px;
 }
 
-/* 번호(01)를 ▶ 버튼 가운데 높이에 맞추고, 곡 제목은 버튼 아래로 */
+/* 번호: 왼쪽 위, 더 크게 */
 .artist-feature-track-group .artist-track a::before {
-  line-height: 16px;
+  font-size: 18px;
+  line-height: 20px;
+  text-align: left;
 }
 
+/* 곡 제목·가수: ▶ 버튼과 겹치지 않게 오른쪽 여백 */
 .artist-feature-track-group .artist-track a > span:first-child {
-  margin-top: 7px;
+  margin-top: 8px;
+  padding-right: 34px;
 }
 
 .artist-feature-track-group .artist-track .preview-button {
-  top: 6px;
-  left: 6px;
-  right: auto;
-  width: 28px;
-  height: 28px;
+  top: auto;
+  bottom: 12px;
+  right: 10px;
+  width: 38px;
+  height: 38px;
   border-color: rgba(128, 128, 128, .4);
   color: inherit;
 }
@@ -1798,8 +1802,36 @@ body:has(.preview-bar.is-open) {
 
 .artist-feature-track-group .artist-track .preview-button svg,
 .artist-feature-track-group .artist-track .preview-spinner {
-  width: 11px;
-  height: 11px;
+  width: 14px;
+  height: 14px;
+}
+
+/* 휴대폰: 카드가 좁아서 버튼을 조금 작게 */
+@media (max-width: 760px) {
+  .artist-feature-track-group .artist-track a {
+    padding-left: 10px;
+  }
+
+  .artist-feature-track-group .artist-track a::before {
+    font-size: 16px;
+  }
+
+  .artist-feature-track-group .artist-track a > span:first-child {
+    padding-right: 26px;
+  }
+
+  .artist-feature-track-group .artist-track .preview-button {
+    bottom: 10px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .artist-feature-track-group .artist-track .preview-button svg,
+  .artist-feature-track-group .artist-track .preview-spinner {
+    width: 12px;
+    height: 12px;
+  }
 }
 
 .artist-feature-track-group .artist-track.is-playing .preview-button {
