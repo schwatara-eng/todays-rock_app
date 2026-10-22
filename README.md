@@ -612,7 +612,8 @@ todays-rock_app/
 
 | 기사 | 공개 화면의 사진 크레딧 |
 | --- | --- |
-| [라디오헤드 — 현재 홈](https://todays-rock-app.vercel.app/) | `PHOTO \| Raph_PH, CC BY 4.0` |
+| [줄리언 카사블랑카스 — 현재 홈](https://todays-rock-app.vercel.app/) | `PHOTO \| Aurelien Guichard, CC BY-SA 2.0` |
+| [라디오헤드 — 지난 기사](https://todays-rock-app.vercel.app/artist-radiohead.html) | `PHOTO \| Raph_PH, CC BY 4.0` |
 | [잭 화이트 — 지난 기사](https://todays-rock-app.vercel.app/artist-jack-white.html) | `PHOTO \| Scott Penner, CC BY SA-2.0` |
 | [김윤아 — 지난 기사](https://todays-rock-app.vercel.app/artist-kim-yuna.html) | `PHOTO \| www.jaurim.com` |
 
