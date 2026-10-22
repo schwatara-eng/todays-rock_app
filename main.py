@@ -195,6 +195,15 @@ def preview_best_match(results, artist, title):
     return matches[0] if matches else None
 
 
+def preview_pick_by_artist(results, artist_ids):
+    """가수 번호가 같은 곡 중 검색 순위가 가장 높은 곡. 라이브·리마스터 등은 뒤로 미룹니다."""
+    candidates = [r for r in results if r.get("previewUrl") and r.get("artistId") in artist_ids]
+    for r in candidates:
+        if not PREVIEW_UNWANTED.search(str(r.get("trackName", ""))):
+            return r
+    return candidates[0] if candidates else None
+
+
 @app.get("/api/preview")
 async def get_preview(artist: str, title: str, track_id: str = ""):
     artist, title, track_id = artist.strip()[:200], title.strip()[:200], track_id.strip()[:20]
@@ -215,7 +224,18 @@ async def get_preview(artist: str, title: str, track_id: str = ""):
                         "media": "music", "entity": "song", "limit": 15,
                     })
                     response.raise_for_status()
-                    found = preview_best_match(response.json().get("results", []), artist, title)
+                    results = response.json().get("results", [])
+                    found = preview_best_match(results, artist, title)
+                    if not found and results:
+                        # 제목이 영문 등으로 달리 등록된 경우(예: '샤이닝'이 'Shining'): 가수의 iTunes 번호를 찾아
+                        # 그 가수의 곡 중 검색 결과 맨 위의 곡을 고릅니다. 검색어에 제목이 들어 있어 보통 그 곡입니다.
+                        response = await client.get("https://itunes.apple.com/search", params={
+                            "term": artist, "country": country,
+                            "media": "music", "entity": "musicArtist", "limit": 3,
+                        })
+                        response.raise_for_status()
+                        artist_ids = {a.get("artistId") for a in response.json().get("results", []) if a.get("artistId")}
+                        found = preview_pick_by_artist(results, artist_ids)
             except (httpx.HTTPError, ValueError):
                 failed = True
                 logging.warning("iTunes 미리듣기 조회 실패: %s - %s (%s)", artist, title, country)
