@@ -44,7 +44,9 @@
       artistMatches(normalize(item.artistName)) &&
       normalize(item.trackName).startsWith(title)
     );
-    if (!matches.length) {
+    // 영문 가수 이름(예: The Voidz)은 표기가 바뀔 일이 없으므로, 제목만 같은 다른 가수의 곡을 고르지 않습니다.
+    const asciiArtist = /^[\x00-\x7F]*$/.test(String(song.artist));
+    if (!matches.length && !asciiArtist) {
       // 가수 이름이 다른 언어로 등록된 경우(예: '자우림'이 'Jaurim'): 제목으로 고릅니다.
       // 정확히 같은 제목 → '샤이닝 (Shining)'처럼 제목이 포함된 곡 순서.
       const withPreview = results.filter((item) => item.previewUrl);
@@ -57,7 +59,7 @@
   // 1순위: 우리 서버(/api/preview)가 대신 찾기 — 아이폰에서도 안정적이고, 결과가 CDN에 저장됩니다.
   async function lookupFromServer(song) {
     // v: 검색 규칙을 바꿀 때 올려서, 브라우저에 저장된 예전 결과(특히 '못 찾음')를 쓰지 않게 합니다.
-    const params = new URLSearchParams({ artist: song.artist, title: song.title, v: "5" });
+    const params = new URLSearchParams({ artist: song.artist, title: song.title, v: "6" });
     if (song.itunes_track_id) params.set("track_id", song.itunes_track_id);
     const response = await fetch("/api/preview?" + params.toString());
     if (!response.ok) throw new Error("preview api " + response.status);

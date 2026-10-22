@@ -167,6 +167,11 @@ def preview_normalize(text):
     return re.sub(r"[^0-9a-z가-힣]", "", str(text or "").lower())
 
 
+def preview_is_ascii(text):
+    """영문·숫자·기호로만 된 이름/제목인지. 한글 등이 섞여 있으면 스토어에 다른 표기로 등록됐을 수 있습니다."""
+    return str(text or "").isascii()
+
+
 def preview_best_match(results, artist, title):
     """검색 결과 중 아티스트·제목이 맞는 곡을 고르고, 라이브·리마스터가 아닌 원곡을 우선합니다."""
     # preview-player.js의 pickBestMatch와 같은 규칙입니다. 한쪽을 고치면 다른 쪽도 같이 고칩니다.
@@ -182,9 +187,10 @@ def preview_best_match(results, artist, title):
         and artist_matches(preview_normalize(r.get("artistName")))
         and preview_normalize(r.get("trackName")).startswith(t)
     ]
-    if not matches:
+    if not matches and not preview_is_ascii(artist):
         # 가수 이름이 다른 언어로 등록된 경우(예: 한국 스토어의 '자우림'이 'Jaurim'): 검색어에 가수 이름이
         # 이미 들어가 있으므로 제목으로 고릅니다. 정확히 같은 제목 → '샤이닝 (Shining)'처럼 제목이 포함된 곡 순서.
+        # 영문 가수 이름(예: The Voidz)은 표기가 바뀔 일이 없으므로, 제목만 같은 다른 가수의 곡을 고르지 않습니다.
         with_preview = [r for r in results if r.get("previewUrl")]
         matches = [r for r in with_preview if preview_normalize(r.get("trackName")) == t]
         if not matches and t:
@@ -230,7 +236,9 @@ async def get_preview(artist: str, title: str, track_id: str = ""):
                     response.raise_for_status()
                     results = response.json().get("results", [])
                     found = preview_best_match(results, artist, title)
-                    if not found and results:
+                    if not found and results and not preview_is_ascii(title):
+                        # 4단계 후보: 제목이 한글 등이라 스토어에 영문 제목으로 등록됐을 수 있는 곡만.
+                        # 영문 제목(예: 'Human Sadness')을 못 찾았으면 같은 가수의 다른 곡을 대신 틀지 않습니다.
                         guesses.append((country, results))
             except (httpx.HTTPError, ValueError):
                 failed = True
