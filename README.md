@@ -327,11 +327,18 @@ erDiagram
 | 음악 뉴스 | **RSS (XML)** | NME `https://www.nme.com/news/music/feed` | 15분 캐시 | 최신 3건 제목·요약 추출, HTML 태그 제거 |
 | 뉴스 번역 | **Open API** (API 키) | Google Cloud Translation API v2 | 뉴스와 함께 | 제목·요약 6개 문장을 한 번에 영→한 번역 |
 | 기사 사실 검증 | **LLM API + 웹 검색** (API 키) | OpenAI Responses API의 `web_search` 도구 | 편집실에서 실행할 때 | 원고에서 주장 추출 → 출처 검색 → 출처 본문을 직접 받아 인용 대조 |
-| 30초 미리듣기 | **Open API** (키 불필요) | [iTunes Search API](https://performance-partners.apple.com/search-api) `/search`, `/lookup` — 서버 `GET /api/preview`가 대신 조회 | 곡별 하루 캐시 | 곡에 `itunes_track_id`가 있으면 그 ID로 조회, 없으면 '아티스트 + 제목'으로 한국 → 미국 스토어 순서로 검색해 라이브·리마스터가 아닌 원곡을 우선 선택. 같은 방문 중에는 다시 검색하지 않음 |
+| 30초 미리듣기 | **Open API** (키 불필요) | [iTunes Search API](https://performance-partners.apple.com/search-api) `/search`, `/lookup` — 서버 `GET /api/preview`가 대신 조회 | 찾은 곡 하루, 못 찾은 곡 1시간 캐시 | 곡에 `itunes_track_id`가 있으면 그 ID로 조회, 없으면 '아티스트 + 제목'으로 한국 → 미국 스토어 순서로 검색해 아래 **곡 찾는 순서**대로 고름. 같은 방문 중에는 다시 검색하지 않음 |
 | 오늘의 뮤지션 기사 | **기자 직접 작성** | 편집실 | 게시할 때 | DB(`editor_docs`, `site_features`)에 저장 |
 
 - **CSV 다운로드는 사용하지 않습니다.** 곡 데이터는 처음부터 JSON으로 정리해 SQL로 옮겼습니다.
 - **PDF는 자동 처리하지 않습니다.** 편집실이 출처 본문을 대조할 때 PDF 링크는 건너뛰고 "PDF 출처는 직접 확인해 주세요"라고 안내하며, 에디터가 원문을 직접 확인합니다.
+- **미리듣기 곡 찾는 순서** (각 단계에서 라이브·리마스터·데모 등은 뒤로 미룸)
+  1. 가수 이름과 제목(앞부분)이 모두 맞는 곡
+  2. 제목이 정확히 같은 곡 — 한국 스토어에서 가수 이름이 영문으로 오는 경우(예: '자우림' → 영문 표기)
+  3. 제목이 포함된 곡 — 예: '샤이닝 (Shining)'
+  4. 가수의 iTunes 번호가 같은 곡 중 검색 결과 맨 위 — 제목까지 영문으로 오는 경우. 검색어에 제목이 들어 있어 보통 맞지만, 같은 가수의 다른 곡이 나올 수 있음
+  - 서버(`main.py`의 `preview_best_match`, `preview_pick_by_artist`)와 브라우저(`preview-player.js`의 `pickBestMatch`)가 같은 규칙을 씁니다(4단계는 서버만). 한쪽을 고치면 다른 쪽도 고칩니다.
+  - 규칙을 바꾸면 `preview-player.js`의 `/api/preview` 요청에 붙는 `v` 값을 올려, 브라우저·CDN에 남은 예전 결과를 쓰지 않게 합니다.
 - 미리듣기는 서버(`/api/preview`)가 iTunes에 대신 묻고 결과를 CDN에 하루 저장합니다. 아이폰 브라우저에서 iTunes에 직접 요청하면 실패하는 경우가 있어서입니다. 서버 조회가 실패할 때만 브라우저가 직접 묻습니다(JSONP).
 - 날씨·지역명 API는 키가 없어 브라우저에서 바로 부르고, 번역·OpenAI는 키가 노출되지 않도록 서버에서만 부릅니다.
 - Spotify Web API는 쓰지 않습니다. 2026년 개발 모드가 Premium 계정·승인 사용자 5명으로 제한되고 미리듣기 음원 주소도 제공하지 않아, 공개 사이트에서 쓸 수 없습니다.
@@ -573,7 +580,8 @@ todays-rock_app/
 | `Invalid host header` (실제 사이트) | Production의 `APP_ORIGIN`이 `https://todays-rock-app.vercel.app`과 정확히 같은지 확인 후 Redeploy |
 | `Invalid host header` (미리보기) | **Enable access to System Environment Variables**가 켜져 있는지 확인 후 Redeploy |
 | 추천 카드에 ▶ 버튼이 없음 | **Ctrl + Shift + R**로 강력 새로고침. 계속 없으면 `/preview-player.js`가 열리는지 확인(`main.py` 경로) |
-| ▶ 버튼이 일부 곡에만 없음 | 그 곡을 iTunes에서 못 찾은 것. 계속 그러면 `itunes_track_id`로 고정 |
+| ▶ 버튼이 일부 곡에만 없음 | 그 곡을 iTunes에서 못 찾은 것. 국내 곡은 한국 스토어에 가수·제목이 다른 표기(영문 등)로 등록된 경우가 많음. Apple Music 앱에서 검색해 표기를 확인하고, 계속 그러면 `itunes_track_id`로 고정 |
+| ▶를 누르면 다른 곡이 나옴 | 곡 찾는 순서 4단계(가수 번호로 맨 위 곡)에서 같은 가수의 다른 곡이 골라진 경우. 그 곡을 `itunes_track_id`로 고정 |
 | ▶ 버튼이 모든 곡에서 사라짐 | `/api/preview?artist=Oasis&title=Wonderwall`이 `previewUrl`을 돌려주는지 확인. Vercel **Logs**에 `iTunes 미리듣기 조회 실패`가 있는지 확인 |
 | ▶ 버튼은 있는데 소리가 안 남 | 다른 탭·기기 음소거 확인. 개발자 도구 **Console**에 `itunes.apple.com` 오류가 있는지 확인 |
 | 엉뚱한 버전(라이브·리마스터 등)이 재생됨 | 그 곡에 `itunes_track_id`를 넣어 정확한 버전으로 고정(7-4 참고) |
