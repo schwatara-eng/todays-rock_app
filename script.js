@@ -305,7 +305,8 @@ function showRecommendations() {
     const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(song.artist + " " + song.title)}`;
     const lyricsUrl = song.lyricsUrl;
     list.insertAdjacentHTML("beforeend", `
-      <article class="song-card">
+      <article class="song-card" data-preview="${index}">
+        ${window.TRPreview ? window.TRPreview.buttonHtml(song.title) : ""}
         <span class="song-number">0${index + 1}</span>
         <p class="song-meta">${song.year} · ${song.genre} · ENERGY ${song.energy}/5</p>
         <h3>${song.title}</h3>
@@ -326,14 +327,21 @@ function showRecommendations() {
     window.TRAccount?.addLikeButton(card.querySelector('.song-number'), song, { iconOnly: true });
   });
 
+  // 추천곡의 30초 미리듣기를 미리 찾아 둔다 (preview-player.js)
+  window.TRPreview?.prepare(picked);
+
   const top = picked[0];
   const topSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(top.artist + " " + top.title)}`;
   document.querySelector("#result-summary").textContent =
     selectedMood
       ? `${weatherNames[currentWeather]} 날씨와 ${moodNames[selectedMood]} 마음을 함께 고려했어요.`
       : `오늘은 기분 선택 없이 ${songs.length}곡 가운데 세 곡을 무작위로 골랐어요.`;
-  document.querySelector("#pick-card").innerHTML = `
-    <a class="pick-card-link" href="${topSearchUrl}" target="_blank" rel="noopener" aria-label="오늘의 원픽을 YouTube에서 듣기"></a>
+  const pickCard = document.querySelector("#pick-card");
+  // 미리듣기가 있으면 원픽 카드를 누를 때 1번 곡이 재생되고, 없으면 예전처럼 YouTube로 이동한다.
+  pickCard.dataset.youtube = topSearchUrl;
+  if (window.TRPreview) pickCard.dataset.preview = "0";
+  pickCard.innerHTML = `
+    ${window.TRPreview ? window.TRPreview.buttonHtml(top.title) : `<a class="pick-card-link" href="${topSearchUrl}" target="_blank" rel="noopener" aria-label="오늘의 원픽을 YouTube에서 듣기"></a>`}
     <div><p class="section-label">TODAY'S ONE PICK</p></div>
     <div>
       <h3>${top.title}</h3>

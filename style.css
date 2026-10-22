@@ -1481,3 +1481,240 @@ a.archive-nav-item:hover,
     height: auto;
   }
 }
+
+/* ---------- 30초 미리듣기 (preview-player.js) ---------- */
+.song-card[data-preview] {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.song-card.is-playing {
+  border-color: var(--red);
+}
+
+.preview-button {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--paper);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--paper);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+
+.preview-button:hover,
+.preview-button:focus-visible {
+  border-color: var(--yellow);
+  color: var(--yellow);
+  outline: none;
+}
+
+.preview-button svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.preview-icon-pause,
+.preview-spinner,
+.is-playing .preview-icon-play,
+.is-loading .preview-icon-play {
+  display: none;
+}
+
+.is-playing .preview-icon-pause,
+.is-loading .preview-spinner {
+  display: block;
+}
+
+.preview-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: preview-spin .7s linear infinite;
+}
+
+@keyframes preview-spin {
+  to { transform: rotate(360deg); }
+}
+
+.song-card.is-playing .preview-button {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--black);
+}
+
+/* 미리듣기를 찾지 못한 곡: 재생 버튼을 숨기고 YouTube 링크만 남긴다 */
+.no-preview .preview-button {
+  display: none;
+}
+
+.song-card.no-preview,
+.pick-card.no-preview {
+  cursor: default;
+}
+
+.preview-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--line);
+  pointer-events: none;
+}
+
+.preview-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--red);
+}
+
+/* 원픽 카드(빨간 배경)용 색 */
+.pick-card .preview-button {
+  top: 26px;
+  right: 26px;
+  border-color: var(--black);
+  color: var(--black);
+}
+
+.pick-card .preview-button:hover,
+.pick-card .preview-button:focus-visible {
+  border-color: var(--black);
+  background: var(--black);
+  color: var(--red);
+}
+
+.pick-card.is-playing .preview-button {
+  background: var(--black);
+  color: var(--red);
+}
+
+.pick-card .preview-progress {
+  background: rgba(16, 16, 16, .18);
+}
+
+.pick-card .preview-progress span {
+  background: var(--black);
+}
+
+.pick-card[data-preview] h3 {
+  padding-right: 60px;
+}
+
+/* 하단 재생바 */
+.preview-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  padding: 14px 5vw calc(14px + env(safe-area-inset-bottom, 0px));
+  background: var(--paper);
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transform: translateY(110%);
+  transition: transform .3s ease;
+}
+
+.preview-bar.is-open {
+  transform: none;
+}
+
+/* 재생바가 떠 있을 때 페이지 맨 아래 내용이 가려지지 않게 */
+body:has(.preview-bar.is-open) {
+  padding-bottom: 76px;
+}
+
+.preview-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+  flex: none;
+}
+
+.preview-eq i {
+  width: 4px;
+  background: var(--red);
+  animation: preview-eq .9s ease-in-out infinite;
+}
+
+.preview-eq i:nth-child(2) { animation-delay: -.3s; }
+.preview-eq i:nth-child(3) { animation-delay: -.6s; }
+
+.preview-bar.is-paused .preview-eq i {
+  animation-play-state: paused;
+}
+
+@keyframes preview-eq {
+  0%, 100% { height: 4px; }
+  50% { height: 18px; }
+}
+
+.preview-bar-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.preview-bar-title,
+.preview-bar-sub {
+  margin: 0;
+}
+
+.preview-bar-title {
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.preview-bar-sub {
+  color: #5b5852;
+  font-size: .75rem;
+}
+
+.preview-bar-time {
+  font-size: .8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.preview-bar-toggle {
+  padding: 8px 14px;
+  border: 1px solid var(--black);
+  background: transparent;
+  color: var(--black);
+  font: inherit;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.preview-bar-toggle:hover,
+.preview-bar-toggle:focus-visible {
+  background: var(--black);
+  color: var(--paper);
+}
+
+@media (max-width: 560px) {
+  .preview-bar-time { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preview-button,
+  .preview-bar { transition: none; }
+  .preview-eq i,
+  .preview-spinner { animation: none; }
+}
