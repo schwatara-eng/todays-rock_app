@@ -16,7 +16,15 @@ ROLES = {"user": "사용자", "reporter": "기자", "admin": "관리자"}
 
 def trusted_origins():
     configured = os.getenv("APP_ORIGIN", "").strip().rstrip("/")
-    return {configured} if configured else {"http://localhost:8000", "http://127.0.0.1:8000"}
+    origins = {configured} if configured else {"http://localhost:8000", "http://127.0.0.1:8000"}
+    # Vercel 미리보기(Preview) 배포에서만: 그 배포 자신의 주소도 허용합니다.
+    # Vercel이 직접 넣어 주는 값이라 방문자가 바꿀 수 없고, 실제 사이트(Production)에는 적용되지 않습니다.
+    if os.getenv("VERCEL_ENV") == "preview":
+        for name in ("VERCEL_BRANCH_URL", "VERCEL_URL"):
+            host = os.getenv(name, "").strip().rstrip("/")
+            if host:
+                origins.add("https://" + host)
+    return origins
 
 
 def secure_cookie():

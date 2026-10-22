@@ -209,6 +209,11 @@ def homepage_js():
     return public_file("script.js", STATIC_CACHE)
 
 
+@app.get("/preview-player.js", include_in_schema=False)
+def preview_player_js():
+    return public_file("preview-player.js", STATIC_CACHE)
+
+
 # 지난 뮤지션 아카이브 페이지(artist-<뮤지션ID>.html)와 아카이브 목록
 @app.get("/artist-{slug}.html", include_in_schema=False)
 def musician_article(slug: str):
