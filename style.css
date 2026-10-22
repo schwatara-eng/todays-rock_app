@@ -939,9 +939,11 @@ footer {
 
 .artist-feature-tracks a:before {
   content: counter(tracks, decimal-leading-zero);
-  font-size: 12px;
+  /* 추천곡 번호(.song-number)와 같은 굵은 서체, 기존 12px에서 1pt 키움 */
+  font-family: "Black Han Sans", sans-serif;
+  font-size: calc(12px + 1pt);
+  font-weight: 400;
   color: #bd4d43;
-  font-weight: 700;
 }
 
 .artist-feature-tracks a>span:first-child {
