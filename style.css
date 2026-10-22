@@ -1820,15 +1820,26 @@ body:has(.preview-bar.is-open) {
     font-size: 16px;
   }
 
-  .artist-feature-track-group .artist-track a > span:first-child {
-    padding-right: 26px;
+  /* 휴대폰: 제목이 카드 폭을 다 쓰고, ▶ 버튼은 제목 아래 오른쪽으로 */
+  .artist-feature-track-group .artist-track a {
+    min-height: 0;
+    padding-bottom: 50px;
   }
 
-  .artist-feature-track-group .artist-track a {
-    min-height: 91px;
+  .artist-feature-track-group .artist-track a > span:first-child {
+    padding-right: 0;
+  }
+
+  /* 단어 중간에서 끊기지 않게 (한글도 어절 단위로 줄바꿈) */
+  .artist-feature-track-group .artist-track strong,
+  .artist-feature-track-group .artist-track small {
+    overflow-wrap: break-word;
+    word-break: keep-all;
   }
 
   .artist-feature-track-group .artist-track .preview-button {
+    top: auto;
+    bottom: 10px;
     right: 8px;
     width: 32px;
     height: 32px;
