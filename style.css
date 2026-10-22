@@ -1769,6 +1769,8 @@ body:has(.preview-bar.is-open) {
   flex: 1;
   justify-content: flex-start;
   padding: 10px 25px 12px 12px;
+  /* ▶ 버튼(42~80px)이 ↗ 아래(약 22px)와 카드 아랫선 사이 가운데에 오도록 카드 높이를 맞춘다 */
+  min-height: 97px;
 }
 
 /* 번호: 왼쪽 위, 더 크게 */
@@ -1784,9 +1786,11 @@ body:has(.preview-bar.is-open) {
   padding-right: 34px;
 }
 
+/* ▶ 버튼 윗선 = 곡 제목 윗선
+   (위 여백 10px + 번호 줄 20px + 간격 3px + 제목 위 여백 8px ≈ 42px) */
 .artist-feature-track-group .artist-track .preview-button {
-  top: auto;
-  bottom: 12px;
+  top: 42px;
+  bottom: auto;
   right: 10px;
   width: 38px;
   height: 38px;
@@ -1820,8 +1824,11 @@ body:has(.preview-bar.is-open) {
     padding-right: 26px;
   }
 
+  .artist-feature-track-group .artist-track a {
+    min-height: 91px;
+  }
+
   .artist-feature-track-group .artist-track .preview-button {
-    bottom: 10px;
     right: 8px;
     width: 32px;
     height: 32px;
