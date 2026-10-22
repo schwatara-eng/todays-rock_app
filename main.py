@@ -184,11 +184,11 @@ def preview_best_match(results, artist, title):
     ]
     if not matches:
         # 가수 이름이 다른 언어로 등록된 경우(예: 한국 스토어의 '자우림'이 'Jaurim'): 검색어에 가수 이름이
-        # 이미 들어가 있으므로, 제목이 정확히 같은 곡을 고릅니다.
-        matches = [
-            r for r in results
-            if r.get("previewUrl") and preview_normalize(r.get("trackName")) == t
-        ]
+        # 이미 들어가 있으므로 제목으로 고릅니다. 정확히 같은 제목 → '샤이닝 (Shining)'처럼 제목이 포함된 곡 순서.
+        with_preview = [r for r in results if r.get("previewUrl")]
+        matches = [r for r in with_preview if preview_normalize(r.get("trackName")) == t]
+        if not matches and t:
+            matches = [r for r in with_preview if t in preview_normalize(r.get("trackName"))]
     for r in matches:
         if not PREVIEW_UNWANTED.search(str(r.get("trackName", "")).replace(title, "")):
             return r
