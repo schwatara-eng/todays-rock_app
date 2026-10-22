@@ -508,6 +508,7 @@ $env:DB_NAME="todays_rock_accounts_test"
 - 미리보기(Preview) 배포는 Vercel이 알려 주는 그 배포 자신의 주소(`VERCEL_BRANCH_URL`, `VERCEL_URL`)를 자동으로 허용합니다. 그래서 PR의 **Preview** 링크로 바로 확인할 수 있고, 미리보기용 `APP_ORIGIN`을 따로 넣을 필요가 없습니다. Production의 `APP_ORIGIN`을 미리보기 주소로 바꾸면 실제 사이트가 `Invalid host header`로 막히니 주의합니다.
 - 위 자동 허용은 Vercel **Settings → Environment Variables**의 **Enable access to System Environment Variables**가 켜져 있어야 동작합니다(기본값: 켜짐).
 - 새 정적 파일(CSS·JS 등)을 추가하면 `main.py`에 그 파일을 내보내는 경로도 추가해야 합니다. 서버는 정해 둔 파일만 내보냅니다.
+- `style.css`·`script.js`·`preview-player.js`를 고치면 `index.html`의 `?v=` 뒤 값(예: `?v=20261022b`)도 바꿉니다. 브라우저(특히 휴대폰)가 예전 파일을 저장해 두고 계속 쓰는 것을 막습니다.
 - OpenAI 대시보드에서 월 사용 한도를 걸어 두는 것을 권합니다.
 
 ---
