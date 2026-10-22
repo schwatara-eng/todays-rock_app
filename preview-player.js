@@ -124,8 +124,9 @@
   const barToggle = bar.querySelector(".preview-bar-toggle");
 
   // ---------- 3. 재생 상태 ----------
-  let songs = [];        // 지금 화면에 뜬 추천곡
-  let current = null;    // 재생 중인 곡 번호
+  // 재생할 수 있는 곡 목록. 키: 추천곡은 "0"·"1"·"2", 오늘의 뮤지션 대표곡은 "track-0"…
+  const songs = {};
+  let current = null;    // 재생 중인 곡의 키
 
   const cardsFor = (index) => document.querySelectorAll(`[data-preview="${index}"]`);
   const setCardState = (index, className, on) => cardsFor(index).forEach((el) => el.classList.toggle(className, on));
@@ -246,21 +247,46 @@
   document.addEventListener("click", (event) => {
     if (event.target.closest("a, button:not(.preview-button)")) return;
     const card = event.target.closest("[data-preview]");
-    if (card) toggle(Number(card.dataset.preview));
+    if (card) toggle(card.dataset.preview);
   });
 
-  // ---------- 4. script.js에서 부르는 함수 ----------
+  // 곡을 등록하고 미리듣기를 미리 찾아 둔다. 못 찾으면 그 곡의 ▶ 버튼을 숨긴다.
+  function register(key, song) {
+    songs[key] = song;
+    findPreview(song).then((preview) => {
+      if (songs[key] !== song) return;
+      if (!preview) markNoPreview(key);
+    });
+  }
+
+  // ---------- 4. 오늘의 뮤지션 대표곡 ----------
+  // 대표곡 목록(기사 본문)에 ▶ 버튼을 붙인다. 버튼 밖을 누르면 예전처럼 YouTube로 이동한다.
+  function setupArtistTracks() {
+    const section = document.querySelector(".artist-feature");
+    if (!section) return;
+    const musician = (section.querySelector(".artist-name-sub") || section.querySelector(".artist-name-main") || {}).textContent || "";
+
+    section.querySelectorAll(".artist-feature-tracks li").forEach((item, index) => {
+      const title = (item.querySelector("strong") || {}).textContent || "";
+      const artist = ((item.querySelector("small") || {}).textContent || musician).trim();
+      if (!title.trim() || !artist || item.querySelector(".preview-button")) return;
+
+      const key = "track-" + index;
+      item.classList.add("artist-track");
+      item.dataset.preview = key;
+      item.insertAdjacentHTML("beforeend", window.TRPreview.playButtonHtml(title.trim()) + window.TRPreview.progressHtml());
+      register(key, { title: title.trim(), artist });
+    });
+  }
+
+  // ---------- 5. script.js에서 부르는 함수 ----------
   window.TRPreview = {
     // 새 추천이 뜰 때마다 호출: 이전 곡을 멈추고, 새 곡들의 미리듣기를 미리 찾아 둡니다.
     prepare(pickedSongs) {
-      stop();
-      songs = pickedSongs;
-      songs.forEach((song, index) => {
-        findPreview(song).then((preview) => {
-          if (songs[index] !== song) return;
-          if (!preview) markNoPreview(index);
-        });
-      });
+      // 추천곡을 듣던 중이었다면 멈춘다 (대표곡을 듣던 중이면 그대로 둔다)
+      if (current !== null && !String(current).startsWith("track-")) stop();
+      Object.keys(songs).filter((key) => !key.startsWith("track-")).forEach((key) => delete songs[key]);
+      pickedSongs.forEach((song, index) => register(String(index), song));
     },
     // 카드 안에 넣을 재생 버튼 + 진행 바 HTML (원픽 카드용)
     buttonHtml(label) {
@@ -282,4 +308,6 @@
       return `<div class="preview-progress" aria-hidden="true"><span></span></div>`;
     },
   };
+
+  setupArtistTracks();
 })();

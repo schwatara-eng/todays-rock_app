@@ -1760,3 +1760,63 @@ body:has(.preview-bar.is-open) {
   border-color: var(--red);
   color: var(--black);
 }
+
+/* 오늘의 뮤지션 대표곡: 카드 왼쪽 위에 ▶ 버튼 (번호 · ↗와 한 줄) (preview-player.js) */
+.artist-feature-track-group .artist-feature-tracks li.artist-track {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  border-radius: 7px;
+}
+
+.artist-feature-track-group .artist-track a {
+  flex: 1;
+  justify-content: flex-start;
+  padding-top: 12px;
+}
+
+/* 번호(01)를 ▶ 버튼 가운데 높이에 맞추고, 곡 제목은 버튼 아래로 */
+.artist-feature-track-group .artist-track a::before {
+  line-height: 16px;
+}
+
+.artist-feature-track-group .artist-track a > span:first-child {
+  margin-top: 7px;
+}
+
+.artist-feature-track-group .artist-track .preview-button {
+  top: 6px;
+  left: 6px;
+  right: auto;
+  width: 28px;
+  height: 28px;
+  border-color: rgba(128, 128, 128, .4);
+  color: inherit;
+}
+
+.artist-feature-track-group .artist-track .preview-button:hover,
+.artist-feature-track-group .artist-track .preview-button:focus-visible {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.artist-feature-track-group .artist-track .preview-button svg,
+.artist-feature-track-group .artist-track .preview-spinner {
+  width: 11px;
+  height: 11px;
+}
+
+.artist-feature-track-group .artist-track.is-playing .preview-button {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--black);
+}
+
+.artist-feature-track-group .artist-track.is-playing a {
+  border-color: var(--red);
+}
+
+.artist-feature-track-group .artist-track .preview-progress {
+  height: 2px;
+  background: transparent;
+}
