@@ -211,7 +211,11 @@ async def get_preview(artist: str, title: str, track_id: str = ""):
         raise HTTPException(status_code=400, detail="곡 정보가 올바르지 않습니다.")
 
     found, failed = None, False
+    guesses = []  # 제목이 맞는 곡이 없었던 나라의 검색 결과 (2단계에서 사용)
     async with httpx.AsyncClient(timeout=6, follow_redirects=True) as client:
+        # 1단계: 모든 나라(KR → US)에서 제목이 맞는 곡을 먼저 찾습니다.
+        # 예전에는 한국 스토어에 그 곡이 없으면 같은 가수의 다른 곡을 바로 골라, 미국 스토어에 있는
+        # 진짜 곡을 찾기 전에 엉뚱한 곡이 재생됐습니다. (예: The Voidz 'Human Sadness')
         for country in ("KR", "US"):
             try:
                 if track_id:
@@ -227,18 +231,26 @@ async def get_preview(artist: str, title: str, track_id: str = ""):
                     results = response.json().get("results", [])
                     found = preview_best_match(results, artist, title)
                     if not found and results:
-                        # 제목이 영문 등으로 달리 등록된 경우(예: '샤이닝'이 'Shining'): 가수의 iTunes 번호를 찾아
-                        # 그 가수의 곡 중 검색 결과 맨 위의 곡을 고릅니다. 검색어에 제목이 들어 있어 보통 그 곡입니다.
-                        response = await client.get("https://itunes.apple.com/search", params={
-                            "term": artist, "country": country,
-                            "media": "music", "entity": "musicArtist", "limit": 3,
-                        })
-                        response.raise_for_status()
-                        artist_ids = {a.get("artistId") for a in response.json().get("results", []) if a.get("artistId")}
-                        found = preview_pick_by_artist(results, artist_ids)
+                        guesses.append((country, results))
             except (httpx.HTTPError, ValueError):
                 failed = True
                 logging.warning("iTunes 미리듣기 조회 실패: %s - %s (%s)", artist, title, country)
+            if found:
+                break
+        # 2단계: 어느 나라에서도 제목이 맞는 곡이 없을 때만, 제목이 영문 등으로 달리 등록된 경우
+        # (예: '샤이닝'이 'Shining')로 보고 가수의 iTunes 번호로 그 가수의 곡 중 검색 결과 맨 위의 곡을 고릅니다.
+        for country, results in guesses if not found else ():
+            try:
+                response = await client.get("https://itunes.apple.com/search", params={
+                    "term": artist, "country": country,
+                    "media": "music", "entity": "musicArtist", "limit": 3,
+                })
+                response.raise_for_status()
+                artist_ids = {a.get("artistId") for a in response.json().get("results", []) if a.get("artistId")}
+                found = preview_pick_by_artist(results, artist_ids)
+            except (httpx.HTTPError, ValueError):
+                failed = True
+                logging.warning("iTunes 가수 번호 조회 실패: %s (%s)", artist, country)
             if found:
                 break
 

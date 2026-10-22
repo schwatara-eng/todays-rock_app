@@ -337,6 +337,7 @@ erDiagram
   2. 제목이 정확히 같은 곡 — 한국 스토어에서 가수 이름이 영문으로 오는 경우(예: '자우림' → 영문 표기)
   3. 제목이 포함된 곡 — 예: '샤이닝 (Shining)'
   4. 가수의 iTunes 번호가 같은 곡 중 검색 결과 맨 위 — 제목까지 영문으로 오는 경우. 검색어에 제목이 들어 있어 보통 맞지만, 같은 가수의 다른 곡이 나올 수 있음
+  - 1~3단계는 한국 → 미국 스토어를 모두 확인한 뒤에도 못 찾았을 때만 4단계로 넘어갑니다. 한국 스토어에 없는 곡이 같은 가수의 다른 곡으로 바뀌어 재생되지 않게 하기 위해서입니다(예: The Voidz 'Human Sadness').
   - 서버(`main.py`의 `preview_best_match`, `preview_pick_by_artist`)와 브라우저(`preview-player.js`의 `pickBestMatch`)가 같은 규칙을 씁니다(4단계는 서버만). 한쪽을 고치면 다른 쪽도 고칩니다.
   - 규칙을 바꾸면 `preview-player.js`의 `/api/preview` 요청에 붙는 `v` 값을 올려, 브라우저·CDN에 남은 예전 결과를 쓰지 않게 합니다.
 - 미리듣기는 서버(`/api/preview`)가 iTunes에 대신 묻고 결과를 CDN에 하루 저장합니다. 아이폰 브라우저에서 iTunes에 직접 요청하면 실패하는 경우가 있어서입니다. 서버 조회가 실패할 때만 브라우저가 직접 묻습니다(JSONP).
@@ -581,7 +582,7 @@ todays-rock_app/
 | `Invalid host header` (미리보기) | **Enable access to System Environment Variables**가 켜져 있는지 확인 후 Redeploy |
 | 추천 카드에 ▶ 버튼이 없음 | **Ctrl + Shift + R**로 강력 새로고침. 계속 없으면 `/preview-player.js`가 열리는지 확인(`main.py` 경로) |
 | ▶ 버튼이 일부 곡에만 없음 | 그 곡을 iTunes에서 못 찾은 것. 국내 곡은 한국 스토어에 가수·제목이 다른 표기(영문 등)로 등록된 경우가 많음. Apple Music 앱에서 검색해 표기를 확인하고, 계속 그러면 `itunes_track_id`로 고정 |
-| ▶를 누르면 다른 곡이 나옴 | 곡 찾는 순서 4단계(가수 번호로 맨 위 곡)에서 같은 가수의 다른 곡이 골라진 경우. 그 곡을 `itunes_track_id`로 고정 |
+| ▶를 누르면 다른 곡이 나옴 | 곡 찾는 순서 4단계(가수 번호로 맨 위 곡)에서 같은 가수의 다른 곡이 골라진 경우. 한국·미국 스토어 모두에 그 제목이 없다는 뜻이니 Apple Music에서 실제 등록된 가수·제목 표기를 확인하고, 계속 그러면 `itunes_track_id`로 고정 |
 | ▶ 버튼이 모든 곡에서 사라짐 | `/api/preview?artist=Oasis&title=Wonderwall`이 `previewUrl`을 돌려주는지 확인. Vercel **Logs**에 `iTunes 미리듣기 조회 실패`가 있는지 확인 |
 | ▶ 버튼은 있는데 소리가 안 남 | 다른 탭·기기 음소거 확인. 개발자 도구 **Console**에 `itunes.apple.com` 오류가 있는지 확인 |
 | 엉뚱한 버전(라이브·리마스터 등)이 재생됨 | 그 곡에 `itunes_track_id`를 넣어 정확한 버전으로 고정(7-4 참고) |
