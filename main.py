@@ -182,6 +182,13 @@ def preview_best_match(results, artist, title):
         and artist_matches(preview_normalize(r.get("artistName")))
         and preview_normalize(r.get("trackName")).startswith(t)
     ]
+    if not matches:
+        # 가수 이름이 다른 언어로 등록된 경우(예: 한국 스토어의 '자우림'이 'Jaurim'): 검색어에 가수 이름이
+        # 이미 들어가 있으므로, 제목이 정확히 같은 곡을 고릅니다.
+        matches = [
+            r for r in results
+            if r.get("previewUrl") and preview_normalize(r.get("trackName")) == t
+        ]
     for r in matches:
         if not PREVIEW_UNWANTED.search(str(r.get("trackName", "")).replace(title, "")):
             return r
@@ -219,7 +226,7 @@ async def get_preview(artist: str, title: str, track_id: str = ""):
         # 조회 자체가 실패했으면 브라우저가 직접 다시 시도하도록 502, 정말 없는 곡이면 null을 하루 저장
         if failed:
             raise HTTPException(status_code=502, detail="미리듣기를 조회하지 못했습니다.")
-        return JSONResponse({"previewUrl": None}, headers={"Cache-Control": PREVIEW_CACHE})
+        return JSONResponse({"previewUrl": None}, headers={"Cache-Control": PREVIEW_MISS_CACHE})
 
     return JSONResponse({
         "previewUrl": found["previewUrl"],
@@ -240,6 +247,7 @@ SONGS_CACHE = "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400"
 NEWS_CACHE = "public, max-age=300, s-maxage=900, stale-while-revalidate=3600"          # 번역된 뉴스 15분
 NEWS_FALLBACK_CACHE = "public, max-age=60, s-maxage=60"                                # 번역 실패 시 짧게
 PREVIEW_CACHE = "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800"  # 곡별 미리듣기 주소 (하루)
+PREVIEW_MISS_CACHE = "public, max-age=300, s-maxage=3600"                               # 못 찾은 곡은 짧게 (1시간)
 
 
 def public_file(asset: str, cache: str = "no-store"):
