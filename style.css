@@ -1548,12 +1548,6 @@ a.archive-nav-item:hover,
   to { transform: rotate(360deg); }
 }
 
-.song-card.is-playing .preview-button {
-  background: var(--red);
-  border-color: var(--red);
-  color: var(--black);
-}
-
 /* 곡 카드: 좋아요(하트) 버튼과 같은 크기로, 하트 버튼 왼쪽에 둔다 */
 .song-number .preview-button {
   top: 50%;
@@ -1587,6 +1581,13 @@ a.archive-nav-item:hover,
 .song-number .preview-spinner {
   width: 12px;
   height: 12px;
+}
+
+/* 재생 중인 곡 카드의 ▶ 버튼은 빨간색 */
+.song-card.is-playing .song-number .preview-button {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--black);
 }
 
 /* 미리듣기를 찾지 못한 곡: 재생 버튼을 숨기고 YouTube 링크만 남긴다 */
@@ -1752,13 +1753,6 @@ body:has(.preview-bar.is-open) {
   .preview-bar { transition: none; }
   .preview-eq i,
   .preview-spinner { animation: none; }
-}
-
-/* 재생 중일 때는 하트 버튼 옆 재생 버튼도 빨간색 */
-.song-card.is-playing .song-number .preview-button {
-  background: var(--red);
-  border-color: var(--red);
-  color: var(--black);
 }
 
 /* 오늘의 뮤지션 대표곡: 카드 왼쪽 위에 ▶ 버튼 (번호 · ↗와 한 줄) (preview-player.js) */

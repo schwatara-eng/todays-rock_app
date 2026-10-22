@@ -169,11 +169,17 @@ def preview_normalize(text):
 
 def preview_best_match(results, artist, title):
     """검색 결과 중 아티스트·제목이 맞는 곡을 고르고, 라이브·리마스터가 아닌 원곡을 우선합니다."""
+    # preview-player.js의 pickBestMatch와 같은 규칙입니다. 한쪽을 고치면 다른 쪽도 같이 고칩니다.
     a, t = preview_normalize(artist), preview_normalize(title)
+
+    def artist_matches(name):
+        # 한글·영문·숫자가 없는 이름(예: 일본어)은 빈 값이 되어 아무 가수와나 일치하므로 제외합니다.
+        return bool(a and name and (a in name or name in a))
+
     matches = [
         r for r in results
         if r.get("previewUrl")
-        and (a in preview_normalize(r.get("artistName")) or preview_normalize(r.get("artistName")) in a)
+        and artist_matches(preview_normalize(r.get("artistName")))
         and preview_normalize(r.get("trackName")).startswith(t)
     ]
     for r in matches:

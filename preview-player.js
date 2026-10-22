@@ -33,12 +33,15 @@
   const unwantedVersion = /live|remaster|demo|karaoke|instrumental|inst\.|\bmr\b|acoustic|remix|version|ver\./i;
 
   // 검색 결과 중에서 아티스트와 제목이 맞는 원곡 버전을 고릅니다.
+  // 서버 main.py의 preview_best_match와 같은 규칙입니다. 한쪽을 고치면 다른 쪽도 같이 고칩니다.
   function pickBestMatch(results, song) {
     const artist = normalize(song.artist);
     const title = normalize(song.title);
+    // 한글·영문·숫자가 없는 이름(예: 일본어)은 빈 값이 되어 아무 가수와나 일치하므로 제외합니다.
+    const artistMatches = (name) => Boolean(artist && name && (name.includes(artist) || artist.includes(name)));
     const matches = results.filter((item) =>
       item.previewUrl &&
-      (normalize(item.artistName).includes(artist) || artist.includes(normalize(item.artistName))) &&
+      artistMatches(normalize(item.artistName)) &&
       normalize(item.trackName).startsWith(title)
     );
     return matches.find((item) => !unwantedVersion.test(item.trackName.replace(song.title, ""))) || matches[0] || null;
@@ -128,15 +131,15 @@
   const songs = {};
   let current = null;    // 재생 중인 곡의 키
 
-  const cardsFor = (index) => document.querySelectorAll(`[data-preview="${index}"]`);
-  const setCardState = (index, className, on) => cardsFor(index).forEach((el) => el.classList.toggle(className, on));
-  const setProgress = (index, ratio) => cardsFor(index).forEach((el) => {
+  const cardsFor = (key) => document.querySelectorAll(`[data-preview="${key}"]`);
+  const setCardState = (key, className, on) => cardsFor(key).forEach((el) => el.classList.toggle(className, on));
+  const setProgress = (key, ratio) => cardsFor(key).forEach((el) => {
     const fill = el.querySelector(".preview-progress span");
     if (fill) fill.style.width = (ratio * 100) + "%";
   });
   // 미리듣기를 못 찾은 곡: 재생 버튼을 숨기고, 원픽 카드는 예전처럼 YouTube 링크로 되돌린다.
-  function markNoPreview(index) {
-    cardsFor(index).forEach((el) => {
+  function markNoPreview(key) {
+    cardsFor(key).forEach((el) => {
       el.classList.add("no-preview");
       if (el.dataset.youtube && !el.querySelector(".pick-card-link")) {
         const link = document.createElement("a");
@@ -155,20 +158,34 @@
   };
 
   // 소리가 툭 끊기지 않게 볼륨을 부드럽게 올리고 내립니다.
+  // 새 페이드가 시작되면 이전 페이드는 중단합니다. 끝까지 진행했으면 true, 중단됐으면 false.
+  // (아이폰은 볼륨을 코드로 바꿀 수 없어서 페이드 없이 바로 재생·정지됩니다.)
+  let fadeId = 0;
   function fadeTo(volume, ms = 300) {
+    const id = ++fadeId;
     return new Promise((resolve) => {
       const from = audio.volume;
       const start = performance.now();
       function step(now) {
+        if (id !== fadeId) { resolve(false); return; }
         const progress = Math.min(1, (now - start) / ms);
         audio.volume = Math.min(1, Math.max(0, from + (volume - from) * progress));
-        if (progress < 1) requestAnimationFrame(step); else resolve();
+        if (progress < 1) requestAnimationFrame(step); else resolve(true);
       }
       requestAnimationFrame(step);
     });
   }
 
+  // 재생을 시작하고, 거부되면(자동재생 제한 등) 조용히 기록만 남깁니다.
+  function playAudio() {
+    return audio.play().then(() => { fadeTo(1); return true; }, (error) => {
+      console.error(error);
+      return false;
+    });
+  }
+
   function stop() {
+    fadeId += 1; // 진행 중인 페이드 중단
     if (current !== null) {
       setCardState(current, "is-playing", false);
       setCardState(current, "is-loading", false);
@@ -179,48 +196,49 @@
     bar.classList.remove("is-open");
   }
 
-  async function toggle(index) {
-    const song = songs[index];
+  async function toggle(key) {
+    const song = songs[key];
     if (!song) return;
 
     // 같은 곡을 다시 누르면 일시정지 / 다시 재생
-    if (current === index) {
-      if (audio.paused) { audio.play(); fadeTo(1); }
-      else { await fadeTo(0, 200); audio.pause(); }
+    if (current === key) {
+      if (audio.paused) {
+        playAudio();
+      } else {
+        const finished = await fadeTo(0, 200);
+        // 소리를 줄이는 사이 다른 곡을 눌렀다면 그 곡을 멈추지 않는다
+        if (finished && current === key) audio.pause();
+      }
       return;
     }
 
     stop();
-    current = index;
+    current = key;
     let preview;
     if (resolved.has(keyOf(song))) {
       // 미리 찾아 둔 곡: 기다리지 않고 바로 재생해야 아이폰에서도 '누른 순간'으로 인정되어 소리가 납니다.
       preview = resolved.get(keyOf(song));
     } else {
-      setCardState(index, "is-loading", true);
+      setCardState(key, "is-loading", true);
       preview = await findPreview(song);
-      setCardState(index, "is-loading", false);
-      if (current !== index) return; // 기다리는 사이 다른 곡을 눌렀으면 무시
+      setCardState(key, "is-loading", false);
+      if (current !== key) return; // 기다리는 사이 다른 곡을 눌렀으면 무시
     }
 
     if (!preview) {
       current = null;
-      markNoPreview(index);
+      markNoPreview(key);
       return;
     }
 
     audio.src = preview.previewUrl;
     audio.volume = 0;
     barTitle.textContent = `${song.title} — ${song.artist}`;
-    const playing = audio.play(); // await 전에 바로 호출 (아이폰 자동재생 제한 대응)
-    try {
-      await playing;
-    } catch (error) {
-      console.error(error);
-      current = null;
+    // await 전에 바로 play()를 호출해야 아이폰 자동재생 제한에 걸리지 않습니다.
+    if (!(await playAudio())) {
+      if (current === key) current = null;
       return;
     }
-    fadeTo(1);
     bar.classList.add("is-open");
   }
 
