@@ -157,6 +157,72 @@ async def get_news():
 ROOT = Path(__file__).resolve().parent
 
 
+# ── 30초 미리듣기 (iTunes Search API) ─────────────────────────
+# 브라우저가 iTunes에 직접 요청하면 아이폰 등에서 실패하는 경우가 있어 서버가 대신 찾습니다.
+# 결과는 CDN에 하루 저장되므로 같은 곡은 iTunes에 다시 묻지 않습니다.
+PREVIEW_UNWANTED = re.compile(r"live|remaster|demo|karaoke|instrumental|inst\.|\bmr\b|acoustic|remix|version|ver\.", re.I)
+
+
+def preview_normalize(text):
+    return re.sub(r"[^0-9a-z가-힣]", "", str(text or "").lower())
+
+
+def preview_best_match(results, artist, title):
+    """검색 결과 중 아티스트·제목이 맞는 곡을 고르고, 라이브·리마스터가 아닌 원곡을 우선합니다."""
+    a, t = preview_normalize(artist), preview_normalize(title)
+    matches = [
+        r for r in results
+        if r.get("previewUrl")
+        and (a in preview_normalize(r.get("artistName")) or preview_normalize(r.get("artistName")) in a)
+        and preview_normalize(r.get("trackName")).startswith(t)
+    ]
+    for r in matches:
+        if not PREVIEW_UNWANTED.search(str(r.get("trackName", "")).replace(title, "")):
+            return r
+    return matches[0] if matches else None
+
+
+@app.get("/api/preview")
+async def get_preview(artist: str, title: str, track_id: str = ""):
+    artist, title, track_id = artist.strip()[:200], title.strip()[:200], track_id.strip()[:20]
+    if not artist or not title or (track_id and not track_id.isdigit()):
+        raise HTTPException(status_code=400, detail="곡 정보가 올바르지 않습니다.")
+
+    found, failed = None, False
+    async with httpx.AsyncClient(timeout=6, follow_redirects=True) as client:
+        for country in ("KR", "US"):
+            try:
+                if track_id:
+                    response = await client.get("https://itunes.apple.com/lookup", params={"id": track_id, "country": country})
+                    response.raise_for_status()
+                    found = next((r for r in response.json().get("results", []) if r.get("previewUrl")), None)
+                if not found:
+                    response = await client.get("https://itunes.apple.com/search", params={
+                        "term": f"{artist} {title}", "country": country,
+                        "media": "music", "entity": "song", "limit": 15,
+                    })
+                    response.raise_for_status()
+                    found = preview_best_match(response.json().get("results", []), artist, title)
+            except (httpx.HTTPError, ValueError):
+                failed = True
+                logging.warning("iTunes 미리듣기 조회 실패: %s - %s (%s)", artist, title, country)
+            if found:
+                break
+
+    if not found:
+        # 조회 자체가 실패했으면 브라우저가 직접 다시 시도하도록 502, 정말 없는 곡이면 null을 하루 저장
+        if failed:
+            raise HTTPException(status_code=502, detail="미리듣기를 조회하지 못했습니다.")
+        return JSONResponse({"previewUrl": None}, headers={"Cache-Control": PREVIEW_CACHE})
+
+    return JSONResponse({
+        "previewUrl": found["previewUrl"],
+        "trackId": found.get("trackId"),
+        "trackName": found.get("trackName"),
+        "collectionName": found.get("collectionName"),
+    }, headers={"Cache-Control": PREVIEW_CACHE})
+
+
 # ── 캐시 규칙 ────────────────────────────────────────────────
 # s-maxage: Vercel CDN(한국 근처 서버)이 이 시간 동안 저장해 두고 Python 서버를 거치지 않고 바로 보냅니다.
 #           새로 배포하면 Vercel이 CDN 저장분을 모두 비우므로 디자인 수정은 배포 즉시 반영됩니다.
@@ -167,6 +233,7 @@ PHOTO_CACHE = "public, max-age=60, s-maxage=60, stale-while-revalidate=600"     
 SONGS_CACHE = "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400"       # 곡 500개 (SQL로만 바뀜)
 NEWS_CACHE = "public, max-age=300, s-maxage=900, stale-while-revalidate=3600"          # 번역된 뉴스 15분
 NEWS_FALLBACK_CACHE = "public, max-age=60, s-maxage=60"                                # 번역 실패 시 짧게
+PREVIEW_CACHE = "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800"  # 곡별 미리듣기 주소 (하루)
 
 
 def public_file(asset: str, cache: str = "no-store"):

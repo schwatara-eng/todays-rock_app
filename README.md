@@ -43,7 +43,7 @@
 | F-03 | 추천 | 기분 선택 | 지침·평온·울적함·신남·답답함·집중 중 하나를 고릅니다. | 전체 | — |
 | F-04 | 추천 | 록 음악 3곡 추천 | ① 기분+날씨 모두 맞는 곡 → ② 기분만 맞는 곡 순서로 무작위 3곡을 고릅니다. 최근 추천곡은 제외합니다(브라우저 저장). | 전체 | `GET /api/songs` |
 | F-05 | 추천 | 곡 정보·링크 | 연도·장르·에너지(1~5)·추천 이유를 보여 주고 YouTube 검색·가사 페이지로 연결합니다. | 전체 | — |
-| F-22 | 추천 | 30초 미리듣기 | 추천 카드(또는 ♡ 왼쪽 ▶ 버튼)를 누르면 사이트를 떠나지 않고 곡의 30초 미리듣기가 바로 재생됩니다. 다시 누르면 일시정지, 다른 카드를 누르면 곡이 바뀝니다. 원픽 카드는 1번 곡을 재생합니다. 하단 재생바에 곡명·재생 시간·일시정지 버튼이 나옵니다. 미리듣기를 못 찾은 곡은 ▶ 버튼을 숨기고 YouTube 링크만 남깁니다. | 전체 | iTunes Search API |
+| F-22 | 추천 | 30초 미리듣기 | 추천 카드(또는 ♡ 왼쪽 ▶ 버튼)를 누르면 사이트를 떠나지 않고 곡의 30초 미리듣기가 바로 재생됩니다. 다시 누르면 일시정지, 다른 카드를 누르면 곡이 바뀝니다. 원픽 카드는 1번 곡을 재생합니다. 하단 재생바에 곡명·재생 시간·일시정지 버튼이 나옵니다. 미리듣기를 못 찾은 곡은 ▶ 버튼을 숨기고 YouTube 링크만 남깁니다. | 전체 | `GET /api/preview` (iTunes Search API) |
 | F-06 | 뉴스 | 음악 뉴스 | NME RSS 최신 3건을 Google 번역으로 한국어로 바꿔 보여 줍니다. 번역에 실패하면 영어 원문을 보여 줍니다. | 전체 | `GET /api/news` |
 | F-07 | 기사 | 오늘의 뮤지션 | 편집실에서 마지막으로 게시한 기사를 홈에 보여 줍니다. | 전체 | `GET /` |
 | F-08 | 기사 | 지난 뮤지션 아카이브 | 홈의 지난 뮤지션 목록에서 개별 기사를 열고, 기사 하단 **ARCHIVE** 목록으로 다른 지난 뮤지션 기사로 이동합니다. 현재 읽는 뮤지션은 링크 없이 표시합니다. 한국 뮤지션은 `김윤아 (Kim Yuna)`처럼 '한글 (영문)' 순서로 표시합니다. | 전체 | `GET /artist-archive.json`, `GET /artist-{ID}.html` |
@@ -173,10 +173,11 @@ flowchart LR
   F -->|사실 추출·웹 검색·검토| O[OpenAI Responses API]
   B -->|날씨| M[Open-Meteo]
   B -->|지역명| C[BigDataCloud]
-  B -->|미리듣기 검색·재생| I[iTunes Search API]
+  F -->|미리듣기 검색| I[iTunes Search API]
+  B -->|미리듣기 음원 재생| I
 ```
 
-- FastAPI 서버 하나가 모든 화면과 API를 제공합니다. 날씨·지역명·미리듣기만 브라우저가 직접 조회합니다.
+- FastAPI 서버 하나가 모든 화면과 API를 제공합니다. 날씨·지역명만 브라우저가 직접 조회하고, 미리듣기 음원은 브라우저가 Apple 서버에서 바로 재생합니다.
 - 홈 화면은 저장소의 최신 `index.html` 디자인에, DB에 저장된 '오늘의 뮤지션' 기사 본문을 끼워 넣어 만듭니다. 그래서 디자인을 고쳐 배포해도 게시한 기사는 유지됩니다.
 - CSS·JS·폰트·영상은 CDN에 하루, 곡 목록은 1시간, 번역된 뉴스는 15분 캐시합니다. 기사·로그인·편집실은 캐시하지 않습니다.
 
@@ -326,12 +327,13 @@ erDiagram
 | 음악 뉴스 | **RSS (XML)** | NME `https://www.nme.com/news/music/feed` | 15분 캐시 | 최신 3건 제목·요약 추출, HTML 태그 제거 |
 | 뉴스 번역 | **Open API** (API 키) | Google Cloud Translation API v2 | 뉴스와 함께 | 제목·요약 6개 문장을 한 번에 영→한 번역 |
 | 기사 사실 검증 | **LLM API + 웹 검색** (API 키) | OpenAI Responses API의 `web_search` 도구 | 편집실에서 실행할 때 | 원고에서 주장 추출 → 출처 검색 → 출처 본문을 직접 받아 인용 대조 |
-| 30초 미리듣기 | **Open API** (키 불필요, JSONP) | [iTunes Search API](https://performance-partners.apple.com/search-api) `/search`, `/lookup` | 추천이 뜰 때마다 | 곡에 `itunes_track_id`가 있으면 그 ID로 조회, 없으면 '아티스트 + 제목'으로 한국 → 미국 스토어 순서로 검색해 라이브·리마스터가 아닌 원곡을 우선 선택. 같은 방문 중에는 다시 검색하지 않음 |
+| 30초 미리듣기 | **Open API** (키 불필요) | [iTunes Search API](https://performance-partners.apple.com/search-api) `/search`, `/lookup` — 서버 `GET /api/preview`가 대신 조회 | 곡별 하루 캐시 | 곡에 `itunes_track_id`가 있으면 그 ID로 조회, 없으면 '아티스트 + 제목'으로 한국 → 미국 스토어 순서로 검색해 라이브·리마스터가 아닌 원곡을 우선 선택. 같은 방문 중에는 다시 검색하지 않음 |
 | 오늘의 뮤지션 기사 | **기자 직접 작성** | 편집실 | 게시할 때 | DB(`editor_docs`, `site_features`)에 저장 |
 
 - **CSV 다운로드는 사용하지 않습니다.** 곡 데이터는 처음부터 JSON으로 정리해 SQL로 옮겼습니다.
 - **PDF는 자동 처리하지 않습니다.** 편집실이 출처 본문을 대조할 때 PDF 링크는 건너뛰고 "PDF 출처는 직접 확인해 주세요"라고 안내하며, 에디터가 원문을 직접 확인합니다.
-- 날씨·지역명·iTunes API는 키가 없어 브라우저에서 바로 부르고, 번역·OpenAI는 키가 노출되지 않도록 서버에서만 부릅니다.
+- 미리듣기는 서버(`/api/preview`)가 iTunes에 대신 묻고 결과를 CDN에 하루 저장합니다. 아이폰 브라우저에서 iTunes에 직접 요청하면 실패하는 경우가 있어서입니다. 서버 조회가 실패할 때만 브라우저가 직접 묻습니다(JSONP).
+- 날씨·지역명 API는 키가 없어 브라우저에서 바로 부르고, 번역·OpenAI는 키가 노출되지 않도록 서버에서만 부릅니다.
 - Spotify Web API는 쓰지 않습니다. 2026년 개발 모드가 Premium 계정·승인 사용자 5명으로 제한되고 미리듣기 음원 주소도 제공하지 않아, 공개 사이트에서 쓸 수 없습니다.
 - 검색 실패는 주장이 거짓이라는 뜻이 아닙니다. 번역·OpenAI 호출에는 사용량에 따라 요금이 나옵니다.
 
@@ -571,6 +573,8 @@ todays-rock_app/
 | `Invalid host header` (실제 사이트) | Production의 `APP_ORIGIN`이 `https://todays-rock-app.vercel.app`과 정확히 같은지 확인 후 Redeploy |
 | `Invalid host header` (미리보기) | **Enable access to System Environment Variables**가 켜져 있는지 확인 후 Redeploy |
 | 추천 카드에 ▶ 버튼이 없음 | **Ctrl + Shift + R**로 강력 새로고침. 계속 없으면 `/preview-player.js`가 열리는지 확인(`main.py` 경로) |
+| ▶ 버튼이 일부 곡에만 없음 | 그 곡을 iTunes에서 못 찾은 것. 계속 그러면 `itunes_track_id`로 고정 |
+| ▶ 버튼이 모든 곡에서 사라짐 | `/api/preview?artist=Oasis&title=Wonderwall`이 `previewUrl`을 돌려주는지 확인. Vercel **Logs**에 `iTunes 미리듣기 조회 실패`가 있는지 확인 |
 | ▶ 버튼은 있는데 소리가 안 남 | 다른 탭·기기 음소거 확인. 개발자 도구 **Console**에 `itunes.apple.com` 오류가 있는지 확인 |
 | 엉뚱한 버전(라이브·리마스터 등)이 재생됨 | 그 곡에 `itunes_track_id`를 넣어 정확한 버전으로 고정(7-4 참고) |
 | 배포 사이트 오류 전반 | Vercel → 프로젝트 → **Logs**의 빨간 오류 확인. 대부분 `DATABASE_URL` 누락·오타 |

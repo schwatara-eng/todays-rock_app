@@ -44,7 +44,27 @@
     return matches.find((item) => !unwantedVersion.test(item.trackName.replace(song.title, ""))) || matches[0] || null;
   }
 
+  // 1순위: 우리 서버(/api/preview)가 대신 찾기 — 아이폰에서도 안정적이고, 결과가 CDN에 저장됩니다.
+  async function lookupFromServer(song) {
+    const params = new URLSearchParams({ artist: song.artist, title: song.title });
+    if (song.itunes_track_id) params.set("track_id", song.itunes_track_id);
+    const response = await fetch("/api/preview?" + params.toString());
+    if (!response.ok) throw new Error("preview api " + response.status);
+    const data = await response.json();
+    return data.previewUrl ? data : null;
+  }
+
   async function lookupPreview(song) {
+    try {
+      return await lookupFromServer(song);
+    } catch (error) {
+      // 서버 조회가 실패했을 때만 브라우저가 iTunes에 직접 물어봅니다.
+      return lookupDirect(song);
+    }
+  }
+
+  // 2순위: 브라우저가 iTunes에 직접 묻기 (JSONP)
+  async function lookupDirect(song) {
     // DB에 iTunes ID를 넣어 둔 곡은 검색 없이 정확히 가져옵니다.
     if (song.itunes_track_id) {
       for (const country of ["KR", "US"]) {
@@ -67,9 +87,17 @@
     return null;
   }
 
+  const resolved = new Map(); // 찾기를 마친 곡: 클릭 즉시(기다림 없이) 재생하는 데 씁니다.
+  const keyOf = (song) => song.artist + "|" + song.title;
+
   function findPreview(song) {
-    const key = song.artist + "|" + song.title;
-    if (!cache.has(key)) cache.set(key, lookupPreview(song).catch(() => null));
+    const key = keyOf(song);
+    if (!cache.has(key)) {
+      cache.set(key, lookupPreview(song).catch(() => null).then((preview) => {
+        resolved.set(key, preview);
+        return preview;
+      }));
+    }
     return cache.get(key);
   }
 
@@ -163,10 +191,16 @@
 
     stop();
     current = index;
-    setCardState(index, "is-loading", true);
-    const preview = await findPreview(song);
-    setCardState(index, "is-loading", false);
-    if (current !== index) return; // 기다리는 사이 다른 곡을 눌렀으면 무시
+    let preview;
+    if (resolved.has(keyOf(song))) {
+      // 미리 찾아 둔 곡: 기다리지 않고 바로 재생해야 아이폰에서도 '누른 순간'으로 인정되어 소리가 납니다.
+      preview = resolved.get(keyOf(song));
+    } else {
+      setCardState(index, "is-loading", true);
+      preview = await findPreview(song);
+      setCardState(index, "is-loading", false);
+      if (current !== index) return; // 기다리는 사이 다른 곡을 눌렀으면 무시
+    }
 
     if (!preview) {
       current = null;
@@ -176,15 +210,16 @@
 
     audio.src = preview.previewUrl;
     audio.volume = 0;
+    barTitle.textContent = `${song.title} — ${song.artist}`;
+    const playing = audio.play(); // await 전에 바로 호출 (아이폰 자동재생 제한 대응)
     try {
-      await audio.play();
+      await playing;
     } catch (error) {
       console.error(error);
       current = null;
       return;
     }
     fadeTo(1);
-    barTitle.textContent = `${song.title} — ${song.artist}`;
     bar.classList.add("is-open");
   }
 
