@@ -210,9 +210,56 @@ erDiagram
   account_users ||--o{ account_likes : "좋아요"
   songs ||..o{ account_likes : "song_id (논리적 참조)"
   account_users ||..o{ account_audit : "actor_id·target_id"
+
+  songs {
+    int id PK
+    varchar title UK "artist와 함께 유일"
+    varchar artist UK
+  }
+  song_moods {
+    int song_id PK,FK
+    text mood PK
+  }
+  song_weathers {
+    int song_id PK,FK
+    text weather PK
+  }
+  account_users {
+    bigint id PK
+    varchar email UK "대소문자 구분 없음"
+  }
+  account_sessions {
+    char token_hash PK
+    bigint user_id FK
+  }
+  account_likes {
+    bigint user_id PK,FK
+    int song_id PK
+  }
+  account_audit {
+    bigint id PK
+    bigint actor_id
+    bigint target_id
+  }
+  account_auth_limits {
+    char bucket_hash PK
+  }
+  editor_docs {
+    text kind PK
+    text artist_id PK
+  }
+  site_features {
+    text artist_id PK
+  }
+  site_assets {
+    text path PK
+  }
+  site_history {
+    bigint id PK
+  }
 ```
 
-다른 테이블과 연결되지 않는 `account_auth_limits`와 편집실 테이블 4개는 그림에서 뺐습니다. 모든 테이블의 칸은 아래 3-2 표에 있습니다.
+ERD에는 키(PK·FK·UK)와 관계에 쓰이는 칸만 표시했습니다. 나머지 칸은 아래 3-2 표에 있습니다. 점선은 외래 키 제약 없이 값으로만 연결되는 관계입니다.
 
 `account_likes.song_id`는 일부러 외래 키로 묶지 않았습니다. 곡 SQL을 다시 실행해 곡 테이블을 새로 만들어도 좋아요 기록이 지워지지 않게 하기 위해서입니다.
 
