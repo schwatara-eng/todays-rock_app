@@ -107,8 +107,6 @@ async def action(name,data,user=None):
         # 편집실에서 추가한 뮤지션을 기록째 지웁니다. 공개 중인 기사는 먼저 비공개로 돌려야 합니다.
         aid=current.get()
         if data.get('confirm')!=aid:raise ai.EditorError('삭제할 뮤지션을 확인하지 못했습니다. 새로고침한 뒤 다시 시도하세요.',400)
-        if (ROOT/'articles/drafts'/f'{aid}.json').is_file():
-            raise ai.EditorError('저장소에 기본으로 들어 있는 원고는 편집실에서 삭제할 수 없습니다.',409)
         site=storage.get_archive() or {}
         shown=[site.get('current')]+list(site.get('archive') or [])
         if any(isinstance(a,dict) and a.get('id')==aid for a in shown):

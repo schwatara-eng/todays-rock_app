@@ -21,7 +21,7 @@ from account_system.database import DatabaseError, connect as connect_db
 from editor_python import storage as editor_storage
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=allowed_hosts())
 app.include_router(account_router)
-from editor_bridge import router as editor_router
+from editor_python.routes import router as editor_router
 app.include_router(editor_router)
 
 @app.get("/api/songs")

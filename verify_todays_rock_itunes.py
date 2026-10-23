@@ -4,6 +4,12 @@
 인터넷 되는 컴퓨터에서 CSV와 같은 폴더에 두고 실행:
     python verify_todays_rock_itunes.py
 
+파일: todays_rock_song_candidates.csv 하나를 읽고 같은 파일에 결과를 씁니다.
+- 앞쪽 열(번호·시대·구분·아티스트·곡명·검증상태)이 후보 목록입니다. 새 후보는 이 열만 채워 맨 아래에 추가하세요.
+- iTunes 열은 이 스크립트가 채웁니다. 이미 확인한 곡(API오류 제외)은 다시 검색하지 않습니다.
+- 정리분류·권장조치·재검색어·DB등록·DB번호 열은 사람이 정리한 기록이라 그대로 둡니다.
+  (다시 검색한 곡은 iTunes 결과가 바뀔 수 있으니 이 열도 함께 확인하세요.)
+
 변경 사항
 - 요청 간격 3.2초(분당 약 19회) + 403/429/5xx 재시도(점점 길게 대기)
 - 한국 곡은 KR 스토어로 검색, 결과가 없으면 US 스토어로 한 번 더 검색
@@ -16,8 +22,8 @@ import csv, json, re, time, unicodedata, urllib.error, urllib.parse, urllib.requ
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-INPUT = ROOT / 'todays_rock_500_candidates_2020s_updated.csv'
-OUTPUT = ROOT / 'todays_rock_itunes_verification.csv'
+CSV = ROOT / 'todays_rock_song_candidates.csv'   # 후보 목록 + iTunes 확인 결과 + 정리 기록 (읽고 쓰는 파일 하나)
+INPUT = OUTPUT = CSV
 BASE = 'https://itunes.apple.com/search?'
 DELAY = 3.2          # 초. iTunes Search API 권장 한도(분당 약 20회) 안쪽
 MAX_RETRY = 4

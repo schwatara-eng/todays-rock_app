@@ -51,7 +51,7 @@ function koreanLabel(value) {
 }
 let lastSaved = { title: '', body: '' };
 let lastState = null;
-// 지금 편집 중인 뮤지션. 서버의 articles/<종류>/<뮤지션ID>.json 파일과 짝을 이룹니다.
+// 지금 편집 중인 뮤지션 ID. 서버 DB의 뮤지션별 원고·검토 기록과 짝을 이룹니다.
 let currentArtist = 'jack-white';
 // 아직 한 번도 저장하지 않은 새 뮤지션의 이름 정보 (첫 저장 때 서버로 보냅니다)
 let pendingArtistInfo = null;

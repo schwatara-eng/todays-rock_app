@@ -6,10 +6,9 @@ Vercel 서버의 폴더는 읽기 전용이고 요청이 끝나면 사라지므�
                  + 홈 게시 상태 (kind='site', artist_id='archive' → 예전 artist-archive.json 내용)
   site_features  게시된 '오늘의 뮤지션' 기사 본문 HTML (뮤지션별). 현재 뮤지션과 지난 뮤지션 모두.
   site_assets    편집실에서 올린 뮤지션 사진
-  site_history   게시 직전 상태 백업 (예전 articles/backups 폴더 역할)
+  site_history   게시 직전 상태 백업
 
-DB에 아직 없는 것은 저장소 파일(articles/, images/, artist-archive.json, index.html)을 그대로 씁니다.
-그래서 처음 전환할 때 기존 기사·사진·홈 화면이 그대로 보이고, 편집실에서 저장·게시한 것부터 DB에 쌓입니다.
+편집 기록은 DB에만 있습니다. 게시 상태·사진이 DB에 없을 때만 저장소 파일(images/, artist-archive.json, index.html)을 씁니다.
 """
 import json
 import mimetypes
@@ -55,12 +54,6 @@ ALTER TABLE site_features ENABLE ROW LEVEL SECURITY;
 ALTER TABLE site_assets   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE site_history  ENABLE ROW LEVEL SECURITY
 """
-
-# 예전 파일 위치 (DB에 아직 없을 때 읽기 전용으로 사용)
-FILES = {'draft': 'articles/drafts/{id}.json', 'sheet': 'articles/research/{id}.json',
-         'review': 'articles/reviews/{id}.json', 'editorial': 'articles/reviews/{id}-editorial.json',
-         'approval': 'articles/approvals/{id}.json'}
-
 
 class _Conn:
     """with 문으로 쓰는 짧은 DB 연결. 끝나면 commit, 오류면 rollback.
@@ -118,13 +111,7 @@ def _file_json(rel):
 # ── 편집 기록 ──────────────────────────────────────────────
 def get_doc(kind, artist_id, default=None):
     row = _fetch('SELECT data FROM editor_docs WHERE kind = %s AND artist_id = %s', (kind, artist_id))
-    if row:
-        return row['data']
-    if kind in FILES:
-        found = _file_json(FILES[kind].format(id=artist_id))
-        if found is not None:
-            return found
-    return default
+    return row['data'] if row else default
 
 
 def put_doc(kind, artist_id, data):
@@ -136,12 +123,8 @@ def put_doc(kind, artist_id, data):
 
 
 def list_drafts():
-    """원고가 있는 뮤지션: DB + 아직 DB로 옮기지 않은 파일. {id: draft}"""
+    """원고가 있는 뮤지션. {id: draft}"""
     found = {}
-    for f in sorted((ROOT / 'articles/drafts').glob('*.json')):
-        data = _file_json(f'articles/drafts/{f.name}')
-        if isinstance(data, dict):
-            found[f.stem] = data
     for row in _fetch("SELECT artist_id, data FROM editor_docs WHERE kind = 'draft' ORDER BY artist_id", many=True):
         found[row['artist_id']] = row['data']
     return dict(sorted(found.items()))
@@ -288,38 +271,3 @@ def archive_page(slug):
     # 기존 정적 아카이브: 공개 목록에 있는 파일만 허용합니다.
     file = ROOT / f'artist-{slug}.html'
     return file.read_text(encoding='utf-8') if file.is_file() else None
-
-
-def migrate_files(force=False):
-    """articles/ 폴더의 기존 기록을 DB로 복사합니다. (이미 DB에 있으면 건너뜀, force=True면 덮어씀)"""
-    copied, skipped = [], []
-    for kind, pattern in FILES.items():
-        folder = ROOT / Path(pattern).parent
-        for f in sorted(folder.glob('*.json')):
-            stem = f.stem
-            if kind == 'review' and stem.endswith('-editorial'):
-                continue
-            if kind == 'editorial':
-                if not stem.endswith('-editorial'):
-                    continue
-                stem = stem[:-len('-editorial')]
-            data = _file_json(str(f.relative_to(ROOT)))
-            if data is None:
-                continue
-            with db() as cur:
-                cur.execute('SELECT 1 FROM editor_docs WHERE kind = %s AND artist_id = %s', (kind, stem))
-                exists = cur.fetchone()
-            if exists and not force:
-                skipped.append(f'{kind}/{stem}')
-                continue
-            put_doc(kind, stem, data)
-            copied.append(f'{kind}/{stem}')
-    return copied, skipped
-
-
-if __name__ == '__main__':
-    import sys
-    done, kept = migrate_files('--force' in sys.argv)
-    print(f'DB로 복사: {len(done)}개' + (' — ' + ', '.join(done) if done else ''))
-    if kept:
-        print(f'이미 DB에 있어 건너뜀: {len(kept)}개 (덮어쓰려면 --force)')

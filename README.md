@@ -290,8 +290,8 @@ erDiagram
 | 테이블 | 주요 칸 | 제약·설명 |
 | --- | --- | --- |
 | `songs` | id, title, artist, year, genre, energy, theme, tone, reason, lyrics_url | 933곡. `(title, artist)` 중복 불가, energy 1~5 |
-| `song_moods` | song_id, mood | 한 곡에 여러 기분. mood ∈ `calm`, `excited`, `focused`, `blue`, `tired`, `frustrated` (1,082행) |
-| `song_weathers` | song_id, weather | 한 곡에 여러 날씨. weather ∈ `clear`, `cloudy`, `rain`, `snow` (1,094행) |
+| `song_moods` | song_id, mood | 한 곡에 여러 기분. mood ∈ `calm`, `excited`, `focused`, `blue`, `tired`, `frustrated` (2,046행) |
+| `song_weathers` | song_id, weather | 한 곡에 여러 날씨. weather ∈ `clear`, `cloudy`, `rain`, `snow` (2,006행) |
 | `v_songs` (뷰) | 곡 정보 + moods·weathers를 쉼표로 묶은 문자열 | `/api/songs`가 읽는 뷰. `security_invoker=true` |
 
 **회원 — `db/accounts.sql`** (서버·관리 명령이 자동 실행, 기존 데이터 유지)
@@ -321,7 +321,7 @@ erDiagram
 
 | 데이터 | 방식 | 출처 | 갱신 | 처리 |
 | --- | --- | --- | --- | --- |
-| 추천 곡 933곡 | **직접 구성한 JSON → SQL** | `data_backup.json` (곡·연도·장르·에너지·주제·분위기·추천 이유·가사 링크·기분·날씨 태그) | 수동 | `db/todays_rock.sql`의 `INSERT`로 옮겨 Supabase에 적재 |
+| 추천 곡 933곡 | **직접 구성한 JSON → SQL** | `data_backup.json` (곡·연도·장르·에너지·주제·분위기·추천 이유·가사 링크·기분·날씨 태그) | 수동 | `db/build_songs_sql.py`가 `db/todays_rock.sql`로 만들어 Supabase에 적재 |
 | 현재 날씨 | **Open API** (키 불필요) | [Open-Meteo](https://open-meteo.com/) `/v1/forecast` — 기온·날씨 코드·풍속 | 접속할 때마다 | 날씨 코드(WMO)를 맑음·흐림·비·눈으로 분류 |
 | 지역명 | **Open API** (키 불필요) | [BigDataCloud](https://www.bigdatacloud.com/) reverse-geocode-client | 접속할 때마다 | 행정구역 이름에서 '시·구'만 표시 |
 | 음악 뉴스 | **RSS (XML)** | NME `https://www.nme.com/news/music/feed` | 15분 캐시 | 최신 3건 제목·요약 추출, HTML 태그 제거 |
@@ -397,8 +397,18 @@ httpx
 
 Supabase 대시보드 **SQL Editor → New query**에 `db/todays_rock.sql` 내용을 전체 붙여넣고 **Run**.
 
-- 정상 결과: 마지막 표에 `songs` 500 / `moods` 1082 / `weathers` 1094
+- 정상 결과: 마지막 표에 `songs` 933 / `moods` 2046 / `weathers` 2006
 - 이 SQL은 곡 테이블만 지우고 다시 만듭니다. 회원(`account_…`)·편집실 테이블은 그대로입니다.
+
+**곡을 추가·수정할 때**: `db/todays_rock.sql`을 직접 고치지 말고 곡 원본 `data_backup.json`을 고친 뒤 SQL을 다시 만듭니다.
+
+```powershell
+.\.venv\Scripts\python.exe db\build_songs_sql.py          # db/todays_rock.sql 새로 만들기
+.\.venv\Scripts\python.exe db\build_songs_sql.py --check  # SQL이 JSON과 같은지만 확인
+```
+
+- 곡 번호(id)는 JSON 순서입니다. 좋아요 기록이 곡 번호로 저장되므로 기존 곡의 순서를 바꾸거나 중간에서 지우지 말고, 새 곡은 맨 뒤에 추가합니다.
+- 스크립트가 필수 값·에너지(1~5)·기분·날씨 값·같은 제목+가수 중복을 먼저 검사하고, 문제가 있으면 SQL을 만들지 않습니다.
 
 ### 6-3. Python 패키지 설치
 
@@ -431,15 +441,7 @@ OPENAI_API_KEY=실제_OpenAI_API_키
 이메일 → 닉네임 → 비밀번호(10~128자, 입력 중 안 보임) → 확인 순서로 입력합니다. 회원 테이블이 없으면 함께 만듭니다.
 정상 결과: `관리자 계정 생성 완료. 홈페이지에서 로그인하세요.`
 
-### 6-6. 기존 기사 기록을 DB로 옮기기
-
-```powershell
-.\.venv\Scripts\python.exe -m editor_python.storage
-```
-
-`articles/` 폴더의 원고·팩트시트·검수·승인 기록을 Supabase로 복사하고 편집실 테이블을 만듭니다. 이미 있는 기록은 건너뛰므로 여러 번 실행해도 안전합니다(파일 내용으로 덮어쓰려면 끝에 `--force`).
-
-### 6-7. 서버 실행
+### 6-6. 서버 실행
 
 ```powershell
 .\.venv\Scripts\python.exe -m uvicorn main:app --reload --port 8000
@@ -463,16 +465,15 @@ OPENAI_API_KEY=실제_OpenAI_API_키
 3. 시크릿 창 마이페이지를 새로고침 → 역할이 '기자', **편집실 열기**가 보입니다.
 4. 홈에서 기분 선택 → **오늘의 음악 찾기** → ♡ 좋아요 → 마이페이지 목록에 보이는지 확인합니다.
 
-### 6-8. 관리 명령
+### 6-7. 관리 명령
 
 | 명령 | 용도 |
 | --- | --- |
 | `.\.venv\Scripts\python.exe -m account_system.manage create-admin` | 관리자 계정 만들기 |
 | `.\.venv\Scripts\python.exe -m account_system.manage reset-password` | 회원 비밀번호 재설정 (기존 로그인 모두 해제) |
 | `.\.venv\Scripts\python.exe -m account_system.manage init` | 회원 테이블만 준비 |
-| `.\.venv\Scripts\python.exe -m editor_python.storage [--force]` | 기사 파일 기록을 DB로 복사 |
 
-### 6-9. 편집실 사용 순서
+### 6-8. 편집실 사용 순서
 
 1. **뮤지션 선택** — 기존 뮤지션을 고르거나 **새 뮤지션 추가**. 한국 뮤지션은 **한국 뮤지션** 체크 후 옆 **저장**.
 2. **01 원고** — 제목·본문 작성 후 저장, 필요하면 사진 등록(PNG·JPG·WEBP, 4MB 이하). 사진의 **출처** 칸에 제작자·제공처·라이선스 등을 입력합니다. Enter 또는 칸 밖 클릭으로 저장되며, 미리보기와 게시 기사에 `PHOTO | 입력한 출처`로 표시됩니다. 이미 게시한 기사의 출처를 바꿨다면 **홈에 게시**를 다시 눌러 반영합니다.
@@ -481,7 +482,7 @@ OPENAI_API_KEY=실제_OpenAI_API_키
 5. **05 승인** — 원출처 대조 확인란 체크 → **편집자 승인**.
 6. **06 게시** — **홈에 게시 ↗**. 바로 홈에 반영되며 다시 배포할 필요가 없습니다. 게시 완료 후 버튼을 다시 누르면 재게시합니다. 같은 뮤지션 재게시는 아카이브를 중복 생성하지 않으며, 원고를 수정한 경우에는 저장·검수·승인을 다시 마쳐야 합니다.
 
-### 6-10. 자동 테스트
+### 6-9. 자동 테스트
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install pytest
@@ -496,7 +497,7 @@ $env:DB_NAME="todays_rock_accounts_test"
 .\.venv\Scripts\python.exe -m pytest tests/test_accounts.py -q
 ```
 
-### 6-11. Vercel 배포
+### 6-10. Vercel 배포
 
 1. 최신 코드를 GitHub에 올립니다(`git push`).
 2. [vercel.com](https://vercel.com) → **Add New… → Project** → 저장소 **Import**. Framework Preset이 **FastAPI**인지 확인하고, Root Directory는 비워 둡니다. (예전 정적 사이트용 프로젝트를 다시 쓴다면 Build·Output·Install Command의 Override를 모두 끕니다.)
@@ -520,7 +521,7 @@ $env:DB_NAME="todays_rock_accounts_test"
 - 미리보기(Preview) 배포는 Vercel이 알려 주는 그 배포 자신의 주소(`VERCEL_BRANCH_URL`, `VERCEL_URL`)를 자동으로 허용합니다. 그래서 PR의 **Preview** 링크로 바로 확인할 수 있고, 미리보기용 `APP_ORIGIN`을 따로 넣을 필요가 없습니다. Production의 `APP_ORIGIN`을 미리보기 주소로 바꾸면 실제 사이트가 `Invalid host header`로 막히니 주의합니다.
 - 위 자동 허용은 Vercel **Settings → Environment Variables**의 **Enable access to System Environment Variables**가 켜져 있어야 동작합니다(기본값: 켜짐).
 - 새 정적 파일(CSS·JS 등)을 추가하면 `main.py`에 그 파일을 내보내는 경로도 추가해야 합니다. 서버는 정해 둔 파일만 내보냅니다.
-- `style.css`·`script.js`·`preview-player.js`를 고치면 `index.html`과 지난 뮤지션 페이지 틀(`artist-jack-white.html`, `artist-kim-yuna.html`)의 `?v=` 뒤 값(예: `?v=20261022b`)도 바꿉니다. 브라우저(특히 휴대폰)가 예전 파일을 저장해 두고 계속 쓰는 것을 막습니다.
+- `style.css`·`script.js`·`preview-player.js`를 고치면 `index.html`과 지난 뮤지션 페이지 틀(`artist-jack-white.html`)의 `?v=` 뒤 값(예: `?v=20261022b`)도 바꿉니다. 브라우저(특히 휴대폰)가 예전 파일을 저장해 두고 계속 쓰는 것을 막습니다.
 - OpenAI 대시보드에서 월 사용 한도를 걸어 두는 것을 권합니다.
 
 ---
@@ -532,7 +533,6 @@ $env:DB_NAME="todays_rock_accounts_test"
 ```text
 todays-rock_app/
 ├── main.py                 # 곡·뉴스 API, 화면 제공, 캐시 규칙, 회원·편집실 라우터 연결
-├── editor_bridge.py        # 편집실 라우터 연결
 ├── vercel.json             # Vercel 실행 지역(서울)
 ├── account_system/         # 회원 API·권한·보안·DB 연결·관리 명령
 ├── accounts/               # 로그인·마이페이지·관리실 화면
@@ -542,18 +542,20 @@ todays-rock_app/
 │   ├── fact_edit.py        # 팩트시트 항목 수정·분류·제외
 │   ├── editorial_edit.py   # 편집 의견 처리
 │   ├── publish.py          # 홈 게시·아카이브·사진·백업
-│   ├── storage.py          # Supabase 저장소, 파일→DB 복사
+│   ├── storage.py          # Supabase 저장소
 │   └── prompts.json        # AI 프롬프트·JSON 스키마
 ├── admin/                  # 편집실 화면, 도장 SVG
-├── articles/               # DB로 옮기기 전 기사 기록 (참고용)
 ├── db/
-│   ├── todays_rock.sql     # 곡 테이블 + 933곡
+│   ├── todays_rock.sql     # 곡 테이블 + 933곡 (build_songs_sql.py가 만듦, 직접 수정 금지)
+│   ├── build_songs_sql.py  # data_backup.json → todays_rock.sql
 │   └── accounts.sql        # 회원 테이블
-├── data_backup.json        # 곡 원본 데이터(JSON)
+├── data_backup.json        # 곡 원본 데이터(JSON) — 곡은 여기서만 고침
+├── todays_rock_song_candidates.csv · verify_todays_rock_itunes.py   # 곡 후보 목록·iTunes 확인 결과·정리 기록과 확인 스크립트
 ├── tests/                  # 자동 테스트
 ├── index.html · script.js · style.css
 ├── preview-player.js       # 추천곡·대표곡 30초 미리듣기 (iTunes 검색·재생·하단 재생바)
-├── artist-*.html · artist-archive.json   # 지난 뮤지션 (DB에 없을 때 대신 사용)
+├── artist-jack-white.html  # 지난 뮤지션 페이지 틀 (게시 기사는 DB에서 끼워 넣음)
+├── artist-archive.json     # 게시 목록 (DB에 없을 때 대신 사용)
 ├── images/ · fonts/
 └── requirements.txt
 ```
