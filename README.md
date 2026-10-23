@@ -548,7 +548,6 @@ todays-rock_app/
 ├── articles/               # DB로 옮기기 전 기사 기록 (참고용)
 ├── db/
 │   ├── todays_rock.sql     # 곡 테이블 + 933곡
-│   ├── add_433_songs.sql   # 기존 DB에 곡 433곡만 추가 (2026-10)
 │   └── accounts.sql        # 회원 테이블
 ├── data_backup.json        # 곡 원본 데이터(JSON)
 ├── tests/                  # 자동 테스트
