@@ -3,3 +3,6 @@ tests/
 articles/backups/
 *.patch
 .venv/
+todays_rock_500_candidates_2020s_updated.csv
+todays_rock_itunes_verification.csv
+verify_todays_rock_itunes.py
