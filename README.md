@@ -241,25 +241,9 @@ erDiagram
     bigint actor_id
     bigint target_id
   }
-  account_auth_limits {
-    char bucket_hash PK
-  }
-  editor_docs {
-    text kind PK
-    text artist_id PK
-  }
-  site_features {
-    text artist_id PK
-  }
-  site_assets {
-    text path PK
-  }
-  site_history {
-    bigint id PK
-  }
 ```
 
-ERD에는 키(PK·FK·UK)와 관계에 쓰이는 칸만 표시했습니다. 나머지 칸은 아래 3-2 표에 있습니다. 점선은 외래 키 제약 없이 값으로만 연결되는 관계입니다.
+ERD에는 서로 연결된 테이블만 넣고, 키(PK·FK·UK)와 관계에 쓰이는 칸만 표시했습니다. 연결 없이 따로 쓰이는 `account_auth_limits`와 편집실 테이블 4개는 아래 3-2 표에서만 다룹니다. 표시하지 않은 칸도 3-2 표에 있습니다. 점선은 외래 키 제약 없이 값으로만 연결되는 관계입니다.
 
 `account_likes.song_id`는 일부러 외래 키로 묶지 않았습니다. 곡 SQL을 다시 실행해 곡 테이블을 새로 만들어도 좋아요 기록이 지워지지 않게 하기 위해서입니다.
 
