@@ -36,27 +36,27 @@
 
 ### 1-2. 기능 목록
 
-| ID | 분류 | 기능 | 설명 | 권한 | 관련 API |
+| ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 분&#8288;류&nbsp;&nbsp;&nbsp;&nbsp; | 기&#8288;능&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 설명 | 권&#8288;한&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 관련 API |
 | --- | --- | --- | --- | --- | --- |
 | F-01 | 추천 | 현재 위치 날씨 조회 | 브라우저 위치로 Open-Meteo 날씨를 받아 맑음·흐림·비·눈 4가지로 분류합니다. 위치 권한이 없으면 서울 날씨를 씁니다. | 전체 | Open-Meteo |
 | F-02 | 추천 | 지역명 표시 | 좌표를 BigDataCloud로 '시·구' 이름으로 바꿉니다. | 전체 | BigDataCloud |
 | F-03 | 추천 | 기분 선택 | 지침·평온·울적함·신남·답답함·집중 중 하나를 고릅니다. | 전체 | — |
 | F-04 | 추천 | 록 음악 3곡 추천 | ① 기분+날씨 모두 맞는 곡 → ② 기분만 맞는 곡 순서로 무작위 3곡을 고릅니다. 최근 추천곡은 제외합니다(브라우저 저장). | 전체 | `GET /api/songs` |
 | F-05 | 추천 | 곡 정보·링크 | 연도·장르·에너지(1~5)·추천 이유를 보여 주고 YouTube 검색·가사 페이지로 연결합니다. | 전체 | — |
-| F-22 | 추천 | 30초 미리듣기 | 추천 카드(또는 ♡ 왼쪽 ▶ 버튼)를 누르면 사이트를 떠나지 않고 곡의 30초 미리듣기가 바로 재생됩니다. 다시 누르면 일시정지, 다른 카드를 누르면 곡이 바뀝니다. 원픽 카드는 1번 곡을 재생합니다. 오늘의 뮤지션·지난 뮤지션 페이지의 **대표곡** 카드에도 곡 제목 오른쪽(휴대폰은 제목 아래 오른쪽)에 ▶ 버튼이 붙습니다(▶ 밖을 누르면 예전처럼 YouTube로 이동). 하단 재생바에 곡명·재생 시간·일시정지 버튼이 나옵니다. 미리듣기를 못 찾은 곡은 ▶ 버튼을 숨기고 YouTube 링크만 남깁니다. | 전체 | `GET /api/preview` (iTunes Search API) |
+| F-22 | 추천 | 30초 미리듣기 | 추천 카드(또는 ♡ 왼쪽 ▶ 버튼)를 누르면 사이트를 떠나지 않고 곡의 30초 미리듣기가 바로 재생됩니다. 다시 누르면 일시정지, 다른 카드를 누르면 곡이 바뀝니다. 원픽 카드는 1번 곡을 재생합니다. 오늘의 뮤지션·지난 뮤지션 페이지의 **대표곡** 카드에도 곡 제목 오른쪽(휴대폰은 제목 아래 오른쪽)에 ▶ 버튼이 붙습니다(▶ 밖을 누르면 예전처럼 YouTube로 이동). 하단 재생바에 곡명·재생 시간·일시정지 버튼이 나옵니다. 미리듣기를 못 찾은 곡은 ▶ 버튼을 숨기고 YouTube 링크만 남깁니다. | 전체 | `GET /api/preview`<br>(iTunes Search API) |
 | F-06 | 뉴스 | 음악 뉴스 | NME RSS 최신 3건을 Google 번역으로 한국어로 바꿔 보여 줍니다. 번역에 실패하면 영어 원문을 보여 줍니다. | 전체 | `GET /api/news` |
 | F-07 | 기사 | 오늘의 뮤지션 | 편집실에서 마지막으로 게시한 기사를 홈에 보여 줍니다. | 전체 | `GET /` |
-| F-08 | 기사 | 지난 뮤지션 아카이브 | 홈의 지난 뮤지션 목록에서 개별 기사를 열고, 기사 하단 **ARCHIVE** 목록으로 다른 지난 뮤지션 기사로 이동합니다. 현재 읽는 뮤지션은 링크 없이 표시합니다. 한국 뮤지션은 `김윤아 (Kim Yuna)`처럼 '한글 (영문)' 순서로 표시합니다. | 전체 | `GET /artist-archive.json`, `GET /artist-{ID}.html` |
+| F-08 | 기사 | 지난 뮤지션 아카이브 | 홈의 지난 뮤지션 목록에서 개별 기사를 열고, 기사 하단 **ARCHIVE** 목록으로 다른 지난 뮤지션 기사로 이동합니다. 현재 읽는 뮤지션은 링크 없이 표시합니다. 한국 뮤지션은 `김윤아 (Kim Yuna)`처럼 '한글 (영문)' 순서로 표시합니다. | 전체 | `GET /artist-archive.json`<br>`GET /artist-{ID}.html` |
 | F-09 | 회원 | 회원가입·로그인·로그아웃 | 이메일·닉네임·비밀번호. 반복 가입·로그인 시도는 제한합니다. | 전체 | `POST /api/auth/signup`·`login`·`logout` |
 | F-10 | 회원 | 좋아요 | 추천곡의 ♡를 눌러 저장·취소합니다. | 회원 | `PUT`·`DELETE /api/me/likes/{곡ID}` |
-| F-11 | 회원 | 마이페이지 | 좋아요 히스토리, 닉네임 변경, 비밀번호 변경. 기자·관리자에게는 편집실 버튼이 보입니다. | 회원 | `GET /api/me/likes`, `PATCH /api/me/profile`, `PUT /api/me/password` |
-| F-12 | 관리 | 회원 관리 | 회원 검색, 사용자↔기자 권한 변경, 계정 정지·복구, 회원 현황(전체·기자·관리자·정지). | 관리자 | `GET /api/admin/members`, `PATCH /api/admin/members/{ID}` |
+| F-11 | 회원 | 마이페이지 | 좋아요 히스토리, 닉네임 변경, 비밀번호 변경. 기자·관리자에게는 편집실 버튼이 보입니다. | 회원 | `GET /api/me/likes`<br>`PATCH /api/me/profile`<br>`PUT /api/me/password` |
+| F-12 | 관리 | 회원 관리 | 회원 검색, 사용자↔기자 권한 변경, 계정 정지·복구, 회원 현황(전체·기자·관리자·정지). | 관리자 | `GET /api/admin/members`<br>`PATCH /api/admin/members/{ID}` |
 | F-13 | 관리 | 변경 기록 | 권한·정지 변경을 누가 언제 했는지 보여 줍니다. | 관리자 | `GET /api/admin/audit` |
-| F-14 | 편집 | 뮤지션 선택·추가 | 영문·한글 이름과 ID(예: `kim-yuna`)로 뮤지션을 추가하고, **한국 뮤지션** 여부를 체크·저장합니다. | 기자 | `/local/artists`, `/local/artist-info` |
+| F-14 | 편집 | 뮤지션 선택·추가 | 영문·한글 이름과 ID(예: `kim-yuna`)로 뮤지션을 추가하고, **한국 뮤지션** 여부를 체크·저장합니다. | 기자 | `/local/artists`<br>`/local/artist-info` |
 | F-15 | 편집 | 01 원고 작성 | 제목·본문 작성과 저장, 뮤지션 사진(4MB 이하) 등록과 사진 출처 입력. | 기자 | `/local/save` |
-| F-16 | 편집 | 02 팩트시트 | AI가 원고에서 사실 주장을 항목별로 뽑고 웹 출처를 찾아 대조합니다. 항목 수정·분류·제외·추가, 개별 재검색이 가능합니다. | 기자 | `/local/research`, `/local/research-one`, `/local/fact-edit` |
-| F-17 | 편집 | 03 사실 검수 | 팩트시트를 바탕으로 AI가 원고 전체의 사실 오류를 검토합니다. | 기자 | `/local/review`, `/local/recheck` |
-| F-18 | 편집 | 04 편집 검토 | AI가 문장·구성 의견을 내고, 에디터가 원고 수정 또는 사유 기록 후 패스로 처리합니다. | 기자 | `/local/editorial`, `/local/editorial-edit` |
+| F-16 | 편집 | 02 팩트시트 | AI가 원고에서 사실 주장을 항목별로 뽑고 웹 출처를 찾아 대조합니다. 항목 수정·분류·제외·추가, 개별 재검색이 가능합니다. | 기자 | `/local/research`<br>`/local/research-one`<br>`/local/fact-edit` |
+| F-17 | 편집 | 03 사실 검수 | 팩트시트를 바탕으로 AI가 원고 전체의 사실 오류를 검토합니다. | 기자 | `/local/review`<br>`/local/recheck` |
+| F-18 | 편집 | 04 편집 검토 | AI가 문장·구성 의견을 내고, 에디터가 원고 수정 또는 사유 기록 후 패스로 처리합니다. | 기자 | `/local/editorial`<br>`/local/editorial-edit` |
 | F-19 | 편집 | 05 편집자 승인 | 모든 사실이 검증되고 편집 의견을 모두 처리해야 승인됩니다. 승인 후 JSON으로 내보낼 수 있습니다. | 기자 | `/local/approve` |
 | F-20 | 편집 | 06 홈 게시 | 승인된 기사를 즉시 홈의 오늘의 뮤지션으로 올리고, 이전 기사는 아카이브로 옮깁니다. 같은 뮤지션을 다시 게시하면 홈 기사만 갱신하며 아카이브에 중복 추가하지 않습니다. 게시 직전 상태는 백업합니다. | 기자 | `/local/publish` |
 | F-21 | 편집 | 상태 도장 | 통과한 칸에 초록 **APPROVED**, 평론(의견) 항목에 회색 **CRITIQUE** 도장을 찍어 한눈에 구분합니다. | 기자 | — |
@@ -319,7 +319,7 @@ erDiagram
 
 ## 4. 데이터 수집 방법
 
-| 데이터 | 방식 | 출처 | 갱신 | 처리 |
+| 데&#8288;이&#8288;터&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 방&#8288;식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 출처 | 갱&#8288;신&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 처리 |
 | --- | --- | --- | --- | --- |
 | 추천 곡 933곡 | **직접 구성한 JSON → SQL** | `data_backup.json` (곡·연도·장르·에너지·주제·분위기·추천 이유·가사 링크·기분·날씨 태그) | 수동 | `db/build_songs_sql.py`가 `db/todays_rock.sql`로 만들어 Supabase에 적재 |
 | 현재 날씨 | **Open API** (키 불필요) | [Open-Meteo](https://open-meteo.com/) `/v1/forecast` — 기온·날씨 코드·풍속 | 접속할 때마다 | 날씨 코드(WMO)를 맑음·흐림·비·눈으로 분류 |
