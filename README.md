@@ -36,7 +36,7 @@
 
 ### 1-2. 기능 목록
 
-| ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 분&#8288;류&nbsp;&nbsp;&nbsp;&nbsp; | 기&#8288;능&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 설명 | 권&#8288;한&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 관련 API |
+| ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 분&#8288;류&nbsp;&nbsp;&nbsp;&nbsp; | 기&#8288;능&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 설명&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 권&#8288;한&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 관련 API |
 | --- | --- | --- | --- | --- | --- |
 | F-01 | 추천 | 현재 위치 날씨 조회 | 브라우저 위치로 Open-Meteo 날씨를 받아 맑음·흐림·비·눈 4가지로 분류합니다. 위치 권한이 없으면 서울 날씨를 씁니다. | 전체 | Open-Meteo |
 | F-02 | 추천 | 지역명 표시 | 좌표를 BigDataCloud로 '시·구' 이름으로 바꿉니다. | 전체 | BigDataCloud |
@@ -47,8 +47,8 @@
 | F-06 | 뉴스 | 음악 뉴스 | NME RSS 최신 3건을 Google 번역으로 한국어로 바꿔 보여 줍니다. 번역에 실패하면 영어 원문을 보여 줍니다. | 전체 | `GET /api/news` |
 | F-07 | 기사 | 오늘의 뮤지션 | 편집실에서 마지막으로 게시한 기사를 홈에 보여 줍니다. | 전체 | `GET /` |
 | F-08 | 기사 | 지난 뮤지션 아카이브 | 홈의 지난 뮤지션 목록에서 개별 기사를 열고, 기사 하단 **ARCHIVE** 목록으로 다른 지난 뮤지션 기사로 이동합니다. 현재 읽는 뮤지션은 링크 없이 표시합니다. 한국 뮤지션은 `김윤아 (Kim Yuna)`처럼 '한글 (영문)' 순서로 표시합니다. | 전체 | `GET /artist-archive.json`<br>`GET /artist-{ID}.html` |
-| F-09 | 회원 | 회원가입·로그인·로그아웃 | 이메일·닉네임·비밀번호. 반복 가입·로그인 시도는 제한합니다. | 전체 | `POST /api/auth/signup`·`login`·`logout` |
-| F-10 | 회원 | 좋아요 | 추천곡의 ♡를 눌러 저장·취소합니다. | 회원 | `PUT`·`DELETE /api/me/likes/{곡ID}` |
+| F-09 | 회원 | 회원가입·로그인·로그아웃 | 이메일·닉네임·비밀번호. 반복 가입·로그인 시도는 제한합니다. | 전체 | `POST /api/auth/signup`<br>`POST /api/auth/login`<br>`POST /api/auth/logout` |
+| F-10 | 회원 | 좋아요 | 추천곡의 ♡를 눌러 저장·취소합니다. | 회원 | `PUT /api/me/likes/{곡ID}`<br>`DELETE /api/me/likes/{곡ID}` |
 | F-11 | 회원 | 마이페이지 | 좋아요 히스토리, 닉네임 변경, 비밀번호 변경. 기자·관리자에게는 편집실 버튼이 보입니다. | 회원 | `GET /api/me/likes`<br>`PATCH /api/me/profile`<br>`PUT /api/me/password` |
 | F-12 | 관리 | 회원 관리 | 회원 검색, 사용자↔기자 권한 변경, 계정 정지·복구, 회원 현황(전체·기자·관리자·정지). | 관리자 | `GET /api/admin/members`<br>`PATCH /api/admin/members/{ID}` |
 | F-13 | 관리 | 변경 기록 | 권한·정지 변경을 누가 언제 했는지 보여 줍니다. | 관리자 | `GET /api/admin/audit` |
