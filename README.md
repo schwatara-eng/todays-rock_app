@@ -289,7 +289,7 @@ erDiagram
 
 | 테이블 | 주요 칸 | 제약·설명 |
 | --- | --- | --- |
-| `songs` | id, title, artist, year, genre, energy, theme, tone, reason, lyrics_url | 500곡. `(title, artist)` 중복 불가, energy 1~5 |
+| `songs` | id, title, artist, year, genre, energy, theme, tone, reason, lyrics_url | 933곡. `(title, artist)` 중복 불가, energy 1~5 |
 | `song_moods` | song_id, mood | 한 곡에 여러 기분. mood ∈ `calm`, `excited`, `focused`, `blue`, `tired`, `frustrated` (1,082행) |
 | `song_weathers` | song_id, weather | 한 곡에 여러 날씨. weather ∈ `clear`, `cloudy`, `rain`, `snow` (1,094행) |
 | `v_songs` (뷰) | 곡 정보 + moods·weathers를 쉼표로 묶은 문자열 | `/api/songs`가 읽는 뷰. `security_invoker=true` |
@@ -321,7 +321,7 @@ erDiagram
 
 | 데이터 | 방식 | 출처 | 갱신 | 처리 |
 | --- | --- | --- | --- | --- |
-| 추천 곡 500곡 | **직접 구성한 JSON → SQL** | `data_backup.json` (곡·연도·장르·에너지·주제·분위기·추천 이유·가사 링크·기분·날씨 태그) | 수동 | `db/todays_rock.sql`의 `INSERT`로 옮겨 Supabase에 적재 |
+| 추천 곡 933곡 | **직접 구성한 JSON → SQL** | `data_backup.json` (곡·연도·장르·에너지·주제·분위기·추천 이유·가사 링크·기분·날씨 태그) | 수동 | `db/todays_rock.sql`의 `INSERT`로 옮겨 Supabase에 적재 |
 | 현재 날씨 | **Open API** (키 불필요) | [Open-Meteo](https://open-meteo.com/) `/v1/forecast` — 기온·날씨 코드·풍속 | 접속할 때마다 | 날씨 코드(WMO)를 맑음·흐림·비·눈으로 분류 |
 | 지역명 | **Open API** (키 불필요) | [BigDataCloud](https://www.bigdatacloud.com/) reverse-geocode-client | 접속할 때마다 | 행정구역 이름에서 '시·구'만 표시 |
 | 음악 뉴스 | **RSS (XML)** | NME `https://www.nme.com/news/music/feed` | 15분 캐시 | 최신 3건 제목·요약 추출, HTML 태그 제거 |
@@ -547,7 +547,8 @@ todays-rock_app/
 ├── admin/                  # 편집실 화면, 도장 SVG
 ├── articles/               # DB로 옮기기 전 기사 기록 (참고용)
 ├── db/
-│   ├── todays_rock.sql     # 곡 테이블 + 500곡
+│   ├── todays_rock.sql     # 곡 테이블 + 933곡
+│   ├── add_433_songs.sql   # 기존 DB에 곡 433곡만 추가 (2026-10)
 │   └── accounts.sql        # 회원 테이블
 ├── data_backup.json        # 곡 원본 데이터(JSON)
 ├── tests/                  # 자동 테스트
