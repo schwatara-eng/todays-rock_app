@@ -297,7 +297,7 @@ async def get_preview(artist: str, title: str, track_id: str = ""):
 # stale-while-revalidate: 기한이 지나도 일단 저장분을 보내고 뒤에서 새로 받아 둡니다.
 STATIC_CACHE = "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800"   # CSS·JS·폰트·영상·기본 이미지
 PHOTO_CACHE = "public, max-age=60, s-maxage=60, stale-while-revalidate=600"            # 편집실에서 올린 뮤지션 사진
-SONGS_CACHE = "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400"       # 곡 500개 (SQL로만 바뀜)
+SONGS_CACHE = "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400"       # 곡 933개 (SQL로만 바뀜)
 NEWS_CACHE = "public, max-age=300, s-maxage=900, stale-while-revalidate=3600"          # 번역된 뉴스 15분
 NEWS_FALLBACK_CACHE = "public, max-age=60, s-maxage=60"                                # 번역 실패 시 짧게
 PREVIEW_CACHE = "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800"  # 곡별 미리듣기 주소 (하루)

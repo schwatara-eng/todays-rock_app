@@ -1,5 +1,5 @@
 // TODAY'S ROCK — 홈페이지
-// 곡: FastAPI /api/songs → MySQL
+// 곡: FastAPI /api/songs → Supabase(PostgreSQL)
 // 뉴스: FastAPI /api/news → NME RSS · 서버에서 선택적으로 한국어 번역
 
 // 1. 상태와 화면 요소
