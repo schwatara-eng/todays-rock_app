@@ -22,6 +22,9 @@
 
 ## 1. 기능정의서
 
+<details>
+<summary>펼쳐 보기</summary>
+
 ### 1-1. 사용자 권한
 
 | 구분 | 음악 추천·뉴스·기사 | 좋아요·마이페이지 | 편집실 | 관리실(관리자 페이지) |
@@ -70,9 +73,14 @@
 - AI가 찾은 링크와 판정만으로 사실을 확정하지 않습니다. 수치·날짜·수상 기록·인용문은 에디터가 원문과 직접 대조하고, 05 승인 칸의 확인란을 체크해야 승인됩니다.
 - AI가 기사 전체를 대신 쓰는 기능은 없습니다. 초안은 기자가 직접 씁니다.
 
+</details>
+
 ---
 
 ## 2. 화면 구성도 · 설계
+
+<details>
+<summary>펼쳐 보기</summary>
 
 ### 2-1. 사이트맵
 
@@ -181,9 +189,14 @@ flowchart LR
 - 홈 화면은 저장소의 최신 `index.html` 디자인에, DB에 저장된 '오늘의 뮤지션' 기사 본문을 끼워 넣어 만듭니다. 그래서 디자인을 고쳐 배포해도 게시한 기사는 유지됩니다.
 - CSS·JS·폰트·영상은 CDN에 하루, 곡 목록은 1시간, 번역된 뉴스는 15분 캐시합니다. 기사·로그인·편집실은 캐시하지 않습니다.
 
+</details>
+
 ---
 
 ## 3. DB 설계
+
+<details>
+<summary>펼쳐 보기</summary>
 
 PostgreSQL(Supabase) 한 개의 DB에 **곡 · 회원 · 편집실** 세 영역의 테이블이 있습니다. 모든 테이블에 행 수준 보안(RLS)을 켜서 Supabase의 브라우저용 공개 API로는 접근할 수 없고, DB 비밀번호로 접속하는 FastAPI 서버만 읽고 씁니다. 시간은 모두 UTC로 저장합니다.
 
@@ -197,89 +210,9 @@ erDiagram
   account_users ||--o{ account_likes : "좋아요"
   songs ||..o{ account_likes : "song_id (논리적 참조)"
   account_users ||..o{ account_audit : "actor_id·target_id"
-
-  songs {
-    int id PK
-    varchar title
-    varchar artist
-    smallint year
-    varchar genre
-    smallint energy "1~5"
-    varchar theme
-    varchar tone
-    varchar reason
-    varchar lyrics_url
-  }
-  song_moods {
-    int song_id PK,FK
-    text mood PK
-  }
-  song_weathers {
-    int song_id PK,FK
-    text weather PK
-  }
-  account_users {
-    bigint id PK
-    varchar email UK
-    varchar display_name
-    varchar password_hash
-    text role
-    boolean is_active
-    timestamp created_at
-    timestamp updated_at
-    timestamp last_login_at
-  }
-  account_sessions {
-    char token_hash PK
-    bigint user_id FK
-    char csrf_token
-    timestamp expires_at
-  }
-  account_likes {
-    bigint user_id PK,FK
-    int song_id PK
-    timestamp created_at
-  }
-  account_audit {
-    bigint id PK
-    bigint actor_id
-    bigint target_id
-    varchar action
-    varchar old_value
-    varchar new_value
-    timestamp created_at
-  }
-  account_auth_limits {
-    char bucket_hash PK
-    int attempts
-    timestamp window_start
-  }
-  editor_docs {
-    text kind PK
-    text artist_id PK
-    jsonb data
-    timestamp updated_at
-  }
-  site_features {
-    text artist_id PK
-    text block
-    timestamp updated_at
-  }
-  site_assets {
-    text path PK
-    bytea content
-    text content_type
-    timestamp updated_at
-  }
-  site_history {
-    bigint id PK
-    text stamp
-    text kind
-    text name
-    text content
-    timestamp created_at
-  }
 ```
+
+다른 테이블과 연결되지 않는 `account_auth_limits`와 편집실 테이블 4개는 그림에서 뺐습니다. 모든 테이블의 칸은 아래 3-2 표에 있습니다.
 
 `account_likes.song_id`는 일부러 외래 키로 묶지 않았습니다. 곡 SQL을 다시 실행해 곡 테이블을 새로 만들어도 좋아요 기록이 지워지지 않게 하기 위해서입니다.
 
@@ -315,9 +248,14 @@ erDiagram
 
 편집실 기록은 단계마다 원고의 해시(fingerprint)를 함께 저장합니다. 원고가 바뀌면 해시가 달라져 이전 검수·승인이 자동으로 무효가 됩니다.
 
+</details>
+
 ---
 
 ## 4. 데이터 수집 방법
+
+<details>
+<summary>펼쳐 보기</summary>
 
 | 데&#8288;이&#8288;터&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 방&#8288;식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 출처 | 갱&#8288;신&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 처리 |
 | --- | --- | --- | --- | --- |
@@ -349,9 +287,14 @@ erDiagram
 - 영문 가수·제목인데 못 찾으면 다른 곡으로 대신하지 않고 ▶를 숨깁니다 (예: The Voidz 'Human Sadness').
 - 규칙은 `main.py`(`preview_best_match`, `preview_pick_by_artist`)와 `preview-player.js`(`pickBestMatch`)에 함께 있으니 같이 고치고, 바꾸면 `/api/preview` 요청의 `v` 값을 올립니다.
 
+</details>
+
 ---
 
 ## 5. 개발 환경
+
+<details>
+<summary>펼쳐 보기</summary>
 
 | 구분 | 사용 기술 |
 | --- | --- |
@@ -379,9 +322,14 @@ python-dotenv
 httpx
 ```
 
+</details>
+
 ---
 
 ## 6. 실행 방법
+
+<details>
+<summary>펼쳐 보기</summary>
 
 프로젝트 폴더를 VS Code로 열고 PowerShell 터미널에서 진행합니다. **1~5단계는 처음 한 번만** 합니다.
 
@@ -526,9 +474,14 @@ $env:DB_NAME="todays_rock_accounts_test"
 - `style.css`·`script.js`·`preview-player.js`를 고치면 `index.html`과 지난 뮤지션 페이지 틀(`artist-jack-white.html`)의 `?v=` 뒤 값(예: `?v=20261022b`)도 바꿉니다. 브라우저(특히 휴대폰)가 예전 파일을 저장해 두고 계속 쓰는 것을 막습니다.
 - OpenAI 대시보드에서 월 사용 한도를 걸어 두는 것을 권합니다.
 
+</details>
+
 ---
 
 ## 7. 부록
+
+<details>
+<summary>펼쳐 보기</summary>
 
 ### 7-1. 폴더 구조
 
@@ -601,6 +554,8 @@ todays-rock_app/
 - 예전 MySQL의 회원·좋아요 기록은 옮기지 않았습니다.
 - 곡 테이블에 `itunes_track_id` 컬럼은 아직 없습니다. 미리듣기 버전을 고정하고 싶은 곡이 생기면 컬럼을 추가하고 `v_songs` 뷰에 포함시키면, 코드 수정 없이 그 ID로 재생합니다.
 - 미리듣기 음원은 iTunes(Apple)가 제공하는 30초 샘플이라, 스토어에 없는 곡은 재생되지 않습니다.
+
+</details>
 
 ---
 
