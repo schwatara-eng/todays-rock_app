@@ -34,7 +34,16 @@
 
   // 검색 결과 중에서 아티스트와 제목이 맞는 원곡 버전을 고릅니다.
   // 서버 main.py의 preview_best_match와 같은 규칙입니다. 한쪽을 고치면 다른 쪽도 같이 고칩니다.
+  // 원곡이 아닌 음원(노래방·트리뷰트·연주 커버 등)은 후보에서 아예 뺍니다. 서버 main.py의 preview_is_cover와 같은 규칙입니다.
+  const coverAny = /karaoke|originally performed|made famous|in the style of/i;
+  const coverArtist = /tribute|string quartet|8-bit|pickin'? on|instrumental/i;
+  function isCover(item) {
+    const names = `${item.artistName || ""} ${item.collectionName || ""}`;
+    return coverAny.test(`${names} ${item.trackName || ""}`) || coverArtist.test(names);
+  }
+
   function pickBestMatch(results, song) {
+    results = results.filter((item) => !isCover(item));
     const artist = normalize(song.artist);
     const title = normalize(song.title);
     // 한글·영문·숫자가 없는 이름(예: 일본어)은 빈 값이 되어 아무 가수와나 일치하므로 제외합니다.
@@ -59,7 +68,7 @@
   // 1순위: 우리 서버(/api/preview)가 대신 찾기 — 아이폰에서도 안정적이고, 결과가 CDN에 저장됩니다.
   async function lookupFromServer(song) {
     // v: 검색 규칙을 바꿀 때 올려서, 브라우저에 저장된 예전 결과(특히 '못 찾음')를 쓰지 않게 합니다.
-    const params = new URLSearchParams({ artist: song.artist, title: song.title, v: "6" });
+    const params = new URLSearchParams({ artist: song.artist, title: song.title, v: "7" });
     if (song.itunes_track_id) params.set("track_id", song.itunes_track_id);
     const response = await fetch("/api/preview?" + params.toString());
     if (!response.ok) throw new Error("preview api " + response.status);

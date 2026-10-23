@@ -172,10 +172,24 @@ def preview_is_ascii(text):
     return str(text or "").isascii()
 
 
+# 원곡이 아닌 음원(노래방·트리뷰트·연주 커버 등)은 후보에서 아예 뺍니다. (라이브·리마스터는 뒤로 미루기만 함)
+# - 곡명·앨범명·가수명 어디에든: karaoke, originally performed, made famous, in the style of
+# - 가수명·앨범명에만: tribute, string quartet, 8-bit, pickin' on, instrumental
+#   (곡명의 'Tribute'·'Instrumental'은 실제 곡 제목일 수 있어 보지 않습니다)
+PREVIEW_COVER_ANY = re.compile(r"karaoke|originally performed|made famous|in the style of", re.I)
+PREVIEW_COVER_ARTIST = re.compile(r"tribute|string quartet|8-bit|pickin'? on|instrumental", re.I)
+
+
+def preview_is_cover(r):
+    names = " ".join(str(r.get(k) or "") for k in ("artistName", "collectionName"))
+    return bool(PREVIEW_COVER_ANY.search(names + " " + str(r.get("trackName") or "")) or PREVIEW_COVER_ARTIST.search(names))
+
+
 def preview_best_match(results, artist, title):
     """검색 결과 중 아티스트·제목이 맞는 곡을 고르고, 라이브·리마스터가 아닌 원곡을 우선합니다."""
     # preview-player.js의 pickBestMatch와 같은 규칙입니다. 한쪽을 고치면 다른 쪽도 같이 고칩니다.
     a, t = preview_normalize(artist), preview_normalize(title)
+    results = [r for r in results if not preview_is_cover(r)]
 
     def artist_matches(name):
         # 한글·영문·숫자가 없는 이름(예: 일본어)은 빈 값이 되어 아무 가수와나 일치하므로 제외합니다.
@@ -203,7 +217,7 @@ def preview_best_match(results, artist, title):
 
 def preview_pick_by_artist(results, artist_ids):
     """가수 번호가 같은 곡 중 검색 순위가 가장 높은 곡. 라이브·리마스터 등은 뒤로 미룹니다."""
-    candidates = [r for r in results if r.get("previewUrl") and r.get("artistId") in artist_ids]
+    candidates = [r for r in results if r.get("previewUrl") and r.get("artistId") in artist_ids and not preview_is_cover(r)]
     for r in candidates:
         if not PREVIEW_UNWANTED.search(str(r.get("trackName", ""))):
             return r
