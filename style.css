@@ -1105,7 +1105,7 @@ main > .artist-feature > h2 {
 }
 
 .artist-editorial-right .artist-feature-editor {
-  margin: 10px 0 20px;
+  margin: 10px 0 8px;
   padding: 14px 18px;
   clear: none;
 }
@@ -1125,6 +1125,7 @@ main > .artist-feature > h2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 16px;
+  margin-bottom: 12px;
 }
 
 .artist-editorial-right .artist-feature-history li {
