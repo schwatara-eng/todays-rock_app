@@ -328,6 +328,8 @@ h3 {
 .song-meta {
   color: var(--gray);
   font-size: .75rem;
+  line-height: 1.5;
+  min-height: 3em; /* 연도·장르·에너지 문구가 두 줄이어도 곡 제목 시작선을 맞춘다 */
   letter-spacing: .08em;
 }
 
