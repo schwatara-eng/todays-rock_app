@@ -1373,7 +1373,7 @@ main > .artist-feature .artist-feature-sources {
 .archive-nav {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
   gap: 12px 20px;
   margin: 32px 0;
   padding-top: 14px;
@@ -1387,7 +1387,7 @@ main > .artist-feature .artist-feature-sources {
 
 .archive-nav-group {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 20px;
   min-width: 0;
   flex: 1;
@@ -1415,19 +1415,15 @@ main > .artist-feature .artist-feature-sources {
 .archive-nav-list {
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 6px 16px;
   min-width: 0;
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: none;
-}
-
-.archive-nav-list::-webkit-scrollbar {
-  display: none;
+  flex: 1;
 }
 
 .archive-nav-item {
-  flex-shrink: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   color: #eae4de;
   font-size: 12px;
   text-decoration: none;
@@ -1440,8 +1436,7 @@ a.archive-nav-item:hover,
 }
 
 .archive-nav-separator {
-  color: #69615d;
-  font-size: 12px;
+  display: none;
 }
 
 @media (max-width: 760px) {
